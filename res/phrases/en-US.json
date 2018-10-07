@@ -1,0 +1,8 @@
+{
+  "welcome" : "Welcome to Adventure Island! Say find treasure to start your quest",
+  "welcomeCard" : "Adventure Island",
+  "fallback" : "We cannot do that right now",
+  "actionDescription" : "Let's start our treasure quest. Say whee if you see snake, say woah if you see darts.",
+  "actionApprove" : "Very well!",
+  "actionFail" : "Ouch!"
+}

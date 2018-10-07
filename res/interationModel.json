@@ -1,0 +1,115 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "adventure island",
+      "intents": [
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "ActionIntent",
+          "slots": [
+            {
+              "name": "action",
+              "type": "ACTION"
+            }
+          ],
+          "samples": [
+            "find treasure",
+            "{action}"
+          ]
+        },
+        {
+          "name": "DummyIntent",
+          "slots": [
+            {
+              "name": "part",
+              "type": "DummyPart",
+              "samples": [
+                "I want some {part}"
+              ]
+            }
+          ],
+          "samples": [
+            "please take me to some {part}"
+          ]
+        }
+      ],
+      "types": [
+        {
+          "name": "ACTION",
+          "values": [
+            {
+              "name": {
+                "value": "woah"
+              }
+            },
+            {
+              "name": {
+                "value": "whee"
+              }
+            }
+          ]
+        },
+        {
+          "name": "DummyPart",
+          "values": [
+            {
+              "name": {
+                "value": "whatever"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "dialog": {
+      "intents": [
+        {
+          "name": "DummyIntent",
+          "confirmationRequired": false,
+          "prompts": {},
+          "slots": [
+            {
+              "name": "part",
+              "type": "DummyPart",
+              "confirmationRequired": false,
+              "elicitationRequired": true,
+              "prompts": {
+                "elicitation": "Elicit.Slot.323516811559.863715167340"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "prompts": [
+      {
+        "id": "Elicit.Slot.323516811559.863715167340",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Could you please say what you want?"
+          }
+        ]
+      }
+    ]
+  }
+}
