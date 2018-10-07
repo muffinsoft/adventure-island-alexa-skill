@@ -54,9 +54,16 @@ public class ActionIntentHandler implements RequestHandler {
             speechText = nextObstacle(input, attributes, speechText);
         } else {
             speechText = PhraseManager.getPhrase("actionFail");
+            speechText += " It was " + reply;
             shouldEnd = true;
         }
 
+        Response response = assembleResponse(slotName, shouldEnd, speechText);
+
+        return Optional.of(response);
+    }
+
+    private Response assembleResponse(String slotName, boolean shouldEnd, String speechText) {
         OutputSpeech speech = SsmlOutputSpeech.builder()
                 .withSsml("<speak>" + speechText + "</speak>")
                 .build();
@@ -66,26 +73,16 @@ public class ActionIntentHandler implements RequestHandler {
                 .withContent(speechText)
                 .build();
 
-        Intent intent = Intent.builder()
-                .withName("ActionIntent")
-                .putSlotsItem(slotName, Slot.builder()
-                        .withName(slotName)
-                        .withValue("woah")
-                        .build())
-                .build();
         Directive directive = ElicitSlotDirective.builder()
                 .withSlotToElicit(slotName)
-                .withUpdatedIntent(intent)
                 .build();
 
-        Response response = Response.builder()
+        return Response.builder()
                 .withOutputSpeech(speech)
                 .withCard(card)
                 .addDirectivesItem(directive)
                 .withShouldEndSession(shouldEnd)
                 .build();
-
-        return Optional.of(response);
     }
 
     private String nextObstacle(HandlerInput input, Map<String, Object> attributes, String speechText) {
