@@ -17,7 +17,7 @@ import static com.amazon.ask.request.Predicates.intentName;
 
 public class ActionIntentHandler implements RequestHandler {
 
-    private static final String ITEM = "item";
+    private static final String OBSTACLE = "obstacle";
 
     @Override
     public boolean canHandle(HandlerInput input) {
@@ -38,7 +38,7 @@ public class ActionIntentHandler implements RequestHandler {
 
         String saved = null;
         if (attributes != null) {
-            Object savedItem = attributes.get(ITEM);
+            Object savedItem = attributes.get(OBSTACLE);
             saved = String.valueOf(savedItem);
         } else {
             attributes = new HashMap<>();
@@ -87,7 +87,7 @@ public class ActionIntentHandler implements RequestHandler {
 
     private String nextObstacle(HandlerInput input, Map<String, Object> attributes, String speechText) {
         String obstacle = ObstacleManager.getObstacle();
-        attributes.put(ITEM, obstacle);
+        attributes.put(OBSTACLE, obstacle);
         input.getAttributesManager().setSessionAttributes(attributes);
         speechText += " " + obstacle;
         return speechText;

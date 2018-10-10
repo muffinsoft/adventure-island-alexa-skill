@@ -1,5 +1,8 @@
 {
-  "welcome" : "Welcome to Adventure Island! Say find treasure to start your quest",
+  "welcome" : "Have you ever been on a treasure hunting adventure? Let's go on one together! First, we'll gather as many gold coins as we can in an ancient temple full of all sorts of traps. If we live through that, we'll try to take our loot across an ocean swarming with  sea monsters and evil pirates.  Then, we’ll need to watch out for sneaky thieves when we arrive to a fantastical kingdom with dragons and castles! Say 'find treasure' to start your quest.",
+  "firstSession1" : "Hi, I am Ben. What’s your name?",
+  "firstSession2" : "Nice name!  I'm going on a treasure hunting adventure and I could use a partner. What's the coolest place you've ever visited?",
+  "firstSession3" : "Well I hope you're ready to explore ancient temples, sail the seven seas, and even visit a fantasy kingdom! Today we'll be collecting coins to help the king of a fantasy kingdom. Let's go!",
   "welcomeCard" : "Adventure Island",
   "fallback" : "We cannot do that right now",
   "actionDescription" : "Let's start our treasure quest. Say whee if you see snake, say woah if you see darts.",
