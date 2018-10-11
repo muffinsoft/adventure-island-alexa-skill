@@ -5,19 +5,17 @@ import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.*;
 import com.amazon.ask.model.dialog.ElicitSlotDirective;
 import com.amazon.ask.model.ui.*;
-import com.muffinsoft.alexa.skills.adventureisland.content.ObstacleManager;
+import com.amazon.ask.response.ResponseBuilder;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
-import com.muffinsoft.alexa.skills.adventureisland.model.SlotName;
+import com.muffinsoft.alexa.skills.adventureisland.game.SessionStateManager;
+import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
 public class ActionIntentHandler implements RequestHandler {
-
-    private static final String OBSTACLE = "obstacle";
 
     @Override
     public boolean canHandle(HandlerInput input) {
@@ -26,44 +24,20 @@ public class ActionIntentHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        String slotName = SlotName.ACTION.text;
-
         Request request = input.getRequestEnvelope().getRequest();
         IntentRequest intentRequest = (IntentRequest) request;
 
         Map<String, Slot> slots = intentRequest.getIntent().getSlots();
-        String reply = slots.get(slotName).getValue();
+        SessionStateManager stateManager = new SessionStateManager(slots, input.getAttributesManager());
+        DialogItem dialog = stateManager.nextResponse();
 
-        Map<String, Object> attributes = input.getAttributesManager().getSessionAttributes();
-
-        String saved = null;
-        if (attributes != null) {
-            Object savedItem = attributes.get(OBSTACLE);
-            saved = String.valueOf(savedItem);
-        } else {
-            attributes = new HashMap<>();
-        }
-
-        boolean shouldEnd = false;
-        String speechText;
-        if (reply == null || reply.isEmpty()) {
-            speechText = PhraseManager.getPhrase("actionDescription");
-            speechText = nextObstacle(input, attributes, speechText);
-        } else if (ObstacleManager.getObstacleResponse(saved).equals(reply)) {
-            speechText = PhraseManager.getPhrase("actionApprove");
-            speechText = nextObstacle(input, attributes, speechText);
-        } else {
-            speechText = PhraseManager.getPhrase("actionFail");
-            speechText += " It was " + reply;
-            shouldEnd = true;
-        }
-
-        Response response = assembleResponse(slotName, shouldEnd, speechText);
+        Response response = assembleResponse(dialog);
 
         return Optional.of(response);
     }
 
-    private Response assembleResponse(String slotName, boolean shouldEnd, String speechText) {
+    private Response assembleResponse(DialogItem dialog) {
+        String speechText = dialog.getResponseText();
         OutputSpeech speech = SsmlOutputSpeech.builder()
                 .withSsml("<speak>" + speechText + "</speak>")
                 .build();
@@ -73,23 +47,25 @@ public class ActionIntentHandler implements RequestHandler {
                 .withContent(speechText)
                 .build();
 
-        Directive directive = ElicitSlotDirective.builder()
-                .withSlotToElicit(slotName)
-                .build();
-
-        return Response.builder()
+        Response.Builder response = Response.builder()
                 .withOutputSpeech(speech)
                 .withCard(card)
-                .addDirectivesItem(directive)
-                .withShouldEndSession(shouldEnd)
-                .build();
-    }
+                .withShouldEndSession(dialog.isEnd());
 
-    private String nextObstacle(HandlerInput input, Map<String, Object> attributes, String speechText) {
-        String obstacle = ObstacleManager.getObstacle();
-        attributes.put(OBSTACLE, obstacle);
-        input.getAttributesManager().setSessionAttributes(attributes);
-        speechText += " " + obstacle;
-        return speechText;
+        if (dialog.getSlotName() != null) {
+            Directive directive = ElicitSlotDirective.builder()
+                    .withSlotToElicit(dialog.getSlotName())
+                    .build();
+            response = response.addDirectivesItem(directive);
+        }
+
+        if (dialog.isRepromptRequired()) {
+            Reprompt reprompt = Reprompt.builder()
+                    .withOutputSpeech(speech)
+                    .build();
+            response = response.withReprompt(reprompt);
+        }
+
+        return response.build();
     }
 }

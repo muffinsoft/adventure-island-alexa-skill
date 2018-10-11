@@ -1,0 +1,8 @@
+{
+  "health" : 3,
+  "coinsToCollect" : 5,
+  "minObstaclesToCoin" : 2,
+  "maxObstaclesToCoin" : 3,
+  "minObstaclesExclamation" : 3,
+  "maxObstaclesExclamation" : 4
+}

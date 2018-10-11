@@ -1,4 +1,49 @@
 {
-  "snake" : "whee",
-  "darts" : "woah"
+  "ancientTemple" : [
+    {
+      "name" : "snakes",
+      "response" : "whee",
+      "preObstacle" : "Snakes ahead! Be ready to jump over saying Whee!"
+    },
+    {
+      "name" : "darts",
+      "response" : "woah",
+      "preObstacle" : "Yikes! I think I see some blow darts up ahead! Remember, say 'Whoah' to duck under them!"
+    },
+    {
+      "name" : "floor spikes",
+      "response" : "whee",
+      "preObstacle" : ""
+    },
+    {
+      "name" : "arrows",
+      "response" : "woah",
+      "preObstacle" : ""
+    },
+    {
+      "name" : "swinging axe",
+      "response" : "woah",
+      "preObstacle" : ""
+    },
+    {
+      "name" : "collapsing floor",
+      "response" : "whee",
+      "preObstacle" : ""
+    },
+    {
+      "name" : "sleeping jaguar",
+      "response" : "whip",
+      "preObstacle" : ""
+    },
+    {
+      "name" : "Cherushka",
+      "response" : "blah",
+      "preObstacle" : ""
+    },
+    {
+      "name" : "spider web",
+      "response" : "whip",
+      "preObstacle" : ""
+    }
+  ]
 }

@@ -2,39 +2,67 @@ package com.muffinsoft.alexa.skills.adventureisland.content;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.muffinsoft.alexa.skills.adventureisland.model.ObstacleItem;
+import com.muffinsoft.alexa.skills.adventureisland.model.ObstacleSetupItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ObstacleManager {
     private static final Logger logger = LoggerFactory.getLogger(ObstacleManager.class);
 
     private static final String PATH = "phrases/obstacles.json";
-    private static Map<String, String> obstacles;
+    private static final String PATH_SETUP = "phrases/obstacles-setup.json";
+    private static final String PATH_COINS = "phrases/coins.json";
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static Map<String, List<ObstacleItem>> obstacles;
+    private static Map<String, Map<String, ObstacleSetupItem>> obstacleSetup;
+    private static ObstacleItem treasure;
+
     static {
         File file = new File(PATH);
+        File setupFile = new File(PATH_SETUP);
+        File coinsFile = new File(PATH_COINS);
         try {
-            obstacles = new ObjectMapper().readValue(file, new TypeReference<HashMap<String, String>>(){});
+            obstacles = objectMapper.readValue(file, new TypeReference<HashMap<String, List<ObstacleItem>>>(){});
+            obstacleSetup = objectMapper.readValue(setupFile, new TypeReference<HashMap<String, Map<String, ObstacleSetupItem>>>(){});
+            treasure = objectMapper.readValue(coinsFile, new TypeReference<ObstacleItem>(){});
         } catch (IOException e) {
             logger.error("Exception", e);
         }
     }
 
-    public static String getObstacle() {
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-        List<String> obstacleList = new ArrayList<>(obstacles.keySet());
-        int nextObstacle = random.nextInt(obstacles.size());
-        return obstacleList.get(nextObstacle);
+    public static String getTreasureName() {
+        return treasure.getName();
     }
 
-    public static String getObstacleResponse(String key) {
-        return obstacles.get(key);
+    public static String getTreasureResponse() {
+        return treasure.getResponse();
+    }
+
+    public static String getTreasurePre() {
+        return treasure.getPreObstacle();
+    }
+
+    public static String getObstacle(String location, String scene, int tier) {
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        ObstacleSetupItem setupItem = obstacleSetup.get(location).get(scene);
+        List<Integer> obstacleIndices = setupItem.getObstacleIndices();
+        int nextObstacle = random.nextInt(obstacleIndices.size());
+        int obstacleIndex = obstacleIndices.get(nextObstacle);
+        return obstacles.get(location).get(obstacleIndex).getName();
+    }
+
+    public static String getObstacleResponse(String location, String key) {
+        List<ObstacleItem> obstacleItems = obstacles.get(location);
+        return obstacleItems.stream()
+                .filter(o -> Objects.equals(o.getName(), key))
+                .map(ObstacleItem::getResponse)
+                .findAny()
+                .orElseThrow(() -> new RuntimeException("No such obstacle name: " + key));
     }
 }
