@@ -57,8 +57,8 @@ public class SessionStateManager {
 
     public SessionStateManager(Map<String, Slot> slots, AttributesManager attributesManager) {
         this.attributesManager = attributesManager;
-        sessionAttributes = attributesManager.getSessionAttributes();
-        if (sessionAttributes == null) {
+        this.sessionAttributes = attributesManager.getSessionAttributes();
+        if (this.sessionAttributes == null) {
             initializeGame();
         }
         populateFields();
@@ -73,6 +73,7 @@ public class SessionStateManager {
         sessionAttributes.put(HEALTH, getNumber(HEALTH));
         sessionAttributes.put(COINS, 0);
         sessionAttributes.put(SCENE_STATE, 0);
+        sessionAttributes.put(TURNS_TO_NEXT_COIN, 0);
     }
 
     private void populateFields() {
@@ -80,10 +81,10 @@ public class SessionStateManager {
         location = String.valueOf(sessionAttributes.get(LOCATION));
         scene = String.valueOf(sessionAttributes.get(SCENE));
         userName = String.valueOf(sessionAttributes.get(USERNAME));
-        sceneState = (Integer) sessionAttributes.get(SCENE_STATE);
-        health = (Integer) sessionAttributes.get(HEALTH);
-        coins = (Integer) sessionAttributes.get(COINS);
-        turnsToNextCoin = (Integer) sessionAttributes.get(TURNS_TO_NEXT_COIN);
+        sceneState = (int) sessionAttributes.get(SCENE_STATE);
+        health = (int) sessionAttributes.get(HEALTH);
+        coins = (int) sessionAttributes.get(COINS);
+        turnsToNextCoin = (int) sessionAttributes.get(TURNS_TO_NEXT_COIN);
         Object obstacle = sessionAttributes.get(OBSTACLE);
         currentObstacle = obstacle != null ? String.valueOf(obstacle) : null;
     }
@@ -160,7 +161,11 @@ public class SessionStateManager {
 
         int maxStates = Integer.parseInt(getPhrase(scene + capitalizeFirstLetter(INTRO) + COUNT));
         if (sceneState >= maxStates) {
-            getNextScene();
+            if (Objects.equals(mission, ROOT)) {
+                return getActionDialog();
+            } else {
+                getNextScene();
+            }
         }
 
         String responseKey = scene + capitalizeFirstLetter(INTRO) + sceneState;
