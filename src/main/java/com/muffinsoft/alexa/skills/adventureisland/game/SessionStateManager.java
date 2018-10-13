@@ -93,6 +93,11 @@ public class SessionStateManager {
 
     public DialogItem nextResponse() {
         DialogItem dialog;
+        if (getPersistent(USERNAME) != null) {
+            dialog = new DialogItem();
+            dialog.setEnd(false);
+            dialog.setResponseText("Welcome back, " + getPersistent(USERNAME));
+        } else
         if (currentObstacle == null) {
             dialog = getIntroDialog();
         } else if (Objects.equals(currentObstacle, COINS_OBSTACLE)) {
@@ -164,6 +169,7 @@ public class SessionStateManager {
         if (Objects.equals(mission, ROOT) && sceneState == 1) {
             userName = userReply;
             sessionAttributes.put(USERNAME, userName);
+            setPersistent(USERNAME, userReply);
         }
 
         int maxStates = Integer.parseInt(getPhrase(scene + capitalizeFirstLetter(INTRO) + COUNT));
@@ -196,6 +202,24 @@ public class SessionStateManager {
         dialog.setSlotName(slotName);
         dialog.setRepromptRequired(true);
         return dialog;
+    }
+
+    private void setPersistent(String key, Object value) {
+        Map<String, Object> persistentAttributes = attributesManager.getPersistentAttributes();
+        if (persistentAttributes == null) {
+            persistentAttributes = new HashMap<>();
+        }
+        persistentAttributes.put(key, value);
+        attributesManager.setPersistentAttributes(persistentAttributes);
+        attributesManager.savePersistentAttributes();
+    }
+
+    private Object getPersistent(String key) {
+        Map<String, Object> persistentAttributes = attributesManager.getPersistentAttributes();
+        if (persistentAttributes == null) {
+            return null;
+        }
+        return persistentAttributes.get(key);
     }
 
     private String getNameKey() {

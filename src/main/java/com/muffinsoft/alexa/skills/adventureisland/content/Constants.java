@@ -36,4 +36,9 @@ public class Constants {
         COINS_FOUND.add("coins");
         COINS_FOUND.add("treasure");
     }
+
+    /**
+     * Database name for DynamoDB.
+     */
+    public static final String TABLE_NAME = "adventure_island";
 }

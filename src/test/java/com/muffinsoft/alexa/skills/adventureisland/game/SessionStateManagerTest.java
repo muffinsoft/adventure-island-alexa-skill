@@ -3,6 +3,7 @@ package com.muffinsoft.alexa.skills.adventureisland.game;
 import com.amazon.ask.attributes.AttributesManager;
 import com.amazon.ask.attributes.persistence.PersistenceAdapter;
 import com.amazon.ask.attributes.persistence.impl.DynamoDbPersistenceAdapter;
+import com.amazon.ask.model.Request;
 import com.amazon.ask.model.RequestEnvelope;
 import com.amazon.ask.model.Session;
 import com.amazon.ask.model.Slot;
@@ -31,6 +32,8 @@ class SessionStateManagerTest {
 
     @Mock
     private PersistenceAdapter adapter;
+    @Mock
+    private Request request;
 
 
     @Test
@@ -93,8 +96,8 @@ class SessionStateManagerTest {
         attributes.put(USERNAME, userName);
         SessionStateManager stateManager = getSessionStateManager(attributes);
         DialogItem dialogItem = stateManager.nextResponse();
-
-        System.out.println(dialogItem.getResponseText());
+        String expected = getPhrase("ancientTemple" + capitalizeFirstLetter(INTRO) + 1 + NO);
+        assertEquals(expected, dialogItem.getResponseText());
     }
 
     private String capitalizeFirstLetter(String s) {
@@ -105,7 +108,10 @@ class SessionStateManagerTest {
         Session session = Session.builder()
                 .withAttributes(sessionAttributes)
                 .build();
-        RequestEnvelope requestEnvelope = RequestEnvelope.builder().withSession(session).build();
+        RequestEnvelope requestEnvelope = RequestEnvelope.builder()
+                .withSession(session)
+                .withRequest(request)
+                .build();
 
         AttributesManager attributesManager = AttributesManager.builder()
                 .withPersistenceAdapter(adapter)

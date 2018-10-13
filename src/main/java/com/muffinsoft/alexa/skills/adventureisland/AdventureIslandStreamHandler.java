@@ -3,6 +3,7 @@ package com.muffinsoft.alexa.skills.adventureisland;
 import com.amazon.ask.Skill;
 import com.amazon.ask.SkillStreamHandler;
 import com.amazon.ask.Skills;
+import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
 import com.muffinsoft.alexa.skills.adventureisland.handlers.*;
 
 public class AdventureIslandStreamHandler extends SkillStreamHandler {
@@ -16,6 +17,8 @@ public class AdventureIslandStreamHandler extends SkillStreamHandler {
                         new ActionIntentHandler(),
                         new SessionEndedRequestHandler())
                 .withSkillId(amazonSkillId)
+                .withTableName(Constants.TABLE_NAME)
+                .withAutoCreateTable(true)
                 .build();
     }
 
