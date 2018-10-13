@@ -1,5 +1,7 @@
 package com.muffinsoft.alexa.skills.adventureisland.content;
 
+import com.muffinsoft.alexa.skills.adventureisland.util.ContentLoader;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,10 @@ public class Constants {
     public static final String MIN_OBSTACLES_TO_COIN = "minObstaclesToCoin";
     public static final String MAX_OBSTACLES_TO_COIN = "maxObstaclesToCoin";
     public static final String COUNT = "Count";
+    public static final String USERNAME_PLACEHOLDER = "__USERNAME__";
     public static final List<String> COINS_FOUND = new ArrayList<>();
+
+    public static final ContentLoader contentLoader = new ContentLoader();
 
     static {
         COINS_FOUND.add("coins");

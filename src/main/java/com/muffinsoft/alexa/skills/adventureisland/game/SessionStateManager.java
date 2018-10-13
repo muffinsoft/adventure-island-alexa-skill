@@ -58,7 +58,7 @@ public class SessionStateManager {
     public SessionStateManager(Map<String, Slot> slots, AttributesManager attributesManager) {
         this.attributesManager = attributesManager;
         this.sessionAttributes = attributesManager.getSessionAttributes();
-        if (this.sessionAttributes == null) {
+        if (sessionAttributes == null || sessionAttributes.isEmpty()) {
             initializeGame();
         }
         populateFields();
@@ -102,6 +102,9 @@ public class SessionStateManager {
         } else {
             dialog = getActionDialog();
         }
+
+        String responseText = dialog.getResponseText().replace(USERNAME_PLACEHOLDER, userName);
+        dialog.setResponseText(responseText);
 
         updateSession();
         return dialog;
@@ -161,10 +164,10 @@ public class SessionStateManager {
 
         int maxStates = Integer.parseInt(getPhrase(scene + capitalizeFirstLetter(INTRO) + COUNT));
         if (sceneState >= maxStates) {
-            if (Objects.equals(mission, ROOT)) {
-                return getActionDialog();
-            } else {
+            if (Objects.equals(location, scene)) {
                 getNextScene();
+            } else {
+                return getActionDialog();
             }
         }
 
@@ -181,9 +184,17 @@ public class SessionStateManager {
     }
 
     private void getNextScene() {
-        mission = "royalRansom";
-        location = "ancientTemple";
-        scene = "templeHalls";
+        String firstMission = "royalRansom";
+        if (Objects.equals(mission, ROOT)) {
+            mission = firstMission;
+            location = firstMission;
+            scene = firstMission;
+        } else if (Objects.equals(location, firstMission)) {
+            location = "ancientTemple";
+            scene = "ancientTemple";
+        } else {
+            scene = "templeHalls";
+        }
         sceneState = 0;
         sessionAttributes.put(MISSION, mission);
         sessionAttributes.put(LOCATION, location);

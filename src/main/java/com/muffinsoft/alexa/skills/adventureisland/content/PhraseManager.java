@@ -7,21 +7,19 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PhraseManager {
-    private static final Logger logger = LoggerFactory.getLogger(PhraseManager.class);
+import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.contentLoader;
 
+public class PhraseManager {
     private static final String PATH = "phrases/en-US.json";
-    private static Map<String, String> phrases;
+    private static Map<String, String> phrases = new HashMap<>();
     static {
-        File file = new File(PATH);
-        try {
-            phrases = new ObjectMapper().readValue(file, new TypeReference<HashMap<String, String>>(){});
-        } catch (IOException e) {
-            logger.error("Exception", e);
-        }
+        phrases = contentLoader.loadContent(phrases, PATH, new TypeReference<HashMap<String, String>>(){});
     }
 
     public static String getPhrase(String key) {

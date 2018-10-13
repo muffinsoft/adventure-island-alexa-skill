@@ -4,36 +4,31 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.muffinsoft.alexa.skills.adventureisland.model.ObstacleItem;
 import com.muffinsoft.alexa.skills.adventureisland.model.ObstacleSetupItem;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.contentLoader;
+
 public class ObstacleManager {
-    private static final Logger logger = LoggerFactory.getLogger(ObstacleManager.class);
 
     private static final String PATH = "phrases/obstacles.json";
     private static final String PATH_SETUP = "phrases/obstacles-setup.json";
     private static final String PATH_COINS = "phrases/coins.json";
-    private static final ObjectMapper objectMapper = new ObjectMapper();
-    private static Map<String, List<ObstacleItem>> obstacles;
-    private static Map<String, Map<String, ObstacleSetupItem>> obstacleSetup;
-    private static ObstacleItem treasure;
+
+    private static Map<String, List<ObstacleItem>> obstacles = new HashMap<>();
+    private static Map<String, Map<String, ObstacleSetupItem>> obstacleSetup = new HashMap<>();
+    private static ObstacleItem treasure = new ObstacleItem();
 
     static {
-        File file = new File(PATH);
-        File setupFile = new File(PATH_SETUP);
-        File coinsFile = new File(PATH_COINS);
-        try {
-            obstacles = objectMapper.readValue(file, new TypeReference<HashMap<String, List<ObstacleItem>>>(){});
-            obstacleSetup = objectMapper.readValue(setupFile, new TypeReference<HashMap<String, Map<String, ObstacleSetupItem>>>(){});
-            treasure = objectMapper.readValue(coinsFile, new TypeReference<ObstacleItem>(){});
-        } catch (IOException e) {
-            logger.error("Exception", e);
-        }
+        obstacles = contentLoader.loadContent(obstacles, PATH, new TypeReference<HashMap<String, List<ObstacleItem>>>(){});
+        obstacleSetup = contentLoader.loadContent(obstacleSetup, PATH_SETUP, new TypeReference<HashMap<String, Map<String, ObstacleSetupItem>>>(){});
+        treasure = contentLoader.loadContent(treasure, PATH_COINS, new TypeReference<ObstacleItem>(){});
     }
 
     public static String getTreasureName() {
