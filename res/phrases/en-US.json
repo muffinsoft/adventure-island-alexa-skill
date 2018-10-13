@@ -13,11 +13,11 @@
   "sceneConfirm" : "We made it! Lucky us!",
   "sceneFail" : "You were hit too many times, we will not be able to do this.",
   "royalRansomIntroCount" : "2",
-  "royalRansom0" : "For this mission our goal is to collect enough coins to help a friend of mine, King Max. Why would a king need more gold? Doesn't he already have some royal treasure? He did, until an evil dragon came and destroyed most of the kingdom! He used all his gold to help rebuild it. I don't think I'm brave enough to face a real dragon... Me neither! How about you, __USERNAME__?",
-  "royalRansom1" : "While King Max's three princess daughters were helping the villagers, bandits kidnapped them! Those dirty dogs will only release them if they receive payments of gold coins! That's terrible! We need to help! First we'll look for coins in an ancient temple, then take it across the ocean until we reach King Max's kingdom. Ready?",
+  "royalRansomIntro0" : "For this mission our goal is to collect enough coins to help a friend of mine, King Max. Why would a king need more gold? Doesn't he already have some royal treasure? He did, until an evil dragon came and destroyed most of the kingdom! He used all his gold to help rebuild it. I don't think I'm brave enough to face a real dragon... Me neither! How about you, __USERNAME__?",
+  "royalRansomIntro1" : "While King Max's three princess daughters were helping the villagers, bandits kidnapped them! Those dirty dogs will only release them if they receive payments of gold coins! That's terrible! We need to help! First we'll look for coins in an ancient temple, then take it across the ocean until we reach King Max's kingdom. Ready?",
   "ancientTempleIntroCount" : "2",
-  "ancientTemple0" : "Woah! This old temple is gigantic! I've heard that the password to open the entrance  it is very obvious. Can you think of an easy password?",
-  "ancientTemple1" : "I think that's it!",
+  "ancientTempleIntro0" : "Woah! This old temple is gigantic! I've heard that the password to open the entrance  it is very obvious. Can you think of an easy password?",
+  "ancientTempleIntro1" : "I think that's it!",
   "templeHallsCount" : "1",
-  "templeHalls0" : "Okay, the treasure halls should be deep inside the temple. It doesn't look like anyone has been here in forever. If I see a snake, say 'whee' to jump over it! If I call out darts, say 'woah' to duck. And hey, if we happen to spot some coins lying around before the treasure room, say 'grab' to pick it up! Is everyone ready?"
+  "templeHallsIntro0" : "Okay, the treasure halls should be deep inside the temple. It doesn't look like anyone has been here in forever. If I see a snake, say 'whee' to jump over it! If I call out darts, say 'woah' to duck. And hey, if we happen to spot some coins lying around before the treasure room, say 'grab' to pick it up! Is everyone ready?"
 }

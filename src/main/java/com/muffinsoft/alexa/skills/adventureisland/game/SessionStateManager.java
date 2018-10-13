@@ -25,16 +25,16 @@ public class SessionStateManager {
      * Below are keys for session attributes. They aren't used anywhere
      * outside of the program, thus the values can be chosen freely.
      */
-    private static final String OBSTACLE = "obstacle";
-    private static final String MISSION = "mission";
-    private static final String LOCATION = "location";
-    private static final String SCENE = "scene";
-    private static final String SCENE_STATE = "sceneState";
-    private static final String USERNAME = "userName";
-    private static final String HEALTH = "health";
-    private static final String COINS = "coins";
-    private static final String VISITED_LOCATIONS = "visitedLocations";
-    private static final String TURNS_TO_NEXT_COIN = "turnsToNextCoin";
+    static final String OBSTACLE = "obstacle";
+    static final String MISSION = "mission";
+    static final String LOCATION = "location";
+    static final String SCENE = "scene";
+    static final String SCENE_STATE = "sceneState";
+    static final String USERNAME = "userName";
+    static final String HEALTH = "health";
+    static final String COINS = "coins";
+    static final String VISITED_LOCATIONS = "visitedLocations";
+    static final String TURNS_TO_NEXT_COIN = "turnsToNextCoin";
 
     private static final String COINS_OBSTACLE = "COINS!";
 
