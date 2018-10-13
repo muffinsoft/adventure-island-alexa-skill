@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.net.URL;
+import java.nio.file.Paths;
 
 public class ContentLoader {
 
@@ -13,9 +15,8 @@ public class ContentLoader {
 
     public <T> T loadContent(T object, String path, TypeReference typeReference) {
         try {
-            //URL url = ContentLoader.class.getClassLoader().getResource(path);
-            //File file = Paths.get(url.toURI()).toFile();
-            File file = new File(path);
+            URL url = ContentLoader.class.getClassLoader().getResource(path);
+            File file = Paths.get(url.toURI()).toFile();
             object = new ObjectMapper().readValue(file, typeReference);
         } catch (Exception e) {
             logger.error("Exception", e);

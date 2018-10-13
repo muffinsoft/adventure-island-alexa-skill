@@ -22,6 +22,11 @@ public class Constants {
     public static final String MIN_OBSTACLES_TO_COIN = "minObstaclesToCoin";
     public static final String MAX_OBSTACLES_TO_COIN = "maxObstaclesToCoin";
     public static final String COUNT = "Count";
+    public static final String YOU_HAVE = "youHave";
+    public static final String COIN_SINGLE = "coinSingle";
+    public static final String COIN_PLURAL = "coinPlural";
+    public static final String YES = "Yes";
+    public static final String NO = "No";
     public static final String USERNAME_PLACEHOLDER = "__USERNAME__";
     public static final List<String> COINS_FOUND = new ArrayList<>();
 

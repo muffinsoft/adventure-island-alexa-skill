@@ -3,15 +3,15 @@
     {
       "templeHalls": {
         "explanation": "Don't worry, just follow my lead! If I see a snake, say 'whee' to jump over it! If I see blow darts, say 'woah' to duck. And hey, if we spot some coins lying around before the treasure room, say 'grab' to pick them up!",
-        "obstacles": [0, 1]
+        "obstacleIndices": [0, 1]
       },
       "treasureTombs": {
         "explanation" : "",
-        "obstacles": [0, 1, 2]
+        "obstacleIndices": [0, 1, 2]
       },
       "templeEscape": {
         "explanation" : "",
-        "obstacles": [0, 1, 2, 3]
+        "obstacleIndices": [0, 1, 2, 3]
       }
     }
 }

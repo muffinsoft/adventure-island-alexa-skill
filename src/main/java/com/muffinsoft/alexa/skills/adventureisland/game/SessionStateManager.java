@@ -1,12 +1,10 @@
 package com.muffinsoft.alexa.skills.adventureisland.game;
 
 import com.amazon.ask.attributes.AttributesManager;
-import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.model.Slot;
-import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
 import com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager;
 import com.muffinsoft.alexa.skills.adventureisland.content.ObstacleManager;
-import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
+import com.muffinsoft.alexa.skills.adventureisland.content.ReplyManager;
 import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
 import com.muffinsoft.alexa.skills.adventureisland.model.SlotName;
 
@@ -118,7 +116,9 @@ public class SessionStateManager {
             if (coins >= getNumber(COINS_TO_COLLECT)) {
                 return new DialogItem(getPhrase(SCENE_CONFIRM), true);
             }
-            speechText = getPhrase(ACTION_APPROVE);
+            String coinText = coins == 1 ? COIN_SINGLE : COIN_PLURAL;
+            speechText = getPhrase(ACTION_APPROVE) + " " + getPhrase(YOU_HAVE) + " " +
+                    coins + " " + getPhrase(coinText) + ".";
         } else {
             speechText = getPhrase(COIN_NOT_PICKED);
         }
@@ -134,19 +134,23 @@ public class SessionStateManager {
     }
 
     private DialogItem getActionDialog() {
-        String expectedReply = ObstacleManager.getObstacleResponse(location, currentObstacle);
-        String speechText;
-        if (Objects.equals(expectedReply, userReply)) {
-            speechText = "";
-        } else {
-            health--;
-            if (health <= 0) {
-                return new DialogItem(getPhrase(SCENE_FAIL), true);
-            }
-            speechText = getPhrase(ACTION_FAIL);
-        }
 
-        turnsToNextCoin--;
+        String speechText = "";
+
+        if (currentObstacle != null) {
+            String expectedReply = ObstacleManager.getObstacleResponse(location, currentObstacle);
+            if (Objects.equals(expectedReply, userReply)) {
+                speechText = "";
+            } else {
+                health--;
+                if (health <= 0) {
+                    return new DialogItem(getPhrase(SCENE_FAIL), true);
+                }
+                speechText = getPhrase(ACTION_FAIL);
+            }
+
+            turnsToNextCoin--;
+        }
         if (turnsToNextCoin <= 0) {
             speechText = nextCoin(speechText);
         } else {
@@ -171,8 +175,19 @@ public class SessionStateManager {
             }
         }
 
-        String responseKey = scene + capitalizeFirstLetter(INTRO) + sceneState;
-        String responseText = getPhrase(responseKey);
+        String nameKey = getNameKey();
+        String expectedReply = ReplyManager.getReply(nameKey);
+        String responseText;
+        if (expectedReply != null) {
+            if (Objects.equals(expectedReply, userReply)) {
+                responseText = getPhrase(nameKey + YES);
+            } else {
+                responseText = getPhrase(nameKey + NO);
+            }
+
+        } else {
+             responseText = getPhrase(nameKey);
+        }
         sceneState++;
 
         DialogItem dialog = new DialogItem();
@@ -181,6 +196,10 @@ public class SessionStateManager {
         dialog.setSlotName(slotName);
         dialog.setRepromptRequired(true);
         return dialog;
+    }
+
+    private String getNameKey() {
+        return scene + capitalizeFirstLetter(INTRO) + sceneState;
     }
 
     private void getNextScene() {

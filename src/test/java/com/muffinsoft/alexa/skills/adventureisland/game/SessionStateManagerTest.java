@@ -61,6 +61,42 @@ class SessionStateManagerTest {
         assertEquals(expected, dialogItem.getResponseText());
     }
 
+    @Test
+    void nextResponseTransitionToFirstAction() {
+        String userName = "Test user";
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put(MISSION, "royalRansom");
+        attributes.put(LOCATION, "ancientTemple");
+        attributes.put(SCENE, "templeHalls");
+        int sceneState = Integer.parseInt(getPhrase("templeHalls" + capitalizeFirstLetter(INTRO) + COUNT));
+        attributes.put(SCENE_STATE, sceneState);
+        attributes.put(COINS, 0);
+        attributes.put(TURNS_TO_NEXT_COIN, 2);
+        attributes.put(HEALTH, getNumber(HEALTH));
+        attributes.put(USERNAME, userName);
+        SessionStateManager stateManager = getSessionStateManager(attributes);
+        DialogItem dialogItem = stateManager.nextResponse();
+        System.out.println(dialogItem.getResponseText());
+    }
+
+    @Test
+    void nextResponseAskPassword() {
+        String userName = "Test user";
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put(MISSION, "royalRansom");
+        attributes.put(LOCATION, "ancientTemple");
+        attributes.put(SCENE, "ancientTemple");
+        attributes.put(SCENE_STATE, 1);
+        attributes.put(COINS, 0);
+        attributes.put(TURNS_TO_NEXT_COIN, 2);
+        attributes.put(HEALTH, getNumber(HEALTH));
+        attributes.put(USERNAME, userName);
+        SessionStateManager stateManager = getSessionStateManager(attributes);
+        DialogItem dialogItem = stateManager.nextResponse();
+
+        System.out.println(dialogItem.getResponseText());
+    }
+
     private String capitalizeFirstLetter(String s) {
         return s.substring(0, 1).toUpperCase() + s.substring(1);
     }

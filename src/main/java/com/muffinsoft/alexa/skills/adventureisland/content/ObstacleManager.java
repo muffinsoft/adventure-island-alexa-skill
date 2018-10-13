@@ -1,12 +1,9 @@
 package com.muffinsoft.alexa.skills.adventureisland.content;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.muffinsoft.alexa.skills.adventureisland.model.ObstacleItem;
 import com.muffinsoft.alexa.skills.adventureisland.model.ObstacleSetupItem;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
