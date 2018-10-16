@@ -9,6 +9,7 @@ import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
 import com.muffinsoft.alexa.skills.adventureisland.model.SlotName;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
@@ -109,9 +110,9 @@ public class SessionStateManager {
     }
 
     private DialogItem getCoinsDialog() {
-        String expectedReply = ObstacleManager.getTreasureResponse();
+        List<String> expectedReplies = ObstacleManager.getTreasureResponses();
         String speechText;
-        if (Objects.equals(expectedReply, userReply)) {
+        if (expectedReplies != null && expectedReplies.contains(userReply)) {
             coins++;
             if (coins >= getNumber(COINS_TO_COLLECT)) {
                 return new DialogItem(getPhrase(SCENE_CONFIRM), true);
@@ -138,8 +139,8 @@ public class SessionStateManager {
         String speechText = "";
 
         if (currentObstacle != null) {
-            String expectedReply = ObstacleManager.getObstacleResponse(location, currentObstacle);
-            if (Objects.equals(expectedReply, userReply)) {
+            List<String> expectedReplies = ObstacleManager.getObstacleResponses(location, currentObstacle);
+            if (expectedReplies != null && expectedReplies.contains(userReply)) {
                 speechText = "";
             } else {
                 health--;

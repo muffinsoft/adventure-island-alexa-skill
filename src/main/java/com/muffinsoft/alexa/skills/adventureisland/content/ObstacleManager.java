@@ -32,8 +32,8 @@ public class ObstacleManager {
         return treasure.getName();
     }
 
-    public static String getTreasureResponse() {
-        return treasure.getResponse();
+    public static List<String> getTreasureResponses() {
+        return treasure.getResponses();
     }
 
     public static String getTreasurePre() {
@@ -49,11 +49,11 @@ public class ObstacleManager {
         return obstacles.get(location).get(obstacleIndex).getName();
     }
 
-    public static String getObstacleResponse(String location, String key) {
+    public static List<String> getObstacleResponses(String location, String key) {
         List<ObstacleItem> obstacleItems = obstacles.get(location);
         return obstacleItems.stream()
                 .filter(o -> Objects.equals(o.getName(), key))
-                .map(ObstacleItem::getResponse)
+                .map(ObstacleItem::getResponses)
                 .findAny()
                 .orElseThrow(() -> new RuntimeException("No such obstacle name: " + key));
     }

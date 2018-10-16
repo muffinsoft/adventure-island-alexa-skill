@@ -1,9 +1,11 @@
 package com.muffinsoft.alexa.skills.adventureisland.model;
 
+import java.util.List;
+
 public class ObstacleItem {
 
     private String name;
-    private String response;
+    private List<String> responses;
     private String preObstacle;
 
     public String getName() {
@@ -14,12 +16,12 @@ public class ObstacleItem {
         this.name = name;
     }
 
-    public String getResponse() {
-        return response;
+    public List<String> getResponses() {
+        return responses;
     }
 
-    public void setResponse(String response) {
-        this.response = response;
+    public void setResponses(List<String> responses) {
+        this.responses = responses;
     }
 
     public String getPreObstacle() {

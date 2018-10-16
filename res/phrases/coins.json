@@ -1,5 +1,5 @@
 {
   "name" : "treasure",
-  "response" : "mine",
+  "responses" : ["mine"],
   "preObstacle" : "There is a coin ahead! Try to get it by shouting Mine!"
 }
