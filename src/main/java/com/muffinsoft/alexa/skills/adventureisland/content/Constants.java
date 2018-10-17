@@ -1,5 +1,6 @@
 package com.muffinsoft.alexa.skills.adventureisland.content;
 
+import com.muffinsoft.alexa.skills.adventureisland.model.Game;
 import com.muffinsoft.alexa.skills.adventureisland.util.ContentLoader;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class Constants {
     public static final List<String> COINS_FOUND = new ArrayList<>();
 
     public static final ContentLoader contentLoader = new ContentLoader();
+    public static final Game game = LayoutManager.loadGame();
 
     static {
         COINS_FOUND.add("coins");

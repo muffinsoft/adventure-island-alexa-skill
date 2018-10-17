@@ -2,20 +2,11 @@ package com.muffinsoft.alexa.skills.adventureisland.model;
 
 import java.util.List;
 
-public class Activity {
+public class Activity extends Named {
 
-    private String name;
     private List<String> obstaclesTier1;
     private List<String> obstaclesTier2;
     private List<String> obstaclesTier3;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public List<String> getObstaclesTier1() {
         return obstaclesTier1;

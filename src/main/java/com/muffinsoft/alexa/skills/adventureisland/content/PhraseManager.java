@@ -17,4 +17,9 @@ public class PhraseManager {
     public static String getPhrase(String key) {
         return phrases.get(key);
     }
+
+    public static String nameToKey(String name) {
+        String result = name.replace(" ", "");
+        return result.substring(0, 1).toLowerCase() + result.substring(1);
+    }
 }

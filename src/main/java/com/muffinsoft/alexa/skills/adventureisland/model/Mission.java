@@ -2,18 +2,9 @@ package com.muffinsoft.alexa.skills.adventureisland.model;
 
 import java.util.List;
 
-public class Mission {
+public class Mission extends Named {
 
-    private String name;
     private List<Location> locations;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public List<Location> getLocations() {
         return locations;
