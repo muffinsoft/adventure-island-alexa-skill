@@ -8,7 +8,9 @@ import com.amazon.ask.model.Slot;
 import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
+import com.muffinsoft.alexa.skills.adventureisland.model.Mission;
 import com.muffinsoft.alexa.skills.adventureisland.model.SlotName;
+import com.muffinsoft.alexa.skills.adventureisland.model.State;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -21,6 +23,7 @@ import java.util.Map;
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.*;
 import static com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager.getNumber;
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getPhrase;
+import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.nameToKey;
 import static com.muffinsoft.alexa.skills.adventureisland.game.SessionStateManager.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,8 +38,11 @@ class SessionStateManagerTest {
     void nextResponseRootIntro() {
         SessionStateManager stateManager = getSessionStateManager(Collections.emptyMap());
         DialogItem dialogItem = stateManager.nextResponse();
-        String key = ROOT + capitalizeFirstLetter(Constants.INTRO) + 0;
-        assertEquals(PhraseManager.getPhrase(key), dialogItem.getResponseText());
+        String expected = PhraseManager.getPhrase(Constants.SELECT_MISSION);
+        for (Mission mission : Constants.game.getMissions()) {
+            expected += mission.getName() + ". ";
+        }
+        assertEquals(expected, dialogItem.getResponseText());
     }
 
     @Test
@@ -46,15 +52,21 @@ class SessionStateManagerTest {
         attributes.put(MISSION, ROOT);
         attributes.put(LOCATION, ROOT);
         attributes.put(SCENE, ROOT);
-        int sceneState = Integer.parseInt(getPhrase(ROOT + capitalizeFirstLetter(INTRO) + COUNT));
+        int sceneState = Integer.parseInt(getPhrase(ROOT + State.INTRO.getKey() + COUNT));
+        attributes.put(STATE, State.INTRO);
         attributes.put(STATE_INDEX, sceneState);
         attributes.put(COINS, 0);
-        attributes.put(TURNS_TO_NEXT_COIN, 0);
         attributes.put(HEALTH, getNumber(HEALTH));
         attributes.put(USERNAME, userName);
-        SessionStateManager stateManager = getSessionStateManager(attributes);
+
+        String missionName = Constants.game.getMissions().get(0).getName();
+
+        SessionStateManager stateManager = getSessionStateManager(attributes, missionName);
         DialogItem dialogItem = stateManager.nextResponse();
-        String expected = getPhrase("royalRansom" + capitalizeFirstLetter(INTRO) + 0);
+
+        String key = nameToKey(missionName);
+
+        String expected = getPhrase(key + State.INTRO.getKey() + 0);
         expected = expected.replace(USERNAME_PLACEHOLDER, userName);
         assertEquals(expected, dialogItem.getResponseText());
     }
@@ -66,10 +78,9 @@ class SessionStateManagerTest {
         attributes.put(MISSION, "royalRansom");
         attributes.put(LOCATION, "ancientTemple");
         attributes.put(SCENE, "templeHalls");
-        int sceneState = Integer.parseInt(getPhrase("templeHalls" + capitalizeFirstLetter(INTRO) + COUNT));
+        int sceneState = Integer.parseInt(getPhrase("templeHalls" + State.INTRO.getKey() + COUNT));
         attributes.put(STATE_INDEX, sceneState);
         attributes.put(COINS, 0);
-        attributes.put(TURNS_TO_NEXT_COIN, 2);
         attributes.put(HEALTH, getNumber(HEALTH));
         attributes.put(USERNAME, userName);
         SessionStateManager stateManager = getSessionStateManager(attributes);
@@ -84,9 +95,9 @@ class SessionStateManagerTest {
         attributes.put(MISSION, "royalRansom");
         attributes.put(LOCATION, "ancientTemple");
         attributes.put(SCENE, "ancientTemple");
+        attributes.put(STATE, State.INTRO);
         attributes.put(STATE_INDEX, 1);
         attributes.put(COINS, 0);
-        attributes.put(TURNS_TO_NEXT_COIN, 2);
         attributes.put(HEALTH, getNumber(HEALTH));
         attributes.put(USERNAME, userName);
         SessionStateManager stateManager = getSessionStateManager(attributes);
@@ -100,6 +111,17 @@ class SessionStateManagerTest {
     }
 
     private SessionStateManager getSessionStateManager(Map<String, Object> sessionAttributes) {
+        return getSessionStateManager(sessionAttributes, null);
+    }
+
+    private SessionStateManager getSessionStateManager(Map<String, Object> sessionAttributes, String inSlot) {
+        Map<String, Slot> slots = new HashMap<>();
+        Slot slot = Slot.builder().withName(SlotName.ACTION.text).withValue(inSlot).build();
+        slots.put(SlotName.ACTION.text, slot);
+        return getSessionStateManager(slots, sessionAttributes);
+    }
+
+    private SessionStateManager getSessionStateManager(Map<String, Slot> slots, Map<String, Object> sessionAttributes) {
         Session session = Session.builder()
                 .withAttributes(sessionAttributes)
                 .build();
@@ -109,9 +131,6 @@ class SessionStateManagerTest {
                 .withPersistenceAdapter(adapter)
                 .withRequestEnvelope(requestEnvelope)
                 .build();
-        Map<String, Slot> slots = new HashMap<>();
-        Slot slot = Slot.builder().withName(SlotName.ACTION.text).build();
-        slots.put(SlotName.ACTION.text, slot);
 
         return new SessionStateManager(slots, attributesManager);
     }

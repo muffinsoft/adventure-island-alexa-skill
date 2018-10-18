@@ -66,6 +66,7 @@ public class Game {
             state.setMission(nextMissionKey);
             state.setLocation(nextMissionKey);
             state.setScene(nextMissionKey);
+            state.setIndex(0);
             return state;
         }
 
@@ -78,6 +79,7 @@ public class Game {
             String nextLocationKey = PhraseManager.nameToKey(nextLocationName);
             state.setLocation(nextLocationKey);
             state.setScene(nextLocationKey);
+            state.setIndex(0);
             return state;
         }
 
@@ -89,12 +91,14 @@ public class Game {
             String nextActivityName = currentLocation.getActivities().get(0).getName();
             String nextActivityKey = PhraseManager.nameToKey(nextActivityName);
             state.setScene(nextActivityKey);
+            state.setIndex(0);
             return state;
         }
 
         // activity intro played, go to action
         if (state.getState() == State.INTRO) {
             state.setState(State.ACTION);
+            state.setIndex(0);
             return state;
         }
 
@@ -103,12 +107,16 @@ public class Game {
         // next activity (scene)
         if (activityIndex < currentLocation.getActivities().size() - 1) {
             state.setScene(currentLocation.getActivities().get(activityIndex + 1).getName());
+            state.setState(State.INTRO);
+            state.setIndex(0);
             return state;
         }
 
-        // no more activities in the location, play outro for the scene
+        // no more activities in the location, play outro for the location
         if (state.getState() == State.ACTION) {
+            state.setScene(state.getLocation());
             state.setState(State.OUTRO);
+            state.setIndex(0);
             return state;
         }
 
@@ -118,6 +126,7 @@ public class Game {
             state.setLocation(nextLocation.getName());
             state.setScene(nextLocation.getActivities().get(0).getName());
             state.setState(State.INTRO);
+            state.setIndex(0);
             return state;
         }
 

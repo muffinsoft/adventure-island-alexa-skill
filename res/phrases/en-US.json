@@ -4,7 +4,7 @@
   "rootIntro0" : "Hi, I am Ben. What’s your name?",
   "rootIntro1" : "Nice name!  I'm going on a treasure hunting adventure and I could use a partner. What's the coolest place you've ever visited?",
   "rootIntro2" : "Well I hope you're ready to explore ancient temples, sail the seven seas, and even visit a fantasy kingdom! Today we'll be collecting coins to help the king of a fantasy kingdom. Ready?",
-  "selectMission" : "Choose one of the available missions.",
+  "selectMission" : "Choose one of the available missions. ",
   "selectMission2" : "Please make your selection",
   "welcomeCard" : "Adventure Island",
   "fallback" : "We cannot do that right now",
