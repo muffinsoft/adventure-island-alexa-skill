@@ -19,6 +19,17 @@
             "darts",
             "treasure",
             "darts",
+            "treasure",
+            "darts",
+            "snakes",
+            "treasure",
+            "treasure",
+            "snakes",
+            "treasure",
+            "darts",
+            "darts",
+            "treasure",
+            "snakes",
             "treasure"
           ],
           "obstaclesTier2": [],
@@ -26,7 +37,7 @@
         },
         {
           "name": "Treasure Tombs",
-          "obstaclesTier1": [],
+          "obstaclesTier1": ["spikes", "treasure", "darts", "treasure", "snakes", "spikes", "treasure", "darts", "spikes", "treasure", "snakes", "darts", "treasure", "spikes", "darts", "treasure", "darts", "treasure", "snakes", "spikes", "treasure", "spikes", "darts", "treasure", "treasure"],
           "obstaclesTier2": [],
           "obstaclesTier3": []
         },

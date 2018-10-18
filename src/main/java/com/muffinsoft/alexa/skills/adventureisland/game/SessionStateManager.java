@@ -9,6 +9,7 @@ import java.util.*;
 
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.*;
 import static com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager.getNumber;
+import static com.muffinsoft.alexa.skills.adventureisland.content.ObstacleManager.getObstacleExplanation;
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getExclamation;
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getPhrase;
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.nameToKey;
@@ -89,6 +90,7 @@ public class SessionStateManager {
         return s.substring(0, 1).toUpperCase() + s.substring(1);
     }
 
+    // TODO: demo round
     public DialogItem nextResponse() {
 
         DialogItem dialog;
@@ -112,6 +114,7 @@ public class SessionStateManager {
         if (expectedReplies != null && expectedReplies.contains(userReply)) {
             coins++;
             if (coins >= getNumber(COINS_TO_COLLECT)) {
+                stateItem.setIndex(0);
                 String sceneOutro = getSceneOutro();
                 getNextScene();
                 DialogItem response = getIntroOutroDialog();
@@ -183,7 +186,7 @@ public class SessionStateManager {
                 String responseText = dialog.getResponseText();
                 dialog = getActionDialog();
                 if (!visitedLocations.contains(stateItem.getLocation())) {
-                    responseText = combineWithBreak(responseText, ObstacleManager.getObstacleExplanation(stateItem));
+                    responseText = combineWithBreak(responseText, getObstacleExplanation(stateItem));
                 }
                 dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
                 break;

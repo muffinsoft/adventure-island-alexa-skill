@@ -6,12 +6,27 @@
         "obstacleIndices": [0, 1]
       },
       "treasureTombs": {
-        "explanation" : "",
+        "explanation" : "There will be a lot more coins here so remember to say 'mine' to pick it up. I also expect more booby traps too, so if you hear floor spikes, say 'whee' to jump over.",
         "obstacleIndices": [0, 1, 2]
       },
       "templeEscape": {
-        "explanation" : "",
+        "explanation" : "If we hear arrows, say 'woah' to duck.",
         "obstacleIndices": [0, 1, 2, 3]
+      }
+    },
+  "pirateBay" :
+    {
+      "outToSea": {
+        "explanation": "Beware the rocks and whirlpools as we make it out to open seas! If I call them out, shout 'Turn!' so your crew avoids them!  Lots o' sailors get shipwrecked around here. Let's save 'em from Davy Jone's locker along the way by saying 'Ahoy, mateys!'",
+        "obstacleIndices": []
+      },
+      "perilousSeas": {
+        "explanation": "",
+        "obstacleIndices": []
+      },
+      "seeMonsterBay": {
+        "explanation": "",
+        "obstacleIndices": []
       }
     }
 }
