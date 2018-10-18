@@ -5,14 +5,13 @@ import com.amazon.ask.model.Slot;
 import com.muffinsoft.alexa.skills.adventureisland.content.*;
 import com.muffinsoft.alexa.skills.adventureisland.model.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.*;
 import static com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager.getNumber;
+import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getExclamation;
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getPhrase;
+import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.nameToKey;
 
 public class SessionStateManager {
 
@@ -30,8 +29,7 @@ public class SessionStateManager {
     static final String HEALTH = "health";
     static final String COINS = "coins";
     static final String VISITED_LOCATIONS = "visitedLocations";
-
-    private static final String COINS_OBSTACLE = "COINS!";
+    static final String OLD_OBSTACLES = "oldObstacles";
 
     private AttributesManager attributesManager;
     private Map<String, Object> sessionAttributes;
@@ -43,6 +41,9 @@ public class SessionStateManager {
     private int health;
     private int coins;
     private String currentObstacle;
+
+    private List<String> visitedLocations;
+    private List<String> oldObstacles;
 
     public SessionStateManager(Map<String, Slot> slots, AttributesManager attributesManager) {
         this.attributesManager = attributesManager;
@@ -63,6 +64,8 @@ public class SessionStateManager {
         sessionAttributes.put(COINS, 0);
         sessionAttributes.put(STATE, State.INTRO);
         sessionAttributes.put(STATE_INDEX, 0);
+        sessionAttributes.put(VISITED_LOCATIONS, new ArrayList<String>());
+        sessionAttributes.put(OLD_OBSTACLES, new ArrayList<String>());
     }
 
     private void populateFields() {
@@ -77,6 +80,9 @@ public class SessionStateManager {
         coins = (int) sessionAttributes.get(COINS);
         Object obstacle = sessionAttributes.get(OBSTACLE);
         currentObstacle = obstacle != null ? String.valueOf(obstacle) : null;
+
+        visitedLocations = (List<String>) sessionAttributes.get(VISITED_LOCATIONS);
+        oldObstacles = (List<String>) sessionAttributes.get(OLD_OBSTACLES);
     }
 
     private String capitalizeFirstLetter(String s) {
@@ -96,8 +102,6 @@ public class SessionStateManager {
             }
         } else if (stateItem.getState() == State.INTRO) {
             dialog = getIntroOutroDialog();
-        } else if (Objects.equals(currentObstacle, COINS_OBSTACLE)) {
-            dialog = getCoinsDialog();
         } else {
             dialog = getActionDialog();
         }
@@ -141,7 +145,7 @@ public class SessionStateManager {
     }
 
     private DialogItem getCoinsDialog() {
-        List<String> expectedReplies = ObstacleManager.getTreasureResponses();
+        List<String> expectedReplies = ObstacleManager.getTreasureResponses(currentObstacle);
         String speechText;
         if (expectedReplies != null && expectedReplies.contains(userReply)) {
             coins++;
@@ -173,13 +177,13 @@ public class SessionStateManager {
         String speechText = "";
 
         if (currentObstacle != null) {
-            if (Objects.equals(currentObstacle, ObstacleManager.getTreasureName())) {
+            if (ObstacleManager.isTreasure(currentObstacle)) {
                 return getCoinsDialog();
             }
             List<String> expectedReplies = ObstacleManager.getObstacleResponses(stateItem, currentObstacle);
             if (expectedReplies != null && expectedReplies.contains(userReply)) {
-                // TODO: add random exclamation
-                speechText = "";
+                // TODO: random exclamation
+                speechText = getExclamation();
             } else {
                 health--;
                 if (health <= 0) {
@@ -213,10 +217,16 @@ public class SessionStateManager {
 
         while (isLastStep()) {
             if (Objects.equals(stateItem.getLocation(), stateItem.getScene())) {
+                if (stateItem.getState() == State.OUTRO) {
+                    visitedLocations.add(stateItem.getLocation());
+                }
                 getNextScene();
                 responseText = combineWithBreak(responseText, getResponse());
             } else {
                 dialog = getActionDialog();
+                if (!visitedLocations.contains(stateItem.getLocation())) {
+                    responseText = combineWithBreak(responseText, ObstacleManager.getObstacleExplanation(stateItem));
+                }
                 dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
                 break;
             }
@@ -269,13 +279,25 @@ public class SessionStateManager {
 
         sessionAttributes.put(COINS, coins);
         sessionAttributes.put(HEALTH, health);
+        sessionAttributes.put(VISITED_LOCATIONS, visitedLocations);
+        sessionAttributes.put(OLD_OBSTACLES, oldObstacles);
         attributesManager.setSessionAttributes(sessionAttributes);
     }
 
     private String nextObstacle(String speechText) {
         String obstacle = game.nextObstacle(stateItem);
+        if (!oldObstacles.contains(obstacle)) {
+            oldObstacles.add(obstacle);
+            String preObstacle = ObstacleManager.getPreObstacle(stateItem, obstacle);
+            speechText += " " + preObstacle;
+        }
         sessionAttributes.put(OBSTACLE, obstacle);
         speechText += " " + capitalizeFirstLetter(obstacle) + "!";
+
+        // handle silent scenes
+        if (Objects.equals(SILENT_SCENE, stateItem.getScene())) {
+            speechText += " You did not hear this.";
+        }
         return speechText;
     }
 }

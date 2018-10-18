@@ -1,5 +1,17 @@
-{
-  "name" : "treasure",
-  "responses" : ["mine"],
-  "preObstacle" : "There is a coin ahead! Try to get it by shouting Mine!"
-}
+[
+  {
+    "name" : "treasure",
+    "responses" : ["mine"],
+    "preObstacle" : "There is a coin ahead! Try to get it by shouting Mine!"
+  },
+  {
+    "name" : "mermaids",
+    "responses" : ["ahoy"],
+    "preObstacle" : "You can also rescue helpless mermaids from the pirates by saying 'Ahoy!'"
+  },
+  {
+    "name" : "sailors",
+    "responses" : ["ahoy"],
+    "preObstacle" : "Lots o' sailors get shipwrecked around here. Let's save 'em from Davy Jone's locker along the way by saying 'Ahoy, mateys!'"
+  }
+]

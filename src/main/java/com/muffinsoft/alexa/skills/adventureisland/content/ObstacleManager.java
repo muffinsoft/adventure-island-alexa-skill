@@ -6,10 +6,7 @@ import com.muffinsoft.alexa.skills.adventureisland.model.ObstacleItem;
 import com.muffinsoft.alexa.skills.adventureisland.model.ObstacleSetupItem;
 import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.contentLoader;
@@ -22,32 +19,58 @@ public class ObstacleManager {
 
     private static Map<String, List<ObstacleItem>> obstacles = new HashMap<>();
     private static Map<String, Map<String, ObstacleSetupItem>> obstacleSetup = new HashMap<>();
-    private static ObstacleItem treasure = new ObstacleItem();
+    private static List<ObstacleItem> treasure = new ArrayList<>();
 
     static {
         obstacles = contentLoader.loadContent(obstacles, PATH, new TypeReference<HashMap<String, List<ObstacleItem>>>(){});
         obstacleSetup = contentLoader.loadContent(obstacleSetup, PATH_SETUP, new TypeReference<HashMap<String, Map<String, ObstacleSetupItem>>>(){});
-        treasure = contentLoader.loadContent(treasure, PATH_COINS, new TypeReference<ObstacleItem>(){});
+        treasure = contentLoader.loadContent(treasure, PATH_COINS, new TypeReference<ArrayList<ObstacleItem>>(){});
     }
 
-    public static String getTreasureName() {
-        return treasure.getName();
+    public static boolean isTreasure(String obstacle) {
+        for (ObstacleItem item : treasure) {
+            if (Objects.equals(item.getName(), obstacle)) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public static List<String> getTreasureResponses() {
-        return treasure.getResponses();
+    public static List<String> getTreasureResponses(String obstacle) {
+        for (ObstacleItem item : treasure) {
+            if (Objects.equals(item.getName(), obstacle)) {
+                return item.getResponses();
+            }
+        }
+        throw new NoSuchElementException("No responses for treasure: " + obstacle);
     }
 
-    public static String getTreasurePre() {
-        return treasure.getPreObstacle();
+    public static String getTreasurePre(String obstacle) {
+        for (ObstacleItem item : treasure) {
+            if (Objects.equals(item.getName(), obstacle)) {
+                return item.getPreObstacle();
+            }
+        }
+        throw new NoSuchElementException("No responses for treasure: " + obstacle);
+    }
+
+    public static String getObstacleExplanation(StateItem state) {
+        return obstacleSetup.get(state.getLocation()).get(state.getScene()).getExplanation();
+    }
+
+    private static ObstacleItem getObstacleByName(StateItem state, String obstacle) {
+        List<ObstacleItem> obstacleItems = obstacles.get(state.getLocation());
+        return obstacleItems.stream()
+                .filter(o -> Objects.equals(o.getName(), obstacle))
+                .findAny()
+                .orElseThrow(() -> new RuntimeException("No such obstacle name: " + obstacle));
+    }
+
+    public static String getPreObstacle(StateItem state, String obstacle) {
+        return getObstacleByName(state, obstacle).getPreObstacle();
     }
 
     public static List<String> getObstacleResponses(StateItem state, String key) {
-        List<ObstacleItem> obstacleItems = obstacles.get(state.getLocation());
-        return obstacleItems.stream()
-                .filter(o -> Objects.equals(o.getName(), key))
-                .map(ObstacleItem::getResponses)
-                .findAny()
-                .orElseThrow(() -> new RuntimeException("No such obstacle name: " + key));
+        return getObstacleByName(state, key).getResponses();
     }
 }

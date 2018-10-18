@@ -25,5 +25,10 @@
   "ancientTempleIntro1Yes" : "I think that's it! ",
   "ancientTempleIntro1No" : "That's not right. How about… Password! ",
   "templeHallsIntroCount" : "1",
-  "templeHallsIntro0" : "Okay, the treasure halls should be deep inside the temple. It doesn't look like anyone has been here in forever. If I see a snake, say 'whee' to jump over it! If I call out darts, say 'woah' to duck. And hey, if we happen to spot some coins lying around before the treasure room, say 'mine' to pick it up! "
+  "templeHallsIntro0" : "Okay, the treasure halls should be deep inside the temple. It doesn't look like anyone has been here in forever. ",
+  "exclamation1" : "Close enough!",
+  "exclamation2" : "Lucky this time!",
+  "exclamation3" : "Well done!",
+  "exclamation4" : "Keep running! We can't stop yet!",
+  "exclamation5" : "We're doing great!"
 }

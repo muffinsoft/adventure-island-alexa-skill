@@ -16,9 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.*;
 import static com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager.getNumber;
@@ -100,6 +98,28 @@ class SessionStateManagerTest {
         attributes.put(COINS, 0);
         attributes.put(HEALTH, getNumber(HEALTH));
         attributes.put(USERNAME, userName);
+        attributes.put(VISITED_LOCATIONS, new ArrayList<String>());
+        SessionStateManager stateManager = getSessionStateManager(attributes);
+        DialogItem dialogItem = stateManager.nextResponse();
+
+        System.out.println(dialogItem.getResponseText());
+    }
+
+    @Test
+    void nextResponseExplanation() {
+        String userName = "Test user";
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put(MISSION, "royalRansom");
+        attributes.put(LOCATION, "ancientTemple");
+        attributes.put(SCENE, "ancientTemple");
+        attributes.put(STATE, State.INTRO);
+        attributes.put(STATE_INDEX, 1);
+        attributes.put(COINS, 0);
+        attributes.put(HEALTH, getNumber(HEALTH));
+        attributes.put(USERNAME, userName);
+        List<String> visitedLocations = new ArrayList<>();
+        visitedLocations.add("ancientTemple");
+        attributes.put(VISITED_LOCATIONS, visitedLocations);
         SessionStateManager stateManager = getSessionStateManager(attributes);
         DialogItem dialogItem = stateManager.nextResponse();
 

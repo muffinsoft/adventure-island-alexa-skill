@@ -35,6 +35,12 @@
           "obstaclesTier1": [],
           "obstaclesTier2": [],
           "obstaclesTier3": []
+        },
+        {
+          "name": "Finale",
+          "obstaclesTier1": [],
+          "obstaclesTier2": [],
+          "obstaclesTier3": []
         }
       ]
     },
@@ -58,6 +64,12 @@
           "obstaclesTier1": [],
           "obstaclesTier2": [],
           "obstaclesTier3": []
+        },
+        {
+          "name": "Finale",
+          "obstaclesTier1": [],
+          "obstaclesTier2": [],
+          "obstaclesTier3": []
         }
       ]
     },
@@ -78,6 +90,12 @@
         },
         {
           "name": "Dragon Attack",
+          "obstaclesTier1": [],
+          "obstaclesTier2": [],
+          "obstaclesTier3": []
+        },
+        {
+          "name": "Finale",
           "obstaclesTier1": [],
           "obstaclesTier2": [],
           "obstaclesTier3": []

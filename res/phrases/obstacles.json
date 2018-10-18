@@ -3,47 +3,56 @@
     {
       "name" : "snakes",
       "responses" : ["whee"],
-      "preObstacle" : "Snakes ahead! Be ready to jump over saying Whee!"
+      "preObstacle" : "Snakes ahead! Be ready to jump over saying Whee!",
+      "headsUp" : "Snakes ahead!"
     },
     {
       "name" : "darts",
       "responses" : ["woah", "whoa"],
-      "preObstacle" : "Yikes! I think I see some blow darts up ahead! Remember, say 'Whoah' to duck under them!"
+      "preObstacle" : "Yikes! I think I see some blow darts up ahead! Remember, say 'Whoah' to duck under them!",
+      "headsUp" : "Darts coming!"
     },
     {
       "name" : "floor spikes",
       "responses" : ["whee"],
-      "preObstacle" : ""
+      "preObstacle" : "",
+      "headsUp" : ""
     },
     {
       "name" : "arrows",
       "responses" : ["woah", "whoa"],
-      "preObstacle" : ""
+      "preObstacle" : "",
+      "headsUp" : ""
     },
     {
       "name" : "swinging axe",
       "responses" : ["woah", "whoa"],
-      "preObstacle" : ""
+      "preObstacle" : "",
+      "headsUp" : ""
     },
     {
       "name" : "collapsing floor",
       "responses" : ["whee"],
-      "preObstacle" : ""
+      "preObstacle" : "",
+      "headsUp" : ""
     },
     {
       "name" : "sleeping jaguar",
       "responses" : ["whip"],
-      "preObstacle" : ""
+      "preObstacle" : "",
+      "headsUp" : ""
     },
     {
       "name" : "Cherushka",
       "responses" : ["blah"],
-      "preObstacle" : ""
+      "preObstacle" : "",
+      "headsUp" : ""
     },
     {
       "name" : "spider web",
       "responses" : ["whip"],
-      "preObstacle" : ""
+      "preObstacle" : "",
+      "headsUp" : ""
     }
   ]
 }
