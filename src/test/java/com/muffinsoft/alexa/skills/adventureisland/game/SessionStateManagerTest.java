@@ -6,11 +6,9 @@ import com.amazon.ask.model.RequestEnvelope;
 import com.amazon.ask.model.Session;
 import com.amazon.ask.model.Slot;
 import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
+import com.muffinsoft.alexa.skills.adventureisland.content.ObstacleManager;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
-import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
-import com.muffinsoft.alexa.skills.adventureisland.model.Mission;
-import com.muffinsoft.alexa.skills.adventureisland.model.SlotName;
-import com.muffinsoft.alexa.skills.adventureisland.model.State;
+import com.muffinsoft.alexa.skills.adventureisland.model.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -77,7 +75,7 @@ class SessionStateManagerTest {
         attributes.put(LOCATION, "ancientTemple");
         attributes.put(SCENE, "templeHalls");
         int sceneState = Integer.parseInt(getPhrase("templeHalls" + State.INTRO.getKey() + COUNT));
-        attributes.put(STATE_INDEX, sceneState);
+        attributes.put(STATE_INDEX, sceneState - 1);
         attributes.put(COINS, 0);
         attributes.put(HEALTH, getNumber(HEALTH));
         attributes.put(USERNAME, userName);
@@ -104,7 +102,9 @@ class SessionStateManagerTest {
         SessionStateManager stateManager = getSessionStateManager(attributes);
         DialogItem dialogItem = stateManager.nextResponse();
 
-        System.out.println(dialogItem.getResponseText());
+        String expected = getPhrase("ancientTemple" + State.INTRO.getKey() + 1 + NO);
+
+        assertTrue(dialogItem.getResponseText().startsWith(expected));
     }
 
     @Test
@@ -113,9 +113,9 @@ class SessionStateManagerTest {
         Map<String, Object> attributes = new HashMap<>();
         attributes.put(MISSION, "royalRansom");
         attributes.put(LOCATION, "ancientTemple");
-        attributes.put(SCENE, "ancientTemple");
-        attributes.put(STATE, State.INTRO);
-        attributes.put(STATE_INDEX, 1);
+        attributes.put(SCENE, "templeHalls");
+        attributes.put(STATE, State.ACTION);
+        attributes.put(STATE_INDEX, 0);
         attributes.put(COINS, 0);
         attributes.put(HEALTH, getNumber(HEALTH));
         attributes.put(USERNAME, userName);
@@ -126,7 +126,23 @@ class SessionStateManagerTest {
         SessionStateManager stateManager = getSessionStateManager(attributes);
         DialogItem dialogItem = stateManager.nextResponse();
 
-        System.out.println(dialogItem.getResponseText());
+        StateItem stateItem = stateFromAttributes(attributes);
+        stateItem.setIndex(0);
+        String obstacle = game.nextObstacle(stateItem);
+        String preObstacle = ObstacleManager.getPreObstacle(stateItem, obstacle);
+
+        assertTrue(dialogItem.getResponseText().contains(preObstacle));
+    }
+
+    private StateItem stateFromAttributes(Map<String, Object> attributes) {
+        StateItem result = new StateItem();
+        result.setMission(attributes.get(MISSION).toString());
+        result.setLocation(attributes.get(LOCATION).toString());
+        result.setScene(attributes.get(SCENE).toString());
+        result.setState((State) attributes.get(STATE));
+        result.setIndex((int) attributes.get(STATE_INDEX));
+
+        return result;
     }
 
     private String capitalizeFirstLetter(String s) {

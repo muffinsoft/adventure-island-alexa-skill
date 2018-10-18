@@ -93,14 +93,7 @@ public class SessionStateManager {
 
         DialogItem dialog;
 
-        // ROOT menu is for mission selection
-        if (Objects.equals(stateItem.getMission(), ROOT)) {
-            if (userReply == null || !detectMission()) {
-                return promptForMission();
-            } else {
-                dialog = getIntroOutroDialog();
-            }
-        } else if (stateItem.getState() == State.INTRO) {
+        if (stateItem.getState() == State.INTRO) {
             dialog = getIntroOutroDialog();
         } else {
             dialog = getActionDialog();
@@ -111,37 +104,6 @@ public class SessionStateManager {
 
         updateSession();
         return dialog;
-    }
-
-    private DialogItem promptForMission() {
-        StringBuilder responseText = new StringBuilder(getPhrase(SELECT_MISSION));
-        List<Mission> missions = game.getMissions();
-        for (Mission mission : missions) {
-            responseText.append(mission.getName());
-            responseText.append(". ");
-        }
-        return new DialogItem(responseText.toString(), false, slotName, true);
-    }
-
-    private boolean detectMission() {
-        List<Mission> missions = game.getMissions();
-        for (Mission mission : missions) {
-            String missionName = mission.getName();
-            if (missionName.contains(userReply) || missionName.toLowerCase().contains(userReply)) {
-                String key = PhraseManager.nameToKey(mission.getName());
-
-                stateItem.setMission(key);
-                stateItem.setLocation(key);
-                stateItem.setScene(key);
-                stateItem.setState(State.INTRO);
-                stateItem.setIndex(0);
-
-                health = getNumber(HEALTH);
-
-                return true;
-            }
-        }
-        return false;
     }
 
     private DialogItem getCoinsDialog() {
@@ -194,26 +156,19 @@ public class SessionStateManager {
             }
         }
 
-        stateItem.setIndex(stateItem.getIndex() + 1);
         speechText = nextObstacle(speechText);
+        stateItem.setIndex(stateItem.getIndex() + 1);
 
         return new DialogItem(speechText, false, slotName);
     }
 
-    // TODO: return to root menu
     private DialogItem getIntroOutroDialog() {
         if (Objects.equals(stateItem.getMission(), ROOT) && stateItem.getIndex() == 1) {
             userName = userReply;
             sessionAttributes.put(USERNAME, userName);
         }
 
-        String responseText = getResponse();
-
-        DialogItem dialog = new DialogItem();
-        dialog.setResponseText(responseText);
-        dialog.setEnd(false);
-        dialog.setSlotName(slotName);
-        dialog.setRepromptRequired(stateItem.getState() == State.INTRO);
+        DialogItem dialog = getResponse();
 
         while (isLastStep()) {
             if (Objects.equals(stateItem.getLocation(), stateItem.getScene())) {
@@ -221,8 +176,11 @@ public class SessionStateManager {
                     visitedLocations.add(stateItem.getLocation());
                 }
                 getNextScene();
-                responseText = combineWithBreak(responseText, getResponse());
+                String responseText = dialog.getResponseText();
+                dialog = getResponse();
+                dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
             } else {
+                String responseText = dialog.getResponseText();
                 dialog = getActionDialog();
                 if (!visitedLocations.contains(stateItem.getLocation())) {
                     responseText = combineWithBreak(responseText, ObstacleManager.getObstacleExplanation(stateItem));
@@ -244,7 +202,13 @@ public class SessionStateManager {
         return stateItem.getIndex() >= maxStates;
     }
 
-    private String getResponse() {
+    private DialogItem getResponse() {
+        // ROOT menu is for mission selection
+        if (Objects.equals(stateItem.getMission(), ROOT)) {
+            if (userReply == null || !detectMission()) {
+                return promptForMission();
+            }
+        }
         String nameKey = getNameKey(stateItem.getState().getKey());
         String expectedReply = ReplyManager.getReply(nameKey);
         String responseText;
@@ -259,7 +223,45 @@ public class SessionStateManager {
              responseText = getPhrase(nameKey);
         }
         stateItem.setIndex(stateItem.getIndex() + 1);
-        return responseText;
+
+        DialogItem dialog = new DialogItem();
+        dialog.setResponseText(responseText);
+        dialog.setEnd(false);
+        dialog.setSlotName(slotName);
+        dialog.setRepromptRequired(stateItem.getState() == State.INTRO);
+
+        return dialog;
+    }
+
+    private boolean detectMission() {
+        List<Mission> missions = game.getMissions();
+        for (Mission mission : missions) {
+            String missionName = mission.getName();
+            if (missionName.contains(userReply) || missionName.toLowerCase().contains(userReply)) {
+                String key = PhraseManager.nameToKey(mission.getName());
+
+                stateItem.setMission(key);
+                stateItem.setLocation(key);
+                stateItem.setScene(key);
+                stateItem.setState(State.INTRO);
+                stateItem.setIndex(0);
+
+                health = getNumber(HEALTH);
+
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private DialogItem promptForMission() {
+        StringBuilder responseText = new StringBuilder(getPhrase(SELECT_MISSION));
+        List<Mission> missions = game.getMissions();
+        for (Mission mission : missions) {
+            responseText.append(mission.getName());
+            responseText.append(". ");
+        }
+        return new DialogItem(responseText.toString(), false, slotName, true);
     }
 
     private String getNameKey(String key) {
