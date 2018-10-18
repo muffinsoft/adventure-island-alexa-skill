@@ -149,7 +149,7 @@ public class SessionStateManager {
                 String sceneOutro = getSceneOutro();
                 getNextScene();
                 DialogItem response = getIntroOutroDialog();
-                response.setResponseText(sceneOutro + " " + response.getResponseText());
+                response.setResponseText(combineWithBreak(sceneOutro, response.getResponseText()));
                 return response;
             }
             String coinText = coins == 1 ? COIN_SINGLE : COIN_PLURAL;
@@ -196,21 +196,45 @@ public class SessionStateManager {
         return new DialogItem(speechText, false, slotName);
     }
 
+    // TODO: return to root menu
     private DialogItem getIntroOutroDialog() {
         if (Objects.equals(stateItem.getMission(), ROOT) && stateItem.getIndex() == 1) {
             userName = userReply;
             sessionAttributes.put(USERNAME, userName);
         }
 
-        int maxStates = Integer.parseInt(getPhrase(stateItem.getScene() + stateItem.getState().getKey() + COUNT));
-        if (stateItem.getIndex() >= maxStates) {
+        String responseText = getResponse();
+
+        DialogItem dialog = new DialogItem();
+        dialog.setResponseText(responseText);
+        dialog.setEnd(false);
+        dialog.setSlotName(slotName);
+        dialog.setRepromptRequired(stateItem.getState() == State.INTRO);
+
+        while (isLastStep()) {
             if (Objects.equals(stateItem.getLocation(), stateItem.getScene())) {
                 getNextScene();
+                responseText = combineWithBreak(responseText, getResponse());
             } else {
-                return getActionDialog();
+                dialog = getActionDialog();
+                dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
+                break;
             }
         }
 
+        return dialog;
+    }
+
+    private String combineWithBreak(String responseText, String newText) {
+        return responseText + " <break time=\"3s\"/> " + newText;
+    }
+
+    private boolean isLastStep() {
+        int maxStates = Integer.parseInt(getPhrase(stateItem.getScene() + stateItem.getState().getKey() + COUNT));
+        return stateItem.getIndex() >= maxStates;
+    }
+
+    private String getResponse() {
         String nameKey = getNameKey(stateItem.getState().getKey());
         String expectedReply = ReplyManager.getReply(nameKey);
         String responseText;
@@ -225,13 +249,7 @@ public class SessionStateManager {
              responseText = getPhrase(nameKey);
         }
         stateItem.setIndex(stateItem.getIndex() + 1);
-
-        DialogItem dialog = new DialogItem();
-        dialog.setResponseText(responseText);
-        dialog.setEnd(false);
-        dialog.setSlotName(slotName);
-        dialog.setRepromptRequired(stateItem.getState() == State.INTRO);
-        return dialog;
+        return responseText;
     }
 
     private String getNameKey(String key) {
