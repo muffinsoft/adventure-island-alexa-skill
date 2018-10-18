@@ -81,6 +81,7 @@ class SessionStateManagerTest {
         attributes.put(COINS, 0);
         attributes.put(HEALTH, getNumber(HEALTH));
         attributes.put(USERNAME, userName);
+        attributes.put(OLD_OBSTACLES, new ArrayList<>());
         SessionStateManager stateManager = getSessionStateManager(attributes);
         DialogItem dialogItem = stateManager.nextResponse();
         System.out.println(dialogItem.getResponseText());
@@ -99,6 +100,7 @@ class SessionStateManagerTest {
         attributes.put(HEALTH, getNumber(HEALTH));
         attributes.put(USERNAME, userName);
         attributes.put(VISITED_LOCATIONS, new ArrayList<String>());
+        attributes.put(OLD_OBSTACLES, new ArrayList<>());
         SessionStateManager stateManager = getSessionStateManager(attributes);
         DialogItem dialogItem = stateManager.nextResponse();
 
@@ -117,6 +119,7 @@ class SessionStateManagerTest {
         attributes.put(COINS, 0);
         attributes.put(HEALTH, getNumber(HEALTH));
         attributes.put(USERNAME, userName);
+        attributes.put(OLD_OBSTACLES, new ArrayList<>());
         List<String> visitedLocations = new ArrayList<>();
         visitedLocations.add("ancientTemple");
         attributes.put(VISITED_LOCATIONS, visitedLocations);

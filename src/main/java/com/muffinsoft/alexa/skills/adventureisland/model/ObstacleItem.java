@@ -7,6 +7,7 @@ public class ObstacleItem {
     private String name;
     private List<String> responses;
     private String preObstacle;
+    private String headsUp;
 
     public String getName() {
         return name;
@@ -30,5 +31,13 @@ public class ObstacleItem {
 
     public void setPreObstacle(String preObstacle) {
         this.preObstacle = preObstacle;
+    }
+
+    public String getHeadsUp() {
+        return headsUp;
+    }
+
+    public void setHeadsUp(String headsUp) {
+        this.headsUp = headsUp;
     }
 }
