@@ -1,8 +1,10 @@
 package com.muffinsoft.alexa.skills.adventureisland.content;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.muffinsoft.alexa.skills.adventureisland.model.Mission;
 import com.muffinsoft.alexa.skills.adventureisland.model.ObstacleItem;
 import com.muffinsoft.alexa.skills.adventureisland.model.ObstacleSetupItem;
+import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,17 +42,8 @@ public class ObstacleManager {
         return treasure.getPreObstacle();
     }
 
-    public static String getObstacle(String location, String scene, int tier) {
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-        ObstacleSetupItem setupItem = obstacleSetup.get(location).get(scene);
-        List<Integer> obstacleIndices = setupItem.getObstacleIndices();
-        int nextObstacle = random.nextInt(obstacleIndices.size());
-        int obstacleIndex = obstacleIndices.get(nextObstacle);
-        return obstacles.get(location).get(obstacleIndex).getName();
-    }
-
-    public static List<String> getObstacleResponses(String location, String key) {
-        List<ObstacleItem> obstacleItems = obstacles.get(location);
+    public static List<String> getObstacleResponses(StateItem state, String key) {
+        List<ObstacleItem> obstacleItems = obstacles.get(state.getLocation());
         return obstacleItems.stream()
                 .filter(o -> Objects.equals(o.getName(), key))
                 .map(ObstacleItem::getResponses)

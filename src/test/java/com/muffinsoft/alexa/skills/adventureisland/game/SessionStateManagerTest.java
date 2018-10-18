@@ -2,12 +2,10 @@ package com.muffinsoft.alexa.skills.adventureisland.game;
 
 import com.amazon.ask.attributes.AttributesManager;
 import com.amazon.ask.attributes.persistence.PersistenceAdapter;
-import com.amazon.ask.attributes.persistence.impl.DynamoDbPersistenceAdapter;
 import com.amazon.ask.model.RequestEnvelope;
 import com.amazon.ask.model.Session;
 import com.amazon.ask.model.Slot;
 import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
-import com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
 import com.muffinsoft.alexa.skills.adventureisland.model.SlotName;
@@ -49,7 +47,7 @@ class SessionStateManagerTest {
         attributes.put(LOCATION, ROOT);
         attributes.put(SCENE, ROOT);
         int sceneState = Integer.parseInt(getPhrase(ROOT + capitalizeFirstLetter(INTRO) + COUNT));
-        attributes.put(SCENE_STATE, sceneState);
+        attributes.put(STATE_INDEX, sceneState);
         attributes.put(COINS, 0);
         attributes.put(TURNS_TO_NEXT_COIN, 0);
         attributes.put(HEALTH, getNumber(HEALTH));
@@ -69,7 +67,7 @@ class SessionStateManagerTest {
         attributes.put(LOCATION, "ancientTemple");
         attributes.put(SCENE, "templeHalls");
         int sceneState = Integer.parseInt(getPhrase("templeHalls" + capitalizeFirstLetter(INTRO) + COUNT));
-        attributes.put(SCENE_STATE, sceneState);
+        attributes.put(STATE_INDEX, sceneState);
         attributes.put(COINS, 0);
         attributes.put(TURNS_TO_NEXT_COIN, 2);
         attributes.put(HEALTH, getNumber(HEALTH));
@@ -86,7 +84,7 @@ class SessionStateManagerTest {
         attributes.put(MISSION, "royalRansom");
         attributes.put(LOCATION, "ancientTemple");
         attributes.put(SCENE, "ancientTemple");
-        attributes.put(SCENE_STATE, 1);
+        attributes.put(STATE_INDEX, 1);
         attributes.put(COINS, 0);
         attributes.put(TURNS_TO_NEXT_COIN, 2);
         attributes.put(HEALTH, getNumber(HEALTH));

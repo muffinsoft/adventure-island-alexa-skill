@@ -28,6 +28,8 @@ public class Constants {
     public static final String COIN_PLURAL = "coinPlural";
     public static final String YES = "Yes";
     public static final String NO = "No";
+    public static final String SELECT_MISSION = "selectMission";
+    public static final String SELECT_MISSION2 = "selectMission2";
     public static final String USERNAME_PLACEHOLDER = "__USERNAME__";
     public static final List<String> COINS_FOUND = new ArrayList<>();
 

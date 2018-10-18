@@ -4,7 +4,7 @@ public class StateItem {
 
     private String mission;
     private String location;
-    private String activity;
+    private String scene;
     private State state;
     private int index;
 
@@ -24,12 +24,12 @@ public class StateItem {
         this.location = location;
     }
 
-    public String getActivity() {
-        return activity;
+    public String getScene() {
+        return scene;
     }
 
-    public void setActivity(String activity) {
-        this.activity = activity;
+    public void setScene(String scene) {
+        this.scene = scene;
     }
 
     public State getState() {

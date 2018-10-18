@@ -2,17 +2,13 @@ package com.muffinsoft.alexa.skills.adventureisland.game;
 
 import com.amazon.ask.attributes.AttributesManager;
 import com.amazon.ask.model.Slot;
-import com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager;
-import com.muffinsoft.alexa.skills.adventureisland.content.ObstacleManager;
-import com.muffinsoft.alexa.skills.adventureisland.content.ReplyManager;
-import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
-import com.muffinsoft.alexa.skills.adventureisland.model.SlotName;
+import com.muffinsoft.alexa.skills.adventureisland.content.*;
+import com.muffinsoft.alexa.skills.adventureisland.model.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ThreadLocalRandom;
 
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.*;
 import static com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager.getNumber;
@@ -28,12 +24,12 @@ public class SessionStateManager {
     static final String MISSION = "mission";
     static final String LOCATION = "location";
     static final String SCENE = "scene";
-    static final String SCENE_STATE = "sceneState";
+    static final String STATE = "state";
+    static final String STATE_INDEX = "stateIndex";
     static final String USERNAME = "userName";
     static final String HEALTH = "health";
     static final String COINS = "coins";
     static final String VISITED_LOCATIONS = "visitedLocations";
-    static final String TURNS_TO_NEXT_COIN = "turnsToNextCoin";
 
     private static final String COINS_OBSTACLE = "COINS!";
 
@@ -42,17 +38,11 @@ public class SessionStateManager {
     private String slotName = SlotName.ACTION.text;
     private String userReply;
 
-    private String mission;
-    private String location;
-    private String scene;
+    private StateItem stateItem = new StateItem();
     private String userName;
-    private int sceneState;
     private int health;
     private int coins;
-    private int turnsToNextCoin;
     private String currentObstacle;
-
-    private ThreadLocalRandom random = ThreadLocalRandom.current();
 
     public SessionStateManager(Map<String, Slot> slots, AttributesManager attributesManager) {
         this.attributesManager = attributesManager;
@@ -71,19 +61,20 @@ public class SessionStateManager {
         sessionAttributes.put(SCENE, ROOT);
         sessionAttributes.put(HEALTH, getNumber(HEALTH));
         sessionAttributes.put(COINS, 0);
-        sessionAttributes.put(SCENE_STATE, 0);
-        sessionAttributes.put(TURNS_TO_NEXT_COIN, 0);
+        sessionAttributes.put(STATE, State.INTRO);
+        sessionAttributes.put(STATE_INDEX, 0);
     }
 
     private void populateFields() {
-        mission = String.valueOf(sessionAttributes.get(MISSION));
-        location = String.valueOf(sessionAttributes.get(LOCATION));
-        scene = String.valueOf(sessionAttributes.get(SCENE));
+        stateItem.setMission(String.valueOf(sessionAttributes.get(MISSION)));
+        stateItem.setLocation(String.valueOf(sessionAttributes.get(LOCATION)));
+        stateItem.setScene(String.valueOf(sessionAttributes.get(SCENE)));
+        stateItem.setState((State) sessionAttributes.get(STATE));
+        stateItem.setIndex((int) sessionAttributes.get(STATE_INDEX));
+
         userName = String.valueOf(sessionAttributes.get(USERNAME));
-        sceneState = (int) sessionAttributes.get(SCENE_STATE);
         health = (int) sessionAttributes.get(HEALTH);
         coins = (int) sessionAttributes.get(COINS);
-        turnsToNextCoin = (int) sessionAttributes.get(TURNS_TO_NEXT_COIN);
         Object obstacle = sessionAttributes.get(OBSTACLE);
         currentObstacle = obstacle != null ? String.valueOf(obstacle) : null;
     }
@@ -93,8 +84,19 @@ public class SessionStateManager {
     }
 
     public DialogItem nextResponse() {
+
         DialogItem dialog;
-        if (currentObstacle == null) {
+
+        // ROOT menu is for mission selection
+        if (Objects.equals(stateItem.getMission(), ROOT)) {
+            if (!detectMission()) {
+                return promptForMission();
+            } else {
+                return getIntroDialog();
+            }
+        }
+
+        if (stateItem.getState() == State.INTRO) {
             dialog = getIntroDialog();
         } else if (Objects.equals(currentObstacle, COINS_OBSTACLE)) {
             dialog = getCoinsDialog();
@@ -107,6 +109,33 @@ public class SessionStateManager {
 
         updateSession();
         return dialog;
+    }
+
+    private DialogItem promptForMission() {
+        StringBuilder responseText = new StringBuilder(getPhrase(SELECT_MISSION));
+        List<Mission> missions = game.getMissions();
+        for (Mission mission : missions) {
+            responseText.append(mission.getName());
+            responseText.append(". ");
+        }
+        return new DialogItem(responseText.toString(), false, slotName, true);
+    }
+
+    private boolean detectMission() {
+        List<Mission> missions = game.getMissions();
+        for (Mission mission : missions) {
+            if (mission.getName().toLowerCase().contains(userReply)) {
+                String key = PhraseManager.nameToKey(mission.getName());
+                sessionAttributes.put(MISSION, key);
+                sessionAttributes.put(LOCATION, key);
+                sessionAttributes.put(SCENE, key);
+                sessionAttributes.put(STATE, State.INTRO);
+                sessionAttributes.put(STATE_INDEX, 0);
+                sessionAttributes.put(HEALTH, getNumber(HEALTH));
+                return true;
+            }
+        }
+        return false;
     }
 
     private DialogItem getCoinsDialog() {
@@ -123,15 +152,10 @@ public class SessionStateManager {
         } else {
             speechText = getPhrase(COIN_NOT_PICKED);
         }
-        setNextCoinOpportunity();
+
+        stateItem.setIndex(stateItem.getIndex() + 1);
         speechText = nextObstacle(speechText);
         return new DialogItem(speechText, false, slotName);
-    }
-
-    private void setNextCoinOpportunity() {
-        int minObstacles = NumbersManager.getNumber(MIN_OBSTACLES_TO_COIN);
-        int maxObstacles = NumbersManager.getNumber(MAX_OBSTACLES_TO_COIN);
-        turnsToNextCoin = random.nextInt(minObstacles, maxObstacles + 1);
     }
 
     private DialogItem getActionDialog() {
@@ -139,37 +163,38 @@ public class SessionStateManager {
         String speechText = "";
 
         if (currentObstacle != null) {
-            List<String> expectedReplies = ObstacleManager.getObstacleResponses(location, currentObstacle);
+            if (Objects.equals(currentObstacle, ObstacleManager.getTreasureName())) {
+                return getCoinsDialog();
+            }
+            List<String> expectedReplies = ObstacleManager.getObstacleResponses(stateItem, currentObstacle);
             if (expectedReplies != null && expectedReplies.contains(userReply)) {
+                // TODO: add random exclamation
                 speechText = "";
             } else {
                 health--;
                 if (health <= 0) {
+                    // TODO: restart scene / mission or return to main menu
                     return new DialogItem(getPhrase(SCENE_FAIL), true);
                 }
                 speechText = getPhrase(ACTION_FAIL);
             }
+        }
 
-            turnsToNextCoin--;
-        }
-        if (turnsToNextCoin <= 0) {
-            speechText = nextCoin(speechText);
-        } else {
-            speechText = nextObstacle(speechText);
-        }
+        stateItem.setIndex(stateItem.getIndex() + 1);
+        speechText = nextObstacle(speechText);
 
         return new DialogItem(speechText, false, slotName);
     }
 
     private DialogItem getIntroDialog() {
-        if (Objects.equals(mission, ROOT) && sceneState == 1) {
+        if (Objects.equals(stateItem.getMission(), ROOT) && stateItem.getIndex() == 1) {
             userName = userReply;
             sessionAttributes.put(USERNAME, userName);
         }
 
-        int maxStates = Integer.parseInt(getPhrase(scene + capitalizeFirstLetter(INTRO) + COUNT));
-        if (sceneState >= maxStates) {
-            if (Objects.equals(location, scene)) {
+        int maxStates = Integer.parseInt(getPhrase(stateItem.getScene() + capitalizeFirstLetter(INTRO) + COUNT));
+        if (stateItem.getIndex() >= maxStates) {
+            if (Objects.equals(stateItem.getLocation(), stateItem.getScene())) {
                 getNextScene();
             } else {
                 return getActionDialog();
@@ -189,7 +214,7 @@ public class SessionStateManager {
         } else {
              responseText = getPhrase(nameKey);
         }
-        sceneState++;
+        stateItem.setIndex(stateItem.getIndex() + 1);
 
         DialogItem dialog = new DialogItem();
         dialog.setResponseText(responseText);
@@ -200,42 +225,29 @@ public class SessionStateManager {
     }
 
     private String getNameKey() {
-        return scene + capitalizeFirstLetter(INTRO) + sceneState;
+        return stateItem.getScene() + capitalizeFirstLetter(INTRO) + stateItem.getIndex();
     }
 
     private void getNextScene() {
-        String firstMission = "royalRansom";
-        if (Objects.equals(mission, ROOT)) {
-            mission = firstMission;
-            location = firstMission;
-            scene = firstMission;
-        } else if (Objects.equals(location, firstMission)) {
-            location = "ancientTemple";
-            scene = "ancientTemple";
-        } else {
-            scene = "templeHalls";
-        }
-        sceneState = 0;
-        sessionAttributes.put(MISSION, mission);
-        sessionAttributes.put(LOCATION, location);
-        sessionAttributes.put(SCENE, scene);
+
+        stateItem = game.nextActivity(stateItem);
+
+        sessionAttributes.put(MISSION, stateItem.getMission());
+        sessionAttributes.put(LOCATION, stateItem.getLocation());
+        sessionAttributes.put(SCENE, stateItem.getScene());
+        sessionAttributes.put(STATE, stateItem.getState());
+        sessionAttributes.put(STATE_INDEX, stateItem.getIndex());
     }
 
     private void updateSession() {
         sessionAttributes.put(COINS, coins);
         sessionAttributes.put(HEALTH, health);
-        sessionAttributes.put(TURNS_TO_NEXT_COIN, turnsToNextCoin);
-        sessionAttributes.put(SCENE_STATE, sceneState);
+        sessionAttributes.put(STATE_INDEX, stateItem.getIndex());
         attributesManager.setSessionAttributes(sessionAttributes);
     }
 
-    private String nextCoin(String speechText) {
-        sessionAttributes.put(OBSTACLE, COINS_OBSTACLE);
-        return speechText + " " + capitalizeFirstLetter(ObstacleManager.getTreasureName()) + "!";
-    }
-
     private String nextObstacle(String speechText) {
-        String obstacle = ObstacleManager.getObstacle(location, scene, 1);
+        String obstacle = game.nextObstacle(stateItem);
         sessionAttributes.put(OBSTACLE, obstacle);
         speechText += " " + capitalizeFirstLetter(obstacle) + "!";
         return speechText;
