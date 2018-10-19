@@ -166,7 +166,6 @@ public class SessionStateManager {
 
         String speechText = "";
 
-        // TODO: reset currentObstacle when the action is over?
         if (currentObstacle != null) {
 
             toNextExclamation--;
@@ -174,6 +173,7 @@ public class SessionStateManager {
                 return getCoinsDialog();
             }
             List<String> expectedReplies = ObstacleManager.getObstacleResponses(stateItem, currentObstacle);
+            currentObstacle = null;
             if (expectedReplies != null && expectedReplies.contains(userReply)) {
                 if (toNextExclamation <= 0) {
                     speechText = getExclamation();
@@ -319,12 +319,14 @@ public class SessionStateManager {
         sessionAttributes.put(STATE, stateItem.getState());
         sessionAttributes.put(STATE_INDEX, stateItem.getIndex());
 
+        sessionAttributes.put(OBSTACLE, currentObstacle);
         sessionAttributes.put(COINS, coins);
         sessionAttributes.put(TOTAL_COINS, totalCoins);
         sessionAttributes.put(HEALTH, health);
         sessionAttributes.put(VISITED_LOCATIONS, visitedLocations);
         sessionAttributes.put(OLD_OBSTACLES, oldObstacles);
         sessionAttributes.put(TURNS_TO_NEXT_EXCLAMATION, toNextExclamation);
+
         attributesManager.setSessionAttributes(sessionAttributes);
     }
 
@@ -335,7 +337,7 @@ public class SessionStateManager {
             String preObstacle = ObstacleManager.getPreObstacle(stateItem, obstacle);
             speechText += " " + preObstacle;
         }
-        sessionAttributes.put(OBSTACLE, obstacle);
+        currentObstacle = obstacle;
         speechText += " " + capitalizeFirstLetter(obstacle) + "!";
 
         // handle silent scenes
