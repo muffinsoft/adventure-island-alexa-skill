@@ -2,18 +2,20 @@ package com.muffinsoft.alexa.skills.adventureisland.game;
 
 import com.amazon.ask.attributes.AttributesManager;
 import com.amazon.ask.model.Slot;
-import com.muffinsoft.alexa.skills.adventureisland.content.*;
+import com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager;
+import com.muffinsoft.alexa.skills.adventureisland.content.ObstacleManager;
+import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
+import com.muffinsoft.alexa.skills.adventureisland.content.ReplyManager;
 import com.muffinsoft.alexa.skills.adventureisland.model.*;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.*;
 import static com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager.getNumber;
+import static com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager.getTurnsToNextExclamation;
 import static com.muffinsoft.alexa.skills.adventureisland.content.ObstacleManager.getObstacleExplanation;
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getExclamation;
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getPhrase;
-import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.nameToKey;
 
 public class SessionStateManager {
 
@@ -33,6 +35,7 @@ public class SessionStateManager {
     static final String TOTAL_COINS = "totalCoins";
     static final String VISITED_LOCATIONS = "visitedLocations";
     static final String OLD_OBSTACLES = "oldObstacles";
+    static final String TURNS_TO_NEXT_EXCLAMATION = "turnsToNextExclamation";
 
     private AttributesManager attributesManager;
     private Map<String, Object> sessionAttributes;
@@ -45,11 +48,10 @@ public class SessionStateManager {
     private int coins;
     private int totalCoins;
     private String currentObstacle;
+    private int toNextExclamation;
 
     private List<String> visitedLocations;
     private List<String> oldObstacles;
-
-    private final ThreadLocalRandom random = ThreadLocalRandom.current();
 
     public SessionStateManager(Map<String, Slot> slots, AttributesManager attributesManager) {
         this.attributesManager = attributesManager;
@@ -61,6 +63,7 @@ public class SessionStateManager {
         userReply = slots.get(slotName).getValue();
     }
 
+    @SuppressWarnings("unchecked")
     private void populateFields() {
         stateItem.setMission(String.valueOf(sessionAttributes.getOrDefault(MISSION, ROOT)));
         stateItem.setLocation(String.valueOf(sessionAttributes.getOrDefault(LOCATION, ROOT)));
@@ -75,6 +78,8 @@ public class SessionStateManager {
         Object obstacle = sessionAttributes.get(OBSTACLE);
         currentObstacle = obstacle != null ? String.valueOf(obstacle) : null;
 
+        toNextExclamation = (int) sessionAttributes.getOrDefault(TURNS_TO_NEXT_EXCLAMATION, getTurnsToNextExclamation());
+
         visitedLocations = (List<String>) sessionAttributes.getOrDefault(VISITED_LOCATIONS, new ArrayList<String>());
         oldObstacles = (List<String>) sessionAttributes.getOrDefault(OLD_OBSTACLES, new ArrayList<String>());
     }
@@ -88,7 +93,9 @@ public class SessionStateManager {
 
         DialogItem dialog;
 
-        if (stateItem.getState() == State.INTRO) {
+        if (stateItem.getState() == State.FAILED) {
+            dialog = getFailedChoice();
+        } else if (stateItem.getState() == State.INTRO) {
             dialog = getIntroOutroDialog();
         } else {
             dialog = getActionDialog();
@@ -99,6 +106,25 @@ public class SessionStateManager {
 
         updateSession();
         return dialog;
+    }
+
+    private DialogItem getFailedChoice() {
+        String basicKey = State.FAILED.getKey().toLowerCase();
+        if (userReply.contains(getPhrase(basicKey + 1))) {
+            stateItem.setState(State.ACTION);
+            stateItem.setIndex(0);
+            return getActionDialog();
+        }
+        if (userReply.contains(getPhrase(basicKey + 2))) {
+            stateItem.setMission(ROOT);
+            stateItem.setLocation(ROOT);
+            stateItem.setScene(ROOT);
+            stateItem.setState(State.INTRO);
+            stateItem.setIndex(0);
+            return promptForMission();
+        }
+        String response = getPhrase(SCENE_FAIL + REPROMPT);
+        return new DialogItem(response, false, slotName, true);
     }
 
     private DialogItem getCoinsDialog() {
@@ -141,18 +167,23 @@ public class SessionStateManager {
         String speechText = "";
 
         if (currentObstacle != null) {
+
+            toNextExclamation--;
             if (ObstacleManager.isTreasure(currentObstacle)) {
                 return getCoinsDialog();
             }
             List<String> expectedReplies = ObstacleManager.getObstacleResponses(stateItem, currentObstacle);
             if (expectedReplies != null && expectedReplies.contains(userReply)) {
-                // TODO: random exclamation
-                speechText = getExclamation();
+                if (toNextExclamation <= 0) {
+                    speechText = getExclamation();
+                    toNextExclamation = getTurnsToNextExclamation();
+                } else {
+                    speechText = "";
+                }
             } else {
                 health--;
                 if (health <= 0) {
-                    // TODO: restart scene / mission or return to main menu
-                    return new DialogItem(getPhrase(SCENE_FAIL), true);
+                    return processSceneFail();
                 }
                 speechText = getPhrase(ACTION_FAIL);
             }
@@ -162,6 +193,12 @@ public class SessionStateManager {
         stateItem.setIndex(stateItem.getIndex() + 1);
 
         return new DialogItem(speechText, false, slotName);
+    }
+
+    private DialogItem processSceneFail() {
+        stateItem.setState(State.FAILED);
+        stateItem.setIndex(0);
+        return new DialogItem(getPhrase(SCENE_FAIL), false, slotName, true);
     }
 
     private DialogItem getIntroOutroDialog() {
@@ -286,6 +323,7 @@ public class SessionStateManager {
         sessionAttributes.put(HEALTH, health);
         sessionAttributes.put(VISITED_LOCATIONS, visitedLocations);
         sessionAttributes.put(OLD_OBSTACLES, oldObstacles);
+        sessionAttributes.put(TURNS_TO_NEXT_EXCLAMATION, toNextExclamation);
         attributesManager.setSessionAttributes(sessionAttributes);
     }
 

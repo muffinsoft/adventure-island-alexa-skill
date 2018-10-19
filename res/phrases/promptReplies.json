@@ -1,3 +1,5 @@
 {
-  "ancientTempleIntro1" : "password"
+  "ancientTempleIntro1" : "password",
+  "failed1" : "restart",
+  "failed2" : "mission"
 }
