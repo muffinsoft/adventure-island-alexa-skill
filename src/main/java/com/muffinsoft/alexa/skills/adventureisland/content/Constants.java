@@ -13,6 +13,7 @@ import java.util.List;
 public class Constants {
 
     public static final String ROOT = "root";
+    public static final String DEMO = "demo";
     public static final String SILENT_SCENE = "finale";
     public static final String COINS_TO_COLLECT = "coinsToCollect";
     public static final String SCENE_CONFIRM = "sceneConfirm";

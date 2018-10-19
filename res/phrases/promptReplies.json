@@ -1,5 +1,7 @@
 {
   "ancientTempleIntro1" : "password",
   "failed1" : "restart",
-  "failed2" : "mission"
+  "failed2" : "mission",
+  "demo1" : "I'm ready",
+  "demo2" : "Lily first"
 }

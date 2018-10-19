@@ -68,6 +68,7 @@ public class Game {
             state.setLocation(nextMissionKey);
             state.setScene(nextMissionKey);
             state.setIndex(0);
+            state.getGameState()[StateItem.MISSION_INDEX] = 0;
             state.setIntroId(nextMission.getIntroId());
             state.setOutroId(nextMission.getOutroId());
             return state;
@@ -84,6 +85,8 @@ public class Game {
             state.setLocation(nextLocationKey);
             state.setScene(nextLocationKey);
             state.setIndex(0);
+            state.getGameState()[StateItem.MISSION_INDEX] = (byte) missionIndex;
+            state.getGameState()[StateItem.LOCATION_INDEX] = 0;
             state.setIntroId(nextLocation.getIntroId());
             state.setOutroId(nextLocation.getOutroId());
             return state;
@@ -99,6 +102,9 @@ public class Game {
             String nextActivityKey = PhraseManager.nameToKey(nextActivityName);
             state.setScene(nextActivityKey);
             state.setIndex(0);
+            state.getGameState()[StateItem.MISSION_INDEX] = (byte) missionIndex;
+            state.getGameState()[StateItem.LOCATION_INDEX] = (byte) locationIndex;
+            state.getGameState()[StateItem.SCENE_INDEX] = 0;
             state.setIntroId(nextActivity.getIntroId());
             state.setOutroId(nextActivity.getOutroId());
             return state;
@@ -119,6 +125,9 @@ public class Game {
             state.setScene(nextActivity.getName());
             state.setState(State.INTRO);
             state.setIndex(0);
+            state.getGameState()[StateItem.MISSION_INDEX] = (byte) missionIndex;
+            state.getGameState()[StateItem.LOCATION_INDEX] = (byte) locationIndex;
+            state.getGameState()[StateItem.SCENE_INDEX] = (byte) (activityIndex + 1);
             state.setIntroId(nextActivity.getIntroId());
             state.setOutroId(nextActivity.getOutroId());
             return state;
@@ -139,6 +148,9 @@ public class Game {
             state.setScene(nextLocation.getActivities().get(0).getName());
             state.setState(State.INTRO);
             state.setIndex(0);
+            state.getGameState()[StateItem.MISSION_INDEX] = (byte) missionIndex;
+            state.getGameState()[StateItem.LOCATION_INDEX] = (byte) (locationIndex + 1);
+            state.getGameState()[StateItem.SCENE_INDEX] = 0;
             state.setIntroId(nextLocation.getIntroId());
             state.setOutroId(nextLocation.getOutroId());
             return state;

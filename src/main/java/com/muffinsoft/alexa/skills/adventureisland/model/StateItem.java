@@ -2,6 +2,11 @@ package com.muffinsoft.alexa.skills.adventureisland.model;
 
 public class StateItem {
 
+    public static final int TIER_INDEX = 0;
+    public static final int MISSION_INDEX = 1;
+    public static final int LOCATION_INDEX = 2;
+    public static final int SCENE_INDEX = 3;
+
     private String mission;
     private String location;
     private String scene;
@@ -9,6 +14,8 @@ public class StateItem {
     private int index;
     private String introId;
     private String outroId;
+    // game state is array of 4 indices: 1) Tier; 2) Mission; 3) Location; 4) Scene
+    private byte[] gameState;
 
     public String getMission() {
         return mission;
@@ -64,6 +71,14 @@ public class StateItem {
 
     public void setOutroId(String outroId) {
         this.outroId = outroId;
+    }
+
+    public byte[] getGameState() {
+        return gameState;
+    }
+
+    public void setGameState(byte[] gameState) {
+        this.gameState = gameState;
     }
 
     public String getIntroOutroId(State state) {
