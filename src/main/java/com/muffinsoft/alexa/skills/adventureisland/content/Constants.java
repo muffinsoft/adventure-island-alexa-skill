@@ -25,6 +25,8 @@ public class Constants {
     public static final String COIN_PLURAL = "coinPlural";
     public static final String YES = "Yes";
     public static final String NO = "No";
+    public static final String MIN_OBSTACLES_EXCLAIM = "minObstaclesExclamation";
+    public static final String MAX_OBSTACLES_EXCLAIM = "maxObstaclesExclamation";
     public static final String SELECT_MISSION = "selectMission";
     public static final String SELECT_MISSION2 = "selectMission2";
     public static final String USERNAME_PLACEHOLDER = "__USERNAME__";

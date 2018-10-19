@@ -6,6 +6,7 @@ import com.muffinsoft.alexa.skills.adventureisland.content.*;
 import com.muffinsoft.alexa.skills.adventureisland.model.*;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.*;
 import static com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager.getNumber;
@@ -48,46 +49,34 @@ public class SessionStateManager {
     private List<String> visitedLocations;
     private List<String> oldObstacles;
 
+    private final ThreadLocalRandom random = ThreadLocalRandom.current();
+
     public SessionStateManager(Map<String, Slot> slots, AttributesManager attributesManager) {
         this.attributesManager = attributesManager;
         this.sessionAttributes = attributesManager.getSessionAttributes();
         if (sessionAttributes == null || sessionAttributes.isEmpty()) {
-            initializeGame();
+            sessionAttributes = new HashMap<>();
         }
         populateFields();
         userReply = slots.get(slotName).getValue();
     }
 
-    private void initializeGame() {
-        sessionAttributes = new HashMap<>();
-        sessionAttributes.put(MISSION, ROOT);
-        sessionAttributes.put(LOCATION, ROOT);
-        sessionAttributes.put(SCENE, ROOT);
-        sessionAttributes.put(HEALTH, getNumber(HEALTH));
-        sessionAttributes.put(COINS, 0);
-        sessionAttributes.put(TOTAL_COINS, 0);
-        sessionAttributes.put(STATE, State.INTRO);
-        sessionAttributes.put(STATE_INDEX, 0);
-        sessionAttributes.put(VISITED_LOCATIONS, new ArrayList<String>());
-        sessionAttributes.put(OLD_OBSTACLES, new ArrayList<String>());
-    }
-
     private void populateFields() {
-        stateItem.setMission(String.valueOf(sessionAttributes.get(MISSION)));
-        stateItem.setLocation(String.valueOf(sessionAttributes.get(LOCATION)));
-        stateItem.setScene(String.valueOf(sessionAttributes.get(SCENE)));
-        stateItem.setState((State) sessionAttributes.get(STATE));
-        stateItem.setIndex((int) sessionAttributes.get(STATE_INDEX));
+        stateItem.setMission(String.valueOf(sessionAttributes.getOrDefault(MISSION, ROOT)));
+        stateItem.setLocation(String.valueOf(sessionAttributes.getOrDefault(LOCATION, ROOT)));
+        stateItem.setScene(String.valueOf(sessionAttributes.getOrDefault(SCENE, ROOT)));
+        stateItem.setState((State) sessionAttributes.getOrDefault(STATE, State.INTRO));
+        stateItem.setIndex((int) sessionAttributes.getOrDefault(STATE_INDEX, 0));
 
         userName = String.valueOf(sessionAttributes.get(USERNAME));
-        health = (int) sessionAttributes.get(HEALTH);
-        coins = (int) sessionAttributes.get(COINS);
-        totalCoins = (int) sessionAttributes.get(TOTAL_COINS);
+        health = (int) sessionAttributes.getOrDefault(HEALTH, getNumber(HEALTH));
+        coins = (int) sessionAttributes.getOrDefault(COINS, 0);
+        totalCoins = (int) sessionAttributes.getOrDefault(TOTAL_COINS, 0);
         Object obstacle = sessionAttributes.get(OBSTACLE);
         currentObstacle = obstacle != null ? String.valueOf(obstacle) : null;
 
-        visitedLocations = (List<String>) sessionAttributes.get(VISITED_LOCATIONS);
-        oldObstacles = (List<String>) sessionAttributes.get(OLD_OBSTACLES);
+        visitedLocations = (List<String>) sessionAttributes.getOrDefault(VISITED_LOCATIONS, new ArrayList<String>());
+        oldObstacles = (List<String>) sessionAttributes.getOrDefault(OLD_OBSTACLES, new ArrayList<String>());
     }
 
     private String capitalizeFirstLetter(String s) {

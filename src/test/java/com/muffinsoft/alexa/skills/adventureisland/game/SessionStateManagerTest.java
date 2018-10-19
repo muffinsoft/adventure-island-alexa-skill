@@ -45,14 +45,7 @@ class SessionStateManagerTest {
     void nextResponseTransitionToFirstMission() {
         String userName = "Test user";
         Map<String, Object> attributes = new HashMap<>();
-        attributes.put(MISSION, ROOT);
-        attributes.put(LOCATION, ROOT);
-        attributes.put(SCENE, ROOT);
-        attributes.put(STATE, State.INTRO);
         attributes.put(STATE_INDEX, 2);
-        attributes.put(COINS, 0);
-        attributes.put(TOTAL_COINS, 0);
-        attributes.put(HEALTH, getNumber(HEALTH));
         attributes.put(USERNAME, userName);
 
         String missionName = Constants.game.getMissions().get(0).getName();
@@ -74,12 +67,7 @@ class SessionStateManagerTest {
         attributes.put(MISSION, "royalRansom");
         attributes.put(LOCATION, "ancientTemple");
         attributes.put(SCENE, "templeHalls");
-        attributes.put(STATE_INDEX, 0);
-        attributes.put(COINS, 0);
-        attributes.put(TOTAL_COINS, 0);
-        attributes.put(HEALTH, getNumber(HEALTH));
         attributes.put(USERNAME, userName);
-        attributes.put(OLD_OBSTACLES, new ArrayList<>());
         SessionStateManager stateManager = getSessionStateManager(attributes);
         DialogItem dialogItem = stateManager.nextResponse();
         System.out.println(dialogItem.getResponseText());
@@ -92,14 +80,8 @@ class SessionStateManagerTest {
         attributes.put(MISSION, "royalRansom");
         attributes.put(LOCATION, "ancientTemple");
         attributes.put(SCENE, "ancientTemple");
-        attributes.put(STATE, State.INTRO);
         attributes.put(STATE_INDEX, 1);
-        attributes.put(COINS, 0);
-        attributes.put(TOTAL_COINS, 0);
-        attributes.put(HEALTH, getNumber(HEALTH));
         attributes.put(USERNAME, userName);
-        attributes.put(VISITED_LOCATIONS, new ArrayList<String>());
-        attributes.put(OLD_OBSTACLES, new ArrayList<>());
         SessionStateManager stateManager = getSessionStateManager(attributes);
         DialogItem dialogItem = stateManager.nextResponse();
 
@@ -116,12 +98,7 @@ class SessionStateManagerTest {
         attributes.put(LOCATION, "ancientTemple");
         attributes.put(SCENE, "templeHalls");
         attributes.put(STATE, State.ACTION);
-        attributes.put(STATE_INDEX, 0);
-        attributes.put(COINS, 0);
-        attributes.put(TOTAL_COINS, 0);
-        attributes.put(HEALTH, getNumber(HEALTH));
         attributes.put(USERNAME, userName);
-        attributes.put(OLD_OBSTACLES, new ArrayList<>());
         List<String> visitedLocations = new ArrayList<>();
         visitedLocations.add("ancientTemple");
         attributes.put(VISITED_LOCATIONS, visitedLocations);
