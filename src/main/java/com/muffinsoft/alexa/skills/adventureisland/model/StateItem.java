@@ -7,6 +7,8 @@ public class StateItem {
     private String scene;
     private State state;
     private int index;
+    private String introId;
+    private String outroId;
 
     public String getMission() {
         return mission;
@@ -46,5 +48,29 @@ public class StateItem {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public String getIntroId() {
+        return introId != null ? introId : "";
+    }
+
+    public void setIntroId(String introId) {
+        this.introId = introId;
+    }
+
+    public String getOutroId() {
+        return outroId != null ? outroId : "";
+    }
+
+    public void setOutroId(String outroId) {
+        this.outroId = outroId;
+    }
+
+    public String getIntroOutroId(State state) {
+        if (state == State.INTRO) {
+            return getIntroId();
+        } else {
+            return getOutroId();
+        }
     }
 }

@@ -133,7 +133,7 @@ public class SessionStateManager {
     }
 
     private String getSceneOutro() {
-        return getPhrase(getNameKey(State.OUTRO.getKey()));
+        return getPhrase(getNameKey(State.OUTRO));
     }
 
     private DialogItem getActionDialog() {
@@ -211,7 +211,7 @@ public class SessionStateManager {
                 return promptForMission();
             }
         }
-        String nameKey = getNameKey(stateItem.getState().getKey());
+        String nameKey = getNameKey(stateItem.getState());
         String expectedReply = ReplyManager.getReply(nameKey);
         String responseText;
         if (expectedReply != null) {
@@ -266,8 +266,8 @@ public class SessionStateManager {
         return new DialogItem(responseText.toString(), false, slotName, true);
     }
 
-    private String getNameKey(String key) {
-        return stateItem.getScene() + key + stateItem.getIndex();
+    private String getNameKey(State state) {
+        return stateItem.getScene() + stateItem.getIntroOutroId(state) + state.getKey() + stateItem.getIndex();
     }
 
     private void getNextScene() {

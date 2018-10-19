@@ -61,12 +61,15 @@ public class Game {
         // root menu, no mission selected. Normally this shouldn't be called, as
         // we do not go to the first mission automatically
         if (Objects.equals(state.getMission(), Constants.ROOT)) {
-            String nextMissionName = missions.get(0).getName();
+            Mission nextMission = missions.get(0);
+            String nextMissionName = nextMission.getName();
             String nextMissionKey = PhraseManager.nameToKey(nextMissionName);
             state.setMission(nextMissionKey);
             state.setLocation(nextMissionKey);
             state.setScene(nextMissionKey);
             state.setIndex(0);
+            state.setIntroId(nextMission.getIntroId());
+            state.setOutroId(nextMission.getOutroId());
             return state;
         }
 
@@ -75,11 +78,14 @@ public class Game {
 
         // mission intro played, need to go to the first location
         if (Objects.equals(state.getMission(), state.getLocation())) {
-            String nextLocationName = currentMission.getLocations().get(0).getName();
+            Location nextLocation = currentMission.getLocations().get(0);
+            String nextLocationName = nextLocation.getName();
             String nextLocationKey = PhraseManager.nameToKey(nextLocationName);
             state.setLocation(nextLocationKey);
             state.setScene(nextLocationKey);
             state.setIndex(0);
+            state.setIntroId(nextLocation.getIntroId());
+            state.setOutroId(nextLocation.getOutroId());
             return state;
         }
 
@@ -88,10 +94,13 @@ public class Game {
 
         // location intro played, need to go to the first activity
         if (Objects.equals(state.getLocation(), state.getScene())) {
-            String nextActivityName = currentLocation.getActivities().get(0).getName();
+            Activity nextActivity = currentLocation.getActivities().get(0);
+            String nextActivityName = nextActivity.getName();
             String nextActivityKey = PhraseManager.nameToKey(nextActivityName);
             state.setScene(nextActivityKey);
             state.setIndex(0);
+            state.setIntroId(nextActivity.getIntroId());
+            state.setOutroId(nextActivity.getOutroId());
             return state;
         }
 
@@ -106,9 +115,12 @@ public class Game {
 
         // next activity (scene)
         if (activityIndex < currentLocation.getActivities().size() - 1) {
-            state.setScene(currentLocation.getActivities().get(activityIndex + 1).getName());
+            Activity nextActivity = currentLocation.getActivities().get(activityIndex + 1);
+            state.setScene(nextActivity.getName());
             state.setState(State.INTRO);
             state.setIndex(0);
+            state.setIntroId(nextActivity.getIntroId());
+            state.setOutroId(nextActivity.getOutroId());
             return state;
         }
 
@@ -127,6 +139,8 @@ public class Game {
             state.setScene(nextLocation.getActivities().get(0).getName());
             state.setState(State.INTRO);
             state.setIndex(0);
+            state.setIntroId(nextLocation.getIntroId());
+            state.setOutroId(nextLocation.getOutroId());
             return state;
         }
 
