@@ -110,12 +110,12 @@ public class SessionStateManager {
 
     private DialogItem getFailedChoice() {
         String basicKey = State.FAILED.getKey().toLowerCase();
-        if (userReply.contains(getPhrase(basicKey + 1))) {
+        if (userReply.contains(ReplyManager.getReply(basicKey + 1))) {
             stateItem.setState(State.ACTION);
             stateItem.setIndex(0);
             return getActionDialog();
         }
-        if (userReply.contains(getPhrase(basicKey + 2))) {
+        if (userReply.contains(ReplyManager.getReply(basicKey + 2))) {
             stateItem.setMission(ROOT);
             stateItem.setLocation(ROOT);
             stateItem.setScene(ROOT);
@@ -166,6 +166,7 @@ public class SessionStateManager {
 
         String speechText = "";
 
+        // TODO: reset currentObstacle when the action is over?
         if (currentObstacle != null) {
 
             toNextExclamation--;

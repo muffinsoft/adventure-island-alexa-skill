@@ -8,6 +8,7 @@ import com.amazon.ask.model.Slot;
 import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
 import com.muffinsoft.alexa.skills.adventureisland.content.ObstacleManager;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
+import com.muffinsoft.alexa.skills.adventureisland.content.ReplyManager;
 import com.muffinsoft.alexa.skills.adventureisland.model.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -74,7 +75,7 @@ class SessionStateManagerTest {
     }
 
     @Test
-    void nextResponseAskPassword() {
+    void nextResponseAskPasswordWrong() {
         String userName = "Test user";
         Map<String, Object> attributes = new HashMap<>();
         attributes.put(MISSION, "royalRansom");
@@ -86,6 +87,23 @@ class SessionStateManagerTest {
         DialogItem dialogItem = stateManager.nextResponse();
 
         String expected = getPhrase("ancientTemple" + State.INTRO.getKey() + 1 + NO);
+
+        assertTrue(dialogItem.getResponseText().startsWith(expected));
+    }
+
+    @Test
+    void nextResponseAskPasswordRight() {
+        String userName = "Test user";
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put(MISSION, "royalRansom");
+        attributes.put(LOCATION, "ancientTemple");
+        attributes.put(SCENE, "ancientTemple");
+        attributes.put(STATE_INDEX, 1);
+        attributes.put(USERNAME, userName);
+        SessionStateManager stateManager = getSessionStateManager(attributes, "password");
+        DialogItem dialogItem = stateManager.nextResponse();
+
+        String expected = getPhrase("ancientTemple" + State.INTRO.getKey() + 1 + YES);
 
         assertTrue(dialogItem.getResponseText().startsWith(expected));
     }
@@ -111,6 +129,64 @@ class SessionStateManagerTest {
         String preObstacle = ObstacleManager.getPreObstacle(stateItem, obstacle);
 
         assertTrue(dialogItem.getResponseText().contains(preObstacle));
+    }
+
+    @Test
+    void sceneFail() {
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put(MISSION, "royalRansom");
+        attributes.put(LOCATION, "ancientTemple");
+        attributes.put(SCENE, "templeHalls");
+        attributes.put(STATE, State.ACTION);
+        attributes.put(STATE_INDEX, 1);
+        attributes.put(HEALTH, 1);
+        attributes.put(OBSTACLE, "snakes");
+        SessionStateManager stateManager = getSessionStateManager(attributes, "whatever");
+        DialogItem dialogItem = stateManager.nextResponse();
+
+        String expected = getPhrase(SCENE_FAIL);
+        assertEquals(expected, dialogItem.getResponseText());
+
+    }
+
+    @Test
+    void afterFailureRestart() {
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put(MISSION, "royalRansom");
+        attributes.put(LOCATION, "ancientTemple");
+        attributes.put(SCENE, "templeHalls");
+        attributes.put(STATE, State.FAILED);
+
+        String reply = ReplyManager.getReply(State.FAILED.getKey().toLowerCase() + 1);
+
+        SessionStateManager stateManager = getSessionStateManager(attributes, reply);
+        DialogItem dialogItem = stateManager.nextResponse();
+
+        StateItem state = stateFromAttributes(attributes);
+        state.setIndex(0);
+        String obstacle = Constants.game.nextObstacle(state);
+
+        assertTrue(dialogItem.getResponseText().toLowerCase().contains(obstacle));
+
+    }
+
+    @Test
+    void afterFailureNewMission() {
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put(MISSION, "royalRansom");
+        attributes.put(LOCATION, "ancientTemple");
+        attributes.put(SCENE, "templeHalls");
+        attributes.put(STATE, State.FAILED);
+
+        String reply = ReplyManager.getReply(State.FAILED.getKey().toLowerCase() + 2);
+
+        SessionStateManager stateManager = getSessionStateManager(attributes, reply);
+        DialogItem dialogItem = stateManager.nextResponse();
+
+        String expected = getPhrase(SELECT_MISSION);
+
+        assertTrue(dialogItem.getResponseText().startsWith(expected));
+
     }
 
     private StateItem stateFromAttributes(Map<String, Object> attributes) {
