@@ -20,9 +20,6 @@ public class Constants {
     public static final String ACTION_APPROVE = "actionApprove";
     public static final String ACTION_FAIL = "actionFail";
     public static final String COIN_NOT_PICKED = "coinNotPicked";
-    public static final String MIN_OBSTACLES_TO_COIN = "minObstaclesToCoin";
-    public static final String MAX_OBSTACLES_TO_COIN = "maxObstaclesToCoin";
-    public static final String COUNT = "Count";
     public static final String YOU_HAVE = "youHave";
     public static final String COIN_SINGLE = "coinSingle";
     public static final String COIN_PLURAL = "coinPlural";

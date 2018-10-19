@@ -48,9 +48,8 @@ class SessionStateManagerTest {
         attributes.put(MISSION, ROOT);
         attributes.put(LOCATION, ROOT);
         attributes.put(SCENE, ROOT);
-        int sceneState = Integer.parseInt(getPhrase(ROOT + State.INTRO.getKey() + COUNT));
         attributes.put(STATE, State.INTRO);
-        attributes.put(STATE_INDEX, sceneState);
+        attributes.put(STATE_INDEX, 2);
         attributes.put(COINS, 0);
         attributes.put(TOTAL_COINS, 0);
         attributes.put(HEALTH, getNumber(HEALTH));
@@ -75,8 +74,7 @@ class SessionStateManagerTest {
         attributes.put(MISSION, "royalRansom");
         attributes.put(LOCATION, "ancientTemple");
         attributes.put(SCENE, "templeHalls");
-        int sceneState = Integer.parseInt(getPhrase("templeHalls" + State.INTRO.getKey() + COUNT));
-        attributes.put(STATE_INDEX, sceneState - 1);
+        attributes.put(STATE_INDEX, 0);
         attributes.put(COINS, 0);
         attributes.put(TOTAL_COINS, 0);
         attributes.put(HEALTH, getNumber(HEALTH));
