@@ -52,6 +52,7 @@ class SessionStateManagerTest {
         attributes.put(STATE, State.INTRO);
         attributes.put(STATE_INDEX, sceneState);
         attributes.put(COINS, 0);
+        attributes.put(TOTAL_COINS, 0);
         attributes.put(HEALTH, getNumber(HEALTH));
         attributes.put(USERNAME, userName);
 
@@ -77,6 +78,7 @@ class SessionStateManagerTest {
         int sceneState = Integer.parseInt(getPhrase("templeHalls" + State.INTRO.getKey() + COUNT));
         attributes.put(STATE_INDEX, sceneState - 1);
         attributes.put(COINS, 0);
+        attributes.put(TOTAL_COINS, 0);
         attributes.put(HEALTH, getNumber(HEALTH));
         attributes.put(USERNAME, userName);
         attributes.put(OLD_OBSTACLES, new ArrayList<>());
@@ -95,6 +97,7 @@ class SessionStateManagerTest {
         attributes.put(STATE, State.INTRO);
         attributes.put(STATE_INDEX, 1);
         attributes.put(COINS, 0);
+        attributes.put(TOTAL_COINS, 0);
         attributes.put(HEALTH, getNumber(HEALTH));
         attributes.put(USERNAME, userName);
         attributes.put(VISITED_LOCATIONS, new ArrayList<String>());
@@ -117,6 +120,7 @@ class SessionStateManagerTest {
         attributes.put(STATE, State.ACTION);
         attributes.put(STATE_INDEX, 0);
         attributes.put(COINS, 0);
+        attributes.put(TOTAL_COINS, 0);
         attributes.put(HEALTH, getNumber(HEALTH));
         attributes.put(USERNAME, userName);
         attributes.put(OLD_OBSTACLES, new ArrayList<>());

@@ -29,6 +29,7 @@ public class SessionStateManager {
     static final String USERNAME = "userName";
     static final String HEALTH = "health";
     static final String COINS = "coins";
+    static final String TOTAL_COINS = "totalCoins";
     static final String VISITED_LOCATIONS = "visitedLocations";
     static final String OLD_OBSTACLES = "oldObstacles";
 
@@ -41,6 +42,7 @@ public class SessionStateManager {
     private String userName;
     private int health;
     private int coins;
+    private int totalCoins;
     private String currentObstacle;
 
     private List<String> visitedLocations;
@@ -63,6 +65,7 @@ public class SessionStateManager {
         sessionAttributes.put(SCENE, ROOT);
         sessionAttributes.put(HEALTH, getNumber(HEALTH));
         sessionAttributes.put(COINS, 0);
+        sessionAttributes.put(TOTAL_COINS, 0);
         sessionAttributes.put(STATE, State.INTRO);
         sessionAttributes.put(STATE_INDEX, 0);
         sessionAttributes.put(VISITED_LOCATIONS, new ArrayList<String>());
@@ -79,6 +82,7 @@ public class SessionStateManager {
         userName = String.valueOf(sessionAttributes.get(USERNAME));
         health = (int) sessionAttributes.get(HEALTH);
         coins = (int) sessionAttributes.get(COINS);
+        totalCoins = (int) sessionAttributes.get(TOTAL_COINS);
         Object obstacle = sessionAttributes.get(OBSTACLE);
         currentObstacle = obstacle != null ? String.valueOf(obstacle) : null;
 
@@ -114,12 +118,7 @@ public class SessionStateManager {
         if (expectedReplies != null && expectedReplies.contains(userReply)) {
             coins++;
             if (coins >= getNumber(COINS_TO_COLLECT)) {
-                stateItem.setIndex(0);
-                String sceneOutro = getSceneOutro();
-                getNextScene();
-                DialogItem response = getIntroOutroDialog();
-                response.setResponseText(combineWithBreak(sceneOutro, response.getResponseText()));
-                return response;
+                return finishScene();
             }
             String coinText = coins == 1 ? COIN_SINGLE : COIN_PLURAL;
             speechText = getPhrase(ACTION_APPROVE) + " " + getPhrase(YOU_HAVE) + " " +
@@ -131,6 +130,17 @@ public class SessionStateManager {
         stateItem.setIndex(stateItem.getIndex() + 1);
         speechText = nextObstacle(speechText);
         return new DialogItem(speechText, false, slotName);
+    }
+
+    private DialogItem finishScene() {
+        totalCoins += coins;
+        coins = 0;
+        stateItem.setIndex(0);
+        String sceneOutro = getSceneOutro();
+        getNextScene();
+        DialogItem response = getIntroOutroDialog();
+        response.setResponseText(combineWithBreak(sceneOutro, response.getResponseText()));
+        return response;
     }
 
     private String getSceneOutro() {
@@ -174,11 +184,11 @@ public class SessionStateManager {
         DialogItem dialog = getResponse();
 
         while (isLastStep()) {
-            if (Objects.equals(stateItem.getLocation(), stateItem.getScene())) {
+            getNextScene();
+            if (stateItem.getState() != State.ACTION) {
                 if (stateItem.getState() == State.OUTRO) {
                     visitedLocations.add(stateItem.getLocation());
                 }
-                getNextScene();
                 String responseText = dialog.getResponseText();
                 dialog = getResponse();
                 dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
@@ -201,8 +211,8 @@ public class SessionStateManager {
     }
 
     private boolean isLastStep() {
-        int maxStates = Integer.parseInt(getPhrase(stateItem.getScene() + stateItem.getState().getKey() + COUNT));
-        return stateItem.getIndex() >= maxStates;
+        String nextPhrase = getPhrase(stateItem.getScene() + stateItem.getState().getKey() + stateItem.getIndex());
+        return nextPhrase == null;
     }
 
     private DialogItem getResponse() {
@@ -283,6 +293,7 @@ public class SessionStateManager {
         sessionAttributes.put(STATE_INDEX, stateItem.getIndex());
 
         sessionAttributes.put(COINS, coins);
+        sessionAttributes.put(TOTAL_COINS, totalCoins);
         sessionAttributes.put(HEALTH, health);
         sessionAttributes.put(VISITED_LOCATIONS, visitedLocations);
         sessionAttributes.put(OLD_OBSTACLES, oldObstacles);
