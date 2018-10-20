@@ -2,11 +2,12 @@ package com.muffinsoft.alexa.skills.adventureisland.game;
 
 import com.amazon.ask.attributes.AttributesManager;
 import com.amazon.ask.model.Slot;
-import com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager;
 import com.muffinsoft.alexa.skills.adventureisland.content.ObstacleManager;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.content.ReplyManager;
 import com.muffinsoft.alexa.skills.adventureisland.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -16,11 +17,11 @@ import static com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager
 import static com.muffinsoft.alexa.skills.adventureisland.content.ObstacleManager.getObstacleExplanation;
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getExclamation;
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getPhrase;
-import static com.muffinsoft.alexa.skills.adventureisland.model.StateItem.LOCATION_INDEX;
-import static com.muffinsoft.alexa.skills.adventureisland.model.StateItem.SCENE_INDEX;
-import static com.muffinsoft.alexa.skills.adventureisland.model.StateItem.TIER_INDEX;
+import static com.muffinsoft.alexa.skills.adventureisland.model.StateItem.*;
 
 public class SessionStateManager {
+
+    private static final Logger logger = LoggerFactory.getLogger(SessionStateManager.class);
 
     /**
      * Below are keys for session attributes. They aren't used anywhere
@@ -60,6 +61,7 @@ public class SessionStateManager {
 
     public SessionStateManager(Map<String, Slot> slots, AttributesManager attributesManager) {
         this.attributesManager = attributesManager;
+        logger.debug("Slot received: " + slots.get(slotName).getValue());
         this.sessionAttributes = attributesManager.getSessionAttributes();
         if (sessionAttributes == null || sessionAttributes.isEmpty()) {
             sessionAttributes = new HashMap<>();
@@ -96,6 +98,7 @@ public class SessionStateManager {
 
     public DialogItem nextResponse() {
 
+        logger.debug("Starting to process user reply {}", userReply);
         DialogItem dialog;
 
         if (stateItem.getState() == State.FAILED) {
@@ -242,10 +245,10 @@ public class SessionStateManager {
     }
 
     private DialogItem getIntroOutroDialog() {
-        if (Objects.equals(stateItem.getMission(), ROOT) && stateItem.getIndex() == 1) {
-            userName = userReply;
-            sessionAttributes.put(USERNAME, userName);
-        }
+//        if (Objects.equals(stateItem.getMission(), ROOT) && stateItem.getIndex() == 1) {
+//            userName = userReply;
+//            sessionAttributes.put(USERNAME, userName);
+//        }
 
         DialogItem dialog = getResponse();
 
@@ -316,6 +319,7 @@ public class SessionStateManager {
         List<Mission> missions = game.getMissions();
         for (int i = 0; i < missions.size(); i++) {
             Mission mission = missions.get(i);
+            logger.debug("Comparing reply {} with mission name {}", userReply, mission.getName());
             String missionName = mission.getName();
             if (missionName.contains(userReply) || missionName.toLowerCase().contains(userReply)) {
                 String key = PhraseManager.nameToKey(mission.getName());
