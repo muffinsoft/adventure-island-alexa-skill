@@ -12,6 +12,10 @@
       "templeEscape": {
         "explanation" : "If we hear arrows, say 'woah' to duck.",
         "obstacleIndices": [0, 1, 2, 3]
+      },
+      "finale": {
+        "explanation" : "",
+        "obstacleIndices": [0, 1, 2, 3]
       }
     },
   "pirateBay" :
@@ -26,6 +30,10 @@
       },
       "seeMonsterBay": {
         "explanation": "",
+        "obstacleIndices": []
+      },
+      "finale": {
+        "explanation" : "",
         "obstacleIndices": []
       }
     }

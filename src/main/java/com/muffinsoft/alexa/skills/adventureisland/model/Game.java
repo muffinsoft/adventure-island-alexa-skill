@@ -84,7 +84,7 @@ public class Game {
         Location currentLocation = currentMission.getLocations().get(locationIndex);
 
         // location intro played, need to go to the first activity
-        if (Objects.equals(state.getLocation(), state.getScene())) {
+        if (Objects.equals(state.getLocation(), state.getScene()) && state.getState() != State.OUTRO) {
             Activity nextActivity = currentLocation.getActivities().get(0);
             String nextActivityName = nextActivity.getName();
             String nextActivityKey = PhraseManager.nameToKey(nextActivityName);
@@ -105,10 +105,10 @@ public class Game {
             return state;
         }
 
-        int activityIndex = getIndexByName(currentLocation.getActivities(), state.getScene());
+        int activityIndex = state.getSceneIndex();
 
         // next activity (scene)
-        if (activityIndex < currentLocation.getActivities().size() - 1) {
+        if (state.getState() != State.OUTRO && activityIndex < currentLocation.getActivities().size() - 1) {
             Activity nextActivity = currentLocation.getActivities().get(activityIndex + 1);
             state.setScene(PhraseManager.nameToKey(nextActivity.getName()));
             state.setState(State.INTRO);

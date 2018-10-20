@@ -99,6 +99,37 @@ class SessionStateManagerTest {
     }
 
     @Test
+    void nextResponseMissionIntro() {
+        String userName = "Test user";
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put(MISSION, "royalRansom");
+        attributes.put(LOCATION, "royalRansom");
+        attributes.put(SCENE, "royalRansom");
+        attributes.put(USERNAME, userName);
+        attributes.put(STATE, State.INTRO);
+        attributes.put(STATE_INDEX, 0);
+        SessionStateManager stateManager = getSessionStateManager(attributes, "ransom");
+        DialogItem dialogItem = stateManager.nextResponse();
+        System.out.println(dialogItem.getResponseText());
+    }
+
+    @Test
+    void nextResponseQuitLocation() {
+        String userName = "Test user";
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put(MISSION, "royalRansom");
+        attributes.put(LOCATION, "ancientTemple");
+        attributes.put(SCENE, "ancientTemple");
+        attributes.put(SCENE_INDEX, 4);
+        attributes.put(USERNAME, userName);
+        attributes.put(STATE, State.OUTRO);
+        attributes.put(STATE_INDEX, 1);
+        SessionStateManager stateManager = getSessionStateManager(attributes, "mine");
+        DialogItem dialogItem = stateManager.nextResponse();
+        System.out.println(dialogItem.getResponseText());
+    }
+
+    @Test
     void nextResponseAskPasswordWrong() {
         String userName = "Test user";
         Map<String, Object> attributes = new HashMap<>();

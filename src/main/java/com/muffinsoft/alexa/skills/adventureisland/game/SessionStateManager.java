@@ -109,7 +109,7 @@ public class SessionStateManager {
 
         if (stateItem.getState() == State.FAILED) {
             dialog = getFailedChoice();
-        } else if (stateItem.getState() == State.INTRO) {
+        } else if (stateItem.getState() != State.ACTION) {
             dialog = getIntroOutroDialog();
         } else {
             dialog = getActionDialog();
@@ -263,8 +263,9 @@ public class SessionStateManager {
                     dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
                     return dialog;
                 }
+            } else {
+                getNextScene();
             }
-            getNextScene();
             if (stateItem.getState() != State.ACTION) {
                 if (stateItem.getState() == State.OUTRO) {
                     visitedLocations.add(stateItem.getLocation());

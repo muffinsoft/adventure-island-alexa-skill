@@ -15,14 +15,14 @@
     {
       "name" : "spikes",
       "responses" : ["whee"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "If you hear floor spikes, say 'whee' to jump over.",
+      "headsUp" : "Floor spikes!"
     },
     {
       "name" : "arrows",
       "responses" : ["woah", "whoa"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "If we hear arrows, say 'woah' to duck.",
+      "headsUp" : "Arrows there!"
     },
     {
       "name" : "swinging axe",

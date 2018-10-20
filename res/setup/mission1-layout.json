@@ -43,13 +43,13 @@
         },
         {
           "name": "Temple Escape",
-          "obstaclesTier1": [],
+          "obstaclesTier1": ["treasure", "arrows", "darts", "treasure", "spikes", "darts", "treasure", "darts", "snakes", "treasure", "arrows", "darts", "treasure", "arrows", "spikes", "treasure", "darts", "treasure", "snakes", "spikes", "treasure", "arrows", "darts", "treasure", "treasure"],
           "obstaclesTier2": [],
           "obstaclesTier3": []
         },
         {
           "name": "Finale",
-          "obstaclesTier1": [],
+          "obstaclesTier1": ["treasure", "arrows", "darts", "treasure", "spikes", "darts", "treasure", "darts", "snakes", "treasure", "arrows", "darts", "treasure", "arrows", "spikes", "treasure", "darts", "treasure", "snakes", "spikes", "treasure", "arrows", "darts", "treasure", "treasure"],
           "obstaclesTier2": [],
           "obstaclesTier3": []
         }
