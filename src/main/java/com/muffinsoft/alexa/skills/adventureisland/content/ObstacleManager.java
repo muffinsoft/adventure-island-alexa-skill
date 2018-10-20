@@ -5,6 +5,8 @@ import com.muffinsoft.alexa.skills.adventureisland.model.Mission;
 import com.muffinsoft.alexa.skills.adventureisland.model.ObstacleItem;
 import com.muffinsoft.alexa.skills.adventureisland.model.ObstacleSetupItem;
 import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -12,6 +14,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.contentLoader;
 
 public class ObstacleManager {
+
+    private static final Logger logger = LoggerFactory.getLogger(ObstacleManager.class);
 
     private static final String PATH = "phrases/obstacles.json";
     private static final String PATH_SETUP = "phrases/obstacles-setup.json";
@@ -55,6 +59,7 @@ public class ObstacleManager {
     }
 
     public static String getObstacleExplanation(StateItem state) {
+        logger.debug("Getting obstacle explanation for location {},  scene {}", state.getLocation(), state.getScene());
         return obstacleSetup.get(state.getLocation()).get(state.getScene()).getExplanation();
     }
 

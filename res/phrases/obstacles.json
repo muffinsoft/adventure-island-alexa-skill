@@ -13,7 +13,7 @@
       "headsUp" : "Darts coming!"
     },
     {
-      "name" : "floor spikes",
+      "name" : "spikes",
       "responses" : ["whee"],
       "preObstacle" : "",
       "headsUp" : ""

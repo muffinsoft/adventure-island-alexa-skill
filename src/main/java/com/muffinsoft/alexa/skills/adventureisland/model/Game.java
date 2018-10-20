@@ -34,20 +34,8 @@ public class Game {
         throw new NoSuchElementException("Element " + name + " was not found");
     }
 
-    public <T extends Named> T getEntityByName(List<T> entities, String name) {
-        for (T t : entities) {
-            String nameAsKey = PhraseManager.nameToKey(t.getName());
-            if (Objects.equals(name, nameAsKey)) {
-                return t;
-            }
-        }
-        throw new NoSuchElementException("Element " + name + " was not found");
-    }
-
     public String nextObstacle(StateItem state) {
-        Mission currentMission = getEntityByName(missions, state.getMission());
-        Location currentLocation = getEntityByName(currentMission.getLocations(), state.getLocation());
-        Activity currentActivity = getEntityByName(currentLocation.getActivities(), state.getScene());
+        Activity currentActivity = missions.get(state.getMissionIndex()).getLocations().get(state.getLocationIndex()).getActivities().get(state.getSceneIndex());
         List<String> obstacles = currentActivity.getObstaclesTier1();
         int obstacleIndex = state.getIndex();
         if (obstacleIndex >= obstacles.size()) {
@@ -68,7 +56,7 @@ public class Game {
             state.setLocation(nextMissionKey);
             state.setScene(nextMissionKey);
             state.setIndex(0);
-            state.getGameState()[StateItem.MISSION_INDEX] = 0;
+            state.setMissionIndex(0);
             state.setIntroId(nextMission.getIntroId());
             state.setOutroId(nextMission.getOutroId());
             return state;
@@ -85,8 +73,8 @@ public class Game {
             state.setLocation(nextLocationKey);
             state.setScene(nextLocationKey);
             state.setIndex(0);
-            state.getGameState()[StateItem.MISSION_INDEX] = (byte) missionIndex;
-            state.getGameState()[StateItem.LOCATION_INDEX] = 0;
+            state.setMissionIndex(missionIndex);
+            state.setLocationIndex(0);
             state.setIntroId(nextLocation.getIntroId());
             state.setOutroId(nextLocation.getOutroId());
             return state;
@@ -102,9 +90,9 @@ public class Game {
             String nextActivityKey = PhraseManager.nameToKey(nextActivityName);
             state.setScene(nextActivityKey);
             state.setIndex(0);
-            state.getGameState()[StateItem.MISSION_INDEX] = (byte) missionIndex;
-            state.getGameState()[StateItem.LOCATION_INDEX] = (byte) locationIndex;
-            state.getGameState()[StateItem.SCENE_INDEX] = 0;
+            state.setMissionIndex(missionIndex);
+            state.setLocationIndex(locationIndex);
+            state.setSceneIndex(0);
             state.setIntroId(nextActivity.getIntroId());
             state.setOutroId(nextActivity.getOutroId());
             return state;
@@ -122,12 +110,12 @@ public class Game {
         // next activity (scene)
         if (activityIndex < currentLocation.getActivities().size() - 1) {
             Activity nextActivity = currentLocation.getActivities().get(activityIndex + 1);
-            state.setScene(nextActivity.getName());
+            state.setScene(PhraseManager.nameToKey(nextActivity.getName()));
             state.setState(State.INTRO);
             state.setIndex(0);
-            state.getGameState()[StateItem.MISSION_INDEX] = (byte) missionIndex;
-            state.getGameState()[StateItem.LOCATION_INDEX] = (byte) locationIndex;
-            state.getGameState()[StateItem.SCENE_INDEX] = (byte) (activityIndex + 1);
+            state.setMissionIndex(missionIndex);
+            state.setLocationIndex(locationIndex);
+            state.setSceneIndex(activityIndex + 1);
             state.setIntroId(nextActivity.getIntroId());
             state.setOutroId(nextActivity.getOutroId());
             return state;
@@ -144,13 +132,13 @@ public class Game {
         // proceed to the next location
         if (locationIndex < currentMission.getLocations().size() - 1) {
             Location nextLocation = currentMission.getLocations().get(locationIndex + 1);
-            state.setLocation(nextLocation.getName());
-            state.setScene(nextLocation.getActivities().get(0).getName());
+            state.setLocation(PhraseManager.nameToKey(nextLocation.getName()));
+            state.setScene(PhraseManager.nameToKey(nextLocation.getActivities().get(0).getName()));
             state.setState(State.INTRO);
             state.setIndex(0);
-            state.getGameState()[StateItem.MISSION_INDEX] = (byte) missionIndex;
-            state.getGameState()[StateItem.LOCATION_INDEX] = (byte) (locationIndex + 1);
-            state.getGameState()[StateItem.SCENE_INDEX] = 0;
+            state.setMissionIndex(missionIndex);
+            state.setLocationIndex(locationIndex + 1);
+            state.setSceneIndex(0);
             state.setIntroId(nextLocation.getIntroId());
             state.setOutroId(nextLocation.getOutroId());
             return state;

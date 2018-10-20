@@ -35,29 +35,7 @@ class SessionStateManagerTest {
     void nextResponseRootIntro() {
         SessionStateManager stateManager = getSessionStateManager(Collections.emptyMap());
         DialogItem dialogItem = stateManager.nextResponse();
-        String expected = PhraseManager.getPhrase(Constants.SELECT_MISSION);
-        for (Mission mission : Constants.game.getMissions()) {
-            expected += mission.getName() + ". ";
-        }
-        assertEquals(expected, dialogItem.getResponseText());
-    }
-
-    @Test
-    void nextResponseTransitionToFirstMission() {
-        String userName = "Test user";
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put(STATE_INDEX, 2);
-        attributes.put(USERNAME, userName);
-
-        String missionName = Constants.game.getMissions().get(0).getName();
-
-        SessionStateManager stateManager = getSessionStateManager(attributes, missionName);
-        DialogItem dialogItem = stateManager.nextResponse();
-
-        String key = nameToKey(missionName);
-
-        String expected = getPhrase(key + State.INTRO.getKey() + 0);
-        expected = expected.replace(USERNAME_PLACEHOLDER, userName);
+        String expected = PhraseManager.getPhrase(ROOT + State.INTRO.getKey() + 0);
         assertEquals(expected, dialogItem.getResponseText());
     }
 
@@ -70,6 +48,52 @@ class SessionStateManagerTest {
         attributes.put(SCENE, "templeHalls");
         attributes.put(USERNAME, userName);
         SessionStateManager stateManager = getSessionStateManager(attributes);
+        DialogItem dialogItem = stateManager.nextResponse();
+        System.out.println(dialogItem.getResponseText());
+    }
+
+    @Test
+    void nextResponseTransitionToNextAction() {
+        String userName = "Test user";
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put(MISSION, "royalRansom");
+        attributes.put(LOCATION, "ancientTemple");
+        attributes.put(SCENE, "templeHalls");
+        attributes.put(USERNAME, userName);
+        attributes.put(OBSTACLE, "treasure");
+        attributes.put(STATE, State.ACTION);
+        attributes.put(COINS, 4);
+        SessionStateManager stateManager = getSessionStateManager(attributes, "mine");
+        DialogItem dialogItem = stateManager.nextResponse();
+        System.out.println(dialogItem.getResponseText());
+    }
+
+    @Test
+    void nextResponseMissionsPrompt() {
+        String userName = "Test user";
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put(MISSION, ROOT);
+        attributes.put(LOCATION, ROOT);
+        attributes.put(SCENE, ROOT);
+        attributes.put(USERNAME, userName);
+        attributes.put(STATE, State.INTRO);
+        attributes.put(STATE_INDEX, 2);
+        SessionStateManager stateManager = getSessionStateManager(attributes, "hey");
+        DialogItem dialogItem = stateManager.nextResponse();
+        System.out.println(dialogItem.getResponseText());
+    }
+
+    @Test
+    void nextResponseTransitionToMission() {
+        String userName = "Test user";
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put(MISSION, ROOT);
+        attributes.put(LOCATION, ROOT);
+        attributes.put(SCENE, ROOT);
+        attributes.put(USERNAME, userName);
+        attributes.put(STATE, State.INTRO);
+        attributes.put(STATE_INDEX, 3);
+        SessionStateManager stateManager = getSessionStateManager(attributes, "ransom");
         DialogItem dialogItem = stateManager.nextResponse();
         System.out.println(dialogItem.getResponseText());
     }
@@ -120,7 +144,7 @@ class SessionStateManagerTest {
         List<String> visitedLocations = new ArrayList<>();
         visitedLocations.add("ancientTemple");
         attributes.put(VISITED_LOCATIONS, visitedLocations);
-        SessionStateManager stateManager = getSessionStateManager(attributes, "i'm ready");
+        SessionStateManager stateManager = getSessionStateManager(attributes, "ready");
         DialogItem dialogItem = stateManager.nextResponse();
 
         StateItem stateItem = stateFromAttributes(attributes);

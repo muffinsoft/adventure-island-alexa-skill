@@ -14,8 +14,9 @@ public class Constants {
 
     public static final String ROOT = "root";
     public static final String DEMO = "demo";
+    public static final String NAME = "name";
     public static final String PROMPT = "Prompt";
-    public static final String READY = "Ready";
+    public static final String READY = "ready";
     public static final String SILENT_SCENE = "finale";
     public static final String COINS_TO_COLLECT = "coinsToCollect";
     public static final String SCENE_CONFIRM = "sceneConfirm";

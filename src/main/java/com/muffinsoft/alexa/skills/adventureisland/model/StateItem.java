@@ -2,11 +2,6 @@ package com.muffinsoft.alexa.skills.adventureisland.model;
 
 public class StateItem {
 
-    public static final int TIER_INDEX = 0;
-    public static final int MISSION_INDEX = 1;
-    public static final int LOCATION_INDEX = 2;
-    public static final int SCENE_INDEX = 3;
-
     private String mission;
     private String location;
     private String scene;
@@ -14,8 +9,10 @@ public class StateItem {
     private int index;
     private String introId;
     private String outroId;
-    // game state is array of 4 indices: 1) Tier; 2) Mission; 3) Location; 4) Scene
-    private byte[] gameState;
+    private int tierIndex;
+    private int missionIndex;
+    private int locationIndex;
+    private int sceneIndex;
 
     public String getMission() {
         return mission;
@@ -73,12 +70,36 @@ public class StateItem {
         this.outroId = outroId;
     }
 
-    public byte[] getGameState() {
-        return gameState;
+    public int getTierIndex() {
+        return tierIndex;
     }
 
-    public void setGameState(byte[] gameState) {
-        this.gameState = gameState;
+    public void setTierIndex(int tierIndex) {
+        this.tierIndex = tierIndex;
+    }
+
+    public int getMissionIndex() {
+        return missionIndex;
+    }
+
+    public void setMissionIndex(int missionIndex) {
+        this.missionIndex = missionIndex;
+    }
+
+    public int getLocationIndex() {
+        return locationIndex;
+    }
+
+    public void setLocationIndex(int locationIndex) {
+        this.locationIndex = locationIndex;
+    }
+
+    public int getSceneIndex() {
+        return sceneIndex;
+    }
+
+    public void setSceneIndex(int sceneIndex) {
+        this.sceneIndex = sceneIndex;
     }
 
     public String getIntroOutroId(State state) {

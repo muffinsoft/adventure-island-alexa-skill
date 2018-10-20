@@ -33,7 +33,10 @@ public class SessionStateManager {
     static final String SCENE = "scene";
     static final String STATE = "state";
     static final String STATE_INDEX = "stateIndex";
-    static final String GAME_STATE = "gameState";
+    static final String TIER_INDEX = "tierIndex";
+    static final String MISSION_INDEX = "missionIndex";
+    static final String LOCATION_INDEX = "locationIndex";
+    static final String SCENE_INDEX = "sceneIndex";
     static final String USERNAME = "userName";
     static final String HEALTH = "health";
     static final String COINS = "coins";
@@ -61,7 +64,6 @@ public class SessionStateManager {
 
     public SessionStateManager(Map<String, Slot> slots, AttributesManager attributesManager) {
         this.attributesManager = attributesManager;
-        logger.debug("Slot received: " + slots.get(slotName).getValue());
         this.sessionAttributes = attributesManager.getSessionAttributes();
         if (sessionAttributes == null || sessionAttributes.isEmpty()) {
             sessionAttributes = new HashMap<>();
@@ -75,9 +77,13 @@ public class SessionStateManager {
         stateItem.setMission(String.valueOf(sessionAttributes.getOrDefault(MISSION, ROOT)));
         stateItem.setLocation(String.valueOf(sessionAttributes.getOrDefault(LOCATION, ROOT)));
         stateItem.setScene(String.valueOf(sessionAttributes.getOrDefault(SCENE, ROOT)));
-        stateItem.setState((State) sessionAttributes.getOrDefault(STATE, State.INTRO));
+        String stateStr = String.valueOf(sessionAttributes.getOrDefault(STATE, State.INTRO));
+        stateItem.setState(State.valueOf(stateStr));
         stateItem.setIndex((int) sessionAttributes.getOrDefault(STATE_INDEX, 0));
-        stateItem.setGameState((byte[]) sessionAttributes.getOrDefault(GAME_STATE, new byte[4]));
+        stateItem.setTierIndex((int) sessionAttributes.getOrDefault(TIER_INDEX, 0));
+        stateItem.setMissionIndex((int) sessionAttributes.getOrDefault(MISSION_INDEX, 0));
+        stateItem.setLocationIndex((int) sessionAttributes.getOrDefault(LOCATION_INDEX, 0));
+        stateItem.setSceneIndex((int) sessionAttributes.getOrDefault(SCENE_INDEX, 0));
 
         userName = String.valueOf(sessionAttributes.get(USERNAME));
         health = (int) sessionAttributes.getOrDefault(HEALTH, getNumber(HEALTH));
@@ -130,9 +136,9 @@ public class SessionStateManager {
             stateItem.setScene(ROOT);
             stateItem.setState(State.INTRO);
             stateItem.setIndex(0);
-            stateItem.getGameState()[StateItem.MISSION_INDEX] = 0;
-            stateItem.getGameState()[LOCATION_INDEX] = 0;
-            stateItem.getGameState()[SCENE_INDEX] = 0;
+            stateItem.setMissionIndex(0);
+            stateItem.setLocationIndex(0);
+            stateItem.setSceneIndex(0);
             return promptForMission();
         }
         String response = getPhrase(SCENE_FAIL + REPROMPT);
@@ -145,6 +151,7 @@ public class SessionStateManager {
         if (expectedReplies != null && expectedReplies.contains(userReply)) {
             coins++;
             if (coins >= getNumber(COINS_TO_COLLECT)) {
+                currentObstacle = null;
                 return finishScene();
             }
             String coinText = coins == 1 ? COIN_SINGLE : COIN_PLURAL;
@@ -154,8 +161,9 @@ public class SessionStateManager {
             speechText = getPhrase(COIN_NOT_PICKED);
         }
 
-        stateItem.setIndex(stateItem.getIndex() + 1);
+        currentObstacle = null;
         speechText = nextObstacle(speechText);
+        stateItem.setIndex(stateItem.getIndex() + 1);
         return new DialogItem(speechText, false, slotName);
     }
 
@@ -211,7 +219,6 @@ public class SessionStateManager {
     }
 
     private DialogItem getStartConfirmation() {
-        byte[] gameState = stateItem.getGameState();
         String responseText = "";
 
         // user is ready
@@ -221,7 +228,7 @@ public class SessionStateManager {
             return new DialogItem(responseText, false, slotName);
         }
 
-        if (gameState[TIER_INDEX] == 0 && gameState[LOCATION_INDEX] == 0 && gameState[SCENE_INDEX] == 0) {
+        if (stateItem.getTierIndex() == 0 && stateItem.getLocationIndex() == 0 && stateItem.getSceneIndex() == 0) {
             // Lily first
             if (Objects.equals(userReply, ReplyManager.getReply(DEMO + 2))) {
                 responseText += getPhrase(stateItem.getScene() + capitalizeFirstLetter(DEMO));
@@ -233,7 +240,7 @@ public class SessionStateManager {
         }
 
         // ask if the user ready or needs help
-        responseText += getPhrase(stateItem.getScene() + READY + PROMPT);
+        responseText += getPhrase(READY + PROMPT);
 
         return new DialogItem(responseText, false, slotName, true);
     }
@@ -245,14 +252,18 @@ public class SessionStateManager {
     }
 
     private DialogItem getIntroOutroDialog() {
-//        if (Objects.equals(stateItem.getMission(), ROOT) && stateItem.getIndex() == 1) {
-//            userName = userReply;
-//            sessionAttributes.put(USERNAME, userName);
-//        }
-
         DialogItem dialog = getResponse();
 
         while (isLastStep()) {
+            // ROOT menu is for mission selection
+            if (Objects.equals(stateItem.getMission(), ROOT)) {
+                if (userReply == null || !detectMission()) {
+                    String responseText = dialog.getResponseText();
+                    dialog = promptForMission();
+                    dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
+                    return dialog;
+                }
+            }
             getNextScene();
             if (stateItem.getState() != State.ACTION) {
                 if (stateItem.getState() == State.OUTRO) {
@@ -276,26 +287,36 @@ public class SessionStateManager {
     }
 
     private String combineWithBreak(String responseText, String newText) {
-        return responseText + " <break time=\"3s\"/> " + newText;
+        if (responseText != null) {
+            return responseText + " <break time=\"3s\"/> " + newText;
+        }
+        return newText;
     }
 
     private boolean isLastStep() {
-        String nextPhrase = getPhrase(stateItem.getScene() + stateItem.getState().getKey() + stateItem.getIndex());
-        return nextPhrase == null;
+        String key = stateItem.getScene() + stateItem.getState().getKey() + stateItem.getIndex();
+        String nextPhrase = getPhrase(key);
+        boolean result = nextPhrase == null;
+        if (result) {
+            key = stateItem.getScene() + stateItem.getState().getKey() + stateItem.getIndex() + YES;
+            nextPhrase = getPhrase(key);
+        }
+        result = nextPhrase == null;
+        logger.debug("Checking if {} is the last phrase: {}", key, result);
+        return result;
     }
 
     private DialogItem getResponse() {
-        // ROOT menu is for mission selection
-        if (Objects.equals(stateItem.getMission(), ROOT)) {
-            if (userReply == null || !detectMission()) {
-                return promptForMission();
-            }
-        }
+
         String nameKey = getNameKey(stateItem.getState());
         String expectedReply = ReplyManager.getReply(nameKey);
         String responseText;
         if (expectedReply != null) {
-            if (Objects.equals(expectedReply, userReply)) {
+            if (Objects.equals(expectedReply, NAME)) {
+                logger.debug("Saving {} as user name", userReply);
+                userName = userReply;
+                responseText = getPhrase(nameKey);
+            } else if (Objects.equals(expectedReply, userReply)) {
                 responseText = getPhrase(nameKey + YES);
             } else {
                 responseText = getPhrase(nameKey + NO);
@@ -329,7 +350,7 @@ public class SessionStateManager {
                 stateItem.setScene(key);
                 stateItem.setState(State.INTRO);
                 stateItem.setIndex(0);
-                stateItem.getGameState()[StateItem.MISSION_INDEX] = (byte) i;
+                stateItem.setMissionIndex(i);
 
                 health = getNumber(HEALTH);
 
@@ -363,7 +384,10 @@ public class SessionStateManager {
         sessionAttributes.put(SCENE, stateItem.getScene());
         sessionAttributes.put(STATE, stateItem.getState());
         sessionAttributes.put(STATE_INDEX, stateItem.getIndex());
-        sessionAttributes.put(GAME_STATE, stateItem.getGameState());
+        sessionAttributes.put(TIER_INDEX, stateItem.getTierIndex());
+        sessionAttributes.put(MISSION_INDEX, stateItem.getMissionIndex());
+        sessionAttributes.put(LOCATION_INDEX, stateItem.getLocationIndex());
+        sessionAttributes.put(SCENE_INDEX, stateItem.getSceneIndex());
 
         sessionAttributes.put(OBSTACLE, currentObstacle);
         sessionAttributes.put(COINS, coins);
@@ -372,13 +396,14 @@ public class SessionStateManager {
         sessionAttributes.put(VISITED_LOCATIONS, visitedLocations);
         sessionAttributes.put(OLD_OBSTACLES, oldObstacles);
         sessionAttributes.put(TURNS_TO_NEXT_EXCLAMATION, toNextExclamation);
+        sessionAttributes.put(USERNAME, userName);
 
         attributesManager.setSessionAttributes(sessionAttributes);
     }
 
     private String nextObstacle(String speechText) {
         String obstacle = game.nextObstacle(stateItem);
-        if (!oldObstacles.contains(obstacle)) {
+        if (!oldObstacles.contains(obstacle) && !ObstacleManager.isTreasure(obstacle)) {
             oldObstacles.add(obstacle);
             String preObstacle = ObstacleManager.getPreObstacle(stateItem, obstacle);
             speechText += " " + preObstacle;
