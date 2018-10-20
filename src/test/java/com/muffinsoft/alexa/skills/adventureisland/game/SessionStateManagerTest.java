@@ -109,7 +109,7 @@ class SessionStateManagerTest {
     }
 
     @Test
-    void nextResponseExplanation() {
+    void nextResponsePreObstacle() {
         String userName = "Test user";
         Map<String, Object> attributes = new HashMap<>();
         attributes.put(MISSION, "royalRansom");
@@ -120,7 +120,7 @@ class SessionStateManagerTest {
         List<String> visitedLocations = new ArrayList<>();
         visitedLocations.add("ancientTemple");
         attributes.put(VISITED_LOCATIONS, visitedLocations);
-        SessionStateManager stateManager = getSessionStateManager(attributes);
+        SessionStateManager stateManager = getSessionStateManager(attributes, "i'm ready");
         DialogItem dialogItem = stateManager.nextResponse();
 
         StateItem stateItem = stateFromAttributes(attributes);

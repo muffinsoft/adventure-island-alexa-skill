@@ -53,6 +53,7 @@ public class SessionStateManager {
     private int totalCoins;
     private String currentObstacle;
     private int toNextExclamation;
+    private boolean skipReadyPrompt;
 
     private List<String> visitedLocations;
     private List<String> oldObstacles;
@@ -117,6 +118,7 @@ public class SessionStateManager {
         if (userReply.contains(ReplyManager.getReply(basicKey + 1))) {
             stateItem.setState(State.ACTION);
             stateItem.setIndex(0);
+            skipReadyPrompt = true;
             return getActionDialog();
         }
         if (userReply.contains(ReplyManager.getReply(basicKey + 2))) {
@@ -193,6 +195,8 @@ public class SessionStateManager {
                 }
                 speechText = getPhrase(ACTION_FAIL);
             }
+        } else if (skipReadyPrompt) {
+            skipReadyPrompt = false;
         } else {
             return getStartConfirmation();
         }
@@ -203,23 +207,32 @@ public class SessionStateManager {
         return new DialogItem(speechText, false, slotName);
     }
 
-    // TODO: demo mode
     private DialogItem getStartConfirmation() {
         byte[] gameState = stateItem.getGameState();
         String responseText = "";
 
+        // user is ready
         if (Objects.equals(userReply, ReplyManager.getReply(DEMO + 1))) {
             responseText = nextObstacle(responseText);
             stateItem.setIndex(stateItem.getIndex() + 1);
             return new DialogItem(responseText, false, slotName);
         }
 
-        if (Objects.equals(userReply, ReplyManager.getReply(DEMO + 2)) &&
-                gameState[TIER_INDEX] == 0 && gameState[LOCATION_INDEX] == 0 && gameState[SCENE_INDEX] == 0) {
-            responseText += getPhrase(stateItem.getScene() + capitalizeFirstLetter(DEMO));
+        if (gameState[TIER_INDEX] == 0 && gameState[LOCATION_INDEX] == 0 && gameState[SCENE_INDEX] == 0) {
+            // Lily first
+            if (Objects.equals(userReply, ReplyManager.getReply(DEMO + 2))) {
+                responseText += getPhrase(stateItem.getScene() + capitalizeFirstLetter(DEMO));
+            } else {
+                // prompt for demo round
+                responseText += getPhrase(stateItem.getScene() + capitalizeFirstLetter(DEMO) + PROMPT);
+                return new DialogItem(responseText, false, slotName, true);
+            }
         }
 
-        return new DialogItem(responseText, false, slotName);
+        // ask if the user ready or needs help
+        responseText += getPhrase(stateItem.getScene() + READY + PROMPT);
+
+        return new DialogItem(responseText, false, slotName, true);
     }
 
     private DialogItem processSceneFail() {
