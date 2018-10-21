@@ -372,7 +372,11 @@ public class SessionStateManager {
     }
 
     private String getNameKey(State state) {
-        return stateItem.getScene() + stateItem.getIntroOutroId(state) + state.getKey() + stateItem.getIndex();
+        String prefix = "";
+        if (Objects.equals(stateItem.getScene(), SILENT_SCENE)) {
+            prefix = stateItem.getLocation();
+        }
+        return prefix + stateItem.getScene() + stateItem.getIntroOutroId(state) + state.getKey() + stateItem.getIndex();
     }
 
     private void getNextScene() {
