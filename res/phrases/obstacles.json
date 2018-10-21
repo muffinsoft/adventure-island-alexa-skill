@@ -54,5 +54,129 @@
       "preObstacle" : "",
       "headsUp" : ""
     }
+  ],
+  "pirateBay" : [
+    {
+      "name" : "rocks ahead",
+      "responses" : ["turn"],
+      "preObstacle" : "",
+      "headsUp" : ""
+    },
+    {
+      "name" : "whirlpool",
+      "responses" : ["turn"],
+      "preObstacle" : "",
+      "headsUp" : ""
+    },
+    {
+      "name" : "sailors",
+      "responses" : ["ahoy", "ahoy, mateys"],
+      "preObstacle" : "",
+      "headsUp" : ""
+    },
+    {
+      "name" : "pirates",
+      "responses" : ["boom"],
+      "preObstacle" : "",
+      "headsUp" : ""
+    },
+    {
+      "name" : "big wave",
+      "responses" : ["whee"],
+      "preObstacle" : "",
+      "headsUp" : ""
+    },
+    {
+      "name" : "mermaids",
+      "responses" : ["ahoy", "ahoy, mateys"],
+      "preObstalce" : "",
+      "headsUp" : ""
+    },
+    {
+      "name" : "pirate queen",
+      "responses" : ["boom"],
+      "preObstacle" : "",
+      "headsUp" : ""
+    },
+    {
+      "name" : "kraken",
+      "responses" : ["foom"],
+      "preObstacle" : "",
+      "headsUp" : ""
+    },
+    {
+      "name" : "sea snake",
+      "responses" : ["foom"],
+      "preObstalce" : "",
+      "headsUp" : ""
+    },
+    {
+      "name" : "shipwreck",
+      "responses" : ["whee"],
+      "preObstacle" : "",
+      "headsUp" : ""
+    }
+  ],
+  "kingdomChase" : [
+    {
+      "name" : "wall",
+      "responses" : ["climb"],
+      "preObstacle" : "",
+      "headsUp" : ""
+    },
+    {
+      "name" : "moat",
+      "responses" : ["swim"],
+      "preObstacle" : "",
+      "headsUp" : ""
+    },
+    {
+      "name" : "rose bush",
+      "responses" : ["whee"],
+      "preObstacle" : "",
+      "headsUp" : ""
+    },
+    {
+      "name" : "dragon",
+      "responses" : ["hide"],
+      "preObstacle" : "",
+      "headsUp" : ""
+    },
+    {
+      "name" : "tomato",
+      "responses" : ["woah"],
+      "preObstacle" : "",
+      "headsUp" : ""
+    },
+    {
+      "name" : "baby ducks",
+      "responses" : ["whee"],
+      "preObstacle" : "",
+      "headsUp" : ""
+    },
+    {
+      "name" : "bee hive",
+      "responses" : ["woah"],
+      "preObstacle" : "",
+      "headsUp" : ""
+    },
+    {
+      "name" : "bandit",
+      "responses" : ["zap"],
+      "preObstacle" : "",
+      "headsUp" : ""
+    },
+    {
+      "name" : "troll",
+      "responses" : ["hide"],
+      "preObstacle" : "",
+      "headsUp" : ""
+    },
+    {
+      "name" : "goblin",
+      "responses" : ["zap"],
+      "preObstacle" : "",
+      "headsUp" : ""
+    }
   ]
 }

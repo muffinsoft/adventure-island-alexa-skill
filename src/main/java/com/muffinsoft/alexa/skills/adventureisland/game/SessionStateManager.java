@@ -408,7 +408,7 @@ public class SessionStateManager {
 
     private String nextObstacle(String speechText) {
         String obstacle = game.nextObstacle(stateItem);
-        if (!oldObstacles.contains(obstacle) && !ObstacleManager.isTreasure(obstacle)) {
+        if (!oldObstacles.contains(obstacle)) {
             oldObstacles.add(obstacle);
             String preObstacle = ObstacleManager.getPreObstacle(stateItem, obstacle);
             speechText += " " + preObstacle;

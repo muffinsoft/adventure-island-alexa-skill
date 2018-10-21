@@ -72,6 +72,9 @@ public class ObstacleManager {
     }
 
     public static String getPreObstacle(StateItem state, String obstacle) {
+        if (isTreasure(obstacle)) {
+            return getTreasurePre(obstacle);
+        }
         return getObstacleByName(state, obstacle).getPreObstacle();
     }
 
