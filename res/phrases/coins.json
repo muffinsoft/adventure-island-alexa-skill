@@ -1,5 +1,10 @@
 [
   {
+    "name" : "coins",
+    "responses" : ["mine"],
+    "preObstacle" : "There is a coin ahead! Try to get it by shouting Mine!"
+  },
+  {
     "name" : "treasure",
     "responses" : ["mine"],
     "preObstacle" : "There is a coin ahead! Try to get it by shouting Mine!"
