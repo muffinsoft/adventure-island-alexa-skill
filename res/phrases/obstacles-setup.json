@@ -2,15 +2,15 @@
   "ancientTemple" :
     {
       "templeHalls": {
-        "explanation": "Don't worry, just follow my lead! If I see a snake, say 'whee' to jump over it! If I see blow darts, say 'woah' to duck. And hey, if we spot some coins lying around before the treasure room, say 'grab' to pick them up!",
+        "explanation": "If I see a SNAKE, say 'whee' to jump over it! If I see BLOW DARTS, say 'woah' to duck. And hey, if we spot some COINS lying around before the treasure room, say 'grab' to pick them up!",
         "obstacleIndices": [0, 1]
       },
       "treasureTombs": {
-        "explanation" : "There will be a lot more coins here so remember to say 'mine' to pick it up. I also expect more booby traps too, so if you hear floor spikes, say 'whee' to jump over.",
+        "explanation" : "Those FLOOR SPIKES are still very pointy! Say 'whee' to hop over them!",
         "obstacleIndices": [0, 1, 2]
       },
       "templeEscape": {
-        "explanation" : "If we hear arrows, say 'woah' to duck.",
+        "explanation" : "There are ARROWS up ahead! Say 'woah' to get down!",
         "obstacleIndices": [0, 1, 2, 3]
       },
       "finale": {
@@ -21,15 +21,15 @@
   "pirateBay" :
     {
       "outToSea": {
-        "explanation": "Beware the rocks and whirlpools as we make it out to open seas! If I call them out, shout 'Turn!' so your crew avoids them!  Lots o' sailors get shipwrecked around here. Let's save 'em from Davy Jone's locker along the way by saying 'Ahoy, mateys!'",
+        "explanation": "If we see underwater COINS, say mine to pull them up. If we see rocks or a whirlpool up ahead, say TURN to avoid them. Remember to say a friendly 'Ahoy' to to SAILORS so they don't attack us!",
         "obstacleIndices": []
       },
       "perilousSeas": {
-        "explanation": "",
+        "explanation": "There be evil PIRATES in these waters! Shout 'boom' to shoot the cannons at them!",
         "obstacleIndices": []
       },
       "seeMonsterBay": {
-        "explanation": "",
+        "explanation": "BIG WAVES coming up! Say 'wee' to speed up and get over the wave!",
         "obstacleIndices": []
       },
       "finale": {
@@ -40,15 +40,15 @@
   "kingdomChase" :
   {
     "theVillage" : {
-      "explanation": "",
+      "explanation": "Say 'mine' to grab COINS. The the thief runs into a WALL, shout 'climb'. If he falls into a MOAT, say 'swim'.",
       "obstacleIndices": []
     },
     "royalGarden" : {
-      "explanation": "",
+      "explanation": "There are thorny ROSE BUSHES around here! Say 'whee' to jump over them and not get pricked!",
       "obstacleIndices": []
     },
     "dragonAttack" : {
-      "explanation": "",
+      "explanation": "I can't believe it! A DRAGON in the sky! Shout 'hide' to take cover when it comes by.",
       "obstacleIndices": []
     },
     "finale" : {
