@@ -89,7 +89,7 @@
     {
       "name" : "mermaids",
       "responses" : ["ahoy", "ahoy, mateys"],
-      "preObstalce" : "",
+      "preObstacle" : "",
       "headsUp" : ""
     },
     {
@@ -107,7 +107,7 @@
     {
       "name" : "sea snake",
       "responses" : ["foom"],
-      "preObstalce" : "",
+      "preObstacle" : "",
       "headsUp" : ""
     },
     {
