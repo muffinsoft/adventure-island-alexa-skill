@@ -28,7 +28,7 @@
   "templeHallsIntro1" : "Don't worry, just follow my lead!",
   "templeHalls1Intro1" : "Well, you haven't let us down before, big brother! Let's go!",
   "templeHalls2Intro1" : "Dibs on any shiny gems! Oh, and fancy jewelry!",
-  "templeHallsDemoPrompt" : "I am ready. How about you, __USERNAME__? If not, say 'Lily first' to see how it's done! Or if you're ready, say 'I'm ready!'",
+  "demoPrompt" : "I am ready. How about you, __USERNAME__? If not, say 'Lily first' to see how it's done! Or if you're ready, say 'I'm ready!'",
   "readyPrompt" : "Ready to go, __USERNAME__? If not, say 'Help' to see how it's done! Or, if you're ready, say 'I'm ready!'",
   "templeHallsDemo" : "Okay! Watch and learn! Darts! Woah! Snakes! Whee! Treasure! Mine!",
   "templeHallsOutro0" : "We made it!",

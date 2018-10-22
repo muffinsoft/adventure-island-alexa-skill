@@ -234,7 +234,7 @@ public class SessionStateManager {
                 responseText += getPhrase(stateItem.getScene() + capitalizeFirstLetter(DEMO));
             } else {
                 // prompt for demo round
-                responseText += getPhrase(stateItem.getScene() + capitalizeFirstLetter(DEMO) + PROMPT);
+                responseText += getPhrase(DEMO + PROMPT);
                 return new DialogItem(responseText, false, slotName, true);
             }
         }
@@ -295,11 +295,11 @@ public class SessionStateManager {
     }
 
     private boolean isLastStep() {
-        String key = stateItem.getScene() + stateItem.getState().getKey() + stateItem.getIndex();
+        String key = getNameKey(stateItem.getState());
         String nextPhrase = getPhrase(key);
         boolean result = nextPhrase == null;
         if (result) {
-            key = stateItem.getScene() + stateItem.getState().getKey() + stateItem.getIndex() + YES;
+            key = key + YES;
             nextPhrase = getPhrase(key);
         }
         result = nextPhrase == null;
@@ -376,7 +376,11 @@ public class SessionStateManager {
         if (Objects.equals(stateItem.getScene(), SILENT_SCENE)) {
             prefix = stateItem.getLocation();
         }
-        return prefix + stateItem.getScene() + stateItem.getIntroOutroId(state) + state.getKey() + stateItem.getIndex();
+
+        String scene = stateItem.getScene();
+        scene = "".equals(prefix) ? scene : capitalizeFirstLetter(scene);
+
+        return prefix + scene + stateItem.getIntroOutroId(state) + state.getKey() + stateItem.getIndex();
     }
 
     private void getNextScene() {
@@ -408,6 +412,7 @@ public class SessionStateManager {
 
     private String nextObstacle(String speechText) {
         String obstacle = game.nextObstacle(stateItem);
+        logger.debug("Got obstacle {} for {} {} {}", obstacle, stateItem.getMission(), stateItem.getLocation(), stateItem.getScene());
         if (!oldObstacles.contains(obstacle)) {
             oldObstacles.add(obstacle);
             String preObstacle = ObstacleManager.getPreObstacle(stateItem, obstacle);
