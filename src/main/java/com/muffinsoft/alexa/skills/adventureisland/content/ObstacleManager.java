@@ -22,12 +22,12 @@ public class ObstacleManager {
     private static final String PATH_COINS = "phrases/coins.json";
 
     private static Map<String, List<ObstacleItem>> obstacles = new HashMap<>();
-    private static Map<String, Map<String, ObstacleSetupItem>> obstacleSetup = new HashMap<>();
+    private static Map<String, Map<String, List<ObstacleSetupItem>>> obstacleSetup = new HashMap<>();
     private static List<ObstacleItem> treasure = new ArrayList<>();
 
     static {
         obstacles = contentLoader.loadContent(obstacles, PATH, new TypeReference<HashMap<String, List<ObstacleItem>>>(){});
-        obstacleSetup = contentLoader.loadContent(obstacleSetup, PATH_SETUP, new TypeReference<HashMap<String, Map<String, ObstacleSetupItem>>>(){});
+        obstacleSetup = contentLoader.loadContent(obstacleSetup, PATH_SETUP, new TypeReference<HashMap<String, Map<String, List<ObstacleSetupItem>>>>(){});
         treasure = contentLoader.loadContent(treasure, PATH_COINS, new TypeReference<ArrayList<ObstacleItem>>(){});
     }
 
@@ -60,7 +60,7 @@ public class ObstacleManager {
 
     public static String getObstacleExplanation(StateItem state) {
         logger.debug("Getting obstacle explanation for location {},  scene {}", state.getLocation(), state.getScene());
-        return obstacleSetup.get(state.getLocation()).get(state.getScene()).getExplanation();
+        return obstacleSetup.get(state.getLocation()).get(state.getScene()).get(state.getTierIndex()).getExplanation();
     }
 
     private static ObstacleItem getObstacleByName(StateItem state, String obstacle) {

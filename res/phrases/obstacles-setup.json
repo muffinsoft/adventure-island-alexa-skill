@@ -1,59 +1,191 @@
 {
   "ancientTemple" :
     {
-      "templeHalls": {
-        "explanation": "If I see a SNAKE, say 'whee' to jump over it! If I see BLOW DARTS, say 'woah' to duck. And hey, if we spot some COINS lying around before the treasure room, say 'grab' to pick them up!",
-        "obstacleIndices": [0, 1]
-      },
-      "treasureTombs": {
-        "explanation" : "Those FLOOR SPIKES are still very pointy! Say 'whee' to hop over them!",
-        "obstacleIndices": [0, 1, 2]
-      },
-      "templeEscape": {
-        "explanation" : "There are ARROWS up ahead! Say 'woah' to get down!",
-        "obstacleIndices": [0, 1, 2, 3]
-      },
-      "finale": {
-        "explanation" : "",
-        "obstacleIndices": [0, 1, 2, 3]
-      }
+      "templeHalls":
+        [
+          {
+            "explanation": "If I see a SNAKE, say 'whee' to jump over it! If I see BLOW DARTS, say 'woah' to duck. And hey, if we spot some COINS lying around before the treasure room, say 'grab' to pick them up!",
+            "obstacleIndices": [0, 1]
+          },
+          {
+            "explanation": "",
+            "obstacleIndices": []
+          },
+          {
+            "explanation": "",
+            "obstacleIndices": []
+          }
+        ],
+      "treasureTombs":
+      [
+        {
+          "explanation" : "Those FLOOR SPIKES are still very pointy! Say 'whee' to hop over them!",
+          "obstacleIndices": [0, 1, 2]
+        },
+        {
+          "explanation": "",
+          "obstacleIndices": []
+        },
+        {
+          "explanation": "",
+          "obstacleIndices": []
+        }
+      ],
+      "templeEscape":
+      [
+        {
+          "explanation" : "There are ARROWS up ahead! Say 'woah' to get down!",
+          "obstacleIndices": [0, 1, 2, 3]
+        },
+        {
+          "explanation": "",
+          "obstacleIndices": []
+        },
+        {
+          "explanation": "",
+          "obstacleIndices": []
+        }
+      ],
+      "finale":
+      [
+        {
+          "explanation" : "",
+          "obstacleIndices": [0, 1, 2, 3]
+        },
+        {
+          "explanation": "",
+          "obstacleIndices": []
+        },
+        {
+          "explanation": "",
+          "obstacleIndices": []
+        }
+      ]
     },
   "pirateBay" :
     {
-      "outToSea": {
-        "explanation": "If we see underwater COINS, say mine to pull them up. If we see rocks or a whirlpool up ahead, say TURN to avoid them. Remember to say a friendly 'Ahoy' to to SAILORS so they don't attack us!",
-        "obstacleIndices": []
-      },
-      "perilousSeas": {
-        "explanation": "There be evil PIRATES in these waters! Shout 'boom' to shoot the cannons at them!",
-        "obstacleIndices": []
-      },
-      "seeMonsterBay": {
-        "explanation": "BIG WAVES coming up! Say 'wee' to speed up and get over the wave!",
-        "obstacleIndices": []
-      },
-      "finale": {
-        "explanation" : "",
-        "obstacleIndices": []
-      }
+      "outToSea":
+      [
+        {
+          "explanation": "If we see underwater COINS, say mine to pull them up. If we see rocks or a whirlpool up ahead, say TURN to avoid them. Remember to say a friendly 'Ahoy' to to SAILORS so they don't attack us!",
+          "obstacleIndices": []
+        },
+        {
+          "explanation": "",
+          "obstacleIndices": []
+        },
+        {
+          "explanation": "",
+          "obstacleIndices": []
+        }
+      ],
+      "perilousSeas":
+      [
+        {
+          "explanation": "There be evil PIRATES in these waters! Shout 'boom' to shoot the cannons at them!",
+          "obstacleIndices": []
+        },
+        {
+          "explanation": "",
+          "obstacleIndices": []
+        },
+        {
+          "explanation": "",
+          "obstacleIndices": []
+        }
+      ],
+      "seeMonsterBay":
+      [
+        {
+          "explanation": "BIG WAVES coming up! Say 'wee' to speed up and get over the wave!",
+          "obstacleIndices": []
+        },
+        {
+          "explanation": "",
+          "obstacleIndices": []
+        },
+        {
+          "explanation": "",
+          "obstacleIndices": []
+        }
+      ],
+      "finale":
+      [
+        {
+          "explanation" : "",
+          "obstacleIndices": []
+        },
+        {
+          "explanation": "",
+          "obstacleIndices": []
+        },
+        {
+          "explanation": "",
+          "obstacleIndices": []
+        }
+      ]
     },
   "kingdomChase" :
   {
-    "theVillage" : {
-      "explanation": "Say 'mine' to grab COINS. The the thief runs into a WALL, shout 'climb'. If he falls into a MOAT, say 'swim'.",
-      "obstacleIndices": []
-    },
-    "royalGarden" : {
-      "explanation": "There are thorny ROSE BUSHES around here! Say 'whee' to jump over them and not get pricked!",
-      "obstacleIndices": []
-    },
-    "dragonAttack" : {
-      "explanation": "I can't believe it! A DRAGON in the sky! Shout 'hide' to take cover when it comes by.",
-      "obstacleIndices": []
-    },
-    "finale" : {
-      "explanation": "",
-      "obstacleIndices": []
-    }
+    "theVillage" :
+    [
+      {
+        "explanation": "Say 'mine' to grab COINS. The the thief runs into a WALL, shout 'climb'. If he falls into a MOAT, say 'swim'.",
+        "obstacleIndices": []
+      },
+      {
+        "explanation": "",
+        "obstacleIndices": []
+      },
+      {
+        "explanation": "",
+        "obstacleIndices": []
+      }
+    ],
+    "royalGarden" :
+    [
+      {
+        "explanation": "There are thorny ROSE BUSHES around here! Say 'whee' to jump over them and not get pricked!",
+        "obstacleIndices": []
+      },
+      {
+        "explanation": "",
+        "obstacleIndices": []
+      },
+      {
+        "explanation": "",
+        "obstacleIndices": []
+      }
+    ],
+    "dragonAttack" :
+    [
+      {
+        "explanation": "I can't believe it! A DRAGON in the sky! Shout 'hide' to take cover when it comes by.",
+        "obstacleIndices": []
+      },
+      {
+        "explanation": "",
+        "obstacleIndices": []
+      },
+      {
+        "explanation": "",
+        "obstacleIndices": []
+      }
+    ],
+    "finale" :
+    [
+      {
+        "explanation": "",
+        "obstacleIndices": []
+      },
+      {
+        "explanation": "",
+        "obstacleIndices": []
+      },
+      {
+        "explanation": "",
+        "obstacleIndices": []
+      }
+    ]
   }
 }
