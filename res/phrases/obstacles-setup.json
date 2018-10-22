@@ -36,5 +36,24 @@
         "explanation" : "",
         "obstacleIndices": []
       }
+    },
+  "kingdomChase" :
+  {
+    "theVillage" : {
+      "explanation": "",
+      "obstacleIndices": []
+    },
+    "royalGarden" : {
+      "explanation": "",
+      "obstacleIndices": []
+    },
+    "dragonAttack" : {
+      "explanation": "",
+      "obstacleIndices": []
+    },
+    "finale" : {
+      "explanation": "",
+      "obstacleIndices": []
     }
+  }
 }

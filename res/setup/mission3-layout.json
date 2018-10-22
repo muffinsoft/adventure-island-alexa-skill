@@ -6,25 +6,35 @@
       "activities": [
         {
           "name": "Out To Sea",
-          "obstaclesTier1": [],
+          "obstaclesTier1": ["rocks ahead", "coins", "whirlpool", "rocks ahead", "coins", "rocks ahead", "coins",
+            "whirlpool", "coins", "sailors", "whirlpool", "rocks ahead", "coins", "sailors", "rocks ahead", "coins",
+            "whirlpool", "coins", "sailors", "coins", "whirlpool", "rocks ahead", "coins", "sailors", "coins"],
           "obstaclesTier2": [],
           "obstaclesTier3": []
         },
         {
           "name": "Perilous Seas",
-          "obstaclesTier1": [],
+          "obstaclesTier1": ["whirlpool", "coins", "sailors", "coins", "pirates", "rocks ahead",
+            "whirlpool", "coins", "coins", "sailors", "whirlpool", "pirates", "coins", "coins", "rocks ahead", "pirates",
+            "coins", "whirlpool", "coins", "pirates", "sailors", "coins", "rocks ahead", "coins"],
           "obstaclesTier2": [],
           "obstaclesTier3": []
         },
         {
           "name": "Sea Monster Bay",
-          "obstaclesTier1": [],
+          "obstaclesTier1": ["whirlpool", "coins", "big wave", "sailors", "coins", "rocks ahead", "coins",
+            "pirates", "coins", "big wave", "coins", "sailors", "whirlpool", "rocks ahead", "coins", "pirates",
+            "coins", "big wave", "pirates", "coins", "whirlpool", "coins", "pirates", "sailors",
+            "big wave", "coins", "rocks ahead", "coins"],
           "obstaclesTier2": [],
           "obstaclesTier3": []
         },
         {
           "name": "Finale",
-          "obstaclesTier1": [],
+          "obstaclesTier1": ["whirlpool", "coins", "big wave", "sailors", "coins", "rocks ahead", "coins",
+            "pirates", "coins", "big wave", "coins", "sailors", "whirlpool", "rocks ahead", "coins", "pirates",
+            "coins", "big wave", "pirates", "coins", "whirlpool", "coins", "pirates", "sailors",
+            "big wave", "coins", "rocks ahead", "coins"],
           "obstaclesTier2": [],
           "obstaclesTier3": []
         }
@@ -35,25 +45,33 @@
       "activities": [
         {
           "name": "The Village",
-          "obstaclesTier1": [],
+          "obstaclesTier1": ["moat", "coins", "wall", "moat", "coins", "moat", "coins", "wall", "wall", "coins",
+            "moat", "wall", "coins", "wall", "coins", "moat", "wall", "coins", "moat", "coins", "wall", "moat", "coins",
+            "coins"],
           "obstaclesTier2": [],
           "obstaclesTier3": []
         },
         {
           "name": "Royal Garden",
-          "obstaclesTier1": [],
+          "obstaclesTier1": ["wall", "rose bush", "coins", "moat", "coins", "coins", "wall", "moat", "coins", "rose bush",
+            "wall", "coins", "moat", "rose bush", "coins", "moat", "wall", "coins", "rose bush", "wall", "coins", "moat",
+            "coins", "coins"],
           "obstaclesTier2": [],
           "obstaclesTier3": []
         },
         {
           "name": "Dragon Attack",
-          "obstaclesTier1": [],
+          "obstaclesTier1": ["rose bush", "coins", "dragon", "moat", "coins", "wall", "coins", "moat", "coins", "dragon",
+            "wall", "coins", "moat", "rose bush", "coins", "moat", "wall", "coins", "rose bush", "dragon", "coins", "moat",
+            "coins", "coins"],
           "obstaclesTier2": [],
           "obstaclesTier3": []
         },
         {
           "name": "Finale",
-          "obstaclesTier1": [],
+          "obstaclesTier1": ["rose bush", "coins", "dragon", "moat", "coins", "wall", "coins", "moat", "coins", "dragon",
+            "wall", "coins", "moat", "rose bush", "coins", "moat", "wall", "coins", "rose bush", "dragon", "coins", "moat",
+            "coins", "coins"],
           "obstaclesTier2": [],
           "obstaclesTier3": []
         }
@@ -66,37 +84,48 @@
           "name": "Temple Halls",
           "obstaclesTier1": [
             "snakes",
-            "treasure",
+            "coins",
             "darts",
             "snakes",
             "darts",
-            "treasure",
+            "coins",
             "darts",
-            "treasure",
+            "coins",
             "snakes",
             "darts",
-            "treasure",
+            "coins",
             "darts",
-            "treasure"
+            "coins",
+            "darts",
+            "snakes",
+            "coins",
+            "coins",
+            "snakes",
+            "coins",
+            "darts",
+            "darts",
+            "coins",
+            "snakes",
+            "coins"
           ],
           "obstaclesTier2": [],
           "obstaclesTier3": []
         },
         {
           "name": "Treasure Tombs",
-          "obstaclesTier1": [],
+          "obstaclesTier1": ["spikes", "coins", "darts", "coins", "snakes", "spikes", "coins", "darts", "spikes", "coins", "snakes", "darts", "coins", "spikes", "darts", "coins", "darts", "coins", "snakes", "spikes", "coins", "spikes", "darts", "coins", "coins"],
           "obstaclesTier2": [],
           "obstaclesTier3": []
         },
         {
           "name": "Temple Escape",
-          "obstaclesTier1": [],
+          "obstaclesTier1": ["coins", "arrows", "darts", "coins", "spikes", "darts", "coins", "darts", "snakes", "coins", "arrows", "darts", "coins", "arrows", "spikes", "coins", "darts", "coins", "snakes", "spikes", "coins", "arrows", "darts", "coins", "coins"],
           "obstaclesTier2": [],
           "obstaclesTier3": []
         },
         {
           "name": "Finale",
-          "obstaclesTier1": [],
+          "obstaclesTier1": ["coins", "arrows", "darts", "coins", "spikes", "darts", "coins", "darts", "snakes", "coins", "arrows", "darts", "coins", "arrows", "spikes", "coins", "darts", "coins", "snakes", "spikes", "coins", "arrows", "darts", "coins", "coins"],
           "obstaclesTier2": [],
           "obstaclesTier3": []
         }
