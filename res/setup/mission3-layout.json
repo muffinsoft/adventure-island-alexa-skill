@@ -16,7 +16,7 @@
           ]
         },
         {
-          "name": "Perilous Seas",
+          "name": "Perilous Waters",
           "obstacles": [
             [
               "whirlpool", "coins", "sailors", "coins", "pirates", "rocks ahead",
@@ -27,7 +27,7 @@
           ]
         },
         {
-          "name": "Sea Monster Bay",
+          "name": "Shipwreck Bay",
           "obstacles": [
             [
               "whirlpool", "coins", "big wave", "sailors", "coins", "rocks ahead", "coins",

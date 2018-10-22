@@ -79,7 +79,7 @@
           "obstacleIndices": []
         }
       ],
-      "perilousSeas":
+      "perilousWaters":
       [
         {
           "explanation": "There be evil PIRATES in these waters! Shout 'boom' to shoot the cannons at them!",
@@ -94,7 +94,7 @@
           "obstacleIndices": []
         }
       ],
-      "seeMonsterBay":
+      "shipwreckBay":
       [
         {
           "explanation": "BIG WAVES coming up! Say 'wee' to speed up and get over the wave!",
@@ -142,7 +142,7 @@
         "obstacleIndices": []
       }
     ],
-    "royalGarden" :
+    "castleGrounds" :
     [
       {
         "explanation": "There are thorny ROSE BUSHES around here! Say 'whee' to jump over them and not get pricked!",
