@@ -36,7 +36,7 @@ public class Game {
 
     public String nextObstacle(StateItem state) {
         Activity currentActivity = missions.get(state.getMissionIndex()).getLocations().get(state.getLocationIndex()).getActivities().get(state.getSceneIndex());
-        List<String> obstacles = currentActivity.getObstaclesTier1();
+        List<String> obstacles = currentActivity.getObstacles().get(state.getTierIndex());
         int obstacleIndex = state.getIndex();
         if (obstacleIndex >= obstacles.size()) {
             obstacleIndex = obstacleIndex % obstacles.size();
