@@ -2,11 +2,13 @@
   {
     "name" : "coins",
     "responses" : ["mine"],
-    "preObstacle" : "There is a coin ahead! Try to get it by shouting Mine!"
+    "preObstacle" : "I see a coin! Say 'mine' to take it!",
+    "headsUp" : "Something shiny up ahead!"
   },
   {
     "name" : "treasure",
     "responses" : ["mine"],
-    "preObstacle" : "There is a coin ahead! Try to get it by shouting Mine!"
+    "preObstacle" : "I see a coin! Say 'mine' to take it!",
+    "headsUp" : "Something shiny up ahead!"
   }
 ]
