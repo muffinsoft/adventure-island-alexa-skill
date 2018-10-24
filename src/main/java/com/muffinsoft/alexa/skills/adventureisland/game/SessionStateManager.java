@@ -51,23 +51,31 @@ public class SessionStateManager {
     private String slotName = SlotName.ACTION.text;
     private String userReply;
 
+    // SESSION attributes
     private StateItem stateItem = new StateItem();
-    private String userName;
     private int health;
     private int coins;
-    private int totalCoins;
     private String currentObstacle;
     private int toNextExclamation;
     private boolean skipReadyPrompt;
 
+    // PERSISTENT attributes
+    private String userName;
+    private int totalCoins;
     private List<String> visitedLocations;
     private List<String> oldObstacles;
+    private List<List<Integer>> completedMissions;
+
 
     public SessionStateManager(Map<String, Slot> slots, AttributesManager attributesManager) {
         this.attributesManager = attributesManager;
         this.sessionAttributes = attributesManager.getSessionAttributes();
         if (sessionAttributes == null || sessionAttributes.isEmpty()) {
             sessionAttributes = new HashMap<>();
+        }
+        this.persistentAttributes = attributesManager.getPersistentAttributes();
+        if (persistentAttributes == null || persistentAttributes.isEmpty()) {
+            persistentAttributes = new HashMap<>();
         }
         populateFields();
         userReply = slots.get(slotName).getValue();
