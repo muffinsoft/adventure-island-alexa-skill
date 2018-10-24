@@ -1,8 +1,7 @@
 {
-  "welcome" : "Have you ever been on a treasure hunting adventure? Let's go on one together! First, we'll gather as many gold coins as we can in an ancient temple full of all sorts of traps. If we live through that, we'll try to take our loot across an ocean swarming with  sea monsters and evil pirates.  Then, we’ll need to watch out for sneaky thieves when we arrive to a fantastical kingdom with dragons and castles! Say 'find treasure' to start your adventure",
-  "rootIntro0" : "I am Ben. What’s your name?",
-  "rootIntro1" : "Nice name!  I'm going on a treasure hunting adventure and I could use a partner. What's the coolest place you've ever visited?",
-  "rootIntro2" : "Well I hope you're ready to explore ancient temples, sail the seven seas, and even visit a fantasy kingdom!",
+  "welcome" : "I am Ben. What’s your name?",
+  "rootIntro0" : "Nice name!  I'm going on a treasure hunting adventure and I could use a partner. What's the coolest place you've ever visited?",
+  "rootIntro1" : "Well I hope you're ready to explore ancient temples, sail the seven seas, and even visit a fantasy kingdom!",
   "selectMission" : "Choose one of the available missions. ",
   "selectMission2" : "Please make your selection",
   "welcomeCard" : "Adventure Island",

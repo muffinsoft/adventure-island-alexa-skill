@@ -4,5 +4,6 @@
   "minObstaclesToCoin" : 2,
   "maxObstaclesToCoin" : 3,
   "minObstaclesExclamation" : 3,
-  "maxObstaclesExclamation" : 4
+  "maxObstaclesExclamation" : 4,
+  "headsUp" : 4
 }

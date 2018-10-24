@@ -2,6 +2,7 @@ package com.muffinsoft.alexa.skills.adventureisland.game;
 
 import com.amazon.ask.attributes.AttributesManager;
 import com.amazon.ask.model.Slot;
+import com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager;
 import com.muffinsoft.alexa.skills.adventureisland.content.ObstacleManager;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.content.ReplyManager;
@@ -44,6 +45,9 @@ public class SessionStateManager {
     static final String VISITED_LOCATIONS = "visitedLocations";
     static final String OLD_OBSTACLES = "oldObstacles";
     static final String TURNS_TO_NEXT_EXCLAMATION = "turnsToNextExclamation";
+    static final String TURNS_TO_NEXT_HEADS_UP = "turnsToNextHeadsUp";
+    static final String COMPLETED_MISSIONS = "completedMissions";
+    static final String CHECKPOINT = "checkpoint";
 
     private AttributesManager attributesManager;
     private Map<String, Object> sessionAttributes;
@@ -57,6 +61,7 @@ public class SessionStateManager {
     private int coins;
     private String currentObstacle;
     private int toNextExclamation;
+    private int toNextHeadsUp;
     private boolean skipReadyPrompt;
 
     // PERSISTENT attributes
@@ -64,21 +69,25 @@ public class SessionStateManager {
     private int totalCoins;
     private List<String> visitedLocations;
     private List<String> oldObstacles;
+    /** Index of the external list is tier, it contains a list of indices of completed missions */
     private List<List<Integer>> completedMissions;
+    /** Checkpoint contains 4 integers: tier, mission, location, and scene */
+    private List<Integer> checkpoint;
 
 
     public SessionStateManager(Map<String, Slot> slots, AttributesManager attributesManager) {
         this.attributesManager = attributesManager;
-        this.sessionAttributes = attributesManager.getSessionAttributes();
-        if (sessionAttributes == null || sessionAttributes.isEmpty()) {
-            sessionAttributes = new HashMap<>();
-        }
-        this.persistentAttributes = attributesManager.getPersistentAttributes();
-        if (persistentAttributes == null || persistentAttributes.isEmpty()) {
-            persistentAttributes = new HashMap<>();
-        }
+        this.sessionAttributes = verifyMap(attributesManager.getSessionAttributes());
+        this.persistentAttributes = verifyMap(attributesManager.getPersistentAttributes());
         populateFields();
         userReply = slots.get(slotName).getValue();
+    }
+
+    private Map<String, Object> verifyMap(Map<String, Object> map) {
+        if (map == null || map.isEmpty()) {
+            map = new HashMap<>();
+        }
+        return map;
     }
 
     @SuppressWarnings("unchecked")
@@ -93,18 +102,18 @@ public class SessionStateManager {
         stateItem.setMissionIndex((int) sessionAttributes.getOrDefault(MISSION_INDEX, 0));
         stateItem.setLocationIndex((int) sessionAttributes.getOrDefault(LOCATION_INDEX, 0));
         stateItem.setSceneIndex((int) sessionAttributes.getOrDefault(SCENE_INDEX, 0));
-
-        userName = String.valueOf(sessionAttributes.get(USERNAME));
         health = (int) sessionAttributes.getOrDefault(HEALTH, getNumber(HEALTH));
         coins = (int) sessionAttributes.getOrDefault(COINS, 0);
-        totalCoins = (int) sessionAttributes.getOrDefault(TOTAL_COINS, 0);
         Object obstacle = sessionAttributes.get(OBSTACLE);
         currentObstacle = obstacle != null ? String.valueOf(obstacle) : null;
-
         toNextExclamation = (int) sessionAttributes.getOrDefault(TURNS_TO_NEXT_EXCLAMATION, getTurnsToNextExclamation());
+        toNextHeadsUp = (int) sessionAttributes.getOrDefault(TURNS_TO_NEXT_HEADS_UP, getNumber(HEADS_UP));
 
-        visitedLocations = (List<String>) sessionAttributes.getOrDefault(VISITED_LOCATIONS, new ArrayList<String>());
-        oldObstacles = (List<String>) sessionAttributes.getOrDefault(OLD_OBSTACLES, new ArrayList<String>());
+        userName = String.valueOf(persistentAttributes.get(USERNAME));
+        totalCoins = (int) persistentAttributes.getOrDefault(TOTAL_COINS, 0);
+        visitedLocations = (List<String>) persistentAttributes.getOrDefault(VISITED_LOCATIONS, new ArrayList<String>());
+        oldObstacles = (List<String>) persistentAttributes.getOrDefault(OLD_OBSTACLES, new ArrayList<String>());
+        completedMissions = (List<List<Integer>>) persistentAttributes.getOrDefault(COMPLETED_MISSIONS, new ArrayList<>());
     }
 
     private String capitalizeFirstLetter(String s) {
@@ -180,11 +189,21 @@ public class SessionStateManager {
         totalCoins += coins;
         coins = 0;
         stateItem.setIndex(0);
+        health = getNumber(HEALTH);
+        setCheckpoint();
         String sceneOutro = getSceneOutro();
         getNextScene();
         DialogItem response = getIntroOutroDialog();
         response.setResponseText(combineWithBreak(sceneOutro, response.getResponseText()));
         return response;
+    }
+
+    private void setCheckpoint() {
+        checkpoint = new ArrayList<>();
+        checkpoint.add(stateItem.getTierIndex());
+        checkpoint.add(stateItem.getMissionIndex());
+        checkpoint.add(stateItem.getLocationIndex());
+        checkpoint.add(stateItem.getSceneIndex());
     }
 
     private String getSceneOutro() {
@@ -414,6 +433,7 @@ public class SessionStateManager {
         sessionAttributes.put(VISITED_LOCATIONS, visitedLocations);
         sessionAttributes.put(OLD_OBSTACLES, oldObstacles);
         sessionAttributes.put(TURNS_TO_NEXT_EXCLAMATION, toNextExclamation);
+        sessionAttributes.put(TURNS_TO_NEXT_HEADS_UP, toNextHeadsUp);
         sessionAttributes.put(USERNAME, userName);
 
         attributesManager.setSessionAttributes(sessionAttributes);
@@ -422,7 +442,12 @@ public class SessionStateManager {
     private String nextObstacle(String speechText) {
         String obstacle = game.nextObstacle(stateItem);
         logger.debug("Got obstacle {} for {} {} {}", obstacle, stateItem.getMission(), stateItem.getLocation(), stateItem.getScene());
-        if (!oldObstacles.contains(obstacle)) {
+        if (oldObstacles.contains(obstacle)) {
+            if (toNextHeadsUp-- <= 0) {
+                speechText += " " + ObstacleManager.getHeadsUp(stateItem, obstacle);
+                toNextHeadsUp = getNumber(HEADS_UP);
+            }
+        } else {
             oldObstacles.add(obstacle);
             String preObstacle = ObstacleManager.getPreObstacle(stateItem, obstacle);
             speechText += " " + preObstacle;

@@ -58,6 +58,15 @@ public class ObstacleManager {
         throw new NoSuchElementException("No responses for treasure: " + obstacle);
     }
 
+    public static String getTreasureHeadsUp(String obstacle) {
+        for (ObstacleItem item : treasure) {
+            if (Objects.equals(item.getName(), obstacle)) {
+                return item.getHeadsUp();
+            }
+        }
+        throw new NoSuchElementException("No responses for treasure: " + obstacle);
+    }
+
     public static String getObstacleExplanation(StateItem state) {
         logger.debug("Getting obstacle explanation for location {},  scene {}", state.getLocation(), state.getScene());
         return obstacleSetup.get(state.getLocation()).get(state.getScene()).get(state.getTierIndex()).getExplanation();
@@ -76,6 +85,13 @@ public class ObstacleManager {
             return getTreasurePre(obstacle);
         }
         return getObstacleByName(state, obstacle).getPreObstacle();
+    }
+
+    public static String getHeadsUp(StateItem state, String obstacle) {
+        if (isTreasure(obstacle)) {
+            return getTreasureHeadsUp(obstacle);
+        }
+        return getObstacleByName(state, obstacle).getHeadsUp();
     }
 
     public static List<String> getObstacleResponses(StateItem state, String key) {

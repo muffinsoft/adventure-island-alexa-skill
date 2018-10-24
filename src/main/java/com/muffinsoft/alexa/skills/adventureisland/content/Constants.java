@@ -32,6 +32,7 @@ public class Constants {
     public static final String REPROMPT = "Reprompt";
     public static final String MIN_OBSTACLES_EXCLAIM = "minObstaclesExclamation";
     public static final String MAX_OBSTACLES_EXCLAIM = "maxObstaclesExclamation";
+    public static final String HEADS_UP = "headsUp";
     public static final String SELECT_MISSION = "selectMission";
     public static final String SELECT_MISSION2 = "selectMission2";
     public static final String USERNAME_PLACEHOLDER = "__USERNAME__";
