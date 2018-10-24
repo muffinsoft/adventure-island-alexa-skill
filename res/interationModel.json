@@ -32,6 +32,9 @@
             }
           ],
           "samples": [
+            "i am {action}",
+            "my name is {action}",
+            "i'm {action}",
             "find treasure",
             "{action}"
           ]
@@ -58,7 +61,50 @@
           "values": [
             {
               "name": {
-                "value": "woah"
+                "value": "another mission"
+              }
+            },
+            {
+              "name": {
+                "value": "restart scene"
+              }
+            },
+            {
+              "name": {
+                "value": "tiki quartet"
+              }
+            },
+            {
+              "name": {
+                "value": "pirate business"
+              }
+            },
+            {
+              "name": {
+                "value": "royal ransom"
+              }
+            },
+            {
+              "name": {
+                "value": "password"
+              }
+            },
+            {
+              "name": {
+                "value": "lily first"
+              }
+            },
+            {
+              "name": {
+                "value": "i'm ready"
+              }
+            },
+            {
+              "name": {
+                "value": "woah",
+                "synonyms": [
+                  "whoa"
+                ]
               }
             },
             {

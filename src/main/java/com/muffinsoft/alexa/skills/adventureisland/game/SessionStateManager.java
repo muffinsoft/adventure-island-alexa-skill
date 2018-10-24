@@ -47,6 +47,7 @@ public class SessionStateManager {
 
     private AttributesManager attributesManager;
     private Map<String, Object> sessionAttributes;
+    private Map<String, Object> persistentAttributes;
     private String slotName = SlotName.ACTION.text;
     private String userReply;
 
@@ -222,7 +223,7 @@ public class SessionStateManager {
         String responseText = "";
 
         // user is ready
-        if (Objects.equals(userReply, ReplyManager.getReply(DEMO + 1))) {
+        if (userReply.contains(ReplyManager.getReply(DEMO + 1))) {
             responseText = nextObstacle(responseText);
             stateItem.setIndex(stateItem.getIndex() + 1);
             return new DialogItem(responseText, false, slotName);
@@ -230,7 +231,7 @@ public class SessionStateManager {
 
         if (stateItem.getTierIndex() == 0 && stateItem.getLocationIndex() == 0 && stateItem.getSceneIndex() == 0) {
             // Lily first
-            if (Objects.equals(userReply, ReplyManager.getReply(DEMO + 2))) {
+            if (userReply.contains(ReplyManager.getReply(DEMO + 2))) {
                 responseText += getPhrase(stateItem.getScene() + capitalizeFirstLetter(DEMO));
             } else {
                 // prompt for demo round
@@ -343,7 +344,7 @@ public class SessionStateManager {
             Mission mission = missions.get(i);
             logger.debug("Comparing reply {} with mission name {}", userReply, mission.getName());
             String missionName = mission.getName();
-            if (missionName.contains(userReply) || missionName.toLowerCase().contains(userReply)) {
+            if (Objects.equals(missionName.toLowerCase(), userReply)) {
                 String key = PhraseManager.nameToKey(mission.getName());
 
                 stateItem.setMission(key);

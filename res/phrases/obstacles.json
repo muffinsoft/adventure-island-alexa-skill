@@ -3,180 +3,192 @@
     {
       "name" : "snakes",
       "responses" : ["whee"],
-      "preObstacle" : "Snakes ahead! Be ready to jump over saying Whee!",
+      "preObstacle" : "Snakes! Jump over them by saying 'whee'!",
       "headsUp" : "Snakes ahead!"
     },
     {
-      "name" : "darts",
+      "name" : "blow darts",
       "responses" : ["woah", "whoa"],
-      "preObstacle" : "Yikes! I think I see some blow darts up ahead! Remember, say 'Whoah' to duck under them!",
-      "headsUp" : "Darts coming!"
+      "preObstacle" : "Blow darts incoming! Say 'woah' to roll under them!",
+      "headsUp" : "Blow darts incoming!"
     },
     {
-      "name" : "spikes",
+      "name" : "floor spikes",
       "responses" : ["whee"],
-      "preObstacle" : "If you hear floor spikes, say 'whee' to jump over.",
-      "headsUp" : "Floor spikes!"
+      "preObstacle" : "Floor spikes up ahead! Shout 'whee' to jump!",
+      "headsUp" : "I see floor spikes!"
     },
     {
       "name" : "arrows",
       "responses" : ["woah", "whoa"],
-      "preObstacle" : "If we hear arrows, say 'woah' to duck.",
-      "headsUp" : "Arrows there!"
+      "preObstacle" : "Arrows! Duck under them by saying 'woah'!",
+      "headsUp" : "Arrows! Stay low!"
     },
     {
       "name" : "swinging axe",
       "responses" : ["woah", "whoa"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "A swinging axe! Remember to say 'whoa' to duck!",
+      "headsUp" : "Swinging axe in our way!"
     },
     {
       "name" : "collapsing floor",
       "responses" : ["whee"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "The floor ahead looks unstable! Shout 'whee' to jump!",
+      "headsUp" : "Yikes, collapsing floor!"
     },
     {
       "name" : "sleeping jaguar",
       "responses" : ["whip"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "Yikes, a jaguar! Keep it away by using your 'whip'!",
+      "headsUp" : "Stay sharp! A jaguar!"
     },
     {
-      "name" : "Cherushka",
+      "name" : "rolling rock",
       "responses" : ["blah"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "I see a rolling rock coming this way! Say 'whee' to jump!",
+      "headsUp" : "Heads up! A rolling rock!"
     },
     {
       "name" : "spider web",
       "responses" : ["whip"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "Eww, a big spider web! Shout 'whip' to clear the way!",
+      "headsUp" : "Spider web ahead!"
+    },
+    {
+      "name" : "poison gas",
+      "responses": ["woah"],
+      "preObstacle" : "There's poison gas in the air! Say 'woah' to slide under!",
+      "headsUp" : "Poison gas incoming!"
     }
   ],
   "pirateBay" : [
     {
       "name" : "rocks ahead",
       "responses" : ["turn"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "Rocks ahead! Say 'turn' to avoid them!",
+      "headsUp" : "Sharp rocks incoming!"
     },
     {
       "name" : "whirlpool",
       "responses" : ["turn"],
       "preObstacle" : "",
-      "headsUp" : ""
+      "headsUp" : "Whirlpool at twelve o'clock!"
     },
     {
       "name" : "sailors",
       "responses" : ["ahoy", "ahoy, mateys"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "Sailors! Let them know we're friendly by shouting 'ahoy, mateys!'",
+      "headsUp" : "Sailors up ahead!"
     },
     {
       "name" : "pirates",
       "responses" : ["boom"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "Evil pirates! Give your crew the signal by shouting 'boom'!",
+      "headsUp" : "Be careful! Pirates!"
     },
     {
       "name" : "big wave",
       "responses" : ["whee"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "Woah, that's one big wave! Say 'whee' to speed up and get over it!",
+      "headsUp" : "Uh oh, big wave coming up!"
     },
     {
       "name" : "mermaids",
       "responses" : ["ahoy", "ahoy, mateys"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "I see mermaids! They'll attack if you don't say 'ahoy, mateys!'",
+      "headsUp" : "Mermaids spotted!"
     },
     {
       "name" : "pirate queen",
       "responses" : ["boom"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "The dreaded pirate queen! Defend with our cannons by saying 'boom'!",
+      "headsUp" : "Pirate Queen fast approaching!"
     },
     {
       "name" : "kraken",
       "responses" : ["foom"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "The Kraken is real! Shouting 'foom!' to keep it away is our only hope!",
+      "headsUp" : "The Kraken is here!"
     },
     {
       "name" : "sea snake",
       "responses" : ["foom"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "Oh no, an enormous sea snake! Say 'foom' to use the giant harpoon!",
+      "headsUp" : "Heads up! Sea snake!"
     },
     {
       "name" : "shipwreck",
       "responses" : ["whee"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "We're approaching a shipwreck. Say 'whee' to speed through it!",
+      "headsUp" : "We're nearing a shipwreck!"
+    },
+    {
+      "name" : "barrel bomb",
+      "responses" : ["turn"],
+      "preObstacle" : "You better say 'turn' to avoid those barrel bombs coming our way!",
+      "headsUp" : "Barrel Bomb incoming!"
     }
   ],
   "kingdomChase" : [
     {
       "name" : "wall",
       "responses" : ["climb"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "The thief ran into a wall! Say 'climb' to climb over it!",
+      "headsUp" : "Wall in front of us!"
     },
     {
       "name" : "moat",
       "responses" : ["swim"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "Water coming up! splash across by saying 'splash'!",
+      "headsUp" : "A moat! Get ready!"
     },
     {
       "name" : "rose bush",
       "responses" : ["whee"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "A rose bush coming up! Say 'whee' to not get poked!",
+      "headsUp" : "Careful! Rose bushes!"
     },
     {
       "name" : "dragon",
       "responses" : ["hide"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "No way, a dragon! Shout 'hide' before it sees you!",
+      "headsUp" : "Woah, a dragon incoming!"
     },
     {
       "name" : "tomato",
       "responses" : ["woah"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "The thief has a tomato! Say 'woah' to duck under it!",
+      "headsUp" : "He has a tomato!"
     },
     {
       "name" : "baby ducks",
       "responses" : ["whee"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "Oh no, baby ducks up ahead! Jump over by saying 'whee'!",
+      "headsUp" : "Are those baby ducks?!"
     },
     {
       "name" : "bee hive",
       "responses" : ["woah"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "The thief has a beehive! Duck under by saying 'woah'!",
+      "headsUp" : "He's got a beehive!"
     },
     {
       "name" : "bandit",
       "responses" : ["zap"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "Bandit incoming! Zap it away by shouting 'zap'!",
+      "headsUp" : "Watch out! A bandit!"
     },
     {
       "name" : "troll",
       "responses" : ["hide"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "I see a hungry troll! Be sure to hide by saying 'hide'!",
+      "headsUp" : "Yikes, a troll"
     },
     {
       "name" : "goblin",
       "responses" : ["zap"],
-      "preObstacle" : "",
-      "headsUp" : ""
+      "preObstacle" : "Give that goblin up ahead a taste of magic by shouting 'zap'!",
+      "headsUp" : "I see a goblin!"
     }
   ]
 }

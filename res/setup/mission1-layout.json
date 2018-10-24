@@ -1,5 +1,6 @@
 {
   "name": "Royal Ransom",
+  "tierNames": ["Royal Ransom", "Royal Redemption", "Royal Redemption"],
   "locations": [
     {
       "name": "Ancient Temple",
