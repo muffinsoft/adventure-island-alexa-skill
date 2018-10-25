@@ -69,9 +69,13 @@ public class SessionStateManager {
     private int totalCoins;
     private List<String> visitedLocations;
     private List<String> oldObstacles;
-    /** Index of the external list is tier, it contains a list of indices of completed missions */
+    /**
+     * Index of the external list is tier, it contains a list of indices of completed missions
+     */
     private List<List<Integer>> completedMissions;
-    /** Checkpoint contains 4 integers: tier, mission, location, and scene */
+    /**
+     * Checkpoint contains 4 integers: tier, mission, location, and scene
+     */
     private List<Integer> checkpoint;
 
 
@@ -157,6 +161,7 @@ public class SessionStateManager {
             stateItem.setMissionIndex(0);
             stateItem.setLocationIndex(0);
             stateItem.setSceneIndex(0);
+            checkpoint = null;
             return promptForMission();
         }
         String response = getPhrase(SCENE_FAIL + REPROMPT);
@@ -352,7 +357,7 @@ public class SessionStateManager {
             }
 
         } else {
-             responseText = getPhrase(nameKey);
+            responseText = getPhrase(nameKey);
         }
         stateItem.setIndex(stateItem.getIndex() + 1);
 
@@ -368,12 +373,14 @@ public class SessionStateManager {
     private boolean detectMission() {
         List<Mission> missions = game.getMissions();
         for (int i = 0; i < missions.size(); i++) {
-            Mission mission = missions.get(i);
-            logger.debug("Comparing reply {} with mission name {}", userReply, mission.getName());
-            String missionName = mission.getName();
-            if (Objects.equals(missionName.toLowerCase(), userReply)) {
-                String key = PhraseManager.nameToKey(mission.getName());
 
+            int tier = getTier(i);
+            String missionName = missions.get(i).getTierNames().get(tier);
+            logger.debug("Comparing reply {} with mission name {}", userReply, missionName);
+            if (Objects.equals(missionName.toLowerCase(), userReply)) {
+                String key = PhraseManager.nameToKey(missionName);
+
+                stateItem.setTierIndex(tier);
                 stateItem.setMission(key);
                 stateItem.setLocation(key);
                 stateItem.setScene(key);
@@ -392,11 +399,23 @@ public class SessionStateManager {
     private DialogItem promptForMission() {
         StringBuilder responseText = new StringBuilder(getPhrase(SELECT_MISSION));
         List<Mission> missions = game.getMissions();
-        for (Mission mission : missions) {
-            responseText.append(mission.getName());
+        for (int i = 0; i < missions.size(); i++) {
+            int tier = getTier(i);
+            responseText.append(missions.get(i).getTierNames().get(tier));
             responseText.append(". ");
         }
         return new DialogItem(responseText.toString(), false, slotName, true);
+    }
+
+    private int getTier(int missionIndex) {
+        int result = 0;
+        for (int i = (completedMissions.size() - 1); i >= 0; i--) {
+            if (completedMissions.get(i).contains(missionIndex)) {
+                result = i + 1;
+                break;
+            }
+        }
+        return result;
     }
 
     private String getNameKey(State state) {
@@ -413,6 +432,18 @@ public class SessionStateManager {
 
     private void getNextScene() {
         stateItem = game.nextActivity(stateItem);
+        if (Objects.equals(stateItem.getMission(), ROOT)) {
+            updateCompletedMissions();
+        }
+    }
+
+    private void updateCompletedMissions() {
+        while (completedMissions.size() < stateItem.getMissionIndex() + 1) {
+            completedMissions.add(new ArrayList<>());
+        }
+        List<Integer> tier = completedMissions.get(stateItem.getMissionIndex());
+        tier.add(stateItem.getMissionIndex());
+
     }
 
     private void updateSession() {
@@ -428,15 +459,21 @@ public class SessionStateManager {
 
         sessionAttributes.put(OBSTACLE, currentObstacle);
         sessionAttributes.put(COINS, coins);
-        sessionAttributes.put(TOTAL_COINS, totalCoins);
         sessionAttributes.put(HEALTH, health);
-        sessionAttributes.put(VISITED_LOCATIONS, visitedLocations);
-        sessionAttributes.put(OLD_OBSTACLES, oldObstacles);
-        sessionAttributes.put(TURNS_TO_NEXT_EXCLAMATION, toNextExclamation);
         sessionAttributes.put(TURNS_TO_NEXT_HEADS_UP, toNextHeadsUp);
-        sessionAttributes.put(USERNAME, userName);
+        sessionAttributes.put(TURNS_TO_NEXT_EXCLAMATION, toNextExclamation);
 
         attributesManager.setSessionAttributes(sessionAttributes);
+
+        persistentAttributes.put(TOTAL_COINS, totalCoins);
+        persistentAttributes.put(VISITED_LOCATIONS, visitedLocations);
+        persistentAttributes.put(OLD_OBSTACLES, oldObstacles);
+        persistentAttributes.put(USERNAME, userName);
+        persistentAttributes.put(CHECKPOINT, checkpoint);
+        persistentAttributes.put(COMPLETED_MISSIONS, completedMissions);
+
+        attributesManager.setPersistentAttributes(persistentAttributes);
+        attributesManager.savePersistentAttributes();
     }
 
     private String nextObstacle(String speechText) {

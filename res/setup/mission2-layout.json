@@ -1,6 +1,6 @@
 {
   "name": "Pirate Business",
-  "tierNames": ["Pirate Business", "Pirate Business", "Pirate Business"],
+  "tierNames": ["Pirate Business", "Pirate Treasure", "Pirate Victory"],
   "locations": [
     {
       "name": "Kingdom Chase",
