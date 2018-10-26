@@ -173,15 +173,20 @@ public class SessionStateManager {
 
     private DialogItem getCoinsDialog() {
         List<String> expectedReplies = ObstacleManager.getTreasureResponses(currentObstacle);
-        String speechText;
+        String speechText = "";
         if (expectedReplies != null && expectedReplies.contains(userReply)) {
             coins++;
+            Powerup powerup = PowerupManager.findRelevant(powerups, MULTIPLY, currentObstacle);
+            if (powerup != null) {
+                coins++;
+                speechText = getPhrase(POWERUP_USED).replace(POWERUP_PLACEHOLDER, powerup.getName());
+            }
             if (coins >= getNumber(COINS_TO_COLLECT)) {
                 currentObstacle = null;
-                return finishScene();
+                return finishScene(speechText);
             }
             String coinText = coins == 1 ? COIN_SINGLE : COIN_PLURAL;
-            speechText = getPhrase(ACTION_APPROVE) + " " + getPhrase(YOU_HAVE) + " " +
+            speechText += " " + getPhrase(ACTION_APPROVE) + " " + getPhrase(YOU_HAVE) + " " +
                     coins + " " + getPhrase(coinText) + ".";
         } else {
             speechText = getPhrase(COIN_NOT_PICKED);
@@ -193,13 +198,13 @@ public class SessionStateManager {
         return new DialogItem(speechText, false, slotName);
     }
 
-    private DialogItem finishScene() {
+    private DialogItem finishScene(String speechText) {
         totalCoins += coins;
         coins = 0;
         stateItem.setIndex(0);
         health = getNumber(HEALTH);
         setCheckpoint();
-        String sceneOutro = getSceneOutro();
+        String sceneOutro = speechText + " " + getSceneOutro();
         getNextScene();
         DialogItem response = getIntroOutroDialog();
         response.setResponseText(combineWithBreak(sceneOutro, response.getResponseText()));
