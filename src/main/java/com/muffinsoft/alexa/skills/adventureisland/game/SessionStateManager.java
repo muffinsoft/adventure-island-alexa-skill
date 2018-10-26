@@ -2,10 +2,7 @@ package com.muffinsoft.alexa.skills.adventureisland.game;
 
 import com.amazon.ask.attributes.AttributesManager;
 import com.amazon.ask.model.Slot;
-import com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager;
-import com.muffinsoft.alexa.skills.adventureisland.content.ObstacleManager;
-import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
-import com.muffinsoft.alexa.skills.adventureisland.content.ReplyManager;
+import com.muffinsoft.alexa.skills.adventureisland.content.*;
 import com.muffinsoft.alexa.skills.adventureisland.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +45,8 @@ public class SessionStateManager {
     static final String TURNS_TO_NEXT_HEADS_UP = "turnsToNextHeadsUp";
     static final String COMPLETED_MISSIONS = "completedMissions";
     static final String CHECKPOINT = "checkpoint";
+    static final String JUST_FAILED = "justFailed";
+    static final String POWERUPS = "powerups";
 
     private AttributesManager attributesManager;
     private Map<String, Object> sessionAttributes;
@@ -63,6 +62,8 @@ public class SessionStateManager {
     private int toNextExclamation;
     private int toNextHeadsUp;
     private boolean skipReadyPrompt;
+    private boolean justFailed;
+    private List<String> powerups;
 
     // PERSISTENT attributes
     private String userName;
@@ -74,7 +75,7 @@ public class SessionStateManager {
      */
     private List<List<Integer>> completedMissions;
     /**
-     * Checkpoint contains 4 integers: tier, mission, location, and scene
+     * Checkpoint contains 4 integers: tier, mission, location, and last successful scene
      */
     private List<Integer> checkpoint;
 
@@ -112,6 +113,8 @@ public class SessionStateManager {
         currentObstacle = obstacle != null ? String.valueOf(obstacle) : null;
         toNextExclamation = (int) sessionAttributes.getOrDefault(TURNS_TO_NEXT_EXCLAMATION, getTurnsToNextExclamation());
         toNextHeadsUp = (int) sessionAttributes.getOrDefault(TURNS_TO_NEXT_HEADS_UP, getNumber(HEADS_UP));
+        justFailed = sessionAttributes.get(JUST_FAILED) != null;
+        powerups = (List<String>) sessionAttributes.getOrDefault(POWERUPS, new ArrayList<>());
 
         userName = String.valueOf(persistentAttributes.get(USERNAME));
         totalCoins = (int) persistentAttributes.getOrDefault(TOTAL_COINS, 0);
@@ -221,15 +224,15 @@ public class SessionStateManager {
 
         if (currentObstacle != null) {
 
-            toNextExclamation--;
             if (ObstacleManager.isTreasure(currentObstacle)) {
                 return getCoinsDialog();
             }
             List<String> expectedReplies = ObstacleManager.getObstacleResponses(stateItem, currentObstacle);
             currentObstacle = null;
             if (expectedReplies != null && expectedReplies.contains(userReply)) {
-                if (toNextExclamation <= 0) {
-                    speechText = getExclamation();
+                speechText = getPowerup();
+                if (speechText.isEmpty() && --toNextExclamation <= 0) {
+                    speechText += getExclamation();
                     toNextExclamation = getTurnsToNextExclamation();
                 }
             } else {
@@ -237,6 +240,7 @@ public class SessionStateManager {
                 if (health <= 0) {
                     return processSceneFail();
                 }
+                justFailed = true;
                 speechText = getPhrase(ACTION_FAIL);
             }
         } else if (skipReadyPrompt) {
@@ -249,6 +253,21 @@ public class SessionStateManager {
         stateItem.setIndex(stateItem.getIndex() + 1);
 
         return new DialogItem(speechText, false, slotName);
+    }
+
+    private String getPowerup() {
+        String previous = "";
+        if (!powerups.isEmpty()) {
+            previous = powerups.get(powerups.size() - 1);
+        }
+        if (justFailed) {
+            Powerup powerup = PowerupManager.getPowerup(previous);
+            powerups.add(powerup.getName());
+            justFailed = false;
+            return getPhrase(POWERUP_GOT).replace(POWERUP_PLACEHOLDER, powerup.getName()) +
+                    " " + powerup.getExplanation();
+        }
+        return "";
     }
 
     private DialogItem getStartConfirmation() {
@@ -462,6 +481,8 @@ public class SessionStateManager {
         sessionAttributes.put(HEALTH, health);
         sessionAttributes.put(TURNS_TO_NEXT_HEADS_UP, toNextHeadsUp);
         sessionAttributes.put(TURNS_TO_NEXT_EXCLAMATION, toNextExclamation);
+        sessionAttributes.put(JUST_FAILED, justFailed ? "yes" : null);
+        sessionAttributes.put(POWERUPS, powerups);
 
         attributesManager.setSessionAttributes(sessionAttributes);
 
@@ -478,17 +499,26 @@ public class SessionStateManager {
 
     private String nextObstacle(String speechText) {
         String obstacle = game.nextObstacle(stateItem);
-        logger.debug("Got obstacle {} for {} {} {}", obstacle, stateItem.getMission(), stateItem.getLocation(), stateItem.getScene());
-        if (oldObstacles.contains(obstacle)) {
-            if (toNextHeadsUp-- <= 0) {
-                speechText += " " + ObstacleManager.getHeadsUp(stateItem, obstacle);
-                toNextHeadsUp = getNumber(HEADS_UP);
-            }
+        Powerup powerup = PowerupManager.findRelevant(powerups, REPLACE, obstacle);
+
+        if (powerup != null) {
+            String action = powerup.getAction().toLowerCase();
+            obstacle = action.substring(action.indexOf(REPLACEMENT_PREFIX) + REPLACEMENT_PREFIX.length());
+            speechText += " " + getPhrase(POWERUP_USED).replace(POWERUP_PLACEHOLDER, powerup.getName());
         } else {
-            oldObstacles.add(obstacle);
-            String preObstacle = ObstacleManager.getPreObstacle(stateItem, obstacle);
-            speechText += " " + preObstacle;
+            logger.debug("Got obstacle {} for {} {} {}", obstacle, stateItem.getMission(), stateItem.getLocation(), stateItem.getScene());
+            if (oldObstacles.contains(obstacle)) {
+                if (toNextHeadsUp-- <= 0) {
+                    speechText += " " + ObstacleManager.getHeadsUp(stateItem, obstacle);
+                    toNextHeadsUp = getNumber(HEADS_UP);
+                }
+            } else {
+                oldObstacles.add(obstacle);
+                String preObstacle = ObstacleManager.getPreObstacle(stateItem, obstacle);
+                speechText += " " + preObstacle;
+            }
         }
+
         currentObstacle = obstacle;
         speechText += " " + capitalizeFirstLetter(obstacle) + "!";
 

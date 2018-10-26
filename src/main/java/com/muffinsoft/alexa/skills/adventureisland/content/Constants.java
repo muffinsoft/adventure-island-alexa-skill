@@ -17,6 +17,12 @@ public class Constants {
     public static final String NAME = "name";
     public static final String PROMPT = "Prompt";
     public static final String READY = "ready";
+    public static final String ANYTHING = "any";
+    public static final String REPLACE = "replace";
+    public static final String REPLACEMENT_PREFIX = "with";
+    public static final String SKIP = "skip";
+    public static final String RETRY = "retry";
+    public static final String MULTIPLY = "multiply";
     public static final String SILENT_SCENE = "finale";
     public static final String COINS_TO_COLLECT = "coinsToCollect";
     public static final String SCENE_CONFIRM = "sceneConfirm";
@@ -36,6 +42,9 @@ public class Constants {
     public static final String SELECT_MISSION = "selectMission";
     public static final String SELECT_MISSION2 = "selectMission2";
     public static final String USERNAME_PLACEHOLDER = "__USERNAME__";
+    public static final String POWERUP_USED = "powerupUsed";
+    public static final String POWERUP_GOT = "powerupGot";
+    public static final String POWERUP_PLACEHOLDER = "__POWERUP__";
     public static final List<String> COINS_FOUND = new ArrayList<>();
 
     public static final ContentLoader contentLoader = new ContentLoader();

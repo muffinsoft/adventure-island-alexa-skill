@@ -1,0 +1,22 @@
+[
+  {
+    "name" : "Protection Talisman",
+    "explanation" : "Avoid getting hurt the first time you respond incorrectly to a hazard.",
+    "action" : "skipAnyObstacle"
+  },
+  {
+    "name" : "Coin Goggles",
+    "explanation" : "Find a hidden coin up ahead (instead of an obstacle).",
+    "action" : "replaceAnyObstacleWithCoin"
+  },
+  {
+    "name" : "Energy Juice",
+    "explanation" : "Now you're quick enough to take a second shot next time you say an incorrect answer.",
+    "action" : "retryAnyObstacle"
+  },
+  {
+    "name" : "Duplication Wand",
+    "explanation" : "A magic wand that turns one coin into two!",
+    "action" : "multiplyCoin2"
+  }
+]

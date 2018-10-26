@@ -123,5 +123,7 @@
   "tikiQuartet2Intro0" : "Good job last time, guys! Tiki Ten and Tiki Barry have their instruments back. Now we need Tiki Mezzo's ukelele. The treasure hunter accidentally broke this one, which means it's going to cost more to buy and repair. Have you ever broken something you really liked, __USERNAME__?",
   "tikiQuartetIntro1" : "First, let's collect coins to buy back Tiki Ten's bamboo xylophone. I love how it sounds when he plays it!",
   "tikiQuartet1Intro1" : "He'll have his drum back soon enough, thanks to us! Let's go!",
-  "tikiQuartet2Intro1" : "I'm sure we'll find enough coins on our next adventure! Let's get to it!"
+  "tikiQuartet2Intro1" : "I'm sure we'll find enough coins on our next adventure! Let's get to it!",
+  "powerupUsed" : "Wow, that looked like __POWERUP__",
+  "powerupGot" : "Wow, nice comeback! You've got __POWERUP__ to use during this scene."
 }
