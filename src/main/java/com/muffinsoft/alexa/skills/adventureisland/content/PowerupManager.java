@@ -30,21 +30,17 @@ public class PowerupManager {
         return powerup;
     }
 
-    public static Powerup getPowerupByName(String name) {
-        for (Powerup powerup : powerups) {
-            if (Objects.equals(powerup.getName(), name)) {
-                return powerup;
-            }
-        }
-        throw new NoSuchElementException("No such powerup: " + name);
-    }
-
-    public static Powerup findRelevant(List<String> names, String action, String obstacle) {
+    public static Powerup useFirstRelevant(List<String> names, String obstacle, String... actions) {
         for (Powerup powerup : powerups) {
             String powerupAction = powerup.getAction().toLowerCase();
-            if (names.contains(powerup.getName()) && powerupAction.contains(action) &&
+            if (names.contains(powerup.getName()) &&
                     (powerupAction.contains(obstacle.toLowerCase()) || powerupAction.contains(ANYTHING))) {
-                return powerup;
+                for (String action : actions) {
+                    if (powerupAction.contains(action)) {
+                        names.remove(powerup.getName());
+                        return powerup;
+                    }
+                }
             }
         }
         return null;

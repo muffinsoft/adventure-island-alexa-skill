@@ -176,7 +176,7 @@ public class SessionStateManager {
         String speechText = "";
         if (expectedReplies != null && expectedReplies.contains(userReply)) {
             coins++;
-            Powerup powerup = PowerupManager.findRelevant(powerups, MULTIPLY, currentObstacle);
+            Powerup powerup = PowerupManager.useFirstRelevant(powerups, currentObstacle, MULTIPLY);
             if (powerup != null) {
                 coins++;
                 speechText = getPhrase(POWERUP_USED).replace(POWERUP_PLACEHOLDER, powerup.getName());
@@ -203,6 +203,7 @@ public class SessionStateManager {
         coins = 0;
         stateItem.setIndex(0);
         health = getNumber(HEALTH);
+        powerups.clear();
         setCheckpoint();
         String sceneOutro = speechText + " " + getSceneOutro();
         getNextScene();
@@ -233,7 +234,6 @@ public class SessionStateManager {
                 return getCoinsDialog();
             }
             List<String> expectedReplies = ObstacleManager.getObstacleResponses(stateItem, currentObstacle);
-            currentObstacle = null;
             if (expectedReplies != null && expectedReplies.contains(userReply)) {
                 speechText = getPowerup();
                 if (speechText.isEmpty() && --toNextExclamation <= 0) {
@@ -241,12 +241,21 @@ public class SessionStateManager {
                     toNextExclamation = getTurnsToNextExclamation();
                 }
             } else {
-                health--;
-                if (health <= 0) {
-                    return processSceneFail();
+                Powerup powerup = PowerupManager.useFirstRelevant(powerups, currentObstacle, SKIP, RETRY);
+                if (powerup != null) {
+                    speechText = getPhrase(POWERUP_USED).replace(POWERUP_PLACEHOLDER, powerup.getName());
+                    if (powerup.getAction().toLowerCase().contains(RETRY)) {
+                        return new DialogItem(speechText, false, slotName);
+                    }
+                } else {
+                    health--;
+                    if (health <= 0) {
+                        return processSceneFail();
+                    }
+                    justFailed = true;
+                    speechText = getPhrase(ACTION_FAIL);
                 }
-                justFailed = true;
-                speechText = getPhrase(ACTION_FAIL);
+                currentObstacle = null;
             }
         } else if (skipReadyPrompt) {
             skipReadyPrompt = false;
@@ -303,6 +312,7 @@ public class SessionStateManager {
     }
 
     private DialogItem processSceneFail() {
+        currentObstacle = null;
         stateItem.setState(State.FAILED);
         stateItem.setIndex(0);
         return new DialogItem(getPhrase(SCENE_FAIL), false, slotName, true);
@@ -504,7 +514,7 @@ public class SessionStateManager {
 
     private String nextObstacle(String speechText) {
         String obstacle = game.nextObstacle(stateItem);
-        Powerup powerup = PowerupManager.findRelevant(powerups, REPLACE, obstacle);
+        Powerup powerup = PowerupManager.useFirstRelevant(powerups, obstacle, REPLACE);
 
         if (powerup != null) {
             String action = powerup.getAction().toLowerCase();
