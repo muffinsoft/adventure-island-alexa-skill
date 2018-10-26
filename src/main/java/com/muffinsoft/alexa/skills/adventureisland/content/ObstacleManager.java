@@ -32,6 +32,9 @@ public class ObstacleManager {
     }
 
     public static boolean isTreasure(String obstacle) {
+        if (obstacle == null) {
+            return false;
+        }
         for (ObstacleItem item : treasure) {
             if (Objects.equals(item.getName(), obstacle)) {
                 return true;

@@ -204,6 +204,7 @@ public class SessionStateManager {
         stateItem.setIndex(0);
         health = getNumber(HEALTH);
         powerups.clear();
+        justFailed = false;
         setCheckpoint();
         String sceneOutro = speechText + " " + getSceneOutro();
         getNextScene();
@@ -226,27 +227,32 @@ public class SessionStateManager {
 
     private DialogItem getActionDialog() {
 
+        if (ObstacleManager.isTreasure(currentObstacle)) {
+            return getCoinsDialog();
+        }
+
         String speechText = "";
 
         if (currentObstacle != null) {
 
-            if (ObstacleManager.isTreasure(currentObstacle)) {
-                return getCoinsDialog();
-            }
             List<String> expectedReplies = ObstacleManager.getObstacleResponses(stateItem, currentObstacle);
+            // correct reply
             if (expectedReplies != null && expectedReplies.contains(userReply)) {
                 speechText = getPowerup();
                 if (speechText.isEmpty() && --toNextExclamation <= 0) {
                     speechText += getExclamation();
                     toNextExclamation = getTurnsToNextExclamation();
                 }
+            // wrong reply
             } else {
+                // check if a powerup is available
                 Powerup powerup = PowerupManager.useFirstRelevant(powerups, currentObstacle, SKIP, RETRY);
                 if (powerup != null) {
                     speechText = getPhrase(POWERUP_USED).replace(POWERUP_PLACEHOLDER, powerup.getName());
                     if (powerup.getAction().toLowerCase().contains(RETRY)) {
                         return new DialogItem(speechText, false, slotName);
                     }
+                // lose a heart if no powerup
                 } else {
                     health--;
                     if (health <= 0) {
@@ -514,24 +520,15 @@ public class SessionStateManager {
 
     private String nextObstacle(String speechText) {
         String obstacle = game.nextObstacle(stateItem);
-        Powerup powerup = PowerupManager.useFirstRelevant(powerups, obstacle, REPLACE);
 
+        Powerup powerup = PowerupManager.useFirstRelevant(powerups, obstacle, REPLACE);
         if (powerup != null) {
             String action = powerup.getAction().toLowerCase();
             obstacle = action.substring(action.indexOf(REPLACEMENT_PREFIX) + REPLACEMENT_PREFIX.length());
             speechText += " " + getPhrase(POWERUP_USED).replace(POWERUP_PLACEHOLDER, powerup.getName());
         } else {
             logger.debug("Got obstacle {} for {} {} {}", obstacle, stateItem.getMission(), stateItem.getLocation(), stateItem.getScene());
-            if (oldObstacles.contains(obstacle)) {
-                if (toNextHeadsUp-- <= 0) {
-                    speechText += " " + ObstacleManager.getHeadsUp(stateItem, obstacle);
-                    toNextHeadsUp = getNumber(HEADS_UP);
-                }
-            } else {
-                oldObstacles.add(obstacle);
-                String preObstacle = ObstacleManager.getPreObstacle(stateItem, obstacle);
-                speechText += " " + preObstacle;
-            }
+            speechText = getPreObstacle(speechText, obstacle);
         }
 
         currentObstacle = obstacle;
@@ -540,6 +537,20 @@ public class SessionStateManager {
         // handle silent scenes
         if (Objects.equals(SILENT_SCENE, stateItem.getScene())) {
             speechText += " You did not hear this.";
+        }
+        return speechText;
+    }
+
+    private String getPreObstacle(String speechText, String obstacle) {
+        if (oldObstacles.contains(obstacle)) {
+            if (--toNextHeadsUp <= 0) {
+                speechText += " " + ObstacleManager.getHeadsUp(stateItem, obstacle);
+                toNextHeadsUp = getNumber(HEADS_UP);
+            }
+        } else {
+            oldObstacles.add(obstacle);
+            String preObstacle = ObstacleManager.getPreObstacle(stateItem, obstacle);
+            speechText += " " + preObstacle;
         }
         return speechText;
     }
