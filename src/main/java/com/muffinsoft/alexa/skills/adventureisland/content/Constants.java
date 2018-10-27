@@ -12,6 +12,8 @@ import java.util.List;
  */
 public class Constants {
 
+    public static final String WELCOME = "welcome";
+    public static final String WELCOME_BACK = "welcomeBack";
     public static final String ROOT = "root";
     public static final String DEMO = "demo";
     public static final String NAME = "name";

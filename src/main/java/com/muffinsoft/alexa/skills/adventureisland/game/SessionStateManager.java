@@ -35,7 +35,7 @@ public class SessionStateManager {
     static final String MISSION_INDEX = "missionIndex";
     static final String LOCATION_INDEX = "locationIndex";
     static final String SCENE_INDEX = "sceneIndex";
-    static final String USERNAME = "userName";
+    public static final String USERNAME = "userName";
     static final String HEALTH = "health";
     static final String COINS = "coins";
     static final String TOTAL_COINS = "totalCoins";
@@ -66,7 +66,7 @@ public class SessionStateManager {
     private List<String> powerups;
 
     // PERSISTENT attributes
-    private String userName;
+    private String userName = "my friend";
     private int totalCoins;
     private List<String> visitedLocations;
     private List<String> oldObstacles;
@@ -386,11 +386,7 @@ public class SessionStateManager {
         String expectedReply = ReplyManager.getReply(nameKey);
         String responseText;
         if (expectedReply != null) {
-            if (Objects.equals(expectedReply, NAME)) {
-                logger.debug("Saving {} as user name", userReply);
-                userName = userReply;
-                responseText = getPhrase(nameKey);
-            } else if (Objects.equals(expectedReply, userReply)) {
+            if (Objects.equals(expectedReply, userReply)) {
                 responseText = getPhrase(nameKey + YES);
             } else {
                 responseText = getPhrase(nameKey + NO);

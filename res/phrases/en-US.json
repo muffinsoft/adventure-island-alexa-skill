@@ -1,7 +1,7 @@
 {
-  "welcome" : "I am Ben. What’s your name?",
-  "rootIntro0" : "Nice name!  I'm going on a treasure hunting adventure and I could use a partner. What's the coolest place you've ever visited?",
-  "rootIntro1" : "Well I hope you're ready to explore ancient temples, sail the seven seas, and even visit a fantasy kingdom!",
+  "welcome" : "I am Ben. I'm going on a treasure hunting adventure and I could use a partner. What's the coolest place you've ever visited?",
+  "welcomeBack" : "Welcome back!",
+  "rootIntro0" : "Well I hope you're ready to explore ancient temples, sail the seven seas, and even visit a fantasy kingdom!",
   "selectMission" : "Choose one of the available missions. ",
   "selectMission2" : "Please make your selection",
   "welcomeCard" : "Adventure Island",
