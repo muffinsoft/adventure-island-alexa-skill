@@ -7,6 +7,7 @@ import com.muffinsoft.alexa.skills.adventureisland.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.*;
@@ -66,7 +67,7 @@ public class SessionStateManager {
     private List<String> powerups;
 
     // PERSISTENT attributes
-    private String userName = "my friend";
+    private String userName;
     private int totalCoins;
     private List<String> visitedLocations;
     private List<String> oldObstacles;
@@ -116,8 +117,9 @@ public class SessionStateManager {
         justFailed = sessionAttributes.get(JUST_FAILED) != null;
         powerups = (List<String>) sessionAttributes.getOrDefault(POWERUPS, new ArrayList<>());
 
-        userName = String.valueOf(persistentAttributes.get(USERNAME));
-        totalCoins = (int) persistentAttributes.getOrDefault(TOTAL_COINS, 0);
+        userName = String.valueOf(persistentAttributes.getOrDefault(USERNAME, "my friend"));
+        BigDecimal totalCoinsBD = (BigDecimal) persistentAttributes.getOrDefault(TOTAL_COINS, BigDecimal.ZERO);
+        totalCoins = totalCoinsBD.intValue();
         visitedLocations = (List<String>) persistentAttributes.getOrDefault(VISITED_LOCATIONS, new ArrayList<String>());
         oldObstacles = (List<String>) persistentAttributes.getOrDefault(OLD_OBSTACLES, new ArrayList<String>());
         completedMissions = (List<List<Integer>>) persistentAttributes.getOrDefault(COMPLETED_MISSIONS, new ArrayList<>());

@@ -9,8 +9,8 @@
           "name": "Temple Halls",
           "obstacles": [
             [
-              "snakes", "coins", "darts", "snakes", "darts", "coins", "darts", "coins", "snakes", "darts",
-              "coins", "darts", "coins", "darts", "snakes", "coins", "coins", "snakes", "coins", "darts", "darts",
+              "snakes", "coins", "blow darts", "snakes", "blow darts", "coins", "blow darts", "coins", "snakes", "blow darts",
+              "coins", "blow darts", "coins", "blow darts", "snakes", "coins", "coins", "snakes", "coins", "blow darts", "blow darts",
               "coins", "snakes", "coins"
             ],
             [],
@@ -21,7 +21,7 @@
           "name": "Treasure Tombs",
           "obstacles": [
             [
-              "spikes", "coins", "darts", "coins", "snakes", "spikes", "coins", "darts", "spikes", "coins", "snakes", "darts", "coins", "spikes", "darts", "coins", "darts", "coins", "snakes", "spikes", "coins", "spikes", "darts", "coins", "coins"],
+              "floor spikes", "coins", "blow darts", "coins", "snakes", "floor spikes", "coins", "blow darts", "floor spikes", "coins", "snakes", "blow darts", "coins", "floor spikes", "blow darts", "coins", "blow darts", "coins", "snakes", "floor spikes", "coins", "floor spikes", "blow darts", "coins", "coins"],
             [],
             []
           ]
@@ -30,7 +30,7 @@
           "name": "Temple Escape",
           "obstacles": [
             [
-              "coins", "arrows", "darts", "coins", "spikes", "darts", "coins", "darts", "snakes", "coins", "arrows", "darts", "coins", "arrows", "spikes", "coins", "darts", "coins", "snakes", "spikes", "coins", "arrows", "darts", "coins", "coins"],
+              "coins", "arrows", "blow darts", "coins", "floor spikes", "blow darts", "coins", "blow darts", "snakes", "coins", "arrows", "blow darts", "coins", "arrows", "floor spikes", "coins", "blow darts", "coins", "snakes", "floor spikes", "coins", "arrows", "blow darts", "coins", "coins"],
             [],
             []
           ]
@@ -39,7 +39,7 @@
           "name": "Finale",
           "obstacles": [
             [
-              "coins", "arrows", "darts", "coins", "spikes", "darts", "coins", "darts", "snakes", "coins", "arrows", "darts", "coins", "arrows", "spikes", "coins", "darts", "coins", "snakes", "spikes", "coins", "arrows", "darts", "coins", "coins"],
+              "coins", "arrows", "blow darts", "coins", "floor spikes", "blow darts", "coins", "blow darts", "snakes", "coins", "arrows", "blow darts", "coins", "arrows", "floor spikes", "coins", "blow darts", "coins", "snakes", "floor spikes", "coins", "arrows", "blow darts", "coins", "coins"],
             [],
             []
           ]

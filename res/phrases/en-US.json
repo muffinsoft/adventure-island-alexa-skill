@@ -1,6 +1,6 @@
 {
-  "welcome" : "I am Ben. I'm going on a treasure hunting adventure and I could use a partner. What's the coolest place you've ever visited?",
-  "welcomeBack" : "Welcome back!",
+  "welcome" : "I am Ben. I'm going on a treasure hunting adventure and I could use a partner. Are you available?",
+  "welcomeBack" : "Welcome back! Would you like to continue?",
   "rootIntro0" : "Well I hope you're ready to explore ancient temples, sail the seven seas, and even visit a fantasy kingdom!",
   "selectMission" : "Choose one of the available missions. ",
   "selectMission2" : "Please make your selection",
@@ -124,6 +124,6 @@
   "tikiQuartetIntro1" : "First, let's collect coins to buy back Tiki Ten's bamboo xylophone. I love how it sounds when he plays it!",
   "tikiQuartet1Intro1" : "He'll have his drum back soon enough, thanks to us! Let's go!",
   "tikiQuartet2Intro1" : "I'm sure we'll find enough coins on our next adventure! Let's get to it!",
-  "powerupUsed" : "Wow, that looked like __POWERUP__",
+  "powerupUsed" : "Wow, that looked like __POWERUP__.",
   "powerupGot" : "Wow, nice comeback! You've got __POWERUP__ to use during this scene."
 }

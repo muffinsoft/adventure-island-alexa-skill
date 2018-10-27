@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class Constants {
 
+    public static final String TABLE_NAME = "adventure_island";
     public static final String WELCOME = "welcome";
     public static final String WELCOME_BACK = "welcomeBack";
     public static final String ROOT = "root";

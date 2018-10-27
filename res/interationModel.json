@@ -61,6 +61,16 @@
           "values": [
             {
               "name": {
+                "value": "no"
+              }
+            },
+            {
+              "name": {
+                "value": "yes"
+              }
+            },
+            {
+              "name": {
                 "value": "another mission"
               }
             },
