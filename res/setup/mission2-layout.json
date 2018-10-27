@@ -8,45 +8,33 @@
         {
           "name": "The Village",
           "obstacles": [
-            [
-              "moat", "coins", "wall", "moat", "coins", "moat", "coins", "wall", "wall", "coins",
-              "moat", "wall", "coins", "wall", "coins", "moat", "wall", "coins", "moat", "coins", "wall", "moat", "coins",
-              "coins"],
-            [],
-            []
+            ["moat", "moat", "coins", "wall", "coins", "moat", "moat", "coins", "moat", "coins", "moat", "wall", "coins", "coins", "moat", "coins", "moat", "coins", "wall", "coins", "coins", "coins", "wall", "coins", "coins", "coins", "moat", "coins", "coins", "coins", "moat", "wall", "coins", "coins", "wall", "coins", "wall", "wall", "moat", "coins", "coins", "moat", "coins", "wall", "moat", "coins", "wall", "coins", "coins", "wall", "coins"],
+            ["wall", "coins", "dragon", "coins", "tomato", "coins", "rose bush", "coins", "moat", "coins", "coins", "tomato", "coins", "coins", "wall", "dragon", "coins", "coins", "tomato", "coins", "tomato", "coins", "wall", "coins", "rose bush", "rose bush", "coins", "wall", "tomato", "moat", "coins", "wall", "tomato", "dragon", "coins", "moat", "coins", "dragon", "coins", "tomato", "wall", "coins", "moat", "coins", "wall", "coins", "coins", "coins", "tomato", "wall", "coins"],
+            ["moat", "rose bush", "coins", "coins", "pond", "dragon", "coins", "moat", "tomato", "rose bush", "coins", "coins", "rose bush", "dragon", "coins", "moat", "pond", "moat", "coins", "wall", "troll", "coins", "coins", "baby ducks", "beehive", "coins", "moat", "rose bush", "pond", "coins", "dragon", "coins", "pond", "beehive", "coins", "coins", "coins", "pond", "coins", "rose bush", "dragon", "coins", "coins", "wall", "dragon", "coins", "tomato", "dragon", "coins", "rose bush", "coins"]
           ]
         },
         {
           "name": "Castle Grounds",
           "obstacles": [
-            [
-              "wall", "rose bush", "coins", "moat", "coins", "coins", "wall", "moat", "coins", "rose bush",
-              "wall", "coins", "moat", "rose bush", "coins", "moat", "wall", "coins", "rose bush", "wall", "coins", "moat",
-              "coins", "coins"],
-            [],
-            []
+            ["coins", "wall", "coins", "rose bush", "wall", "coins", "wall", "moat", "coins", "coins", "moat", "wall", "coins", "rose bush", "wall", "coins", "rose bush", "coins", "moat", "coins", "coins", "rose bush", "coins", "coins", "wall", "coins", "moat", "moat", "coins", "moat", "coins", "moat", "coins", "coins", "rose bush", "coins", "moat", "coins", "rose bush", "wall", "coins", "wall", "coins", "coins", "wall", "coins", "coins", "rose bush", "moat", "coins", "moat"],
+            ["tomato", "coins", "baby ducks", "coins", "baby ducks", "coins", "moat", "rose bush", "coins", "rose bush", "baby ducks", "moat", "coins", "baby ducks", "baby ducks", "coins", "coins", "wall", "coins", "moat", "dragon", "dragon", "coins", "wall", "coins", "coins", "baby ducks", "moat", "baby ducks", "coins", "baby ducks", "moat", "coins", "dragon", "coins", "baby ducks", "coins", "coins", "tomato", "coins", "moat", "rose bush", "coins", "tomato", "coins", "wall", "coins", "coins", "tomato", "coins", "baby ducks"],
+            ["tomato", "moat", "coins", "moat", "pond", "coins", "baby ducks", "coins", "rose bush", "dragon", "coins", "pond", "coins", "wall", "moat", "beehive", "coins", "baby ducks", "coins", "pond", "coins", "coins", "rose bush", "coins", "dragon", "coins", "pond", "coins", "dragon", "baby ducks", "coins", "baby ducks", "rose bush", "coins", "rose bush", "coins", "beehive", "moat", "coins", "wall", "tomato", "beehive", "coins", "rose bush", "coins", "beehive", "tomato", "coins", "baby ducks", "tomato", "wall"]
           ]
         },
         {
           "name": "Dragon Attack",
           "obstacles": [
-            [
-              "rose bush", "coins", "dragon", "moat", "coins", "wall", "coins", "moat", "coins", "dragon",
-              "wall", "coins", "moat", "rose bush", "coins", "moat", "wall", "coins", "rose bush", "dragon", "coins", "moat",
-              "coins", "coins"],
-            [],
-            []
+            ["coins", "moat", "dragon", "coins", "rose bush", "dragon", "coins", "dragon", "moat", "dragon", "coins", "dragon", "moat", "coins", "wall", "coins", "moat", "coins", "moat", "coins", "rose bush", "rose bush", "coins", "moat", "rose bush", "coins", "dragon", "coins", "dragon", "coins", "wall", "coins", "moat", "coins", "moat", "coins", "wall", "moat", "coins", "wall", "moat", "coins", "dragon", "moat", "coins", "dragon", "coins", "moat", "wall", "coins", "dragon"],
+            ["tomato", "wall", "moat", "coins", "wall", "coins", "moat", "wall", "coins", "tomato", "rose bush", "moat", "coins", "rose bush", "beehive", "dragon", "coins", "tomato", "baby ducks", "coins", "tomato", "coins", "dragon", "baby ducks", "coins", "rose bush", "beehive", "coins", "tomato", "wall", "coins", "tomato", "baby ducks", "coins", "dragon", "wall", "coins", "beehive", "coins", "coins", "coins", "wall", "coins", "coins", "baby ducks", "coins", "beehive", "coins", "moat", "dragon", "coins"],
+            ["tomato", "sleeping giant", "coins", "beehive", "baby ducks", "coins", "beehive", "wall", "beehive", "coins", "rose bush", "coins", "coins", "tomato", "coins", "wall", "pond", "moat", "coins", "beehive", "pond", "coins", "wall", "troll", "pond", "coins", "troll", "moat", "coins", "tomato", "baby ducks", "coins", "baby ducks", "pond", "tomato", "coins", "baby ducks", "rose bush", "coins", "beehive", "coins", "coins", "beehive", "troll", "coins", "pond", "coins", "wall", "coins", "tomato", "dragon"]
           ]
         },
         {
           "name": "Finale",
           "obstacles": [
-            [
-              "rose bush", "coins", "dragon", "moat", "coins", "wall", "coins", "moat", "coins", "dragon",
-              "wall", "coins", "moat", "rose bush", "coins", "moat", "wall", "coins", "rose bush", "dragon", "coins", "moat",
-              "coins", "coins"],
-            [],
-            []
+            ["moat", "coins", "dragon", "wall", "coins", "moat", "coins", "dragon", "coins", "coins", "dragon", "coins", "rose bush", "coins", "dragon", "coins", "dragon", "wall", "coins", "wall", "coins", "moat", "coins", "rose bush", "coins", "rose bush", "moat", "wall", "coins", "wall", "moat", "coins", "moat", "rose bush", "coins", "rose bush", "coins", "moat", "coins", "wall", "coins", "coins", "coins", "coins", "dragon", "coins", "wall", "moat", "coins", "dragon", "moat"],
+            ["coins", "baby ducks", "dragon", "tomato", "coins", "wall", "coins", "baby ducks", "coins", "tomato", "coins", "coins", "dragon", "coins", "baby ducks", "baby ducks", "coins", "rose bush", "coins", "rose bush", "dragon", "coins", "baby ducks", "coins", "rose bush", "coins", "coins", "baby ducks", "coins", "tomato", "coins", "beehive", "moat", "dragon", "coins", "baby ducks", "baby ducks", "moat", "coins", "tomato", "baby ducks", "wall", "coins", "moat", "coins", "baby ducks", "rose bush", "coins", "beehive", "coins", "beehive"],
+            ["rose bush", "beehive", "coins", "beehive", "troll", "coins", "rose bush", "troll", "pond", "coins", "beehive", "coins", "tomato", "wall", "coins", "troll", "coins", "dragon", "pond", "coins", "tomato", "rose bush", "coins", "tomato", "troll", "coins", "moat", "pond", "coins", "wall", "beehive", "coins", "pond", "baby ducks", "dragon", "coins", "coins", "baby ducks", "coins", "baby ducks", "tomato", "coins", "moat", "wall", "coins", "pond", "troll", "sleeping giant", "coins", "troll", "coins"]
           ]
         }
       ]
@@ -57,40 +45,33 @@
         {
           "name": "Temple Halls",
           "obstacles": [
-            [
-              "snakes", "coins", "blow darts", "snakes", "blow darts", "coins", "blow darts", "coins", "snakes", "blow darts",
-              "coins", "blow darts", "coins", "blow darts", "snakes", "coins", "coins", "snakes", "coins", "blow darts", "blow darts",
-              "coins", "snakes", "coins"
-            ],
-            [],
-            []
+            ["blow darts", "coins", "blow darts", "coins", "blow darts", "snakes", "coins", "blow darts", "coins", "blow darts", "coins", "coins", "coins", "blow darts", "snakes", "coins", "snakes", "coins", "snakes", "blow darts", "coins", "snakes", "coins", "blow darts", "coins", "coins", "blow darts", "coins", "snakes", "coins", "snakes", "coins", "coins", "snakes", "coins", "blow darts", "coins", "coins", "snakes", "coins", "coins", "coins", "snakes", "blow darts", "snakes", "coins", "blow darts", "blow darts", "coins", "snakes", "blow darts"],
+            ["coins", "snakes", "arrows", "coins", "swinging axe", "floor spikes", "blow darts", "coins", "coins", "blow darts", "coins", "swinging axe", "blow darts", "coins", "swinging axe", "snakes", "coins", "arrows", "swinging axe", "coins", "swinging axe", "floor spikes", "arrows", "coins", "floor spikes", "coins", "blow darts", "coins", "arrows", "snakes", "arrows", "coins", "swinging axe", "snakes", "coins", "coins", "blow darts", "arrows", "coins", "coins", "arrows", "floor spikes", "coins", "blow darts", "arrows", "coins", "coins", "arrows", "coins", "arrows", "floor spikes"],
+            ["snakes", "swinging axe", "coins", "floor spikes", "coins", "sleeping jaguar", "coins", "snakes", "arrows", "coins", "swinging axe", "coins", "coins", "swinging axe", "coins", "collapsing floor", "coins", "snakes", "blow darts", "coins", "sleeping jaguar", "sleeping jaguar", "coins", "sleeping jaguar", "snakes", "collapsing floor", "coins", "coins", "snakes", "coins", "snakes", "coins", "floor spikes", "coins", "snakes", "blow darts", "coins", "arrows", "blow darts", "swinging axe", "coins", "sleeping jaguar", "coins", "swinging axe", "sleeping jaguar", "coins", "arrows", "coins", "snakes", "coins", "arrows"]
           ]
         },
         {
           "name": "Treasure Tombs",
           "obstacles": [
-            [
-              "floor spikes", "coins", "blow darts", "coins", "snakes", "floor spikes", "coins", "blow darts", "floor spikes", "coins", "snakes", "blow darts", "coins", "floor spikes", "blow darts", "coins", "blow darts", "coins", "snakes", "floor spikes", "coins", "floor spikes", "blow darts", "coins", "coins"],
-            [],
-            []
+            ["snakes", "blow darts", "coins", "coins", "snakes", "coins", "snakes", "blow darts", "coins", "snakes", "blow darts", "coins", "floor spikes", "blow darts", "coins", "blow darts", "coins", "coins", "blow darts", "coins", "blow darts", "floor spikes", "coins", "floor spikes", "floor spikes", "coins", "floor spikes", "coins", "coins", "blow darts", "blow darts", "coins", "snakes", "coins", "floor spikes", "coins", "coins", "snakes", "blow darts", "coins", "coins", "blow darts", "coins", "blow darts", "coins", "snakes", "blow darts", "coins", "blow darts", "coins", "floor spikes"],
+            ["blow darts", "collapsing floor", "coins", "floor spikes", "coins", "arrows", "coins", "floor spikes", "coins", "arrows", "arrows", "coins", "snakes", "arrows", "swinging axe", "coins", "coins", "coins", "swinging axe", "coins", "floor spikes", "coins", "floor spikes", "collapsing floor", "coins", "blow darts", "coins", "floor spikes", "arrows", "snakes", "coins", "snakes", "coins", "blow darts", "swinging axe", "coins", "arrows", "arrows", "coins", "swinging axe", "floor spikes", "coins", "floor spikes", "coins", "arrows", "floor spikes", "coins", "arrows", "floor spikes", "coins", "collapsing floor"],
+            ["snakes", "spider web", "coins", "floor spikes", "arrows", "coins", "snakes", "floor spikes", "coins", "rats", "coins", "arrows", "sleeping jaguar", "rats", "coins", "spider web", "spider web", "rats", "coins", "coins", "collapsing floor", "coins", "sleeping jaguar", "collapsing floor", "coins", "coins", "coins", "blow darts", "coins", "collapsing floor", "arrows", "coins", "sleeping jaguar", "collapsing floor", "coins", "blow darts", "snakes", "coins", "coins", "collapsing floor", "spider web", "coins", "snakes", "coins", "rats", "coins", "floor spikes", "coins", "spider web", "sleeping jaguar", "coins"]
           ]
         },
         {
           "name": "Temple Escape",
           "obstacles": [
-            [
-              "coins", "arrows", "blow darts", "coins", "floor spikes", "blow darts", "coins", "blow darts", "snakes", "coins", "arrows", "blow darts", "coins", "arrows", "floor spikes", "coins", "blow darts", "coins", "snakes", "floor spikes", "coins", "arrows", "blow darts", "coins", "coins"],
-            [],
-            []
+            ["arrows", "coins", "arrows", "blow darts", "coins", "snakes", "coins", "arrows", "coins", "arrows", "coins", "blow darts", "arrows", "coins", "arrows", "coins", "floor spikes", "coins", "blow darts", "coins", "blow darts", "arrows", "coins", "blow darts", "coins", "coins", "blow darts", "floor spikes", "coins", "arrows", "coins", "floor spikes", "coins", "snakes", "coins", "floor spikes", "snakes", "coins", "blow darts", "coins", "blow darts", "arrows", "coins", "coins", "snakes", "coins", "blow darts", "coins", "arrows", "coins", "blow darts"],
+            ["floor spikes", "snakes", "sleeping jaguar", "coins", "arrows", "swinging axe", "coins", "snakes", "coins", "collapsing floor", "coins", "sleeping jaguar", "blow darts", "coins", "collapsing floor", "coins", "snakes", "floor spikes", "collapsing floor", "coins", "floor spikes", "snakes", "coins", "floor spikes", "coins", "snakes", "coins", "collapsing floor", "blow darts", "floor spikes", "coins", "arrows", "floor spikes", "coins", "snakes", "floor spikes", "coins", "arrows", "sleeping jaguar", "coins", "floor spikes", "snakes", "arrows", "coins", "snakes", "collapsing floor", "snakes", "coins", "arrows", "snakes", "sleeping jaguar"],
+            ["floor spikes", "collapsing floor", "coins", "coins", "spider web", "snakes", "coins", "snakes", "coins", "blow darts", "coins", "spider web", "arrows", "coins", "collapsing floor", "snakes", "coins", "coins", "arrows", "coins", "rats", "coins", "blow darts", "poison gas", "coins", "swinging axe", "poison gas", "snakes", "coins", "collapsing floor", "coins", "swinging axe", "coins", "blow darts", "sleeping jaguar", "coins", "arrows", "spider web", "rats", "coins", "collapsing floor", "sleeping jaguar", "coins", "floor spikes", "coins", "sleeping jaguar", "coins", "spider web", "coins", "rats", "sleeping jaguar"]
           ]
         },
         {
           "name": "Finale",
           "obstacles": [
-            [
-              "coins", "arrows", "blow darts", "coins", "floor spikes", "blow darts", "coins", "blow darts", "snakes", "coins", "arrows", "blow darts", "coins", "arrows", "floor spikes", "coins", "blow darts", "coins", "snakes", "floor spikes", "coins", "arrows", "blow darts", "coins", "coins"],
-            [],
-            []
+            ["coins", "floor spikes", "snakes", "coins", "coins", "blow darts", "coins", "blow darts", "snakes", "coins", "floor spikes", "coins", "arrows", "floor spikes", "coins", "coins", "arrows", "floor spikes", "coins", "snakes", "coins", "blow darts", "arrows", "coins", "coins", "blow darts", "blow darts", "coins", "snakes", "arrows", "coins", "snakes", "coins", "blow darts", "blow darts", "coins", "arrows", "coins", "coins", "arrows", "coins", "arrows", "blow darts", "coins", "floor spikes", "coins", "coins", "floor spikes", "coins", "arrows", "snakes"],
+            ["coins", "snakes", "sleeping jaguar", "floor spikes", "coins", "blow darts", "blow darts", "swinging axe", "coins", "sleeping jaguar", "coins", "sleeping jaguar", "coins", "coins", "coins", "snakes", "coins", "collapsing floor", "snakes", "arrows", "coins", "sleeping jaguar", "arrows", "coins", "sleeping jaguar", "swinging axe", "coins", "snakes", "sleeping jaguar", "collapsing floor", "coins", "floor spikes", "collapsing floor", "floor spikes", "coins", "coins", "coins", "collapsing floor", "blow darts", "coins", "sleeping jaguar", "coins", "blow darts", "arrows", "swinging axe", "coins", "coins", "arrows", "arrows", "coins", "sleeping jaguar"],
+            ["blow darts", "coins", "sleeping jaguar", "spider web", "floor spikes", "coins", "collapsing floor", "poison gas", "blow darts", "coins", "coins", "rats", "coins", "blow darts", "coins", "arrows", "coins", "blow darts", "rats", "coins", "arrows", "poison gas", "coins", "arrows", "coins", "spider web", "blow darts", "coins", "arrows", "snakes", "coins", "arrows", "coins", "collapsing floor", "swinging axe", "arrows", "coins", "coins", "sleeping jaguar", "coins", "poison gas", "snakes", "coins", "swinging axe", "arrows", "coins", "coins", "rats", "swinging axe", "coins", "swinging axe"]
           ]
         }
       ]
@@ -101,47 +82,33 @@
         {
           "name": "Out To Sea",
           "obstacles": [
-            [
-              "rocks ahead", "coins", "whirlpool", "rocks ahead", "coins", "rocks ahead", "coins",
-              "whirlpool", "coins", "sailors", "whirlpool", "rocks ahead", "coins", "sailors", "rocks ahead", "coins",
-              "whirlpool", "coins", "sailors", "coins", "whirlpool", "rocks ahead", "coins", "sailors", "coins"],
-            [],
-            []
+            ["coins", "whirlpool", "coins", "coins", "rocks ahead", "rocks ahead", "coins", "rocks ahead", "whirlpool", "coins", "rocks ahead", "coins", "coins", "rocks ahead", "coins", "coins", "coins", "coins", "coins", "coins", "whirlpool", "coins", "rocks ahead", "coins", "rocks ahead", "coins", "coins", "coins", "whirlpool", "whirlpool", "coins", "whirlpool", "coins", "coins", "coins", "whirlpool", "coins", "whirlpool", "coins", "whirlpool", "rocks ahead", "coins", "whirlpool", "coins", "rocks ahead", "coins", "whirlpool", "rocks ahead", "coins", "coins", "coins"],
+            ["pirates", "sailors", "coins", "sailors", "coins", "rocks ahead", "whirlpool", "coins", "sailors", "coins", "big wave", "rocks ahead", "coins", "pirates", "coins", "rocks ahead", "whirlpool", "coins", "big wave", "whirlpool", "coins", "coins", "rocks ahead", "big wave", "coins", "big wave", "coins", "coins", "big wave", "sailors", "coins", "big wave", "coins", "whirlpool", "pirates", "coins", "coins", "rocks ahead", "big wave", "coins", "pirates", "coins", "rocks ahead", "coins", "pirates", "coins", "big wave", "sailors", "coins", "rocks ahead", "coins"],
+            ["big wave", "coins", "sea snake", "coins", "sea snake", "pirate queen", "coins", "pirate queen", "pirate queen", "coins", "whirlpool", "coins", "pirate queen", "sailors", "whirlpool", "coins", "big wave", "rocks ahead", "coins", "coins", "big wave", "pirate queen", "coins", "pirates", "mermaids", "coins", "sailors", "coins", "sea snake", "whirlpool", "coins", "pirates", "coins", "pirates", "coins", "pirates", "big wave", "coins", "sea snake", "mermaids", "coins", "pirates", "coins", "coins", "whirlpool", "coins", "coins", "coins", "coins", "rocks ahead", "sea snake"]
           ]
         },
         {
           "name": "Perilous Waters",
           "obstacles": [
-            [
-              "whirlpool", "coins", "sailors", "coins", "pirates", "rocks ahead",
-              "whirlpool", "coins", "coins", "sailors", "whirlpool", "pirates", "coins", "coins", "rocks ahead", "pirates",
-              "coins", "whirlpool", "coins", "pirates", "sailors", "coins", "rocks ahead", "coins"],
-            [],
-            []
+            ["rocks ahead", "coins", "whirlpool", "coins", "sailors", "coins", "sailors", "coins", "coins", "sailors", "coins", "whirlpool", "coins", "sailors", "coins", "whirlpool", "rocks ahead", "coins", "whirlpool", "coins", "rocks ahead", "coins", "rocks ahead", "whirlpool", "coins", "whirlpool", "coins", "coins", "coins", "coins", "sailors", "whirlpool", "coins", "rocks ahead", "sailors", "whirlpool", "coins", "whirlpool", "rocks ahead", "coins", "whirlpool", "rocks ahead", "coins", "whirlpool", "coins", "coins", "sailors", "coins", "whirlpool", "coins", "coins"],
+            ["whirlpool", "mermaids", "coins", "sailors", "coins", "rocks ahead", "pirates", "coins", "mermaids", "big wave", "coins", "mermaids", "big wave", "coins", "sailors", "coins", "rocks ahead", "coins", "big wave", "whirlpool", "coins", "big wave", "whirlpool", "coins", "rocks ahead", "whirlpool", "pirates", "coins", "whirlpool", "coins", "mermaids", "coins", "rocks ahead", "coins", "whirlpool", "sailors", "coins", "whirlpool", "pirates", "whirlpool", "coins", "mermaids", "coins", "whirlpool", "big wave", "coins", "rocks ahead", "mermaids", "coins", "mermaids", "coins"],
+            ["barrel bomb", "mermaids", "pirates", "coins", "sailors", "coins", "sea snake", "big wave", "rocks ahead", "coins", "coins", "pirates", "barrel bomb", "coins", "big wave", "coins", "mermaids", "pirates", "coins", "mermaids", "mermaids", "coins", "coins", "whirlpool", "coins", "pirate queen", "sea snake", "coins", "big wave", "whirlpool", "sailors", "coins", "pirates", "rocks ahead", "coins", "pirate queen", "sea snake", "coins", "pirates", "whirlpool", "coins", "whirlpool", "whirlpool", "coins", "rocks ahead", "coins", "pirate queen", "coins", "sailors", "coins", "big wave"]
           ]
         },
         {
           "name": "Shipwreck Bay",
           "obstacles": [
-            [
-              "whirlpool", "coins", "big wave", "sailors", "coins", "rocks ahead", "coins",
-              "pirates", "coins", "big wave", "coins", "sailors", "whirlpool", "rocks ahead", "coins", "pirates",
-              "coins", "big wave", "pirates", "coins", "whirlpool", "coins", "pirates", "sailors",
-              "big wave", "coins", "rocks ahead", "coins"],
-            [],
-            []
+            ["whirlpool", "coins", "rocks ahead", "pirates", "coins", "rocks ahead", "coins", "whirlpool", "sailors", "coins", "pirates", "rocks ahead", "coins", "rocks ahead", "pirates", "coins", "coins", "sailors", "coins", "rocks ahead", "pirates", "coins", "coins", "coins", "pirates", "pirates", "coins", "coins", "rocks ahead", "coins", "pirates", "coins", "pirates", "coins", "rocks ahead", "coins", "whirlpool", "coins", "sailors", "coins", "pirates", "coins", "whirlpool", "coins", "pirates", "whirlpool", "rocks ahead", "coins", "pirates", "coins", "sailors"],
+            ["pirate queen", "mermaids", "coins", "rocks ahead", "pirates", "coins", "big wave", "sailors", "coins", "big wave", "pirate queen", "coins", "pirates", "sailors", "coins", "big wave", "coins", "mermaids", "rocks ahead", "coins", "big wave", "rocks ahead", "coins", "pirates", "big wave", "coins", "whirlpool", "coins", "sailors", "coins", "rocks ahead", "coins", "coins", "pirates", "coins", "mermaids", "rocks ahead", "coins", "rocks ahead", "sailors", "coins", "coins", "mermaids", "sailors", "pirates", "coins", "coins", "big wave", "rocks ahead", "coins", "big wave"],
+            ["sailors", "sea snake", "coins", "big wave", "coins", "coins", "rocks ahead", "coins", "mermaids", "rocks ahead", "coins", "barrel bomb", "big wave", "coins", "whirlpool", "shipwreck", "coins", "pirate queen", "coins", "pirate queen", "sailors", "coins", "whirlpool", "coins", "mermaids", "coins", "rocks ahead", "pirates", "coins", "pirates", "coins", "coins", "big wave", "shipwreck", "coins", "barrel bomb", "coins", "shipwreck", "big wave", "rocks ahead", "coins", "mermaids", "coins", "barrel bomb", "sea snake", "coins", "coins", "barrel bomb", "coins", "whirlpool", "big wave"]
           ]
         },
         {
           "name": "Finale",
           "obstacles": [
-            [
-              "whirlpool", "coins", "big wave", "sailors", "coins", "rocks ahead", "coins",
-              "pirates", "coins", "big wave", "coins", "sailors", "whirlpool", "rocks ahead", "coins", "pirates",
-              "coins", "big wave", "pirates", "coins", "whirlpool", "coins", "pirates", "sailors",
-              "big wave", "coins", "rocks ahead", "coins"],
-            [],
-            []
+            ["whirlpool", "coins", "rocks ahead", "pirates", "coins", "pirates", "rocks ahead", "coins", "whirlpool", "coins", "coins", "rocks ahead", "coins", "pirates", "coins", "sailors", "whirlpool", "coins", "whirlpool", "coins", "sailors", "pirates", "coins", "pirates", "coins", "sailors", "rocks ahead", "coins", "pirates", "sailors", "pirates", "coins", "sailors", "coins", "rocks ahead", "coins", "coins", "whirlpool", "coins", "pirates", "sailors", "coins", "pirates", "coins", "pirates", "coins", "rocks ahead", "coins", "rocks ahead", "whirlpool", "coins"],
+            ["whirlpool", "coins", "mermaids", "pirates", "big wave", "coins", "sailors", "coins", "pirates", "whirlpool", "big wave", "coins", "rocks ahead", "coins", "big wave", "rocks ahead", "coins", "coins", "sailors", "pirates", "coins", "whirlpool", "coins", "sailors", "rocks ahead", "pirates", "coins", "coins", "coins", "pirate queen", "mermaids", "coins", "mermaids", "pirate queen", "coins", "pirate queen", "coins", "mermaids", "rocks ahead", "coins", "sailors", "coins", "rocks ahead", "coins", "pirates", "big wave", "coins", "mermaids", "coins", "rocks ahead", "big wave"],
+            ["pirate queen", "whirlpool", "pirates", "coins", "mermaids", "sea snake", "coins", "pirates", "shipwreck", "coins", "barrel bomb", "sea snake", "shipwreck", "coins", "pirate queen", "pirates", "coins", "sailors", "coins", "mermaids", "big wave", "coins", "pirate queen", "sea snake", "coins", "big wave", "rocks ahead", "coins", "sailors", "sea snake", "coins", "big wave", "coins", "rocks ahead", "mermaids", "barrel bomb", "coins", "big wave", "coins", "shipwreck", "barrel bomb", "coins", "pirate queen", "barrel bomb", "coins", "big wave", "rocks ahead", "coins", "sea snake", "coins", "rocks ahead"]
           ]
         }
       ]

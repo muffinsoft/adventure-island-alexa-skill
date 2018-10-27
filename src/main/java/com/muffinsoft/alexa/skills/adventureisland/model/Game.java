@@ -24,16 +24,6 @@ public class Game {
         missions.add(mission);
     }
 
-    public <T extends Named> int getIndexByName(List<T> entities, String name) {
-        for (T t : entities) {
-            String nameAsKey = PhraseManager.nameToKey(t.getName());
-            if (Objects.equals(name, nameAsKey)) {
-                return entities.indexOf(t);
-            }
-        }
-        throw new NoSuchElementException("Element " + name + " was not found");
-    }
-
     public String nextObstacle(StateItem state) {
         Activity currentActivity = missions.get(state.getMissionIndex()).getLocations().get(state.getLocationIndex()).getActivities().get(state.getSceneIndex());
         List<String> obstacles = currentActivity.getObstacles().get(state.getTierIndex());
@@ -62,7 +52,7 @@ public class Game {
             return state;
         }
 
-        int missionIndex = getIndexByName(missions, state.getMission());
+        int missionIndex = state.getMissionIndex();
         Mission currentMission = missions.get(missionIndex);
 
         // mission intro played, need to go to the first location
@@ -80,7 +70,7 @@ public class Game {
             return state;
         }
 
-        int locationIndex = getIndexByName(currentMission.getLocations(), state.getLocation());
+        int locationIndex = state.getLocationIndex();
         Location currentLocation = currentMission.getLocations().get(locationIndex);
 
         // location intro played, need to go to the first activity

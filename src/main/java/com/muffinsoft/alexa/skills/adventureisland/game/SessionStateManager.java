@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.*;
+import static com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager.getCoinsToCollect;
 import static com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager.getNumber;
 import static com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager.getTurnsToNextExclamation;
 import static com.muffinsoft.alexa.skills.adventureisland.content.ObstacleManager.getObstacleExplanation;
@@ -201,7 +202,7 @@ public class SessionStateManager {
                 coins++;
                 speechText = getPhrase(POWERUP_USED).replace(POWERUP_PLACEHOLDER, powerup.getName());
             }
-            if (coins >= getNumber(COINS_TO_COLLECT)) {
+            if (coins >= getCoinsToCollect(stateItem.getTierIndex())) {
                 currentObstacle = null;
                 return finishScene(speechText);
             }

@@ -43,10 +43,10 @@
       "headsUp" : "Stay sharp! A jaguar!"
     },
     {
-      "name" : "rolling rock",
-      "responses" : ["blah"],
-      "preObstacle" : "I see a rolling rock coming this way! Say 'whee' to jump!",
-      "headsUp" : "Heads up! A rolling rock!"
+      "name" : "rats",
+      "responses" : ["whee"],
+      "preObstacle" : "I see rats coming this way! Say 'whee' to jump!",
+      "headsUp" : "Heads up! Rats!"
     },
     {
       "name" : "spider web",
@@ -105,16 +105,16 @@
       "headsUp" : "Pirate Queen fast approaching!"
     },
     {
-      "name" : "kraken",
-      "responses" : ["foom"],
-      "preObstacle" : "The Kraken is real! Shouting 'foom!' to keep it away is our only hope!",
-      "headsUp" : "The Kraken is here!"
-    },
-    {
       "name" : "sea snake",
       "responses" : ["foom"],
       "preObstacle" : "Oh no, an enormous sea snake! Say 'foom' to use the giant harpoon!",
       "headsUp" : "Heads up! Sea snake!"
+    },
+    {
+      "name" : "barrel bomb",
+      "responses" : ["turn"],
+      "preObstacle" : "You better say 'turn' to avoid those barrel bombs coming our way!",
+      "headsUp" : "Barrel Bomb incoming!"
     },
     {
       "name" : "shipwreck",
@@ -123,22 +123,22 @@
       "headsUp" : "We're nearing a shipwreck!"
     },
     {
-      "name" : "barrel bomb",
-      "responses" : ["turn"],
-      "preObstacle" : "You better say 'turn' to avoid those barrel bombs coming our way!",
-      "headsUp" : "Barrel Bomb incoming!"
+      "name" : "kraken",
+      "responses" : ["foom"],
+      "preObstacle" : "The Kraken is real! Shouting 'foom!' to keep it away is our only hope!",
+      "headsUp" : "The Kraken is here!"
     }
   ],
   "kingdomChase" : [
     {
       "name" : "wall",
-      "responses" : ["climb"],
-      "preObstacle" : "The thief ran into a wall! Say 'climb' to climb over it!",
+      "responses" : ["hoo-ha"],
+      "preObstacle" : "The thief ran into a wall! Say 'hoo-ha' to hoo-ha over it!",
       "headsUp" : "Wall in front of us!"
     },
     {
       "name" : "moat",
-      "responses" : ["swim"],
+      "responses" : ["splash"],
       "preObstacle" : "Water coming up! splash across by saying 'splash'!",
       "headsUp" : "A moat! Get ready!"
     },
@@ -150,8 +150,8 @@
     },
     {
       "name" : "dragon",
-      "responses" : ["hide"],
-      "preObstacle" : "No way, a dragon! Shout 'hide' before it sees you!",
+      "responses" : ["yikes"],
+      "preObstacle" : "No way, a dragon! Shout 'yikes' before it sees you!",
       "headsUp" : "Woah, a dragon incoming!"
     },
     {
@@ -167,28 +167,28 @@
       "headsUp" : "Are those baby ducks?!"
     },
     {
-      "name" : "bee hive",
+      "name" : "beehive",
       "responses" : ["woah"],
       "preObstacle" : "The thief has a beehive! Duck under by saying 'woah'!",
       "headsUp" : "He's got a beehive!"
     },
     {
-      "name" : "bandit",
-      "responses" : ["zap"],
-      "preObstacle" : "Bandit incoming! Zap it away by shouting 'zap'!",
-      "headsUp" : "Watch out! A bandit!"
+      "name" : "pond",
+      "responses" : ["splash"],
+      "preObstacle" : "Pond incoming! Swim through by shouting 'splash'!",
+      "headsUp" : "Watch out! A pond!"
     },
     {
       "name" : "troll",
-      "responses" : ["hide"],
-      "preObstacle" : "I see a hungry troll! Be sure to hide by saying 'hide'!",
+      "responses" : ["yikes"],
+      "preObstacle" : "I see a hungry troll! Be sure to yikes by saying 'yikes'!",
       "headsUp" : "Yikes, a troll"
     },
     {
-      "name" : "goblin",
-      "responses" : ["zap"],
-      "preObstacle" : "Give that goblin up ahead a taste of magic by shouting 'zap'!",
-      "headsUp" : "I see a goblin!"
+      "name" : "sleeping giant",
+      "responses" : ["hoo-ha"],
+      "preObstacle" : "The thief ran into a wall! Say 'hoo-ha' to climb over it!",
+      "headsUp" : "I see a sleeping giant!"
     }
   ]
 }

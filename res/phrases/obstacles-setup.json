@@ -9,11 +9,11 @@
           },
           {
             "explanation": "Bad news! The SWING AXE traps are working now! Say 'woah' to not lose your hair, or worse!",
-            "obstacleIndices": []
+            "obstacleIndices": [0, 1, 2, 3, 4]
           },
           {
             "explanation": "There are some ROLLING ROCK booby traps now! Shout 'whee' to jump and not get flattened like a pancake!",
-            "obstacleIndices": []
+            "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7]
           }
         ],
       "treasureTombs":
@@ -24,11 +24,11 @@
         },
         {
           "explanation": "The ground doens't look very stable up ahead! If we get to a COLLAPSING FLOOR, shout 'whee' to jump over!",
-          "obstacleIndices": []
+          "obstacleIndices": [0, 1, 2, 3, 4, 5]
         },
         {
           "explanation": "Eww, there are a lot of thick SPIDER WEBS coming! Use your whip to break them by shouting 'whip!'",
-          "obstacleIndices": []
+          "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8]
         }
       ],
       "templeEscape":
@@ -39,11 +39,11 @@
         },
         {
           "explanation": "I think some big jungle cats got into the temple! If we find a JAGUAR, shout 'whip' to keep them back with a whip I found.",
-          "obstacleIndices": []
+          "obstacleIndices": [0, 1, 2, 3, 4, 5, 6]
         },
         {
           "explanation": "There are nasty POISON GAS booby traps around here! Say 'whoa' to duck under and not breath it in!",
-          "obstacleIndices": []
+          "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         }
       ],
       "finale":
@@ -54,11 +54,11 @@
         },
         {
           "explanation": "",
-          "obstacleIndices": []
+          "obstacleIndices": [0, 1, 2, 3, 4, 5, 6]
         },
         {
           "explanation": "",
-          "obstacleIndices": []
+          "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         }
       ]
     },
@@ -68,60 +68,60 @@
       [
         {
           "explanation": "If we see underwater COINS, say mine to pull them up. If we see rocks or a whirlpool up ahead, say TURN to avoid them. Remember to say a friendly 'Ahoy' to to SAILORS so they don't attack us!",
-          "obstacleIndices": []
+          "obstacleIndices": [0, 1]
         },
         {
           "explanation": "MERMAIDS live around here! Say 'ahoy' to be nice to them, otherwise they might think we're pirates!",
-          "obstacleIndices": []
+          "obstacleIndices": [0, 1, 2, 3, 4]
         },
         {
           "explanation": "I think there are some BARREL BOMBS floating in these waters. Shout 'turn' To avoid them!",
-          "obstacleIndices": []
+          "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7]
         }
       ],
       "perilousWaters":
       [
         {
           "explanation": "There be evil PIRATES in these waters! Shout 'boom' to shoot the cannons at them!",
-          "obstacleIndices": []
+          "obstacleIndices": [0, 1, 2]
         },
         {
           "explanation": "I'm afraid the PIRATE QUEEN is after us! Say 'boom' to keep her away with our cannons!",
-          "obstacleIndices": []
+          "obstacleIndices": [0, 1, 2, 3, 4, 5]
         },
         {
           "explanation": "Lots of SHIPWRECKS around here! Say WEE to speed through the broken pieces!",
-          "obstacleIndices": []
+          "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8]
         }
       ],
       "shipwreckBay":
       [
         {
           "explanation": "BIG WAVES coming up! Say 'wee' to speed up and get over the wave!",
-          "obstacleIndices": []
+          "obstacleIndices": [0, 1, 2, 3]
         },
         {
           "explanation": "See that? It's a giant SEA SNAKE is trying to get our ship. Shout 'foom' to fight it off with a harpoon.",
-          "obstacleIndices": []
+          "obstacleIndices": [0, 1, 2, 3, 4, 5, 6]
         },
         {
           "explanation": "They say the legendary KRAKEN is back! If we spot it, shout 'foom' to keep it away with a giant harpoon!",
-          "obstacleIndices": []
+          "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         }
       ],
       "finale":
       [
         {
           "explanation" : "",
-          "obstacleIndices": []
+          "obstacleIndices": [0, 1, 2, 3]
         },
         {
           "explanation": "",
-          "obstacleIndices": []
+          "obstacleIndices": [0, 1, 2, 3, 4, 5, 6]
         },
         {
           "explanation": "",
-          "obstacleIndices": []
+          "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         }
       ]
     },
@@ -131,60 +131,60 @@
     [
       {
         "explanation": "Say 'mine' to grab COINS. The the thief runs into a WALL, shout 'climb'. If he falls into a MOAT, say 'swim'.",
-        "obstacleIndices": []
+        "obstacleIndices": [0, 1]
       },
       {
         "explanation": "The sneaky thief thinks he can slow us down with TOMATOES. Say 'woah' to dodge them!",
-        "obstacleIndices": []
+        "obstacleIndices": [0, 1, 2, 3, 4]
       },
       {
         "explanation": "The thief asked his BANDIT friends to help him get away! Stop them with my magic wand by shouting 'zap'!",
-        "obstacleIndices": []
+        "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8]
       }
     ],
     "castleGrounds" :
     [
       {
         "explanation": "There are thorny ROSE BUSHES around here! Say 'whee' to jump over them and not get pricked!",
-        "obstacleIndices": []
+        "obstacleIndices": [0, 1, 2]
       },
       {
         "explanation": "Careful! I think BABY DUCKS like playing in this area! Say 'whee' to jump over them!",
-        "obstacleIndices": []
+        "obstacleIndices": [0, 1, 2, 3, 4, 5]
       },
       {
         "explanation": "King Max said hungry TROLLS now roam these lands! Say 'hide' to find a good hiding spot when one is near!",
-        "obstacleIndices": []
+        "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7]
       }
     ],
     "dragonAttack" :
     [
       {
         "explanation": "I can't believe it! A DRAGON in the sky! Shout 'hide' to take cover when it comes by.",
-        "obstacleIndices": []
+        "obstacleIndices": [0, 1, 2, 3]
       },
       {
         "explanation": "Now the thief is going to throw BEEHIVES at us! Shout 'woah' to dodge them and not get stung!",
-        "obstacleIndices": []
+        "obstacleIndices": [0, 1, 2, 3, 4, 5, 6]
       },
       {
         "explanation": "Now the thief's GOBLIN minions are helping him! No problem though because you can say 'zap' to knock them away.",
-        "obstacleIndices": []
+        "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
       }
     ],
     "finale" :
     [
       {
         "explanation": "",
-        "obstacleIndices": []
+        "obstacleIndices": [0, 1, 2, 3]
       },
       {
         "explanation": "",
-        "obstacleIndices": []
+        "obstacleIndices": [0, 1, 2, 3, 4, 5, 6]
       },
       {
         "explanation": "",
-        "obstacleIndices": []
+        "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
       }
     ]
   }

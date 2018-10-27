@@ -36,7 +36,7 @@ class SessionStateManagerTest {
         SessionStateManager stateManager = getSessionStateManager(Collections.emptyMap());
         DialogItem dialogItem = stateManager.nextResponse();
         String expected = PhraseManager.getPhrase(ROOT + State.INTRO.getKey() + 0);
-        assertEquals(expected, dialogItem.getResponseText());
+        assertTrue(dialogItem.getResponseText().startsWith(expected));
     }
 
     @Test
@@ -56,6 +56,7 @@ class SessionStateManagerTest {
     void nextResponseTransitionToNextAction() {
         String userName = "Test user";
         Map<String, Object> attributes = new HashMap<>();
+        attributes.put(TIER_INDEX, 0);
         attributes.put(MISSION, "royalRansom");
         attributes.put(LOCATION, "ancientTemple");
         attributes.put(SCENE, "templeHalls");
@@ -280,6 +281,7 @@ class SessionStateManagerTest {
                 .withPersistenceAdapter(adapter)
                 .withRequestEnvelope(requestEnvelope)
                 .build();
+        attributesManager.setPersistentAttributes(new HashMap<>());
 
         return new SessionStateManager(slots, attributesManager);
     }

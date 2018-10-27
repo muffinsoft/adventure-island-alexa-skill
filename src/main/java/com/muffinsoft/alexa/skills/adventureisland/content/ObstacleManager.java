@@ -100,4 +100,19 @@ public class ObstacleManager {
     public static List<String> getObstacleResponses(StateItem state, String key) {
         return getObstacleByName(state, key).getResponses();
     }
+
+    public static ObstacleSetupItem getObstacleSetup(String location, String scene, int tier) {
+        return obstacleSetup.get(location).get(scene).get(tier);
+    }
+
+    public static String getObstacleByIndex(String location, int index) {
+        if (index < 0) {
+            return getTreasureName();
+        }
+        return obstacles.get(location).get(index).getName();
+    }
+
+    public static String getTreasureName() {
+        return treasure.get(0).getName();
+    }
 }
