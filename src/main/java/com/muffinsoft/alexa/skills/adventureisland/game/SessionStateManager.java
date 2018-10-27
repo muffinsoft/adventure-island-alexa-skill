@@ -500,6 +500,7 @@ public class SessionStateManager {
         stateItem = game.nextActivity(stateItem);
         if (Objects.equals(stateItem.getMission(), ROOT)) {
             updateCompletedMissions();
+            checkpoint = null;
         }
     }
 
