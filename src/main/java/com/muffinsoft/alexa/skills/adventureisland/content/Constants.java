@@ -15,6 +15,8 @@ public class Constants {
     public static final String TABLE_NAME = "adventure_island";
     public static final String WELCOME = "welcome";
     public static final String WELCOME_BACK = "welcomeBack";
+    public static final String WELCOME_CHECKPOINT = "welcomeBackCheckpoint";
+    public static final String CONTINUE = "continue";
     public static final String ROOT = "root";
     public static final String DEMO = "demo";
     public static final String NAME = "name";

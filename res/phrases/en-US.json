@@ -1,6 +1,7 @@
 {
   "welcome" : "I am Ben. I'm going on a treasure hunting adventure and I could use a partner. Are you available?",
-  "welcomeBack" : "Welcome back! Would you like to continue?",
+  "welcomeBack" : "Welcome back! Would you like to continue your adventure?",
+  "welcomeBackCheckpoint" : "Welcome back! You have an unfinished mission. Would you like to continue it, or start another mission? Say 'continue' to continue, or 'another mission' to start a new mission.",
   "rootIntro0" : "Well I hope you're ready to explore ancient temples, sail the seven seas, and even visit a fantasy kingdom!",
   "selectMission" : "Choose one of the available missions. ",
   "selectMission2" : "Please make your selection",

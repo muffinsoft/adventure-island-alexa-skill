@@ -25,8 +25,12 @@ public class LaunchRequestHandler implements RequestHandler {
 
         String key = Constants.WELCOME;
         Map<String, Object> persistentAttributes = input.getAttributesManager().getPersistentAttributes();
-        if (persistentAttributes != null && persistentAttributes.get(SessionStateManager.USERNAME) != null) {
-            key = Constants.WELCOME_BACK;
+        if (persistentAttributes != null) {
+            if (persistentAttributes.get(SessionStateManager.CHECKPOINT) != null) {
+                key = Constants.WELCOME_CHECKPOINT;
+            } else if (persistentAttributes.get(SessionStateManager.USERNAME) != null) {
+                key = Constants.WELCOME_BACK;
+            }
         }
         String speechText = PhraseManager.getPhrase(key);
 

@@ -16,6 +16,7 @@ import static com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager
 import static com.muffinsoft.alexa.skills.adventureisland.content.ObstacleManager.getObstacleExplanation;
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getExclamation;
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getPhrase;
+import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.nameToKey;
 import static com.muffinsoft.alexa.skills.adventureisland.model.StateItem.*;
 
 public class SessionStateManager {
@@ -45,7 +46,7 @@ public class SessionStateManager {
     static final String TURNS_TO_NEXT_EXCLAMATION = "turnsToNextExclamation";
     static final String TURNS_TO_NEXT_HEADS_UP = "turnsToNextHeadsUp";
     static final String COMPLETED_MISSIONS = "completedMissions";
-    static final String CHECKPOINT = "checkpoint";
+    public static final String CHECKPOINT = "checkpoint";
     static final String JUST_FAILED = "justFailed";
     static final String POWERUPS = "powerups";
 
@@ -74,11 +75,11 @@ public class SessionStateManager {
     /**
      * Index of the external list is tier, it contains a list of indices of completed missions
      */
-    private List<List<Integer>> completedMissions;
+    private List<List<BigDecimal>> completedMissions;
     /**
      * Checkpoint contains 4 integers: tier, mission, location, and last successful scene
      */
-    private List<Integer> checkpoint;
+    private List<BigDecimal> checkpoint;
 
 
     public SessionStateManager(Map<String, Slot> slots, AttributesManager attributesManager) {
@@ -122,7 +123,8 @@ public class SessionStateManager {
         totalCoins = totalCoinsBD.intValue();
         visitedLocations = (List<String>) persistentAttributes.getOrDefault(VISITED_LOCATIONS, new ArrayList<String>());
         oldObstacles = (List<String>) persistentAttributes.getOrDefault(OLD_OBSTACLES, new ArrayList<String>());
-        completedMissions = (List<List<Integer>>) persistentAttributes.getOrDefault(COMPLETED_MISSIONS, new ArrayList<>());
+        completedMissions = (List<List<BigDecimal>>) persistentAttributes.getOrDefault(COMPLETED_MISSIONS, new ArrayList<>());
+        checkpoint = (List<BigDecimal>) persistentAttributes.get(CHECKPOINT);
     }
 
     private String capitalizeFirstLetter(String s) {
@@ -133,6 +135,10 @@ public class SessionStateManager {
 
         logger.debug("Starting to process user reply {}", userReply);
         DialogItem dialog;
+
+        if (checkpoint != null && Objects.equals(CONTINUE, userReply)) {
+            restoreFromCheckpoint();
+        }
 
         if (stateItem.getState() == State.FAILED) {
             dialog = getFailedChoice();
@@ -147,6 +153,18 @@ public class SessionStateManager {
 
         updateSession();
         return dialog;
+    }
+
+    private void restoreFromCheckpoint() {
+        stateItem.setTierIndex(checkpoint.get(0).intValue());
+        stateItem.setMissionIndex(checkpoint.get(1).intValue());
+        stateItem.setLocationIndex(checkpoint.get(2).intValue());
+        stateItem.setSceneIndex(checkpoint.get(3).intValue() + 1); // proceed to the next scene
+        Mission currentMission = game.getMissions().get(stateItem.getMissionIndex());
+        stateItem.setMission(nameToKey(currentMission.getName()));
+        Location currentLocation = currentMission.getLocations().get(stateItem.getLocationIndex());
+        stateItem.setLocation(nameToKey(currentLocation.getName()));
+        stateItem.setScene(nameToKey(currentLocation.getActivities().get(stateItem.getSceneIndex()).getName()));
     }
 
     private DialogItem getFailedChoice() {
@@ -208,7 +226,10 @@ public class SessionStateManager {
         powerups.clear();
         justFailed = false;
         setCheckpoint();
-        String sceneOutro = speechText + " " + getSceneOutro();
+        String sceneOutro = getSceneOutro();
+        if (sceneOutro != null) {
+            sceneOutro = speechText + " " + sceneOutro;
+        }
         getNextScene();
         DialogItem response = getIntroOutroDialog();
         response.setResponseText(combineWithBreak(sceneOutro, response.getResponseText()));
@@ -217,10 +238,10 @@ public class SessionStateManager {
 
     private void setCheckpoint() {
         checkpoint = new ArrayList<>();
-        checkpoint.add(stateItem.getTierIndex());
-        checkpoint.add(stateItem.getMissionIndex());
-        checkpoint.add(stateItem.getLocationIndex());
-        checkpoint.add(stateItem.getSceneIndex());
+        checkpoint.add(BigDecimal.valueOf(stateItem.getTierIndex()));
+        checkpoint.add(BigDecimal.valueOf(stateItem.getMissionIndex()));
+        checkpoint.add(BigDecimal.valueOf(stateItem.getLocationIndex()));
+        checkpoint.add(BigDecimal.valueOf(stateItem.getSceneIndex()));
     }
 
     private String getSceneOutro() {
@@ -427,6 +448,7 @@ public class SessionStateManager {
                 stateItem.setMissionIndex(i);
 
                 health = getNumber(HEALTH);
+                checkpoint = null;
 
                 return true;
             }
@@ -447,10 +469,15 @@ public class SessionStateManager {
 
     private int getTier(int missionIndex) {
         int result = 0;
+        logger.debug("Detecting tier, completed missions size: {}", completedMissions.size());
         for (int i = (completedMissions.size() - 1); i >= 0; i--) {
-            if (completedMissions.get(i).contains(missionIndex)) {
-                result = i + 1;
-                break;
+            logger.debug("{} contains {}?", completedMissions.get(i).toArray(), missionIndex);
+            for (BigDecimal savedMissionIndex : completedMissions.get(i)) {
+                if (savedMissionIndex.intValue() == missionIndex) {
+                    result = i + 1;
+                    logger.debug("Mission {} is at tier {}", missionIndex, result);
+                    break;
+                }
             }
         }
         return result;
@@ -476,11 +503,11 @@ public class SessionStateManager {
     }
 
     private void updateCompletedMissions() {
-        while (completedMissions.size() < stateItem.getMissionIndex() + 1) {
+        while (completedMissions.size() < stateItem.getTierIndex() + 1) {
             completedMissions.add(new ArrayList<>());
         }
-        List<Integer> tier = completedMissions.get(stateItem.getMissionIndex());
-        tier.add(stateItem.getMissionIndex());
+        List<BigDecimal> tier = completedMissions.get(stateItem.getTierIndex());
+        tier.add(BigDecimal.valueOf(stateItem.getMissionIndex()));
 
     }
 

@@ -61,6 +61,11 @@
           "values": [
             {
               "name": {
+                "value": "continue"
+              }
+            },
+            {
+              "name": {
                 "value": "no"
               }
             },
