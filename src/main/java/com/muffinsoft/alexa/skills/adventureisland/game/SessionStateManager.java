@@ -173,6 +173,9 @@ public class SessionStateManager {
         if (userReply.contains(ReplyManager.getReply(basicKey + 1))) {
             stateItem.setState(State.ACTION);
             stateItem.setIndex(0);
+            coins = 0;
+            powerups = null;
+            justFailed = false;
             skipReadyPrompt = true;
             return getActionDialog();
         }
