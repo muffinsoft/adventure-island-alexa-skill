@@ -441,7 +441,7 @@ public class SessionStateManager {
             String missionName = missions.get(i).getTierNames().get(tier);
             logger.debug("Comparing reply {} with mission name {}", userReply, missionName);
             if (Objects.equals(missionName.toLowerCase(), userReply)) {
-                String key = PhraseManager.nameToKey(missionName);
+                String key = PhraseManager.nameToKey(missions.get(i).getName());
 
                 stateItem.setTierIndex(tier);
                 stateItem.setMission(key);
