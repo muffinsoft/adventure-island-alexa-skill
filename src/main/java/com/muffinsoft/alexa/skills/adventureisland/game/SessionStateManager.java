@@ -286,7 +286,7 @@ public class SessionStateManager {
                         return processSceneFail();
                     }
                     justFailed = true;
-                    speechText = getPhrase(ACTION_FAIL);
+                    speechText = getPhrase(ACTION_FAIL + health);
                 }
                 currentObstacle = null;
             }
@@ -491,6 +491,8 @@ public class SessionStateManager {
         String prefix = "";
         if (Objects.equals(stateItem.getScene(), SILENT_SCENE)) {
             prefix = stateItem.getLocation();
+        } else if (stateItem.getState() == State.OUTRO && Objects.equals(stateItem.getScene(), stateItem.getLocation())) {
+            prefix = stateItem.getMission();
         }
 
         String scene = stateItem.getScene();
