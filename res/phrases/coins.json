@@ -1,14 +1,10 @@
-[
-  {
-    "name" : "coins",
-    "responses" : ["mine"],
-    "preObstacle" : "I see a coin! Say 'mine' to take it!",
-    "headsUp" : "Something shiny up ahead!"
-  },
-  {
-    "name" : "treasure",
-    "responses" : ["mine"],
-    "preObstacle" : "I see a coin! Say 'mine' to take it!",
-    "headsUp" : "Something shiny up ahead!"
+{
+  "name": "coins",
+  "responses": ["aha"],
+  "preObstacle": "Ooh, I see a shiny coin! Remember, say  'aha' to take it!",
+  "headsUp": {
+    "ancientTemple" : "I see something shiny!",
+    "pirateBay" : "Get ready to grab a doubloon soon!",
+    "kingdomChase" : "The thief dropped a coin!"
   }
-]
+}

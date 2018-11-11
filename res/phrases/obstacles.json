@@ -4,191 +4,185 @@
       "name" : "snakes",
       "responses" : ["whee"],
       "preObstacle" : "Snakes! Jump over them by saying 'whee'!",
-      "headsUp" : "Snakes ahead!"
+      "headsUp" : "I hear hissing!"
     },
     {
       "name" : "blow darts",
-      "responses" : ["woah", "whoa"],
-      "preObstacle" : "Blow darts incoming! Say 'woah' to roll under them!",
-      "headsUp" : "Blow darts incoming!"
+      "responses" : ["yikes"],
+      "preObstacle" : "Blow darts incoming! Don't forget to shout 'yikes' to roll under them!",
+      "headsUp" : "Keep your head down up ahead!"
     },
     {
       "name" : "floor spikes",
       "responses" : ["whee"],
       "preObstacle" : "Floor spikes up ahead! Shout 'whee' to jump!",
-      "headsUp" : "I see floor spikes!"
+      "headsUp" : "I see some sharp dangers coming up!"
     },
     {
       "name" : "arrows",
-      "responses" : ["woah", "whoa"],
-      "preObstacle" : "Arrows! Duck under them by saying 'woah'!",
-      "headsUp" : "Arrows! Stay low!"
+      "responses" : ["yikes"],
+      "preObstacle" : "Arrows! Remember to duck under them by saying 'yikes'!",
+      "headsUp" : "Better stay low soon!"
     },
     {
       "name" : "swinging axe",
-      "responses" : ["woah", "whoa"],
-      "preObstacle" : "A swinging axe! Remember to say 'whoa' to duck!",
-      "headsUp" : "Swinging axe in our way!"
+      "responses" : ["yikes"],
+      "preObstacle" : "A swinging axe! Remember to say 'yikes' to duck!",
+      "headsUp" : "Something sharp and heavy up ahead!"
     },
     {
       "name" : "collapsing floor",
       "responses" : ["whee"],
       "preObstacle" : "The floor ahead looks unstable! Shout 'whee' to jump!",
-      "headsUp" : "Yikes, collapsing floor!"
+      "headsUp" : "The ground is unstable here!"
     },
     {
       "name" : "sleeping jaguar",
-      "responses" : ["whip"],
-      "preObstacle" : "Yikes, a jaguar! Keep it away by using your 'whip'!",
-      "headsUp" : "Stay sharp! A jaguar!"
+      "responses" : ["yum"],
+      "preObstacle" : "A hungry jaguar! Keep it busy with a steak by shouting 'yum'!",
+      "headsUp" : "Is that a big cat?"
     },
     {
       "name" : "rats",
       "responses" : ["whee"],
-      "preObstacle" : "I see rats coming this way! Say 'whee' to jump!",
-      "headsUp" : "Heads up! Rats!"
+      "preObstacle" : "Careful! The floor is moving up ahead!",
+      "headsUp" : "Careful! The floor is moving up ahead!"
     },
     {
-      "name" : "spider web",
-      "responses" : ["whip"],
-      "preObstacle" : "Eww, a big spider web! Shout 'whip' to clear the way!",
-      "headsUp" : "Spider web ahead!"
+      "name" : "crocodile",
+      "responses" : ["yum"],
+      "preObstacle" : "Woah, a giant croc! Remember to shout 'yum' to give it a steak!",
+      "headsUp" : "Watch out! Something big and leathery incoming!"
     },
     {
       "name" : "poison gas",
-      "responses": ["woah"],
-      "preObstacle" : "There's poison gas in the air! Say 'woah' to slide under!",
-      "headsUp" : "Poison gas incoming!"
+      "responses": ["yikes"],
+      "preObstacle" : "A stinky poison gas in the air! Don't forget to say 'yikes' to slide under!",
+      "headsUp" : "What's that green cloud I see?"
     }
   ],
   "pirateBay" : [
     {
       "name" : "rocks ahead",
-      "responses" : ["turn"],
-      "preObstacle" : "Rocks ahead! Say 'turn' to avoid them!",
-      "headsUp" : "Sharp rocks incoming!"
-    },
-    {
-      "name" : "whirlpool",
-      "responses" : ["turn"],
-      "preObstacle" : "",
-      "headsUp" : "Whirlpool at twelve o'clock!"
+      "responses" : ["wowzer"],
+      "preObstacle" : "Rocks ahead! Remember to say 'wowzer' to avoid them!",
+      "headsUp" : "Something big and sharp up ahead!"
     },
     {
       "name" : "sailors",
-      "responses" : ["ahoy", "ahoy, mateys"],
-      "preObstacle" : "Sailors! Let them know we're friendly by shouting 'ahoy, mateys!'",
-      "headsUp" : "Sailors up ahead!"
+      "responses" : ["ahoy"],
+      "preObstacle" : "Sailors! Remember to let them know we're friendly by shouting 'ahoy!'",
+      "headsUp" : "I think I see people in front of us!"
     },
     {
       "name" : "pirates",
-      "responses" : ["boom"],
-      "preObstacle" : "Evil pirates! Give your crew the signal by shouting 'boom'!",
-      "headsUp" : "Be careful! Pirates!"
+      "responses" : ["whammo"],
+      "preObstacle" : "Evil pirates! Don't forget to give your crew the signal by shouting 'whammo'!",
+      "headsUp" : "Oh no! The Jolly Roger flag!"
     },
     {
       "name" : "big wave",
       "responses" : ["whee"],
-      "preObstacle" : "Woah, that's one big wave! Say 'whee' to speed up and get over it!",
-      "headsUp" : "Uh oh, big wave coming up!"
+      "preObstacle" : "Woah, that's one big wave! Remember to say 'whee' to speed up!",
+      "headsUp" : "Uh oh, the ocean's getting crazier!"
     },
     {
       "name" : "mermaids",
-      "responses" : ["ahoy", "ahoy, mateys"],
-      "preObstacle" : "I see mermaids! They'll attack if you don't say 'ahoy, mateys!'",
-      "headsUp" : "Mermaids spotted!"
+      "responses" : ["ahoy"],
+      "preObstacle" : "I see mermaids! Don't forget, they'll attack if you don't say 'ahoy!'",
+      "headsUp" : "Are those fish ladies up ahead?"
     },
     {
       "name" : "pirate queen",
-      "responses" : ["boom"],
-      "preObstacle" : "The dreaded pirate queen! Defend with our cannons by saying 'boom'!",
-      "headsUp" : "Pirate Queen fast approaching!"
+      "responses" : ["whammo"],
+      "preObstacle" : "The dreaded pirate queen! Remember, you can defend with our cannons by saying 'whammo'!",
+      "headsUp" : "Yikes! We're about to face one mean lady!"
     },
     {
       "name" : "sea snake",
-      "responses" : ["foom"],
-      "preObstacle" : "Oh no, an enormous sea snake! Say 'foom' to use the giant harpoon!",
-      "headsUp" : "Heads up! Sea snake!"
+      "responses" : ["kerpow"],
+      "preObstacle" : "Oh no, an enormous sea snake! Don't forget to say 'kerpow' to use the giant harpoon!",
+      "headsUp" : "Heads up! Sea monster!"
     },
     {
       "name" : "barrel bomb",
-      "responses" : ["turn"],
-      "preObstacle" : "You better say 'turn' to avoid those barrel bombs coming our way!",
-      "headsUp" : "Barrel Bomb incoming!"
+      "responses" : ["wowzer"],
+      "preObstacle" : "Remember to say 'wowzer' to avoid those barrel bombs coming our way!",
+      "headsUp" : "Explosives in the water incoming!"
     },
     {
-      "name" : "shipwreck",
+      "name" : "whirlpool",
       "responses" : ["whee"],
-      "preObstacle" : "We're approaching a shipwreck. Say 'whee' to speed through it!",
-      "headsUp" : "We're nearing a shipwreck!"
+      "preObstacle" : "We're approaching a whirlpool. Don't forget to say 'whee' to speed through it!",
+      "headsUp" : "We're nearing a giant whirlpool!"
     },
     {
       "name" : "kraken",
-      "responses" : ["foom"],
-      "preObstacle" : "The Kraken is real! Shouting 'foom!' to keep it away is our only hope!",
-      "headsUp" : "The Kraken is here!"
+      "responses" : ["kerpow"],
+      "preObstacle" : "The Kraken is real! Remember to shout 'kerpow!' to shoot a giant harpoon at it!",
+      "headsUp" : "Heads up! Something big is coming up out of the water!"
     }
   ],
   "kingdomChase" : [
     {
       "name" : "wall",
-      "responses" : ["hoo-ha"],
-      "preObstacle" : "The thief ran into a wall! Say 'hoo-ha' to hoo-ha over it!",
-      "headsUp" : "Wall in front of us!"
+      "responses" : ["woo hoo"],
+      "preObstacle" : "The thief ran into a wall! Remember to say 'woo hoo' to woo hoo over it!",
+      "headsUp" : "I see something ahead that we'll need to climb!"
     },
     {
       "name" : "moat",
       "responses" : ["splash"],
-      "preObstacle" : "Water coming up! splash across by saying 'splash'!",
-      "headsUp" : "A moat! Get ready!"
+      "preObstacle" : "Water coming up! Don't forget, you can swim across by saying 'splash'!",
+      "headsUp" : "Get ready to get wet!"
     },
     {
       "name" : "rose bush",
       "responses" : ["whee"],
-      "preObstacle" : "A rose bush coming up! Say 'whee' to not get poked!",
-      "headsUp" : "Careful! Rose bushes!"
+      "preObstacle" : "A rose bush coming up! Remember to say 'whee' to not get poked!",
+      "headsUp" : "I think I smell roses!"
     },
     {
       "name" : "dragon",
-      "responses" : ["yikes"],
-      "preObstacle" : "No way, a dragon! Shout 'yikes' before it sees you!",
-      "headsUp" : "Woah, a dragon incoming!"
+      "responses" : ["uh oh"],
+      "preObstacle" : "No way, a dragon! Remember to shout 'uh oh' before it sees you!",
+      "headsUp" : "Did anyone else hear a roar?"
     },
     {
       "name" : "tomato",
-      "responses" : ["woah"],
-      "preObstacle" : "The thief has a tomato! Say 'woah' to duck under it!",
-      "headsUp" : "He has a tomato!"
+      "responses" : ["yikes"],
+      "preObstacle" : "The thief has a tomato! Don't forget to say 'yikes' to duck under it!",
+      "headsUp" : "Careful! The thief is digging into his bag!"
     },
     {
       "name" : "baby ducks",
       "responses" : ["whee"],
-      "preObstacle" : "Oh no, baby ducks up ahead! Jump over by saying 'whee'!",
-      "headsUp" : "Are those baby ducks?!"
+      "preObstacle" : "Oh no, baby ducks up ahead! Remember to jump over by saying 'whee'!",
+      "headsUp" : "Are those cute fluffy things up ahead?"
     },
     {
       "name" : "beehive",
-      "responses" : ["woah"],
-      "preObstacle" : "The thief has a beehive! Duck under by saying 'woah'!",
-      "headsUp" : "He's got a beehive!"
+      "responses" : ["yikes"],
+      "preObstacle" : "The thief has a beehive! Duck under by saying 'yikes'!",
+      "headsUp" : "I hear buzzing coming from the thief!"
     },
     {
       "name" : "pond",
       "responses" : ["splash"],
-      "preObstacle" : "Pond incoming! Swim through by shouting 'splash'!",
-      "headsUp" : "Watch out! A pond!"
+      "preObstacle" : "Pond incoming! Remember to swim by shouting 'splash'!",
+      "headsUp" : "The thief just dove into some water!"
     },
     {
       "name" : "troll",
-      "responses" : ["yikes"],
-      "preObstacle" : "I see a hungry troll! Be sure to yikes by saying 'yikes'!",
-      "headsUp" : "Yikes, a troll"
+      "responses" : ["uh oh"],
+      "preObstacle" : "I see a hungry troll! Remember to hide by saying 'uh oh'!",
+      "headsUp" : "Woah, a dangerous creature up ahead!"
     },
     {
       "name" : "sleeping giant",
-      "responses" : ["hoo-ha"],
-      "preObstacle" : "The thief ran into a wall! Say 'hoo-ha' to climb over it!",
-      "headsUp" : "I see a sleeping giant!"
+      "responses" : ["woo hoo"],
+      "preObstacle" : "The thief ran into a wall! Don't forget to say 'woo hoo' to climb over it!",
+      "headsUp" : "We're about to run into something huge!"
     }
   ]
 }

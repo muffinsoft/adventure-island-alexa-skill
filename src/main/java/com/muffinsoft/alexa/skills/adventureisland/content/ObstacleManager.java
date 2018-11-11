@@ -1,10 +1,7 @@
 package com.muffinsoft.alexa.skills.adventureisland.content;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.muffinsoft.alexa.skills.adventureisland.model.Mission;
-import com.muffinsoft.alexa.skills.adventureisland.model.ObstacleItem;
-import com.muffinsoft.alexa.skills.adventureisland.model.ObstacleSetupItem;
-import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
+import com.muffinsoft.alexa.skills.adventureisland.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,49 +20,42 @@ public class ObstacleManager {
 
     private static Map<String, List<ObstacleItem>> obstacles = new HashMap<>();
     private static Map<String, Map<String, List<ObstacleSetupItem>>> obstacleSetup = new HashMap<>();
-    private static List<ObstacleItem> treasure = new ArrayList<>();
+    private static CoinItem treasure = new CoinItem();
 
     static {
-        obstacles = contentLoader.loadContent(obstacles, PATH, new TypeReference<HashMap<String, List<ObstacleItem>>>(){});
-        obstacleSetup = contentLoader.loadContent(obstacleSetup, PATH_SETUP, new TypeReference<HashMap<String, Map<String, List<ObstacleSetupItem>>>>(){});
-        treasure = contentLoader.loadContent(treasure, PATH_COINS, new TypeReference<ArrayList<ObstacleItem>>(){});
+        obstacles = contentLoader.loadContent(obstacles, PATH, new TypeReference<HashMap<String, List<ObstacleItem>>>() {
+        });
+        obstacleSetup = contentLoader.loadContent(obstacleSetup, PATH_SETUP, new TypeReference<HashMap<String, Map<String, List<ObstacleSetupItem>>>>() {
+        });
+        treasure = contentLoader.loadContent(treasure, PATH_COINS, new TypeReference<CoinItem>() {
+        });
     }
 
     public static boolean isTreasure(String obstacle) {
         if (obstacle == null) {
             return false;
         }
-        for (ObstacleItem item : treasure) {
-            if (Objects.equals(item.getName(), obstacle)) {
-                return true;
-            }
-        }
-        return false;
+        return Objects.equals(treasure.getName(), obstacle);
     }
 
     public static List<String> getTreasureResponses(String obstacle) {
-        for (ObstacleItem item : treasure) {
-            if (Objects.equals(item.getName(), obstacle)) {
-                return item.getResponses();
-            }
+        if (Objects.equals(treasure.getName(), obstacle)) {
+            return treasure.getResponses();
         }
+
         throw new NoSuchElementException("No responses for treasure: " + obstacle);
     }
 
     public static String getTreasurePre(String obstacle) {
-        for (ObstacleItem item : treasure) {
-            if (Objects.equals(item.getName(), obstacle)) {
-                return item.getPreObstacle();
-            }
+        if (Objects.equals(treasure.getName(), obstacle)) {
+            return treasure.getPreObstacle();
         }
         throw new NoSuchElementException("No responses for treasure: " + obstacle);
     }
 
-    public static String getTreasureHeadsUp(String obstacle) {
-        for (ObstacleItem item : treasure) {
-            if (Objects.equals(item.getName(), obstacle)) {
-                return item.getHeadsUp();
-            }
+    public static String getTreasureHeadsUp(String obstacle, StateItem state) {
+        if (Objects.equals(treasure.getName(), obstacle)) {
+            return treasure.getHeadsUp().get(state.getLocation());
         }
         throw new NoSuchElementException("No responses for treasure: " + obstacle);
     }
@@ -92,7 +82,7 @@ public class ObstacleManager {
 
     public static String getHeadsUp(StateItem state, String obstacle) {
         if (isTreasure(obstacle)) {
-            return getTreasureHeadsUp(obstacle);
+            return getTreasureHeadsUp(obstacle, state);
         }
         return getObstacleByName(state, obstacle).getHeadsUp();
     }
@@ -113,6 +103,6 @@ public class ObstacleManager {
     }
 
     public static String getTreasureName() {
-        return treasure.get(0).getName();
+        return treasure.getName();
     }
 }
