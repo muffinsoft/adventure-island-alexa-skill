@@ -229,5 +229,6 @@
   "tikiQuartet1Outro1" : "Ben: Don't worry, Tiki barry! We bought back your drum! It should arrive any minute... Delivery man: Delivery for Tiki Barry! Tiki Barry: Wow, Tiki Barry has his big drum back! Listen to this. Tiki Barry: For your help, me call you TIKI PATHFINDER. I also give you TIKI MASK. Please help my other tiki brother too! Lily: That's a fun looking tiki mask! Ben: The nickname is great too! Off to our next adventure, TIKI PATHFINDER!",
   "tikiQuartet2Outro1" : "Ben: Don't worry, Tiki Mezzo! We used our coins to buy your ukulele back! I think-- Delivery man: Delivery for Tiki Mezzo! Tiki Mezzo: Good timing! Tiki Mezzo has ukulele back. Listen to this: [play a short ukulele tune] Tiki Mezzo: New nickname for helping me and tiki brothers.  Now we call you SUPER TIKI WARRIOR. Also give you great tiki weapon, TIKI SPEAR. Lily: That spear looks so cool! Ben: I know! So long tikis! Me and SUPER TIKI WARRIOR are off to another adventure! Tiki Mezzo: Bu-Bye!",
   "powerupUsed" : "Wow, that looked like __POWERUP__.",
-  "powerupGot" : "Wow, nice comeback! You've got __POWERUP__ to use during this scene."
+  "powerupGot" : "Wow, nice comeback! You've got __POWERUP__ to use during this scene.",
+  "nicknameGot" : "You earned a new title: __NICKNAME__"
 }

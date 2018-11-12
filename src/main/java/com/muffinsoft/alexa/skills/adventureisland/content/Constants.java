@@ -50,6 +50,8 @@ public class Constants {
     public static final String POWERUP_USED = "powerupUsed";
     public static final String POWERUP_GOT = "powerupGot";
     public static final String POWERUP_PLACEHOLDER = "__POWERUP__";
+    public static final String NICKNAME_GOT = "nicknameGot";
+    public static final String NICKNAME_PLACEHOLDER = "__NICKNAME__";
     public static final List<String> COINS_FOUND = new ArrayList<>();
 
     public static final ContentLoader contentLoader = new ContentLoader();

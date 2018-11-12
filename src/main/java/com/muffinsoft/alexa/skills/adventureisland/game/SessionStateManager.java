@@ -50,12 +50,14 @@ public class SessionStateManager {
     public static final String CHECKPOINT = "checkpoint";
     static final String JUST_FAILED = "justFailed";
     static final String POWERUPS = "powerups";
+    static final String NICKNAMES = "nicknames";
 
     private AttributesManager attributesManager;
     private Map<String, Object> sessionAttributes;
     private Map<String, Object> persistentAttributes;
     private String slotName = SlotName.ACTION.text;
     private String userReply;
+    private String additionalResponse;
 
     // SESSION attributes
     private StateItem stateItem = new StateItem();
@@ -81,6 +83,11 @@ public class SessionStateManager {
      * Checkpoint contains 4 integers: tier, mission, location, and last successful scene
      */
     private List<BigDecimal> checkpoint;
+
+    /**
+     * Earned nicknames are mapped to mission name keys (missionName).
+     */
+    private Map<String, List<String>> nicknames;
 
 
     public SessionStateManager(Map<String, Slot> slots, AttributesManager attributesManager) {
@@ -126,6 +133,7 @@ public class SessionStateManager {
         oldObstacles = (List<String>) persistentAttributes.getOrDefault(OLD_OBSTACLES, new ArrayList<String>());
         completedMissions = (List<List<BigDecimal>>) persistentAttributes.getOrDefault(COMPLETED_MISSIONS, new ArrayList<>());
         checkpoint = (List<BigDecimal>) persistentAttributes.get(CHECKPOINT);
+        nicknames = (Map<String, List<String>>) persistentAttributes.get(NICKNAMES);
     }
 
     private String capitalizeFirstLetter(String s) {
@@ -359,6 +367,10 @@ public class SessionStateManager {
             if (Objects.equals(stateItem.getMission(), ROOT)) {
                 if (userReply == null || !detectMission()) {
                     String responseText = dialog.getResponseText();
+                    // after all outros, before mission prompt, insert additional response (like nicknames earned)
+                    if (additionalResponse != null && !additionalResponse.isEmpty()) {
+                        responseText += " " + additionalResponse;
+                    }
                     dialog = MissionSelector.promptForMission(slotName, completedMissions);
                     dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
                     return dialog;
@@ -475,11 +487,23 @@ public class SessionStateManager {
     }
 
     private void getNextScene() {
+        String oldMission = stateItem.getMission();
+        int oldTier = stateItem.getTierIndex();
         stateItem = game.nextActivity(stateItem);
         if (Objects.equals(stateItem.getMission(), ROOT)) {
             updateCompletedMissions();
             checkpoint = null;
+            updateNicknames(oldMission, oldTier);
         }
+    }
+
+    private void updateNicknames(String oldMission, int oldTier) {
+        List<String> nicknamesForMission = nicknames.getOrDefault(oldMission, new ArrayList<>());
+        String newNickname = NicknameManager.getNickname(oldMission, oldTier);
+        nicknamesForMission.add(newNickname);
+        nicknames.put(oldMission, nicknamesForMission);
+
+        additionalResponse = getPhrase(NICKNAME_GOT).replace(NICKNAME_PLACEHOLDER, newNickname);
     }
 
     private void updateCompletedMissions() {
@@ -518,6 +542,7 @@ public class SessionStateManager {
         persistentAttributes.put(USERNAME, userName);
         persistentAttributes.put(CHECKPOINT, checkpoint);
         persistentAttributes.put(COMPLETED_MISSIONS, completedMissions);
+        persistentAttributes.put(NICKNAMES, nicknames);
 
         attributesManager.setPersistentAttributes(persistentAttributes);
         attributesManager.savePersistentAttributes();
