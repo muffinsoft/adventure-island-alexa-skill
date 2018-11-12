@@ -1,0 +1,74 @@
+{
+  "royalRansom" : [
+    {
+      "name" : "Swordbearer",
+      "explanation" : "That was a perfect run! You earned a new title - Swordbearer!"
+    },
+    {
+      "name" : "Esquire",
+      "explanation" : "You completed the entire area without getting hit! You get a new title - Esquire!"
+    },
+    {
+      "name" : "Knight",
+      "explanation" : "A perfect mission? Now that's impressive! You get a new title - Knight!"
+    },
+    {
+      "name" : "Royal Guardian",
+      "explanation" : "Wow, you finished all three royal missions! The honor of a new title is yours - Royal Guardian"
+    }
+  ],
+  "pirateBusiness" : [
+    {
+      "name" : "Powder Monkey",
+      "explanation" : "A scene without taking damage? Not bad! You earned the title - Powder Monkey!"
+    },
+    {
+      "name" : "Buccaneer",
+      "explanation" : "Blimey! You got through a location without getting hit! A new title is yours - Buccaneer!"
+    },
+    {
+      "name" : "First Mate",
+      "explanation" : "A perfect mission? Well shiver me timbers! You earned the title First Mate!"
+    },
+    {
+      "name" : "Pirate Captain",
+      "explanation" : "Blimey! You completed all three Pirate Business missions! A title fit for a sea lover is yours - Pirate Captain!"
+    }
+  ],
+  "tikiQuartet" : [
+    {
+      "name" : "Traveller",
+      "explanation" : "Hey, that run was perfect! You deserve a new title for that - Traveler!"
+    },
+    {
+      "name" : "Gold Seeker",
+      "explanation" : "You passed the entire location without taking damage! You get a new title - Gold Seeker!"
+    },
+    {
+      "name" : "Famed Explorer",
+      "explanation" : "Nice, a perfect mission! You've earned a new title - Famed Explorer!"
+    },
+    {
+      "name" : "Temple Raider",
+      "explanation" : "Incredible! You completed all three Tiki Trouble missions! The tikis agree you deserve a new title - Temple Raider!"
+    }
+  ],
+  "general" : [
+    {
+      "name" : "Dedicated Adventurer",
+      "explanation" : "You've visited Adventure Island __X__ days in a row now! You get a new title - Dedicated Adventurer!"
+    },
+    {
+      "name" : "Skilled Adventurer",
+      "explanation" : "Cool, you've played __X__ missions already! You get a new title - Skilled Adventurer!"
+    },
+    {
+      "name" : "Adventure Lover",
+      "explanation" : "Woah, you've played __X__ missions today! You get a new title - Adventure Lover!"
+    },
+    {
+      "name" : "Grand Adventurer",
+      "explanation" : "You've played __X__ minutes of Adventure Island! Now that's awesome! You deserve a new title - Grand Adventurer!"
+    }
+  ]
+}

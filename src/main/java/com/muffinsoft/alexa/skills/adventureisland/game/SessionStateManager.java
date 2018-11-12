@@ -51,6 +51,7 @@ public class SessionStateManager {
     static final String JUST_FAILED = "justFailed";
     static final String POWERUPS = "powerups";
     static final String NICKNAMES = "nicknames";
+    static final String ACHIEVEMENTS = "achievements";
 
     private AttributesManager attributesManager;
     private Map<String, Object> sessionAttributes;
@@ -88,6 +89,7 @@ public class SessionStateManager {
      * Earned nicknames are mapped to mission name keys (missionName).
      */
     private Map<String, List<String>> nicknames;
+    private Map<String, List<String>> achievements;
 
 
     public SessionStateManager(Map<String, Slot> slots, AttributesManager attributesManager) {
@@ -134,6 +136,7 @@ public class SessionStateManager {
         completedMissions = (List<List<BigDecimal>>) persistentAttributes.getOrDefault(COMPLETED_MISSIONS, new ArrayList<>());
         checkpoint = (List<BigDecimal>) persistentAttributes.get(CHECKPOINT);
         nicknames = (Map<String, List<String>>) persistentAttributes.get(NICKNAMES);
+        achievements = (Map<String, List<String>>) persistentAttributes.get(ACHIEVEMENTS);
     }
 
     private String capitalizeFirstLetter(String s) {
@@ -359,6 +362,7 @@ public class SessionStateManager {
         return new DialogItem(getPhrase(SCENE_FAIL), false, slotName, true);
     }
 
+    // TODO: skip welcome intro for returning users
     private DialogItem getIntroOutroDialog() {
         DialogItem dialog = getResponse();
 
@@ -370,6 +374,7 @@ public class SessionStateManager {
                     // after all outros, before mission prompt, insert additional response (like nicknames earned)
                     if (additionalResponse != null && !additionalResponse.isEmpty()) {
                         responseText += " " + additionalResponse;
+                        additionalResponse = null;
                     }
                     dialog = MissionSelector.promptForMission(slotName, completedMissions);
                     dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
@@ -543,6 +548,7 @@ public class SessionStateManager {
         persistentAttributes.put(CHECKPOINT, checkpoint);
         persistentAttributes.put(COMPLETED_MISSIONS, completedMissions);
         persistentAttributes.put(NICKNAMES, nicknames);
+        persistentAttributes.put(ACHIEVEMENTS, achievements);
 
         attributesManager.setPersistentAttributes(persistentAttributes);
         attributesManager.savePersistentAttributes();
