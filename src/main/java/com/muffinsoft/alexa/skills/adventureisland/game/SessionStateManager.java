@@ -52,6 +52,7 @@ public class SessionStateManager {
     static final String POWERUPS = "powerups";
     static final String NICKNAMES = "nicknames";
     static final String ACHIEVEMENTS = "achievements";
+    static final String HITS_HISTORY = "hitsHistory";
 
     private AttributesManager attributesManager;
     private Map<String, Object> sessionAttributes;
@@ -90,6 +91,10 @@ public class SessionStateManager {
      */
     private Map<String, List<String>> nicknames;
     private Map<String, List<String>> achievements;
+    /**
+     * How many times the user was hit in the mission, contains 12 digits as String (4 per mission * 3 tiers)
+     */
+    private Map<String, List<String>> hitsHistory;
 
 
     public SessionStateManager(Map<String, Slot> slots, AttributesManager attributesManager) {
@@ -137,6 +142,7 @@ public class SessionStateManager {
         checkpoint = (List<BigDecimal>) persistentAttributes.get(CHECKPOINT);
         nicknames = (Map<String, List<String>>) persistentAttributes.get(NICKNAMES);
         achievements = (Map<String, List<String>>) persistentAttributes.get(ACHIEVEMENTS);
+        hitsHistory = (Map<String, List<String>>) persistentAttributes.get(HITS_HISTORY);
     }
 
     private String capitalizeFirstLetter(String s) {
@@ -549,6 +555,7 @@ public class SessionStateManager {
         persistentAttributes.put(COMPLETED_MISSIONS, completedMissions);
         persistentAttributes.put(NICKNAMES, nicknames);
         persistentAttributes.put(ACHIEVEMENTS, achievements);
+        persistentAttributes.put(HITS_HISTORY, hitsHistory);
 
         attributesManager.setPersistentAttributes(persistentAttributes);
         attributesManager.savePersistentAttributes();
