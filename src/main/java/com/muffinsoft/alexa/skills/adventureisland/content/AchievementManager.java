@@ -17,7 +17,7 @@ public class AchievementManager {
         achievements = Constants.contentLoader.loadContent(achievements, PATH, new TypeReference<Map<String, List<Achievement>>>(){});
     }
 
-    public Achievement getAchievementForMission(String mission, MissionAchievement achievement) {
+    public static Achievement getAchievementForMission(String mission, MissionAchievement achievement) {
         return achievements.get(mission).get(achievement.index);
     }
 

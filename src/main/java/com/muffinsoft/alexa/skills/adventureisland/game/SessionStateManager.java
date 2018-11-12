@@ -92,7 +92,7 @@ public class SessionStateManager {
     private Map<String, List<String>> nicknames;
     private Map<String, List<String>> achievements;
     /**
-     * How many times the user was hit in the mission, contains 12 digits as String (4 per mission * 3 tiers)
+     * How many times the user was hit in the mission, contains 36 digits as String (4*3 per mission * 3 tiers)
      */
     private Map<String, List<String>> hitsHistory;
 
@@ -243,6 +243,10 @@ public class SessionStateManager {
         totalCoins += coins;
         coins = 0;
         stateItem.setIndex(0);
+
+        int hits = getNumber(HEALTH) - health;
+        saveHits(hits);
+
         health = getNumber(HEALTH);
         powerups.clear();
         justFailed = false;
@@ -255,6 +259,12 @@ public class SessionStateManager {
         DialogItem response = getIntroOutroDialog();
         response.setResponseText(combineWithBreak(sceneOutro, response.getResponseText()));
         return response;
+    }
+
+    private void saveHits(int hits) {
+        List<String> allHits = hitsHistory.getOrDefault(stateItem.getMission(), new ArrayList<>());
+        allHits.add("" + hits);
+        hitsHistory.put(stateItem.getMission(), allHits);
     }
 
     private void setCheckpoint() {

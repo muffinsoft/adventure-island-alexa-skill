@@ -57,6 +57,9 @@ public class Constants {
     public static final ContentLoader contentLoader = new ContentLoader();
     public static final Game game = LayoutManager.loadGame();
 
+    public static final int SCENES_PER_MISSION = 12;
+    public static final int SCENES_PER_LOCATION = 4;
+
     static {
         COINS_FOUND.add("coins");
         COINS_FOUND.add("treasure");
