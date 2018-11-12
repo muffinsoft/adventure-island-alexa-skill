@@ -24,6 +24,11 @@ public class PhraseManager {
         exclamations.add(phrases.get("exclamation3"));
         exclamations.add(phrases.get("exclamation4"));
         exclamations.add(phrases.get("exclamation5"));
+        exclamations.add(phrases.get("exclamation6"));
+        exclamations.add(phrases.get("exclamation7"));
+        exclamations.add(phrases.get("exclamation8"));
+        exclamations.add(phrases.get("exclamation9"));
+        exclamations.add(phrases.get("exclamation10"));
     }
 
     public static String getPhrase(String key) {

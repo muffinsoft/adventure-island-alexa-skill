@@ -189,7 +189,7 @@ public class SessionStateManager {
             stateItem.setLocationIndex(0);
             stateItem.setSceneIndex(0);
             checkpoint = null;
-            return promptForMission();
+            return MissionSelector.promptForMission(slotName, completedMissions);
         }
         String response = getPhrase(SCENE_FAIL + REPROMPT);
         return new DialogItem(response, false, slotName, true);
@@ -359,7 +359,7 @@ public class SessionStateManager {
             if (Objects.equals(stateItem.getMission(), ROOT)) {
                 if (userReply == null || !detectMission()) {
                     String responseText = dialog.getResponseText();
-                    dialog = promptForMission();
+                    dialog = MissionSelector.promptForMission(slotName, completedMissions);
                     dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
                     return dialog;
                 }
@@ -437,7 +437,7 @@ public class SessionStateManager {
         List<Mission> missions = game.getMissions();
         for (int i = 0; i < missions.size(); i++) {
 
-            int tier = getTier(i);
+            int tier = MissionSelector.getTier(i, completedMissions);
             String missionName = missions.get(i).getTierNames().get(tier);
             logger.debug("Comparing reply {} with mission name {}", userReply, missionName);
             if (Objects.equals(missionName.toLowerCase(), userReply)) {
@@ -458,33 +458,6 @@ public class SessionStateManager {
             }
         }
         return false;
-    }
-
-    private DialogItem promptForMission() {
-        StringBuilder responseText = new StringBuilder(getPhrase(SELECT_MISSION));
-        List<Mission> missions = game.getMissions();
-        for (int i = 0; i < missions.size(); i++) {
-            int tier = getTier(i);
-            responseText.append(missions.get(i).getTierNames().get(tier));
-            responseText.append(". ");
-        }
-        return new DialogItem(responseText.toString(), false, slotName, true);
-    }
-
-    private int getTier(int missionIndex) {
-        int result = 0;
-        logger.debug("Detecting tier, completed missions size: {}", completedMissions.size());
-        for (int i = (completedMissions.size() - 1); i >= 0; i--) {
-            logger.debug("{} contains {}?", completedMissions.get(i).toArray(), missionIndex);
-            for (BigDecimal savedMissionIndex : completedMissions.get(i)) {
-                if (savedMissionIndex.intValue() == missionIndex) {
-                    result = i + 1;
-                    logger.debug("Mission {} is at tier {}", missionIndex, result);
-                    break;
-                }
-            }
-        }
-        return result;
     }
 
     private String getNameKey(State state) {
