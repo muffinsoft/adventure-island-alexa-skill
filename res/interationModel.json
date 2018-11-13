@@ -1,7 +1,7 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "adventure island",
+      "invocationName": "maxi test",
       "intents": [
         {
           "name": "AMAZON.FallbackIntent",
@@ -61,6 +61,51 @@
           "values": [
             {
               "name": {
+                "value": "aloha ukulele melody"
+              }
+            },
+            {
+              "name": {
+                "value": "jamming jungle beat"
+              }
+            },
+            {
+              "name": {
+                "value": "bouncy bamboo rhythm"
+              }
+            },
+            {
+              "name": {
+                "value": "captain seadog sails again"
+              }
+            },
+            {
+              "name": {
+                "value": "pirate crew reunion"
+              }
+            },
+            {
+              "name": {
+                "value": "old seadog inspiration"
+              }
+            },
+            {
+              "name": {
+                "value": "long live the king"
+              }
+            },
+            {
+              "name": {
+                "value": "royal pet rescue"
+              }
+            },
+            {
+              "name": {
+                "value": "pretty princess heroes"
+              }
+            },
+            {
+              "name": {
                 "value": "continue"
               }
             },
@@ -70,8 +115,17 @@
               }
             },
             {
+              "id": "yes",
               "name": {
-                "value": "yes"
+                "value": "yes",
+                "synonyms": [
+                  "i like",
+                  "love to",
+                  "I do",
+                  "of course",
+                  "ok",
+                  "sure"
+                ]
               }
             },
             {

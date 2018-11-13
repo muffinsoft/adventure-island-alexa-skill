@@ -39,7 +39,7 @@ public class ActionIntentHandler implements RequestHandler {
     static Response assembleResponse(DialogItem dialog) {
         String speechText = dialog.getResponseText();
         OutputSpeech speech = SsmlOutputSpeech.builder()
-                .withSsml(speechText)
+                .withSsml("<speak>" + speechText + "</speak>")
                 .build();
 
         Card card = SimpleCard.builder()

@@ -16,6 +16,8 @@ public class StateItem {
     private int locationIndex;
     private int sceneIndex;
 
+    private HelpState helpState;
+
     public String getMission() {
         return mission;
     }
@@ -126,5 +128,13 @@ public class StateItem {
         } else {
             return getOutroId();
         }
+    }
+
+    public HelpState getHelpState() {
+        return helpState;
+    }
+
+    public void setHelpState(HelpState helpState) {
+        this.helpState = helpState;
     }
 }
