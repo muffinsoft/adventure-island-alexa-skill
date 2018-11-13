@@ -11,6 +11,7 @@ import java.util.List;
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.SELECT_MISSION;
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.game;
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getPhrase;
+import static com.muffinsoft.alexa.skills.adventureisland.game.Utils.wrap;
 
 public class MissionSelector {
 
@@ -24,7 +25,7 @@ public class MissionSelector {
             responseText.append(missions.get(i).getTierNames().get(tier));
             responseText.append(". ");
         }
-        return new DialogItem(responseText.toString(), false, slotName, true);
+        return new DialogItem(wrap(responseText.toString()), false, slotName, true);
     }
 
     public static int getTier(int missionIndex, List<List<BigDecimal>> completedMissions) {

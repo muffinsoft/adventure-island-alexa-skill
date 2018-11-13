@@ -2,7 +2,7 @@ package com.muffinsoft.alexa.skills.adventureisland.model;
 
 public enum State {
 
-    INTRO("Intro"), ACTION("Action"), OUTRO("Outro"), FAILED("Failed");
+    INTRO("Intro"), ACTION("Action"), OUTRO("Outro"), FAILED("Failed"), HELP("Help");
 
     private String key;
 

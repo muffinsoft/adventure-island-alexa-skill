@@ -6,6 +6,7 @@ public class StateItem {
     private String location;
     private String scene;
     private State state;
+    private State pendingState;
     private int index;
     private String introId;
     private String outroId;
@@ -44,6 +45,14 @@ public class StateItem {
 
     public void setState(State state) {
         this.state = state;
+    }
+
+    public State getPendingState() {
+        return pendingState;
+    }
+
+    public void setPendingState(State pendingState) {
+        this.pendingState = pendingState;
     }
 
     public int getIndex() {

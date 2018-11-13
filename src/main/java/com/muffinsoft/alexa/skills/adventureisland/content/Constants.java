@@ -19,6 +19,7 @@ public class Constants {
     public static final String CONTINUE = "continue";
     public static final String ROOT = "root";
     public static final String DEMO = "demo";
+    public static final String HELP = "Help";
     public static final String NAME = "name";
     public static final String PROMPT = "Prompt";
     public static final String READY = "ready";

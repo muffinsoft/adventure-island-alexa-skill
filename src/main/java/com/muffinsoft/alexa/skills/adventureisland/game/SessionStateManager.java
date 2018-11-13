@@ -18,6 +18,8 @@ import static com.muffinsoft.alexa.skills.adventureisland.content.ObstacleManage
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getExclamation;
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getPhrase;
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.nameToKey;
+import static com.muffinsoft.alexa.skills.adventureisland.game.Utils.combineWithBreak;
+import static com.muffinsoft.alexa.skills.adventureisland.game.Utils.wrap;
 import static com.muffinsoft.alexa.skills.adventureisland.model.StateItem.*;
 
 public class SessionStateManager {
@@ -102,7 +104,9 @@ public class SessionStateManager {
         this.sessionAttributes = verifyMap(attributesManager.getSessionAttributes());
         this.persistentAttributes = verifyMap(attributesManager.getPersistentAttributes());
         populateFields();
-        userReply = slots.get(slotName).getValue();
+        if (slots != null && !slots.isEmpty()) {
+            userReply = slots.get(slotName).getValue();
+        }
     }
 
     private Map<String, Object> verifyMap(Map<String, Object> map) {
@@ -220,17 +224,17 @@ public class SessionStateManager {
             Powerup powerup = PowerupManager.useFirstRelevant(powerups, currentObstacle, MULTIPLY);
             if (powerup != null) {
                 coins++;
-                speechText = getPhrase(POWERUP_USED).replace(POWERUP_PLACEHOLDER, powerup.getName());
+                speechText = wrap(getPhrase(POWERUP_USED).replace(POWERUP_PLACEHOLDER, powerup.getName()));
             }
             if (coins >= getCoinsToCollect(stateItem.getTierIndex())) {
                 currentObstacle = null;
                 return finishScene(speechText);
             }
             String coinText = coins == 1 ? COIN_SINGLE : COIN_PLURAL;
-            speechText += " " + getPhrase(ACTION_APPROVE) + " " + getPhrase(YOU_HAVE) + " " +
-                    coins + " " + getPhrase(coinText) + ".";
+            speechText += wrap(getPhrase(ACTION_APPROVE) + " " + getPhrase(YOU_HAVE) + " " +
+                    coins + " " + getPhrase(coinText) + ".");
         } else {
-            speechText = getPhrase(COIN_NOT_PICKED);
+            speechText = wrap(getPhrase(COIN_NOT_PICKED));
         }
 
         currentObstacle = null;
@@ -253,7 +257,7 @@ public class SessionStateManager {
         setCheckpoint();
         String sceneOutro = getSceneOutro();
         if (sceneOutro != null) {
-            sceneOutro = speechText + " " + sceneOutro;
+            sceneOutro = speechText + sceneOutro;
         }
         getNextScene();
         DialogItem response = getIntroOutroDialog();
@@ -276,7 +280,11 @@ public class SessionStateManager {
     }
 
     private String getSceneOutro() {
-        return getPhrase(getNameKey(State.OUTRO));
+        String phrase = getPhrase(getNameKey(State.OUTRO));
+        if (phrase != null) {
+            phrase = wrap(phrase);
+        }
+        return phrase;
     }
 
     private DialogItem getActionDialog() {
@@ -294,7 +302,7 @@ public class SessionStateManager {
             if (expectedReplies != null && expectedReplies.contains(userReply)) {
                 speechText = getPowerup();
                 if (speechText.isEmpty() && --toNextExclamation <= 0) {
-                    speechText += getExclamation();
+                    speechText += wrap(getExclamation());
                     toNextExclamation = getTurnsToNextExclamation();
                 }
             // wrong reply
@@ -302,7 +310,7 @@ public class SessionStateManager {
                 // check if a powerup is available
                 Powerup powerup = PowerupManager.useFirstRelevant(powerups, currentObstacle, SKIP, RETRY);
                 if (powerup != null) {
-                    speechText = getPhrase(POWERUP_USED).replace(POWERUP_PLACEHOLDER, powerup.getName());
+                    speechText = wrap(getPhrase(POWERUP_USED).replace(POWERUP_PLACEHOLDER, powerup.getName()));
                     if (powerup.getAction().toLowerCase().contains(RETRY)) {
                         return new DialogItem(speechText, false, slotName);
                     }
@@ -313,7 +321,7 @@ public class SessionStateManager {
                         return processSceneFail();
                     }
                     justFailed = true;
-                    speechText = getPhrase(ACTION_FAIL + health);
+                    speechText = wrap(getPhrase(ACTION_FAIL + health));
                 }
                 currentObstacle = null;
             }
@@ -338,8 +346,8 @@ public class SessionStateManager {
             Powerup powerup = PowerupManager.getPowerup(previous);
             powerups.add(powerup.getName());
             justFailed = false;
-            return getPhrase(POWERUP_GOT).replace(POWERUP_PLACEHOLDER, powerup.getName()) +
-                    " " + powerup.getExplanation();
+            return wrap(getPhrase(POWERUP_GOT).replace(POWERUP_PLACEHOLDER, powerup.getName()) +
+                    " " + powerup.getExplanation());
         }
         return "";
     }
@@ -357,16 +365,16 @@ public class SessionStateManager {
         if (stateItem.getTierIndex() == 0 && stateItem.getLocationIndex() == 0 && stateItem.getSceneIndex() == 0) {
             // Lily first
             if (userReply.contains(ReplyManager.getReply(DEMO + 2))) {
-                responseText += getPhrase(stateItem.getScene() + capitalizeFirstLetter(DEMO));
+                responseText += wrap(getPhrase(stateItem.getScene() + capitalizeFirstLetter(DEMO)));
             } else {
                 // prompt for demo round
-                responseText += getPhrase(DEMO + PROMPT);
+                responseText += wrap(getPhrase(DEMO + PROMPT));
                 return new DialogItem(responseText, false, slotName, true);
             }
         }
 
         // ask if the user ready or needs help
-        responseText += getPhrase(READY + PROMPT);
+        responseText += wrap(getPhrase(READY + PROMPT));
 
         return new DialogItem(responseText, false, slotName, true);
     }
@@ -420,13 +428,6 @@ public class SessionStateManager {
         return dialog;
     }
 
-    private String combineWithBreak(String responseText, String newText) {
-        if (responseText != null) {
-            return responseText + " <break time=\"3s\"/> " + newText;
-        }
-        return newText;
-    }
-
     private boolean isLastStep() {
         String key = getNameKey(stateItem.getState());
         String nextPhrase = getPhrase(key);
@@ -447,13 +448,13 @@ public class SessionStateManager {
         String responseText;
         if (expectedReply != null) {
             if (Objects.equals(expectedReply, userReply)) {
-                responseText = getPhrase(nameKey + YES);
+                responseText = wrap(getPhrase(nameKey + YES));
             } else {
-                responseText = getPhrase(nameKey + NO);
+                responseText = wrap(getPhrase(nameKey + NO));
             }
 
         } else {
-            responseText = getPhrase(nameKey);
+            responseText = wrap(getPhrase(nameKey));
         }
         stateItem.setIndex(stateItem.getIndex() + 1);
 
@@ -524,7 +525,7 @@ public class SessionStateManager {
         nicknamesForMission.add(newNickname);
         nicknames.put(oldMission, nicknamesForMission);
 
-        additionalResponse = getPhrase(NICKNAME_GOT).replace(NICKNAME_PLACEHOLDER, newNickname);
+        additionalResponse = wrap(getPhrase(NICKNAME_GOT).replace(NICKNAME_PLACEHOLDER, newNickname));
     }
 
     private void updateCompletedMissions() {
@@ -578,18 +579,18 @@ public class SessionStateManager {
         if (powerup != null) {
             String action = powerup.getAction().toLowerCase();
             obstacle = action.substring(action.indexOf(REPLACEMENT_PREFIX) + REPLACEMENT_PREFIX.length());
-            speechText += " " + getPhrase(POWERUP_USED).replace(POWERUP_PLACEHOLDER, powerup.getName());
+            speechText += wrap(getPhrase(POWERUP_USED).replace(POWERUP_PLACEHOLDER, powerup.getName()));
         } else {
             logger.debug("Got obstacle {} for {} {} {}", obstacle, stateItem.getMission(), stateItem.getLocation(), stateItem.getScene());
             speechText = getPreObstacle(speechText, obstacle);
         }
 
         currentObstacle = obstacle;
-        speechText += " " + capitalizeFirstLetter(obstacle) + "!";
+        speechText += wrap(capitalizeFirstLetter(obstacle) + "!");
 
         // handle silent scenes
         if (Objects.equals(SILENT_SCENE, stateItem.getScene())) {
-            speechText += " You did not hear this.";
+            speechText += wrap("<amazon:effect name=\"whispered\">You did not hear this.</amazon:effect>");
         }
         return speechText;
     }
@@ -597,14 +598,26 @@ public class SessionStateManager {
     private String getPreObstacle(String speechText, String obstacle) {
         if (oldObstacles.contains(obstacle)) {
             if (--toNextHeadsUp <= 0) {
-                speechText += " " + ObstacleManager.getHeadsUp(stateItem, obstacle);
+                speechText += wrap(ObstacleManager.getHeadsUp(stateItem, obstacle));
                 toNextHeadsUp = getNumber(HEADS_UP);
             }
         } else {
             oldObstacles.add(obstacle);
             String preObstacle = ObstacleManager.getPreObstacle(stateItem, obstacle);
-            speechText += " " + preObstacle;
+            speechText += wrap(preObstacle);
         }
         return speechText;
+    }
+
+    public DialogItem initHelp() {
+        if (Objects.equals(stateItem.getMission(), ROOT)) {
+            String reply = wrap(getPhrase(ROOT + HELP));
+            return new DialogItem(reply, false, null, true);
+        }
+
+        stateItem.setPendingState(stateItem.getState());
+        stateItem.setState(State.HELP);
+
+        return null;
     }
 }
