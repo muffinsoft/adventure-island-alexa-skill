@@ -158,20 +158,24 @@ public class SessionStateManager {
         logger.debug("Starting to process user reply {}", userReply);
         DialogItem dialog;
 
-        if (checkpoint != null && Objects.equals(CONTINUE, userReply)) {
-            restoreFromCheckpoint();
-        }
-
-        if (stateItem.getState() == State.FAILED) {
-            dialog = getFailedChoice();
-        } else if (stateItem.getState() != State.ACTION) {
-            dialog = getIntroOutroDialog();
+        if (stateItem.getState() == State.HELP) {
+            dialog = processHelp();
         } else {
-            dialog = getActionDialog();
-        }
+            if (checkpoint != null && Objects.equals(CONTINUE, userReply)) {
+                restoreFromCheckpoint();
+            }
 
-        String responseText = dialog.getResponseText().replace(USERNAME_PLACEHOLDER, userName);
-        dialog.setResponseText(responseText);
+            if (stateItem.getState() == State.FAILED) {
+                dialog = getFailedChoice();
+            } else if (stateItem.getState() != State.ACTION) {
+                dialog = getIntroOutroDialog();
+            } else {
+                dialog = getActionDialog();
+            }
+
+            String responseText = dialog.getResponseText().replace(USERNAME_PLACEHOLDER, userName);
+            dialog.setResponseText(responseText);
+        }
 
         updateSession();
         return dialog;
@@ -201,19 +205,23 @@ public class SessionStateManager {
             return getActionDialog();
         }
         if (userReply.contains(ReplyManager.getReply(basicKey + 2))) {
-            stateItem.setMission(ROOT);
-            stateItem.setLocation(ROOT);
-            stateItem.setScene(ROOT);
-            stateItem.setState(State.INTRO);
-            stateItem.setIndex(0);
-            stateItem.setMissionIndex(0);
-            stateItem.setLocationIndex(0);
-            stateItem.setSceneIndex(0);
-            checkpoint = null;
-            return MissionSelector.promptForMission(slotName, completedMissions);
+            return quitToRoot();
         }
         String response = getPhrase(SCENE_FAIL + REPROMPT);
         return new DialogItem(response, false, slotName, true);
+    }
+
+    private DialogItem quitToRoot() {
+        stateItem.setMission(ROOT);
+        stateItem.setLocation(ROOT);
+        stateItem.setScene(ROOT);
+        stateItem.setState(State.INTRO);
+        stateItem.setIndex(0);
+        stateItem.setMissionIndex(0);
+        stateItem.setLocationIndex(0);
+        stateItem.setSceneIndex(0);
+        checkpoint = null;
+        return MissionSelector.promptForMission(slotName, completedMissions);
     }
 
     private DialogItem getCoinsDialog() {
@@ -611,15 +619,16 @@ public class SessionStateManager {
 
     public DialogItem initHelp() {
         if (Objects.equals(stateItem.getMission(), ROOT)) {
-            String reply = wrap(getPhrase(ROOT + HELP));
-            return new DialogItem(reply, false, null, true);
+            return getRootHelp();
         }
 
         stateItem.setPendingState(stateItem.getState());
         stateItem.setState(State.HELP);
+        stateItem.setPendingIndex(stateItem.getPendingIndex());
+        stateItem.setIndex(0);
         updateSession();
 
-        if (stateItem.getState() == State.ACTION) {
+        if (stateItem.getPendingState() == State.ACTION) {
             String reply = wrap(getPhrase(State.ACTION.getKey().toLowerCase() + HELP));
             return new DialogItem(reply, false, null, true);
         }
@@ -628,5 +637,58 @@ public class SessionStateManager {
         reply += wrap(getPhrase(QUIT + HELP + capitalizeFirstLetter(CONTINUE)));
 
         return new DialogItem(reply, false, null, true);
+    }
+
+    private DialogItem getRootHelp() {
+        String reply = wrap(getPhrase(ROOT + HELP));
+        return new DialogItem(reply, false, null, true);
+    }
+
+    private DialogItem processHelp() {
+        if (stateItem.getPendingState() != State.ACTION ||
+                (stateItem.getIndex() == 0 && !Objects.equals(userReply, YES.toLowerCase()))) {
+            return getMissionHelp();
+        }
+
+        String reply;
+        String prefix = stateItem.getTierIndex() > 0 ? "" + stateItem.getTierIndex() : "";
+
+        switch (stateItem.getIndex()) {
+            case 0:
+                reply = getPhrase(stateItem.getScene() + prefix + HELP);
+                if (stateItem.getSceneIndex() == 0) {
+                    reply += wrap(getPhrase(LEARN_MORE));
+                } else {
+                    reply += wrap(getPhrase(FULL_HELP));
+                }
+                break;
+            default:
+                reply = getPhrase(stateItem.getScene() + prefix + capitalizeFirstLetter(FULL_HELP));
+                reply += wrap(getPhrase(LEARN_MORE));
+        }
+
+        stateItem.setIndex(stateItem.getIndex() + 1);
+        return new DialogItem(reply, false, slotName, true);
+    }
+
+    private DialogItem getMissionHelp() {
+        // continue playing (0)? select another mission (1)?
+        if (Objects.equals(userReply, YES.toLowerCase())) {
+            if (stateItem.getIndex() == 0) {
+                return continueMission();
+            }
+            return quitToRoot();
+        }
+        if (stateItem.getIndex() == 0) {
+            stateItem.setIndex(stateItem.getIndex() + 1);
+            return getRootHelp();
+        }
+        return continueMission();
+    }
+
+    private DialogItem continueMission() {
+        stateItem.setState(stateItem.getPendingState());
+        stateItem.setIndex(stateItem.getPendingIndex());
+        return getIntroOutroDialog();
     }
 }

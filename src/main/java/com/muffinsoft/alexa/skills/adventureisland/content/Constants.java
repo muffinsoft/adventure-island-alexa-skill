@@ -23,6 +23,8 @@ public class Constants {
     public static final String QUIT = "quit";
     public static final String NAME = "name";
     public static final String PROMPT = "Prompt";
+    public static final String LEARN_MORE = "learnMore";
+    public static final String FULL_HELP = "helpFull";
     public static final String READY = "ready";
     public static final String ANYTHING = "any";
     public static final String REPLACE = "replace";

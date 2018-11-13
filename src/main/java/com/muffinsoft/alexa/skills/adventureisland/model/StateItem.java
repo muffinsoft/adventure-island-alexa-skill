@@ -8,6 +8,7 @@ public class StateItem {
     private State state;
     private State pendingState;
     private int index;
+    private int pendingIndex;
     private String introId;
     private String outroId;
     private int tierIndex;
@@ -61,6 +62,14 @@ public class StateItem {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public int getPendingIndex() {
+        return pendingIndex;
+    }
+
+    public void setPendingIndex(int pendingIndex) {
+        this.pendingIndex = pendingIndex;
     }
 
     public String getIntroId() {
