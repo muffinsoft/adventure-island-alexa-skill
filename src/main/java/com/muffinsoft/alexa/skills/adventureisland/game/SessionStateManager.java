@@ -617,7 +617,16 @@ public class SessionStateManager {
 
         stateItem.setPendingState(stateItem.getState());
         stateItem.setState(State.HELP);
+        updateSession();
 
-        return null;
+        if (stateItem.getState() == State.ACTION) {
+            String reply = wrap(getPhrase(State.ACTION.getKey().toLowerCase() + HELP));
+            return new DialogItem(reply, false, null, true);
+        }
+
+        String reply = wrap(getPhrase(stateItem.getMission() + HELP).replace(TOTAL_COINS_PLACEHOLDER, "" + totalCoins));
+        reply += wrap(getPhrase(QUIT + HELP + capitalizeFirstLetter(CONTINUE)));
+
+        return new DialogItem(reply, false, null, true);
     }
 }

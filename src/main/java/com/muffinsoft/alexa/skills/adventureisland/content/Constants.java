@@ -20,6 +20,7 @@ public class Constants {
     public static final String ROOT = "root";
     public static final String DEMO = "demo";
     public static final String HELP = "Help";
+    public static final String QUIT = "quit";
     public static final String NAME = "name";
     public static final String PROMPT = "Prompt";
     public static final String READY = "ready";
@@ -53,6 +54,7 @@ public class Constants {
     public static final String POWERUP_PLACEHOLDER = "__POWERUP__";
     public static final String NICKNAME_GOT = "nicknameGot";
     public static final String NICKNAME_PLACEHOLDER = "__NICKNAME__";
+    public static final String TOTAL_COINS_PLACEHOLDER = "__TOTAL_COINS__";
     public static final List<String> COINS_FOUND = new ArrayList<>();
 
     public static final ContentLoader contentLoader = new ContentLoader();

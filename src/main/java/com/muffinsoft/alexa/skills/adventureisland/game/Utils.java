@@ -5,7 +5,7 @@ public class Utils {
     private Utils() {}
 
     public static String wrap(String phrase) {
-        return "<speak>" + phrase + "</speak>";
+        return " " + phrase + " ";
     }
 
     public static String combineWithBreak(String responseText, String newText) {
