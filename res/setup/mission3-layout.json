@@ -1,5 +1,5 @@
 {
-  "name": "Tiki Quartet",
+  "name": "Tiki Trouble",
   "tierNames": ["Bouncy Bamboo Rhythm", "Jamming Jungle Beat", "Aloha Ukulele Melody"],
   "locations": [
     {
@@ -88,7 +88,7 @@
             ]
         },
         {
-          "name": "Treasure Tombs",
+          "name": "Crypt Room",
           "obstacles": [
             ["floor spikes", "blow darts", "snakes", "coins", "blow darts", "coins", "snakes", "coins", "coins", "blow darts", "floor spikes", "coins", "floor spikes", "coins", "snakes", "coins", "coins", "floor spikes", "coins", "blow darts", "coins", "snakes", "coins", "blow darts", "blow darts", "coins", "blow darts", "floor spikes", "blow darts", "coins", "floor spikes", "coins", "blow darts", "floor spikes", "coins", "coins", "floor spikes", "coins", "blow darts", "snakes", "coins", "blow darts", "floor spikes", "coins", "blow darts", "coins", "floor spikes", "snakes", "coins", "snakes", "coins"],
             ["blow darts", "coins", "snakes", "arrows", "swinging axe", "coins", "blow darts", "arrows", "coins", "floor spikes", "coins", "snakes", "swinging axe", "coins", "collapsing floor", "coins", "coins", "blow darts", "coins", "floor spikes", "coins", "swinging axe", "coins", "collapsing floor", "swinging axe", "coins", "coins", "floor spikes", "blow darts", "coins", "snakes", "collapsing floor", "coins", "arrows", "floor spikes", "arrows", "coins", "snakes", "coins", "snakes", "swinging axe", "coins", "arrows", "coins", "swinging axe", "coins", "arrows", "coins", "swinging axe", "coins", "coins"],

@@ -51,7 +51,7 @@
           ]
         },
         {
-          "name": "Treasure Tombs",
+          "name": "Crypt Room",
           "obstacles": [
             ["snakes", "blow darts", "coins", "coins", "snakes", "coins", "snakes", "blow darts", "coins", "snakes", "blow darts", "coins", "floor spikes", "blow darts", "coins", "blow darts", "coins", "coins", "blow darts", "coins", "blow darts", "floor spikes", "coins", "floor spikes", "floor spikes", "coins", "floor spikes", "coins", "coins", "blow darts", "blow darts", "coins", "snakes", "coins", "floor spikes", "coins", "coins", "snakes", "blow darts", "coins", "coins", "blow darts", "coins", "blow darts", "coins", "snakes", "blow darts", "coins", "blow darts", "coins", "floor spikes"],
             ["blow darts", "collapsing floor", "coins", "floor spikes", "coins", "arrows", "coins", "floor spikes", "coins", "arrows", "arrows", "coins", "snakes", "arrows", "swinging axe", "coins", "coins", "coins", "swinging axe", "coins", "floor spikes", "coins", "floor spikes", "collapsing floor", "coins", "blow darts", "coins", "floor spikes", "arrows", "snakes", "coins", "snakes", "coins", "blow darts", "swinging axe", "coins", "arrows", "arrows", "coins", "swinging axe", "floor spikes", "coins", "floor spikes", "coins", "arrows", "floor spikes", "coins", "arrows", "floor spikes", "coins", "collapsing floor"],
