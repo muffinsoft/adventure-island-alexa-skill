@@ -77,7 +77,7 @@ public class Utils {
 
         String introOutroId = stateItem.getIntroOutroId(state);
 
-        if (!Objects.equals(stateItem.getMission(), ROOT) && stateItem.getState() == State.INTRO) {
+        if (!Objects.equals(stateItem.getMission(), ROOT)) {
             // for mission intro / outro, use tier-specific intro / outro
             if (Objects.equals(stateItem.getMission(), stateItem.getLocation())) {
                 int tierIndex = stateItem.getTierIndex();
