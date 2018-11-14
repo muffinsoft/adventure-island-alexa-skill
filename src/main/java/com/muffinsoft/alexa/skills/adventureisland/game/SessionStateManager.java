@@ -33,7 +33,7 @@ public class SessionStateManager {
     static final String MISSION = "mission";
     static final String LOCATION = "location";
     static final String SCENE = "scene";
-    static final String STATE = "state";
+    public static final String STATE = "state";
     static final String PENDING_STATE = "pendingState";
     static final String STATE_INDEX = "stateIndex";
     static final String PENDING_INDEX = "pendingIndex";
@@ -53,8 +53,8 @@ public class SessionStateManager {
     public static final String CHECKPOINT = "checkpoint";
     static final String JUST_FAILED = "justFailed";
     static final String POWERUPS = "powerups";
-    static final String NICKNAMES = "nicknames";
-    static final String ACHIEVEMENTS = "achievements";
+    public static final String NICKNAMES = "nicknames";
+    public static final String ACHIEVEMENTS = "achievements";
     static final String HITS_HISTORY = "hitsHistory";
     static final String HELP_STATE = "helpState";
 
@@ -200,7 +200,7 @@ public class SessionStateManager {
         stateItem.setTierIndex(checkpoint.get(0).intValue());
         stateItem.setMissionIndex(checkpoint.get(1).intValue());
         stateItem.setLocationIndex(checkpoint.get(2).intValue());
-        stateItem.setSceneIndex(checkpoint.get(3).intValue() + 1); // proceed to the next scene
+        stateItem.setSceneIndex(checkpoint.get(3).intValue());
         Mission currentMission = game.getMissions().get(stateItem.getMissionIndex());
         stateItem.setMission(nameToKey(currentMission.getName()));
         Location currentLocation = currentMission.getLocations().get(stateItem.getLocationIndex());
@@ -296,11 +296,26 @@ public class SessionStateManager {
     }
 
     private void setCheckpoint() {
+        int locationIndex = stateItem.getLocationIndex();
+
+        List<Location> locations = game.getMissions().get(stateItem.getMissionIndex()).getLocations();
+        List<Activity> scenes = locations.get(locationIndex).getActivities();
+
+        int sceneIndex = stateItem.getSceneIndex() + 1;
+        // location finished, proceed to next location
+        if (sceneIndex >= scenes.size()) {
+            sceneIndex = 0;
+            locationIndex = stateItem.getLocationIndex() + 1;
+            // location finished, nothing to save
+            if (locationIndex >= locations.size()) {
+                return;
+            }
+        }
         checkpoint = new ArrayList<>();
         checkpoint.add(BigDecimal.valueOf(stateItem.getTierIndex()));
         checkpoint.add(BigDecimal.valueOf(stateItem.getMissionIndex()));
-        checkpoint.add(BigDecimal.valueOf(stateItem.getLocationIndex()));
-        checkpoint.add(BigDecimal.valueOf(stateItem.getSceneIndex()));
+        checkpoint.add(BigDecimal.valueOf(locationIndex));
+        checkpoint.add(BigDecimal.valueOf(sceneIndex));
     }
 
     private String getSceneOutro() {
@@ -410,7 +425,6 @@ public class SessionStateManager {
         return new DialogItem(getPhrase(SCENE_FAIL), false, slotName, true);
     }
 
-    // TODO: skip welcome intro for returning users
     private DialogItem getIntroOutroDialog() {
         DialogItem dialog = getResponse();
 

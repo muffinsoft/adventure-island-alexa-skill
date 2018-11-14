@@ -36,6 +36,11 @@ public class Game {
 
     public StateItem nextActivity(StateItem state) {
 
+        if (state.getState() == State.WELCOME) {
+            state.setState(State.INTRO);
+            return state;
+        }
+
         // root menu, no mission selected. Normally this shouldn't be called, as
         // we do not go to the first mission automatically
         if (Objects.equals(state.getMission(), Constants.ROOT)) {
@@ -123,7 +128,7 @@ public class Game {
         if (locationIndex < currentMission.getLocations().size() - 1) {
             Location nextLocation = currentMission.getLocations().get(locationIndex + 1);
             state.setLocation(PhraseManager.nameToKey(nextLocation.getName()));
-            state.setScene(PhraseManager.nameToKey(nextLocation.getActivities().get(0).getName()));
+            state.setScene(PhraseManager.nameToKey(nextLocation.getName()));
             state.setState(State.INTRO);
             state.setIndex(0);
             state.setMissionIndex(missionIndex);

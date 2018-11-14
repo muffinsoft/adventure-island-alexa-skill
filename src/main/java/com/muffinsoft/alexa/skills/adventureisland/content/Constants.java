@@ -15,6 +15,7 @@ public class Constants {
     public static final String TABLE_NAME = "adventure_island";
     public static final String WELCOME = "welcome";
     public static final String WELCOME_BACK = "welcomeBack";
+    public static final String WELCOME_BACK_ROYAL = "welcomeBackRoyal";
     public static final String WELCOME_CHECKPOINT = "welcomeBackCheckpoint";
     public static final String CONTINUE = "continue";
     public static final String ROOT = "root";
@@ -57,6 +58,7 @@ public class Constants {
     public static final String NICKNAME_GOT = "nicknameGot";
     public static final String NICKNAME_PLACEHOLDER = "__NICKNAME__";
     public static final String TOTAL_COINS_PLACEHOLDER = "__TOTAL_COINS__";
+    public static final String MISSION_NAME_PLACEHOLDER = "__MISSION_NAME__";
     public static final List<String> COINS_FOUND = new ArrayList<>();
 
     public static final ContentLoader contentLoader = new ContentLoader();
