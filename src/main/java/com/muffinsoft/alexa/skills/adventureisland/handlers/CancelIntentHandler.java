@@ -9,10 +9,10 @@ import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
-public class CancelandStopIntentHandler implements RequestHandler {
+public class CancelIntentHandler implements RequestHandler {
 
     public boolean canHandle(HandlerInput input) {
-        return input.matches(intentName("AMAZON.StopIntent").or(intentName("AMAZON.CancelIntent")));
+        return input.matches(intentName("AMAZON.CancelIntent"));
     }
 
     public Optional<Response> handle(HandlerInput input) {

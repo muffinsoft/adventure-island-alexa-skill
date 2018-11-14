@@ -5,4 +5,4 @@ https://docs.google.com/document/d/1mhAvwKs7nqmD2_hAX60XZJIIyPEe0VG4mIe8NpNFms0/
 Assemble:
 mvn clean assembly:assembly -DdescriptorId=jar-with-dependencies package
 
-//TODO: rotate intros, achievements, help
+//TODO: achievements
