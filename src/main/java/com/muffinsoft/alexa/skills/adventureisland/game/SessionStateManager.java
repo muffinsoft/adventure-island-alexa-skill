@@ -694,7 +694,11 @@ public class SessionStateManager {
             case ROOT:
                 return getRootHelpOrContinue();
             case MISSION:
-                return getInMissionHelp(slotName);
+                if (Objects.equals(replyResolution, YES.toLowerCase())) {
+                    return getInMissionHelp(slotName);
+                } else {
+                    return continueMission();
+                }
             case ACTION_SHORT:
                 return getActionHelpShort();
             case ACTION_LONG:
