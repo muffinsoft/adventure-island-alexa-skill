@@ -8,6 +8,8 @@ import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.content.ReplyManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.SessionStateManager;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.Optional;
@@ -15,6 +17,8 @@ import java.util.Optional;
 import static com.amazon.ask.request.Predicates.intentName;
 
 public class CancelIntentHandler implements RequestHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(CancelIntentHandler.class);
 
     public boolean canHandle(HandlerInput input) {
         return input.matches(intentName("AMAZON.CancelIntent"));
@@ -24,6 +28,8 @@ public class CancelIntentHandler implements RequestHandler {
         String speechText = ReplyManager.getReply(Constants.NEW_MISSION + Constants.PROMPT);
 
         changeState(input);
+
+        logger.debug("Processing request to cancel with reply {}", speechText);
 
         return input.getResponseBuilder()
                 .withSpeech(speechText)

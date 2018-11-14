@@ -23,7 +23,7 @@
           "obstacleIndices": [0, 1, 2]
         },
         {
-          "explanation": "The ground doens't look very stable up ahead! If we get to a COLLAPSING FLOOR, shout 'whee' to jump over!",
+          "explanation": "The ground doesn't look very stable up ahead! If we get to a COLLAPSING FLOOR, shout 'whee' to jump over!",
           "obstacleIndices": [0, 1, 2, 3, 4, 5]
         },
         {
@@ -42,7 +42,7 @@
           "obstacleIndices": [0, 1, 2, 3, 4, 5, 6]
         },
         {
-          "explanation": "There are nasty POISON GAS booby traps around here! Say "yikes" to duck under and not breath it in!",
+          "explanation": "There are nasty POISON GAS booby traps around here! Say 'yikes' to duck under and not breath it in!",
           "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         }
       ],
@@ -67,7 +67,7 @@
       "outToSea":
       [
         {
-          "explanation": "If we see underwater COINS, say 'aha' to pull them up. If we see rocks up ahead, say WOWZER to avoid them. Remember to say a friendly "ahoy" to to SAILORS so they don't attack us!",
+          "explanation": "If we see underwater COINS, say 'aha' to pull them up. If we see rocks up ahead, say WOWZER to avoid them. Remember to say a friendly 'ahoy' to to SAILORS so they don't attack us!",
           "obstacleIndices": [0, 1]
         },
         {
@@ -82,7 +82,7 @@
       "perilousWaters":
       [
         {
-          "explanation": "There be evil PIRATES in these waters! Shout "whammo" to shoot the cannons at them!",
+          "explanation": "There be evil PIRATES in these waters! Shout 'whammo' to shoot the cannons at them!",
           "obstacleIndices": [0, 1, 2]
         },
         {
@@ -101,7 +101,7 @@
           "obstacleIndices": [0, 1, 2, 3]
         },
         {
-          "explanation": "See that? It's a giant SEA SNAKE is trying to get our ship. Shout "kerpow" to fight it off with a harpoon.",
+          "explanation": "See that? It's a giant SEA SNAKE is trying to get our ship. Shout 'kerpow' to fight it off with a harpoon.",
           "obstacleIndices": [0, 1, 2, 3, 4, 5, 6]
         },
         {
@@ -149,7 +149,7 @@
         "obstacleIndices": [0, 1, 2]
       },
       {
-        "explanation": "Careful! I think BABY DUCKS like playing in this area! Say "whee' to jump over them!",
+        "explanation": "Careful! I think BABY DUCKS like playing in this area! Say 'whee' to jump over them!",
         "obstacleIndices": [0, 1, 2, 3, 4, 5]
       },
       {
