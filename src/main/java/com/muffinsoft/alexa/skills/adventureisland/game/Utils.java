@@ -11,6 +11,7 @@ import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
 import java.util.List;
 import java.util.Objects;
 
+import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.ROOT;
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.SILENT_SCENE;
 
 public class Utils {
@@ -67,9 +68,17 @@ public class Utils {
             prefix = stateItem.getMission();
         }
 
+        String introOutroId = stateItem.getIntroOutroId(state);
+
+        // for mission intro / outro, use tier-specific intro / outro
+        if (!Objects.equals(stateItem.getMission(), ROOT) && Objects.equals(stateItem.getMission(), stateItem.getLocation())) {
+            int tierIndex = stateItem.getTierIndex();
+            introOutroId = tierIndex == 0 ? "" : "" + tierIndex;
+        }
+
         String scene = stateItem.getScene();
         scene = "".equals(prefix) ? scene : capitalizeFirstLetter(scene);
 
-        return prefix + scene + stateItem.getIntroOutroId(state) + state.getKey() + stateItem.getIndex();
+        return prefix + scene + introOutroId + state.getKey() + stateItem.getIndex();
     }
 }
