@@ -101,8 +101,6 @@ public class SessionStateManager {
      */
     private Map<String, List<String>> hitsHistory;
 
-    private List<String> locationIntros;
-
 
     public SessionStateManager(Map<String, Slot> slots, AttributesManager attributesManager) {
         this.attributesManager = attributesManager;
@@ -164,7 +162,7 @@ public class SessionStateManager {
         nicknames = (Map<String, List<String>>) persistentAttributes.getOrDefault(NICKNAMES, new HashMap<>());
         achievements = (Map<String, List<String>>) persistentAttributes.getOrDefault(ACHIEVEMENTS, new HashMap<>());
         hitsHistory = (Map<String, List<String>>) persistentAttributes.getOrDefault(HITS_HISTORY, new HashMap<>());
-        locationIntros = (List<String>) persistentAttributes.getOrDefault(LOCATION_INTROS, new ArrayList<>());
+        stateItem.setLocationIntros((List<String>) persistentAttributes.getOrDefault(LOCATION_INTROS, new ArrayList<>()));
     }
 
     public DialogItem nextResponse() {
@@ -603,7 +601,7 @@ public class SessionStateManager {
         persistentAttributes.put(NICKNAMES, nicknames);
         persistentAttributes.put(ACHIEVEMENTS, achievements);
         persistentAttributes.put(HITS_HISTORY, hitsHistory);
-        persistentAttributes.put(LOCATION_INTROS, locationIntros);
+        persistentAttributes.put(LOCATION_INTROS, stateItem.getLocationIntros());
 
         attributesManager.setPersistentAttributes(persistentAttributes);
         attributesManager.savePersistentAttributes();

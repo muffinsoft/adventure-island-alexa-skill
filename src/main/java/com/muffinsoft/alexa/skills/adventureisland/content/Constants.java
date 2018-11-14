@@ -66,6 +66,7 @@ public class Constants {
 
     public static final int SCENES_PER_MISSION = 12;
     public static final int SCENES_PER_LOCATION = 4;
+    public static final int INTRO_VARIANTS = 3;
 
     static {
         COINS_FOUND.add("coins");

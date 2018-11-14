@@ -5,6 +5,7 @@ import com.amazon.ask.model.slu.entityresolution.Resolution;
 import com.amazon.ask.model.slu.entityresolution.Resolutions;
 import com.amazon.ask.model.slu.entityresolution.Value;
 import com.amazon.ask.model.slu.entityresolution.ValueWrapper;
+import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
 import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
 
@@ -16,7 +17,8 @@ import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.SILE
 
 public class Utils {
 
-    private Utils() {}
+    private Utils() {
+    }
 
     public static String wrap(String phrase) {
         return "<p>" + phrase + "</p>";
@@ -70,15 +72,39 @@ public class Utils {
 
         String introOutroId = stateItem.getIntroOutroId(state);
 
-        // for mission intro / outro, use tier-specific intro / outro
-        if (!Objects.equals(stateItem.getMission(), ROOT) && Objects.equals(stateItem.getMission(), stateItem.getLocation())) {
-            int tierIndex = stateItem.getTierIndex();
-            introOutroId = tierIndex == 0 ? "" : "" + tierIndex;
+        if (!Objects.equals(stateItem.getMission(), ROOT)) {
+            // for mission intro / outro, use tier-specific intro / outro
+            if (Objects.equals(stateItem.getMission(), stateItem.getLocation())) {
+                int tierIndex = stateItem.getTierIndex();
+                introOutroId = tierIndex == 0 ? "" : "" + tierIndex;
+            } else if (Objects.equals(stateItem.getLocation(), stateItem.getScene())) {
+                int locationIndex = getNextLocationIndex(stateItem) % Constants.INTRO_VARIANTS;
+                introOutroId = locationIndex == 0 ? "" : "" + locationIndex;
+            }
         }
 
         String scene = stateItem.getScene();
         scene = "".equals(prefix) ? scene : capitalizeFirstLetter(scene);
 
         return prefix + scene + introOutroId + state.getKey() + stateItem.getIndex();
+    }
+
+    private static int getNextLocationIndex(StateItem stateItem) {
+        String locationStoreKey = getLocationStoreKey(stateItem);
+        int result = 0;
+        List<String> locationIntros = stateItem.getLocationIntros();
+        if (!locationIntros.isEmpty()) {
+            for (String storedLocationInfo : locationIntros) {
+                if (storedLocationInfo.startsWith(locationStoreKey)) {
+                    String lastIndex = storedLocationInfo.substring(storedLocationInfo.length() - 1, 1);
+                    return Integer.parseInt(lastIndex);
+                }
+            }
+            String info = locationIntros.get(locationIntros.size() - 1);
+            String lastIndex = info.substring(info.length() - 1, 1);
+            result = Integer.parseInt(lastIndex) + 1;
+        }
+        locationIntros.add(locationStoreKey + result);
+        return result;
     }
 }
