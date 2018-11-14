@@ -29,7 +29,7 @@ public class Utils {
         return "<p>" + phrase + "</p>";
     }
 
-    public static String combineWithBreak(String responseText, String newText) {
+    static String combineWithBreak(String responseText, String newText) {
         if (responseText != null) {
             return responseText + " <break time=\"3s\"/> " + newText;
         }
@@ -59,7 +59,7 @@ public class Utils {
         return defaultValue;
     }
 
-    static String getLocationStoreKey(StateItem stateItem) {
+    private static String getLocationStoreKey(StateItem stateItem) {
         return String.format("%d-%d-%d::", stateItem.getTierIndex(), stateItem.getMissionIndex(), stateItem.getLocationIndex());
     }
 
@@ -85,6 +85,9 @@ public class Utils {
             } else if (Objects.equals(stateItem.getLocation(), stateItem.getScene())) {
                 int locationIndex = getNextLocationIndex(stateItem) % Constants.INTRO_VARIANTS;
                 introOutroId = locationIndex == 0 ? "" : "" + locationIndex;
+            } else {
+                int sceneIndex = getNextSceneIndex(stateItem) % Constants.INTRO_VARIANTS;
+                introOutroId = sceneIndex == 0 ? "" : "" + sceneIndex;
             }
         }
 
@@ -115,5 +118,31 @@ public class Utils {
         locationIntros.add(locationStoreKey + result);
         stateItem.getLocationIntros().put(stateItem.getLocation(), locationIntros);
         return result;
+    }
+
+    private static int getNextSceneIndex(StateItem stateItem) {
+        String sceneStoreKey = getSceneStoreKey(stateItem);
+        logger.debug("Getting scene intro for {}", sceneStoreKey);
+        int result = 0;
+        List<String> sceneIntros = stateItem.getSceneIntros().getOrDefault(stateItem.getScene(), new ArrayList<>());
+        if (!sceneIntros.isEmpty()) {
+            for (String storedSceneInfo : sceneIntros) {
+                if (!storedSceneInfo.isEmpty() && storedSceneInfo.startsWith(sceneStoreKey)) {
+                    String lastIndex = storedSceneInfo.substring(storedSceneInfo.length() - 1);
+                    return Integer.parseInt(lastIndex);
+                }
+            }
+            String info = sceneIntros.get(sceneIntros.size() - 1);
+            String lastIndex = info.substring(info.length() - 1);
+            result = Integer.parseInt(lastIndex) + 1;
+        }
+        sceneIntros.add(sceneStoreKey + result);
+        stateItem.getSceneIntros().put(stateItem.getScene(), sceneIntros);
+        return result;
+    }
+
+    private static String getSceneStoreKey(StateItem stateItem) {
+        return String.format("%d-%d-%d-%d::", stateItem.getTierIndex(), stateItem.getMissionIndex(),
+                stateItem.getLocationIndex(), stateItem.getSceneIndex());
     }
 }

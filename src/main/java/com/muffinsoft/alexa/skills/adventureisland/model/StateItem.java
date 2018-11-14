@@ -19,6 +19,7 @@ public class StateItem {
     private int locationIndex;
     private int sceneIndex;
     private Map<String, List<String>> locationIntros;
+    private Map<String, List<String>> sceneIntros;
 
     private HelpState helpState;
 
@@ -148,5 +149,13 @@ public class StateItem {
 
     public void setLocationIntros(Map<String, List<String>> locationIntros) {
         this.locationIntros = locationIntros;
+    }
+
+    public Map<String, List<String>> getSceneIntros() {
+        return sceneIntros;
+    }
+
+    public void setSceneIntros(Map<String, List<String>> sceneIntros) {
+        this.sceneIntros = sceneIntros;
     }
 }

@@ -57,6 +57,7 @@ public class SessionStateManager {
     static final String HITS_HISTORY = "hitsHistory";
     static final String HELP_STATE = "helpState";
     static final String LOCATION_INTROS = "locationIntros";
+    static final String SCENE_INTROS = "sceneIntros";
 
     private AttributesManager attributesManager;
     private Map<String, Object> sessionAttributes;
@@ -163,6 +164,7 @@ public class SessionStateManager {
         achievements = (Map<String, List<String>>) persistentAttributes.getOrDefault(ACHIEVEMENTS, new HashMap<>());
         hitsHistory = (Map<String, List<String>>) persistentAttributes.getOrDefault(HITS_HISTORY, new HashMap<>());
         stateItem.setLocationIntros((Map<String, List<String>>) persistentAttributes.getOrDefault(LOCATION_INTROS, new HashMap<>()));
+        stateItem.setSceneIntros((Map<String, List<String>>) persistentAttributes.getOrDefault(SCENE_INTROS, new HashMap<>()));
     }
 
     public DialogItem nextResponse() {
@@ -602,6 +604,7 @@ public class SessionStateManager {
         persistentAttributes.put(ACHIEVEMENTS, achievements);
         persistentAttributes.put(HITS_HISTORY, hitsHistory);
         persistentAttributes.put(LOCATION_INTROS, stateItem.getLocationIntros());
+        persistentAttributes.put(SCENE_INTROS, stateItem.getSceneIntros());
 
         attributesManager.setPersistentAttributes(persistentAttributes);
         attributesManager.savePersistentAttributes();
