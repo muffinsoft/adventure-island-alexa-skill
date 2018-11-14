@@ -126,7 +126,7 @@
   "kingdomChase" : [
     {
       "name" : "wall",
-      "responses" : ["woo hoo"],
+      "responses" : ["woo hoo", "woo-hoo"],
       "preObstacle" : "The thief ran into a wall! Remember to say 'woo hoo' to woo hoo over it!",
       "headsUp" : "I see something ahead that we'll need to climb!"
     },
@@ -144,7 +144,7 @@
     },
     {
       "name" : "dragon",
-      "responses" : ["uh oh"],
+      "responses" : ["uh oh", "uh-oh"],
       "preObstacle" : "No way, a dragon! Remember to shout 'uh oh' before it sees you!",
       "headsUp" : "Did anyone else hear a roar?"
     },
@@ -180,7 +180,7 @@
     },
     {
       "name" : "sleeping giant",
-      "responses" : ["woo hoo"],
+      "responses" : ["woo hoo", "woo-hoo"],
       "preObstacle" : "The thief ran into a wall! Don't forget to say 'woo hoo' to climb over it!",
       "headsUp" : "We're about to run into something huge!"
     }
