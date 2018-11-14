@@ -8,7 +8,10 @@ import com.amazon.ask.model.slu.entityresolution.ValueWrapper;
 import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
 import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,6 +19,8 @@ import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.ROOT
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.SILENT_SCENE;
 
 public class Utils {
+
+    private static final Logger logger = LoggerFactory.getLogger(Utils.class);
 
     private Utils() {
     }
@@ -72,7 +77,7 @@ public class Utils {
 
         String introOutroId = stateItem.getIntroOutroId(state);
 
-        if (!Objects.equals(stateItem.getMission(), ROOT)) {
+        if (!Objects.equals(stateItem.getMission(), ROOT) && stateItem.getState() == State.INTRO) {
             // for mission intro / outro, use tier-specific intro / outro
             if (Objects.equals(stateItem.getMission(), stateItem.getLocation())) {
                 int tierIndex = stateItem.getTierIndex();
@@ -91,20 +96,24 @@ public class Utils {
 
     private static int getNextLocationIndex(StateItem stateItem) {
         String locationStoreKey = getLocationStoreKey(stateItem);
+        logger.debug("Getting location intro for {}", locationStoreKey);
         int result = 0;
-        List<String> locationIntros = stateItem.getLocationIntros();
+        List<String> locationIntros = stateItem.getLocationIntros().getOrDefault(stateItem.getLocation(), new ArrayList<>());
         if (!locationIntros.isEmpty()) {
+            logger.debug("Location intros size is {}", locationIntros.size());
             for (String storedLocationInfo : locationIntros) {
-                if (storedLocationInfo.startsWith(locationStoreKey)) {
-                    String lastIndex = storedLocationInfo.substring(storedLocationInfo.length() - 1, 1);
+                logger.debug("Stored location info: {}", storedLocationInfo);
+                if (!storedLocationInfo.isEmpty() && storedLocationInfo.startsWith(locationStoreKey)) {
+                    String lastIndex = storedLocationInfo.substring(storedLocationInfo.length() - 1);
                     return Integer.parseInt(lastIndex);
                 }
             }
             String info = locationIntros.get(locationIntros.size() - 1);
-            String lastIndex = info.substring(info.length() - 1, 1);
+            String lastIndex = info.substring(info.length() - 1);
             result = Integer.parseInt(lastIndex) + 1;
         }
         locationIntros.add(locationStoreKey + result);
+        stateItem.getLocationIntros().put(stateItem.getLocation(), locationIntros);
         return result;
     }
 }

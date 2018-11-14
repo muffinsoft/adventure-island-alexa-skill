@@ -1,6 +1,7 @@
 package com.muffinsoft.alexa.skills.adventureisland.model;
 
 import java.util.List;
+import java.util.Map;
 
 public class StateItem {
 
@@ -17,7 +18,7 @@ public class StateItem {
     private int missionIndex;
     private int locationIndex;
     private int sceneIndex;
-    private List<String> locationIntros;
+    private Map<String, List<String>> locationIntros;
 
     private HelpState helpState;
 
@@ -141,11 +142,11 @@ public class StateItem {
         this.helpState = helpState;
     }
 
-    public List<String> getLocationIntros() {
+    public Map<String, List<String>> getLocationIntros() {
         return locationIntros;
     }
 
-    public void setLocationIntros(List<String> locationIntros) {
+    public void setLocationIntros(Map<String, List<String>> locationIntros) {
         this.locationIntros = locationIntros;
     }
 }

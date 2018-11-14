@@ -162,7 +162,7 @@ public class SessionStateManager {
         nicknames = (Map<String, List<String>>) persistentAttributes.getOrDefault(NICKNAMES, new HashMap<>());
         achievements = (Map<String, List<String>>) persistentAttributes.getOrDefault(ACHIEVEMENTS, new HashMap<>());
         hitsHistory = (Map<String, List<String>>) persistentAttributes.getOrDefault(HITS_HISTORY, new HashMap<>());
-        stateItem.setLocationIntros((List<String>) persistentAttributes.getOrDefault(LOCATION_INTROS, new ArrayList<>()));
+        stateItem.setLocationIntros((Map<String, List<String>>) persistentAttributes.getOrDefault(LOCATION_INTROS, new HashMap<>()));
     }
 
     public DialogItem nextResponse() {
