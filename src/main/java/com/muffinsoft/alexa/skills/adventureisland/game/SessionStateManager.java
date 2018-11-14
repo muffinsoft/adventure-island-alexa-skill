@@ -204,7 +204,7 @@ public class SessionStateManager {
         if (Objects.equals(replyResolution, YES.toLowerCase())) {
             return quitToRoot();
         } else {
-            String response = getReply(stateItem.getState().getKey().toLowerCase() + PROMPT);
+            String response = getPhrase(stateItem.getState().getKey().toLowerCase() + PROMPT);
             stateItem.setState(State.QUIT);
             return new DialogItem(response, false, slotName, true);
         }
@@ -212,7 +212,7 @@ public class SessionStateManager {
 
     private DialogItem processQuit() {
         if (Objects.equals(replyResolution, YES.toLowerCase())) {
-            String response = getReply(STOP);
+            String response = getPhrase(STOP);
             return new DialogItem(response, true);
         } else {
             stateItem.setState(stateItem.getPendingState());

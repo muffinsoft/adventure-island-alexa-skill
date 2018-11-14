@@ -5,7 +5,6 @@ import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.Response;
 import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
-import com.muffinsoft.alexa.skills.adventureisland.content.ReplyManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.SessionStateManager;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
 import org.slf4j.Logger;
@@ -25,7 +24,7 @@ public class CancelIntentHandler implements RequestHandler {
     }
 
     public Optional<Response> handle(HandlerInput input) {
-        String speechText = ReplyManager.getReply(Constants.NEW_MISSION + Constants.PROMPT);
+        String speechText = PhraseManager.getPhrase(Constants.NEW_MISSION + Constants.PROMPT);
 
         changeState(input);
 
