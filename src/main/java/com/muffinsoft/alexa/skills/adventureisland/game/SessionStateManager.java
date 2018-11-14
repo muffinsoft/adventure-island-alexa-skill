@@ -204,7 +204,7 @@ public class SessionStateManager {
         if (Objects.equals(replyResolution, YES.toLowerCase())) {
             return quitToRoot();
         } else {
-            String response = getPhrase(stateItem.getState().getKey().toLowerCase() + PROMPT);
+            String response = getPhrase(State.QUIT.getKey().toLowerCase() + PROMPT);
             stateItem.setState(State.QUIT);
             return new DialogItem(response, false, slotName, true);
         }
