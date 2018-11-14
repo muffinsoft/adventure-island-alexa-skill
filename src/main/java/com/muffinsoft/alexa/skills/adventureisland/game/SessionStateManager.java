@@ -658,11 +658,20 @@ public class SessionStateManager {
         if (stateItem.getPendingState() == State.ACTION) {
             String reply = wrap(getPhrase(State.ACTION.getKey().toLowerCase() + HELP));
             stateItem.setHelpState(HelpState.ACTION_SHORT);
+            resetAction();
             updateSession();
             return new DialogItem(reply, false, null, true);
         }
 
         return getInMissionHelp(null);
+    }
+
+    private void resetAction() {
+        stateItem.setPendingIndex(0);
+        coins = 0;
+        health = getNumber(HEALTH);
+        powerups.clear();
+        currentObstacle = null;
     }
 
     private DialogItem getInMissionHelp(String inSlotName) {
