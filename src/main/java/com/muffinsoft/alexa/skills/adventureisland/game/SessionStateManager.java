@@ -18,6 +18,7 @@ import static com.muffinsoft.alexa.skills.adventureisland.content.ObstacleManage
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getExclamation;
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getPhrase;
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.nameToKey;
+import static com.muffinsoft.alexa.skills.adventureisland.content.ReplyManager.getReply;
 import static com.muffinsoft.alexa.skills.adventureisland.game.Utils.*;
 
 public class SessionStateManager {
@@ -33,7 +34,7 @@ public class SessionStateManager {
     static final String LOCATION = "location";
     static final String SCENE = "scene";
     public static final String STATE = "state";
-    static final String PENDING_STATE = "pendingState";
+    public static final String PENDING_STATE = "pendingState";
     static final String STATE_INDEX = "stateIndex";
     static final String PENDING_INDEX = "pendingIndex";
     static final String TIER_INDEX = "tierIndex";
@@ -174,6 +175,10 @@ public class SessionStateManager {
 
         if (stateItem.getState() == State.HELP) {
             dialog = processHelp();
+        } else if (stateItem.getState() == State.CANCEL) {
+            dialog = processCancel();
+        } else if (stateItem.getState() == State.QUIT) {
+            dialog = processQuit();
         } else {
             if (checkpoint != null && Objects.equals(CONTINUE, userReply)) {
                 restoreFromCheckpoint();
@@ -195,6 +200,26 @@ public class SessionStateManager {
         return dialog;
     }
 
+    private DialogItem processCancel() {
+        if (Objects.equals(replyResolution, YES.toLowerCase())) {
+            return quitToRoot();
+        } else {
+            String response = getReply(stateItem.getState().getKey().toLowerCase() + PROMPT);
+            stateItem.setState(State.QUIT);
+            return new DialogItem(response, false, slotName, true);
+        }
+    }
+
+    private DialogItem processQuit() {
+        if (Objects.equals(replyResolution, YES.toLowerCase())) {
+            String response = getReply(STOP);
+            return new DialogItem(response, true);
+        } else {
+            stateItem.setState(stateItem.getPendingState());
+            return nextResponse();
+        }
+    }
+
     private void restoreFromCheckpoint() {
         stateItem.setTierIndex(checkpoint.get(0).intValue());
         stateItem.setMissionIndex(checkpoint.get(1).intValue());
@@ -209,7 +234,7 @@ public class SessionStateManager {
 
     private DialogItem getFailedChoice() {
         String basicKey = State.FAILED.getKey().toLowerCase();
-        if (userReply.contains(ReplyManager.getReply(basicKey + 1))) {
+        if (userReply.contains(getReply(basicKey + 1))) {
             stateItem.setState(State.ACTION);
             stateItem.setIndex(0);
             coins = 0;
@@ -218,7 +243,7 @@ public class SessionStateManager {
             skipReadyPrompt = true;
             return getActionDialog();
         }
-        if (userReply.contains(ReplyManager.getReply(basicKey + 2))) {
+        if (userReply.contains(getReply(basicKey + 2))) {
             return quitToRoot();
         }
         String response = getPhrase(SCENE_FAIL + REPROMPT);
@@ -396,7 +421,7 @@ public class SessionStateManager {
         String responseText = "";
 
         // user is ready
-        if (userReply.contains(ReplyManager.getReply(DEMO + 1))) {
+        if (userReply.contains(getReply(DEMO + 1))) {
             responseText = nextObstacle(responseText);
             stateItem.setIndex(stateItem.getIndex() + 1);
             return new DialogItem(responseText, false, slotName);
@@ -404,7 +429,7 @@ public class SessionStateManager {
 
         if (stateItem.getTierIndex() == 0 && stateItem.getLocationIndex() == 0 && stateItem.getSceneIndex() == 0) {
             // Lily first
-            if (userReply.contains(ReplyManager.getReply(DEMO + 2))) {
+            if (userReply.contains(getReply(DEMO + 2))) {
                 responseText += wrap(getPhrase(stateItem.getScene() + capitalizeFirstLetter(DEMO)));
             } else {
                 // prompt for demo round
@@ -490,7 +515,7 @@ public class SessionStateManager {
 
         String nameKey = getNameKey(stateItem, stateItem.getState());
         logger.debug("Will look up the following phrase: {}", nameKey);
-        String expectedReply = ReplyManager.getReply(nameKey);
+        String expectedReply = getReply(nameKey);
         String responseText;
         if (expectedReply != null) {
             if (Objects.equals(expectedReply, userReply)) {

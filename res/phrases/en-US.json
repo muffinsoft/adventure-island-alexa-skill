@@ -290,5 +290,7 @@
   "dragonValley2HelpFull" : "For COINS say 'aha' to grab them. For WALL, SLEEPING GIANT say 'woo hoo' to climb over. For MOAT, POND say 'splash' to swim. For ROSE BUSHES, BABY DUCKS say 'whee' to leap over. For DRAGON, TROLLS say 'uh oh' to hide. For TOMATOES, BEEHIVES say 'yikes' to duck.",
   "learnMore" : "Do you want to learn more about the game and objectives?",
   "helpFull" : "Do you want more details?",
-  "stop" : "Ben: We had fun together.  Let's do this again soon."
+  "stop" : "Ben: We had fun together.  Let's do this again soon.",
+  "newMissionPrompt" : "Do you want to start a new mission?",
+  "quitPrompt" : "Do you want to quit the game?"
 }
