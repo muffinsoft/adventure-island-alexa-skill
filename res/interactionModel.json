@@ -132,7 +132,10 @@
             },
             {
               "name": {
-                "value": "another mission"
+                "value": "another mission",
+                "synonyms": [
+                  "new mission"
+                ]
               }
             },
             {
