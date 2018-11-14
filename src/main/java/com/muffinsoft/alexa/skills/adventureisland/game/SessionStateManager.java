@@ -622,7 +622,9 @@ public class SessionStateManager {
             speechText += wrap(getPhrase(POWERUP_USED).replace(POWERUP_PLACEHOLDER, powerup.getName()));
         } else {
             logger.debug("Got obstacle {} for {} {} {}", obstacle, stateItem.getMission(), stateItem.getLocation(), stateItem.getScene());
-            speechText = getPreObstacle(speechText, obstacle);
+            if (!Objects.equals(SILENT_SCENE, stateItem.getScene())) {
+                speechText = getPreObstacle(speechText, obstacle);
+            }
         }
 
         currentObstacle = obstacle;
@@ -630,7 +632,7 @@ public class SessionStateManager {
 
         // handle silent scenes
         if (Objects.equals(SILENT_SCENE, stateItem.getScene())) {
-            speechText += wrap("<amazon:effect name=\"whispered\">You did not hear this.</amazon:effect>");
+            speechText = "<amazon:effect name=\"whispered\">" + speechText + "</amazon:effect>";
         }
         return speechText;
     }
