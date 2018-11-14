@@ -159,9 +159,9 @@ public class SessionStateManager {
         oldObstacles = (List<String>) persistentAttributes.getOrDefault(OLD_OBSTACLES, new ArrayList<String>());
         completedMissions = (List<List<BigDecimal>>) persistentAttributes.getOrDefault(COMPLETED_MISSIONS, new ArrayList<>());
         checkpoint = (List<BigDecimal>) persistentAttributes.get(CHECKPOINT);
-        nicknames = (Map<String, List<String>>) persistentAttributes.get(NICKNAMES);
-        achievements = (Map<String, List<String>>) persistentAttributes.get(ACHIEVEMENTS);
-        hitsHistory = (Map<String, List<String>>) persistentAttributes.get(HITS_HISTORY);
+        nicknames = (Map<String, List<String>>) persistentAttributes.getOrDefault(NICKNAMES, new HashMap<>());
+        achievements = (Map<String, List<String>>) persistentAttributes.getOrDefault(ACHIEVEMENTS, new HashMap<>());
+        hitsHistory = (Map<String, List<String>>) persistentAttributes.getOrDefault(HITS_HISTORY, new HashMap<>());
     }
 
     private String capitalizeFirstLetter(String s) {
