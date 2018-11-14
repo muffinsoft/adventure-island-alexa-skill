@@ -18,8 +18,7 @@ import static com.muffinsoft.alexa.skills.adventureisland.content.ObstacleManage
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getExclamation;
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getPhrase;
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.nameToKey;
-import static com.muffinsoft.alexa.skills.adventureisland.game.Utils.combineWithBreak;
-import static com.muffinsoft.alexa.skills.adventureisland.game.Utils.wrap;
+import static com.muffinsoft.alexa.skills.adventureisland.game.Utils.*;
 
 public class SessionStateManager {
 
@@ -57,6 +56,7 @@ public class SessionStateManager {
     public static final String ACHIEVEMENTS = "achievements";
     static final String HITS_HISTORY = "hitsHistory";
     static final String HELP_STATE = "helpState";
+    static final String LOCATION_INTROS = "locationIntros";
 
     private AttributesManager attributesManager;
     private Map<String, Object> sessionAttributes;
@@ -100,6 +100,8 @@ public class SessionStateManager {
      * How many times the user was hit in the mission, contains 36 digits as String (4*3 per mission * 3 tiers)
      */
     private Map<String, List<String>> hitsHistory;
+
+    private List<String> locationIntros;
 
 
     public SessionStateManager(Map<String, Slot> slots, AttributesManager attributesManager) {
@@ -162,10 +164,7 @@ public class SessionStateManager {
         nicknames = (Map<String, List<String>>) persistentAttributes.getOrDefault(NICKNAMES, new HashMap<>());
         achievements = (Map<String, List<String>>) persistentAttributes.getOrDefault(ACHIEVEMENTS, new HashMap<>());
         hitsHistory = (Map<String, List<String>>) persistentAttributes.getOrDefault(HITS_HISTORY, new HashMap<>());
-    }
-
-    private String capitalizeFirstLetter(String s) {
-        return s.substring(0, 1).toUpperCase() + s.substring(1);
+        locationIntros = (List<String>) persistentAttributes.getOrDefault(LOCATION_INTROS, new ArrayList<>());
     }
 
     public DialogItem nextResponse() {
@@ -319,7 +318,7 @@ public class SessionStateManager {
     }
 
     private String getSceneOutro() {
-        String phrase = getPhrase(getNameKey(State.OUTRO));
+        String phrase = getPhrase(getNameKey(stateItem, State.OUTRO));
         if (phrase != null) {
             phrase = wrap(phrase);
         }
@@ -473,7 +472,7 @@ public class SessionStateManager {
     }
 
     private boolean isLastStep() {
-        String key = getNameKey(stateItem.getState());
+        String key = getNameKey(stateItem, stateItem.getState());
         String nextPhrase = getPhrase(key);
         boolean result = nextPhrase == null;
         if (result) {
@@ -487,7 +486,7 @@ public class SessionStateManager {
 
     private DialogItem getResponse() {
 
-        String nameKey = getNameKey(stateItem.getState());
+        String nameKey = getNameKey(stateItem, stateItem.getState());
         logger.debug("Will look up the following phrase: {}", nameKey);
         String expectedReply = ReplyManager.getReply(nameKey);
         String responseText;
@@ -540,20 +539,6 @@ public class SessionStateManager {
             }
         }
         return false;
-    }
-
-    private String getNameKey(State state) {
-        String prefix = "";
-        if (Objects.equals(stateItem.getScene(), SILENT_SCENE)) {
-            prefix = stateItem.getLocation();
-        } else if (stateItem.getState() == State.OUTRO && Objects.equals(stateItem.getScene(), stateItem.getLocation())) {
-            prefix = stateItem.getMission();
-        }
-
-        String scene = stateItem.getScene();
-        scene = "".equals(prefix) ? scene : capitalizeFirstLetter(scene);
-
-        return prefix + scene + stateItem.getIntroOutroId(state) + state.getKey() + stateItem.getIndex();
     }
 
     private void getNextScene() {
@@ -618,6 +603,7 @@ public class SessionStateManager {
         persistentAttributes.put(NICKNAMES, nicknames);
         persistentAttributes.put(ACHIEVEMENTS, achievements);
         persistentAttributes.put(HITS_HISTORY, hitsHistory);
+        persistentAttributes.put(LOCATION_INTROS, locationIntros);
 
         attributesManager.setPersistentAttributes(persistentAttributes);
         attributesManager.savePersistentAttributes();
