@@ -289,6 +289,7 @@ public class SessionStateManager {
     }
 
     private void saveHits(int hits) {
+        logger.debug("Saving hits history to {}", hitsHistory);
         List<String> allHits = hitsHistory.getOrDefault(stateItem.getMission(), new ArrayList<>());
         allHits.add("" + hits);
         hitsHistory.put(stateItem.getMission(), allHits);
@@ -567,7 +568,7 @@ public class SessionStateManager {
         }
         List<BigDecimal> tier = completedMissions.get(stateItem.getTierIndex());
         tier.add(BigDecimal.valueOf(stateItem.getMissionIndex()));
-
+        totalCoins = 0;
     }
 
     private void updateSession() {
