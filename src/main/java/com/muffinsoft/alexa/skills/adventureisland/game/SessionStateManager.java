@@ -235,6 +235,8 @@ public class SessionStateManager {
         stateItem.setLocationIndex(0);
         stateItem.setSceneIndex(0);
         checkpoint = null;
+        currentObstacle = null;
+        totalCoins = 0;
         return MissionSelector.promptForMission(slotName, completedMissions);
     }
 
