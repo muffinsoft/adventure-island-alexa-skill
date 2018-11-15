@@ -302,6 +302,10 @@ public class SessionStateManager {
         checkpoint = null;
         currentObstacle = null;
         totalCoins = 0;
+        coins = 0;
+        health = getNumber(HEALTH);
+        powerups.clear();
+        justFailed = false;
         return MissionSelector.promptForMission(slotName, completedMissions);
     }
 
