@@ -51,6 +51,7 @@ public class LaunchRequestHandler implements RequestHandler {
                 int tierIndex = checkpoint.get(0).intValue();
                 missionName = game.getMissions().get(missionIndex).getTierNames().get(tierIndex);
                 speechText += Utils.wrap(PhraseManager.getPhrase(Constants.WELCOME_CHECKPOINT));
+                input.getAttributesManager().getSessionAttributes().put(SessionStateManager.STATE, State.CHECKPOINT);
             }
         } else {
             speechText = PhraseManager.getPhrase(Constants.WELCOME);

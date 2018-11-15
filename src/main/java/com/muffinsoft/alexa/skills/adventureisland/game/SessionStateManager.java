@@ -171,32 +171,42 @@ public class SessionStateManager {
     public DialogItem nextResponse() {
 
         logger.debug("Starting to process user reply {}, resolved to {}, state: {}", userReply, replyResolution, stateItem.getState());
-        DialogItem dialog;
+        DialogItem dialog = getDialogByState();
 
-        if (stateItem.getState() == State.HELP) {
-            dialog = processHelp();
-        } else if (stateItem.getState() == State.CANCEL) {
-            dialog = processCancel();
-        } else if (stateItem.getState() == State.QUIT) {
-            dialog = processQuit();
-        } else {
-            if (checkpoint != null && Objects.equals(CONTINUE, userReply)) {
-                restoreFromCheckpoint();
-            }
-
-            if (stateItem.getState() == State.FAILED) {
-                dialog = getFailedChoice();
-            } else if (stateItem.getState() != State.ACTION) {
-                dialog = getIntroOutroDialog();
-            } else {
-                dialog = getActionDialog();
-            }
-
-            String responseText = dialog.getResponseText().replace(USERNAME_PLACEHOLDER, userName);
-            dialog.setResponseText(responseText);
-        }
+        String responseText = dialog.getResponseText().replace(USERNAME_PLACEHOLDER, userName);
+        dialog.setResponseText(responseText);
 
         updateSession();
+        return dialog;
+    }
+
+    private DialogItem getDialogByState() {
+        DialogItem dialog;
+        switch (stateItem.getState()) {
+            case HELP:
+                dialog = processHelp();
+                break;
+            case CANCEL:
+                dialog = processCancel();
+                break;
+            case QUIT:
+                dialog = processQuit();
+                break;
+            case CHECKPOINT:
+                restoreFromCheckpoint();
+                dialog = nextResponse();
+                break;
+            case FAILED:
+                dialog = getFailedChoice();
+                break;
+            case INTRO:
+            case OUTRO:
+                dialog = getIntroOutroDialog();
+                break;
+            default:
+                dialog = getActionDialog();
+                break;
+        }
         return dialog;
     }
 
@@ -221,15 +231,18 @@ public class SessionStateManager {
     }
 
     private void restoreFromCheckpoint() {
-        stateItem.setTierIndex(checkpoint.get(0).intValue());
-        stateItem.setMissionIndex(checkpoint.get(1).intValue());
-        stateItem.setLocationIndex(checkpoint.get(2).intValue());
-        stateItem.setSceneIndex(checkpoint.get(3).intValue());
-        Mission currentMission = game.getMissions().get(stateItem.getMissionIndex());
-        stateItem.setMission(nameToKey(currentMission.getName()));
-        Location currentLocation = currentMission.getLocations().get(stateItem.getLocationIndex());
-        stateItem.setLocation(nameToKey(currentLocation.getName()));
-        stateItem.setScene(nameToKey(currentLocation.getActivities().get(stateItem.getSceneIndex()).getName()));
+        if (checkpoint != null && Objects.equals(CONTINUE, userReply)) {
+            stateItem.setTierIndex(checkpoint.get(0).intValue());
+            stateItem.setMissionIndex(checkpoint.get(1).intValue());
+            stateItem.setLocationIndex(checkpoint.get(2).intValue());
+            stateItem.setSceneIndex(checkpoint.get(3).intValue());
+            Mission currentMission = game.getMissions().get(stateItem.getMissionIndex());
+            stateItem.setMission(nameToKey(currentMission.getName()));
+            Location currentLocation = currentMission.getLocations().get(stateItem.getLocationIndex());
+            stateItem.setLocation(nameToKey(currentLocation.getName()));
+            stateItem.setScene(nameToKey(currentLocation.getActivities().get(stateItem.getSceneIndex()).getName()));
+        }
+        stateItem.setState(State.INTRO);
     }
 
     private DialogItem getFailedChoice() {
