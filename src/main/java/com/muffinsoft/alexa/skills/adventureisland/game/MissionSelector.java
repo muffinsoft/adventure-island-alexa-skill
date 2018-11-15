@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.SELECT_MISSION;
+import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.TIERS;
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.game;
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getPhrase;
 import static com.muffinsoft.alexa.skills.adventureisland.game.Utils.wrap;
@@ -36,6 +37,9 @@ public class MissionSelector {
             for (BigDecimal savedMissionIndex : completedMissions.get(i)) {
                 if (savedMissionIndex.intValue() == missionIndex) {
                     result = i + 1;
+                    if (result >= TIERS) {
+                        result = i;
+                    }
                     logger.debug("Mission {} is at tier {}", missionIndex, result);
                     break;
                 }
