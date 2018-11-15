@@ -25,40 +25,6 @@ public class SessionStateManager {
 
     private static final Logger logger = LoggerFactory.getLogger(SessionStateManager.class);
 
-    /**
-     * Below are keys for session attributes. They aren't used anywhere
-     * outside of the program, thus the values can be chosen freely.
-     */
-    static final String OBSTACLE = "obstacle";
-    static final String MISSION = "mission";
-    static final String LOCATION = "location";
-    static final String SCENE = "scene";
-    public static final String STATE = "state";
-    public static final String PENDING_STATE = "pendingState";
-    static final String STATE_INDEX = "stateIndex";
-    static final String PENDING_INDEX = "pendingIndex";
-    static final String TIER_INDEX = "tierIndex";
-    static final String MISSION_INDEX = "missionIndex";
-    static final String LOCATION_INDEX = "locationIndex";
-    static final String SCENE_INDEX = "sceneIndex";
-    public static final String USERNAME = "userName";
-    static final String HEALTH = "health";
-    static final String COINS = "coins";
-    static final String TOTAL_COINS = "totalCoins";
-    static final String VISITED_LOCATIONS = "visitedLocations";
-    static final String OLD_OBSTACLES = "oldObstacles";
-    static final String TURNS_TO_NEXT_EXCLAMATION = "turnsToNextExclamation";
-    static final String TURNS_TO_NEXT_HEADS_UP = "turnsToNextHeadsUp";
-    static final String COMPLETED_MISSIONS = "completedMissions";
-    public static final String CHECKPOINT = "checkpoint";
-    static final String JUST_FAILED = "justFailed";
-    static final String POWERUPS = "powerups";
-    public static final String NICKNAMES = "nicknames";
-    public static final String ACHIEVEMENTS = "achievements";
-    static final String HITS_HISTORY = "hitsHistory";
-    static final String HELP_STATE = "helpState";
-    static final String LOCATION_INTROS = "locationIntros";
-    static final String SCENE_INTROS = "sceneIntros";
 
     private AttributesManager attributesManager;
     private Map<String, Object> sessionAttributes;
@@ -280,14 +246,10 @@ public class SessionStateManager {
 
     private DialogItem getCoinsDialog() {
         List<String> expectedReplies = ObstacleManager.getTreasureResponses(currentObstacle);
-        String speechText = "";
+        String speechText;
         if (expectedReplies != null && expectedReplies.contains(userReply)) {
             coins++;
-            Powerup powerup = PowerupManager.useFirstRelevant(powerups, currentObstacle, MULTIPLY);
-            if (powerup != null) {
-                coins++;
-                speechText = wrap(getPhrase(POWERUP_USED).replace(POWERUP_PLACEHOLDER, powerup.getName()));
-            }
+            speechText = useMultiplicationPowerUp();
             if (coins >= getCoinsToCollect(stateItem.getTierIndex())) {
                 currentObstacle = null;
                 return finishScene(speechText);
@@ -303,6 +265,16 @@ public class SessionStateManager {
         speechText = nextObstacle(speechText);
         stateItem.setIndex(stateItem.getIndex() + 1);
         return new DialogItem(speechText, false, slotName);
+    }
+
+    private String useMultiplicationPowerUp() {
+        String speechText = "";
+        Powerup powerup = PowerupManager.useFirstRelevant(powerups, currentObstacle, MULTIPLY);
+        if (powerup != null) {
+            coins++;
+            speechText = wrap(getPhrase(POWERUP_USED).replace(POWERUP_PLACEHOLDER, powerup.getName()));
+        }
+        return speechText;
     }
 
     private DialogItem finishScene(String speechText) {

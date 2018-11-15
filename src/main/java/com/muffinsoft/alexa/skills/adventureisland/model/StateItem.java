@@ -1,7 +1,16 @@
 package com.muffinsoft.alexa.skills.adventureisland.model;
 
+import com.muffinsoft.alexa.skills.adventureisland.content.AttributeKeys;
+import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
+import com.muffinsoft.alexa.skills.adventureisland.game.SessionAttributeManager;
+
 import java.util.List;
 import java.util.Map;
+
+import static com.muffinsoft.alexa.skills.adventureisland.content.AttributeKeys.LOCATION;
+import static com.muffinsoft.alexa.skills.adventureisland.content.AttributeKeys.MISSION;
+import static com.muffinsoft.alexa.skills.adventureisland.content.AttributeKeys.SCENE;
+import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.ROOT;
 
 public class StateItem {
 
@@ -10,36 +19,53 @@ public class StateItem {
     private String scene;
     private State state;
     private State pendingState;
-    private int index;
-    private int pendingIndex;
+    private Integer index;
+    private Integer pendingIndex;
     private String introId;
     private String outroId;
-    private int tierIndex;
-    private int missionIndex;
-    private int locationIndex;
-    private int sceneIndex;
+    private Integer tierIndex;
+    private Integer missionIndex;
+    private Integer locationIndex;
+    private Integer sceneIndex;
     private Map<String, List<String>> locationIntros;
     private Map<String, List<String>> sceneIntros;
 
     private HelpState helpState;
 
+    private SessionAttributeManager sessionAttributeManager;
+
+    public StateItem(SessionAttributeManager sessionAttributeManager) {
+        this.sessionAttributeManager = sessionAttributeManager;
+    }
+
     public String getMission() {
+        if (mission == null) {
+            mission = sessionAttributeManager.getString(MISSION, ROOT);
+        }
         return mission;
     }
 
     public void setMission(String mission) {
         this.mission = mission;
+        sessionAttributeManager.updateObject(MISSION, mission);
     }
 
     public String getLocation() {
+        if (location == null) {
+            location = sessionAttributeManager.getString(LOCATION, ROOT);
+        }
         return location;
     }
 
     public void setLocation(String location) {
         this.location = location;
+        sessionAttributeManager.updateObject(LOCATION, location);
     }
 
     public String getScene() {
+        if (scene == null) {
+            scene = sessionAttributeManager.getString(SCENE, ROOT);
+        }
         return scene;
     }
 
