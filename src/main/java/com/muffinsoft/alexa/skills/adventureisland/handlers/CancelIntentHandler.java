@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
+import static com.muffinsoft.alexa.skills.adventureisland.content.AttributeKeys.PENDING_STATE;
+import static com.muffinsoft.alexa.skills.adventureisland.content.AttributeKeys.STATE;
 
 public class CancelIntentHandler implements RequestHandler {
 
@@ -39,8 +41,8 @@ public class CancelIntentHandler implements RequestHandler {
 
     private void changeState(HandlerInput input) {
         Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
-        State state = State.valueOf(String.valueOf(sessionAttributes.getOrDefault(SessionStateManager.STATE, State.INTRO)));
-        sessionAttributes.put(SessionStateManager.STATE, State.CANCEL);
-        sessionAttributes.put(SessionStateManager.PENDING_STATE, state);
+        State state = State.valueOf(String.valueOf(sessionAttributes.getOrDefault(STATE, State.INTRO)));
+        sessionAttributes.put(STATE, State.CANCEL);
+        sessionAttributes.put(PENDING_STATE, state);
     }
 }

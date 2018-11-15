@@ -19,7 +19,6 @@ public class AttributeKeys {
     public static final String LOCATION_INDEX = "locationIndex";
     public static final String SCENE_INDEX = "sceneIndex";
     public static final String USERNAME = "userName";
-    public static final String HEALTH = "health";
     public static final String COINS = "coins";
     public static final String TOTAL_COINS = "totalCoins";
     public static final String VISITED_LOCATIONS = "visitedLocations";

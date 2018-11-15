@@ -1,15 +1,9 @@
 package com.muffinsoft.alexa.skills.adventureisland.model;
 
-import com.muffinsoft.alexa.skills.adventureisland.content.AttributeKeys;
-import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
+import com.amazon.ask.attributes.AttributesManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.SessionAttributeManager;
 
-import java.util.List;
-import java.util.Map;
-
-import static com.muffinsoft.alexa.skills.adventureisland.content.AttributeKeys.LOCATION;
-import static com.muffinsoft.alexa.skills.adventureisland.content.AttributeKeys.MISSION;
-import static com.muffinsoft.alexa.skills.adventureisland.content.AttributeKeys.SCENE;
+import static com.muffinsoft.alexa.skills.adventureisland.content.AttributeKeys.*;
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.ROOT;
 
 public class StateItem {
@@ -27,15 +21,13 @@ public class StateItem {
     private Integer missionIndex;
     private Integer locationIndex;
     private Integer sceneIndex;
-    private Map<String, List<String>> locationIntros;
-    private Map<String, List<String>> sceneIntros;
 
     private HelpState helpState;
 
-    private SessionAttributeManager sessionAttributeManager;
+    private final SessionAttributeManager sessionAttributeManager;
 
-    public StateItem(SessionAttributeManager sessionAttributeManager) {
-        this.sessionAttributeManager = sessionAttributeManager;
+    public StateItem(AttributesManager attributesManager) {
+        this.sessionAttributeManager = new SessionAttributeManager(attributesManager);
     }
 
     public String getMission() {
@@ -71,38 +63,55 @@ public class StateItem {
 
     public void setScene(String scene) {
         this.scene = scene;
+        sessionAttributeManager.updateObject(SCENE, scene);
     }
 
     public State getState() {
+        if (state == null) {
+            state = sessionAttributeManager.getState(STATE, State.INTRO);
+        }
         return state;
     }
 
     public void setState(State state) {
         this.state = state;
+        sessionAttributeManager.updateObject(STATE, state);
     }
 
     public State getPendingState() {
+        if (pendingState == null) {
+            pendingState = sessionAttributeManager.getState(PENDING_STATE, null);
+        }
         return pendingState;
     }
 
     public void setPendingState(State pendingState) {
         this.pendingState = pendingState;
+        sessionAttributeManager.updateObject(PENDING_STATE, state);
     }
 
     public int getIndex() {
+        if (index == null) {
+            index = sessionAttributeManager.getInt(STATE_INDEX, 0);
+        }
         return index;
     }
 
     public void setIndex(int index) {
         this.index = index;
+        sessionAttributeManager.updateObject(STATE_INDEX, index);
     }
 
     public int getPendingIndex() {
+        if (pendingIndex == null) {
+            pendingIndex = sessionAttributeManager.getInt(PENDING_INDEX, 0);
+        }
         return pendingIndex;
     }
 
     public void setPendingIndex(int pendingIndex) {
         this.pendingIndex = pendingIndex;
+        sessionAttributeManager.updateObject(PENDING_INDEX, pendingIndex);
     }
 
     public String getIntroId() {
@@ -122,35 +131,51 @@ public class StateItem {
     }
 
     public int getTierIndex() {
+        if (tierIndex == null) {
+            tierIndex = sessionAttributeManager.getInt(TIER_INDEX, 0);
+        }
         return tierIndex;
     }
 
     public void setTierIndex(int tierIndex) {
         this.tierIndex = tierIndex;
+        sessionAttributeManager.updateObject(TIER_INDEX, tierIndex);
     }
 
     public int getMissionIndex() {
+        if (missionIndex == null) {
+            missionIndex = sessionAttributeManager.getInt(MISSION_INDEX, 0);
+        }
         return missionIndex;
     }
 
     public void setMissionIndex(int missionIndex) {
         this.missionIndex = missionIndex;
+        sessionAttributeManager.updateObject(MISSION_INDEX, missionIndex);
     }
 
     public int getLocationIndex() {
+        if (locationIndex == null) {
+            locationIndex = sessionAttributeManager.getInt(LOCATION_INDEX, 0);
+        }
         return locationIndex;
     }
 
     public void setLocationIndex(int locationIndex) {
         this.locationIndex = locationIndex;
+        sessionAttributeManager.updateObject(LOCATION_INDEX, locationIndex);
     }
 
     public int getSceneIndex() {
+        if (sceneIndex == null) {
+            sceneIndex = sessionAttributeManager.getInt(SCENE_INDEX, 0);
+        }
         return sceneIndex;
     }
 
     public void setSceneIndex(int sceneIndex) {
         this.sceneIndex = sceneIndex;
+        sessionAttributeManager.updateObject(SCENE_INDEX, sceneIndex);
     }
 
     public String getIntroOutroId(State state) {
@@ -162,26 +187,15 @@ public class StateItem {
     }
 
     public HelpState getHelpState() {
+        if (helpState == null) {
+            helpState = sessionAttributeManager.getHelpState(HELP_STATE);
+        }
         return helpState;
     }
 
     public void setHelpState(HelpState helpState) {
         this.helpState = helpState;
+        sessionAttributeManager.updateObject(HELP_STATE, helpState);
     }
 
-    public Map<String, List<String>> getLocationIntros() {
-        return locationIntros;
-    }
-
-    public void setLocationIntros(Map<String, List<String>> locationIntros) {
-        this.locationIntros = locationIntros;
-    }
-
-    public Map<String, List<String>> getSceneIntros() {
-        return sceneIntros;
-    }
-
-    public void setSceneIntros(Map<String, List<String>> sceneIntros) {
-        this.sceneIntros = sceneIntros;
-    }
 }

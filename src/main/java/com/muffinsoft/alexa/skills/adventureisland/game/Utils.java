@@ -6,14 +6,13 @@ import com.amazon.ask.model.slu.entityresolution.Resolutions;
 import com.amazon.ask.model.slu.entityresolution.Value;
 import com.amazon.ask.model.slu.entityresolution.ValueWrapper;
 import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
+import com.muffinsoft.alexa.skills.adventureisland.model.PersistentState;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
 import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.ROOT;
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.SILENT_SCENE;
@@ -67,7 +66,7 @@ public class Utils {
         return s.substring(0, 1).toUpperCase() + s.substring(1);
     }
 
-    static String getNameKey(StateItem stateItem, State state) {
+    static String getNameKey(StateItem stateItem, State state, PersistentState persistentState) {
         String prefix = "";
         if (Objects.equals(stateItem.getScene(), SILENT_SCENE)) {
             prefix = stateItem.getLocation();
@@ -83,10 +82,10 @@ public class Utils {
                 int tierIndex = stateItem.getTierIndex();
                 introOutroId = tierIndex == 0 ? "" : "" + tierIndex;
             } else if (Objects.equals(stateItem.getLocation(), stateItem.getScene())) {
-                int locationIndex = getNextLocationIndex(stateItem) % Constants.INTRO_VARIANTS;
+                int locationIndex = getNextLocationIndex(stateItem, persistentState) % Constants.INTRO_VARIANTS;
                 introOutroId = locationIndex == 0 ? "" : "" + locationIndex;
             } else {
-                int sceneIndex = getNextSceneIndex(stateItem) % Constants.INTRO_VARIANTS;
+                int sceneIndex = getNextSceneIndex(stateItem, persistentState) % Constants.INTRO_VARIANTS;
                 introOutroId = sceneIndex == 0 ? "" : "" + sceneIndex;
             }
         }
@@ -97,11 +96,11 @@ public class Utils {
         return prefix + scene + introOutroId + state.getKey() + stateItem.getIndex();
     }
 
-    private static int getNextLocationIndex(StateItem stateItem) {
+    private static int getNextLocationIndex(StateItem stateItem, PersistentState persistentState) {
         String locationStoreKey = getLocationStoreKey(stateItem);
         logger.debug("Getting location intro for {}", locationStoreKey);
         int result = 0;
-        List<String> locationIntros = stateItem.getLocationIntros().getOrDefault(stateItem.getLocation(), new ArrayList<>());
+        List<String> locationIntros = persistentState.getLocationIntros().getOrDefault(stateItem.getLocation(), new ArrayList<>());
         if (!locationIntros.isEmpty()) {
             logger.debug("Location intros size is {}", locationIntros.size());
             for (String storedLocationInfo : locationIntros) {
@@ -116,15 +115,15 @@ public class Utils {
             result = Integer.parseInt(lastIndex) + 1;
         }
         locationIntros.add(locationStoreKey + result);
-        stateItem.getLocationIntros().put(stateItem.getLocation(), locationIntros);
+        persistentState.getLocationIntros().put(stateItem.getLocation(), locationIntros);
         return result;
     }
 
-    private static int getNextSceneIndex(StateItem stateItem) {
+    private static int getNextSceneIndex(StateItem stateItem, PersistentState persistentState) {
         String sceneStoreKey = getSceneStoreKey(stateItem);
         logger.debug("Getting scene intro for {}", sceneStoreKey);
         int result = 0;
-        List<String> sceneIntros = stateItem.getSceneIntros().getOrDefault(stateItem.getScene(), new ArrayList<>());
+        List<String> sceneIntros = persistentState.getSceneIntros().getOrDefault(stateItem.getScene(), new ArrayList<>());
         if (!sceneIntros.isEmpty()) {
             for (String storedSceneInfo : sceneIntros) {
                 if (!storedSceneInfo.isEmpty() && storedSceneInfo.startsWith(sceneStoreKey)) {
@@ -137,12 +136,19 @@ public class Utils {
             result = Integer.parseInt(lastIndex) + 1;
         }
         sceneIntros.add(sceneStoreKey + result);
-        stateItem.getSceneIntros().put(stateItem.getScene(), sceneIntros);
+        persistentState.getSceneIntros().put(stateItem.getScene(), sceneIntros);
         return result;
     }
 
     private static String getSceneStoreKey(StateItem stateItem) {
         return String.format("%d-%d-%d-%d::", stateItem.getTierIndex(), stateItem.getMissionIndex(),
                 stateItem.getLocationIndex(), stateItem.getSceneIndex());
+    }
+
+    public static Map<String, Object> verifyMap(Map<String, Object> map) {
+        if (map == null || map.isEmpty()) {
+            map = new HashMap<>();
+        }
+        return map;
     }
 }
