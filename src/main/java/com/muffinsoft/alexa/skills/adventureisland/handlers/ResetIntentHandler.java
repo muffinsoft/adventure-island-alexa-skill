@@ -5,9 +5,12 @@ import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.Response;
 import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
+import com.muffinsoft.alexa.skills.adventureisland.game.SessionStateManager;
+import com.muffinsoft.alexa.skills.adventureisland.model.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
@@ -16,19 +19,27 @@ public class ResetIntentHandler implements RequestHandler {
     private static final Logger logger = LoggerFactory.getLogger(CancelIntentHandler.class);
 
     public boolean canHandle(HandlerInput input) {
-        return input.matches(intentName("AMAZON.CancelIntent"));
+        return input.matches(intentName("ResetIntent"));
     }
 
     public Optional<Response> handle(HandlerInput input) {
-        String speechText = PhraseManager.getPhrase(Constants.NEW_MISSION + Constants.PROMPT);
+        String speechText = PhraseManager.getPhrase(State.RESET.getKey().toLowerCase() + Constants.PROMPT);
 
+        logger.debug("Processing request to reset with reply {}", speechText);
 
-        logger.debug("Processing request to cancel with reply {}", speechText);
+        changeState(input);
 
         return input.getResponseBuilder()
                 .withSpeech(speechText)
                 .withSimpleCard(PhraseManager.getPhrase("welcomeCard"), speechText)
                 .withReprompt(speechText)
                 .build();
+    }
+
+    private void changeState(HandlerInput input) {
+        Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
+        State state = State.valueOf(String.valueOf(sessionAttributes.getOrDefault(SessionStateManager.STATE, State.INTRO)));
+        sessionAttributes.put(SessionStateManager.STATE, State.RESET);
+        sessionAttributes.put(SessionStateManager.PENDING_STATE, state);
     }
 }

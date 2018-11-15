@@ -179,6 +179,10 @@ public class SessionStateManager {
             dialog = processCancel();
         } else if (stateItem.getState() == State.QUIT) {
             dialog = processQuit();
+        } else if (stateItem.getState() == State.RESET) {
+            dialog = processReset();
+        } else if (stateItem.getState() == State.RESTART) {
+            dialog = processRestart();
         } else {
             if (checkpoint != null && Objects.equals(CONTINUE, userReply)) {
                 restoreFromCheckpoint();
@@ -198,6 +202,42 @@ public class SessionStateManager {
 
         updateSession();
         return dialog;
+    }
+
+    private DialogItem processRestart() {
+        if (Objects.equals(replyResolution, YES.toLowerCase())) {
+            return restartMission();
+        } else {
+            return quitToRoot();
+        }
+    }
+
+    private DialogItem restartMission() {
+        totalCoins = 0;
+        coins = 0;
+        currentObstacle = null;
+        justFailed = false;
+        powerups.clear();
+        checkpoint = null;
+        health = getNumber(HEALTH);
+        stateItem.setState(State.INTRO);
+        stateItem.setLocation(stateItem.getMission());
+        stateItem.setLocationIndex(0);
+        stateItem.setScene(stateItem.getMission());
+        stateItem.setLocationIndex(0);
+        stateItem.setIndex(0);
+        return nextResponse();
+    }
+
+    private DialogItem processReset() {
+        if (Objects.equals(replyResolution, YES.toLowerCase())) {
+            String response = getPhrase(State.RESTART.getKey().toLowerCase() + PROMPT);
+            stateItem.setState(State.RESTART);
+            return new DialogItem(response, false, slotName, true);
+        } else {
+            stateItem.setState(stateItem.getPendingState());
+            return nextResponse();
+        }
     }
 
     private DialogItem processCancel() {
