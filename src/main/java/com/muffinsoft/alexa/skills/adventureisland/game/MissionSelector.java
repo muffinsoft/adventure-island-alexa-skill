@@ -37,6 +37,7 @@ public class MissionSelector {
             for (BigDecimal savedMissionIndex : completedMissions.get(i)) {
                 if (savedMissionIndex.intValue() == missionIndex) {
                     result = i + 1;
+                    // do not go over the max tier available
                     if (result >= TIERS) {
                         result = i;
                     }
