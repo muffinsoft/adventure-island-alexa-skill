@@ -63,11 +63,11 @@
   "exclamation9" : "Lily: We make a great team!",
   "exclamation10" : "Lily: Woohoo! I'm glad I came!",
   "cryptRoomIntro0" : "Ben: We're in the crypt room! Creepy, huh? Hey, what's this old inscription say? Lily: Those who of our coins take will soon regret their big mistake... Ben: Do you believe in ancient curses, my friend?",
-  "cryptRoom1Intro0": "Ben: Nice! We made it to the crypt room! It's dustier than I thought in h-... Ah-ah-Achoo!",
-  "cryptRoom2Intro0": "Ben: We made it to the crypt room, the heart of the temple! Who do you think was buried in a big, old temple like this?",
+  "cryptRoom1Intro0" : "Ben: Nice! We made it to the crypt room! It's dustier than I thought in h-... Ah-ah-Achoo!",
+  "cryptRoom2Intro0" : "Ben: We made it to the crypt room, the heart of the temple! Who do you think was buried in a big, old temple like this?",
   "cryptRoomIntro1" : "Ben: I just hope the part about the coins being here is true.",
-  "cryptRoom1Intro1": "Lily: Let's keep going before Ben sneezes all over us!",
-  "cryptRoom2Intro1": "Lily: I just hope they left a bunch of coins behind! Let's do this!",
+  "cryptRoom1Intro1" : "Lily: Let's keep going before Ben sneezes all over us!",
+  "cryptRoom2Intro1" : "Lily: I just hope they left a bunch of coins behind! Let's do this!",
   "cryptRoomOutro0" : "We're closer to the end of the temple now! Let's keep up the pace!",
   "cryptRoom1Outro0" : "That crypt room was serious business! Let's get out of here!",
   "cryptRoom2Outro0" : "Nice! We're one step closer to leaving here with a bunch of coins!",
@@ -299,5 +299,7 @@
   "helpFull" : "Do you want more details?",
   "stop" : "Ben: We had fun together.  Let's do this again soon.",
   "newMissionPrompt" : "Do you want to start a new mission?",
-  "quitPrompt" : "Do you want to quit the game?"
+  "quitPrompt" : "Do you want to quit the game?",
+  "resetPrompt" : "Are you sure you want to discontinue the mission and lose all your titles?",
+  "restartPrompt" : "Do you want to start the mission from the beginning?"
 }

@@ -4,6 +4,8 @@ public enum State {
 
     WELCOME("WelcomeNew"), INTRO("Intro"), ACTION("Action"), OUTRO("Outro"), FAILED("Failed"),
     HELP("Help"), CANCEL("Cancel"), QUIT("Quit"), CHECKPOINT("Checkpoint");
+    WELCOME("WelcomeNew"), INTRO("Intro"), ACTION("Action"), OUTRO("Outro"),
+    FAILED("Failed"), HELP("Help"), CANCEL("Cancel"), QUIT("Quit"), RESET("Reset"), RESTART("Restart");
 
     private String key;
 
