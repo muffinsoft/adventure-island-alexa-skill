@@ -26,7 +26,7 @@ public class Utils {
     }
 
     public static String wrap(String phrase) {
-        return "<p>" + phrase + "</p>";
+        return " " + phrase + " ";
     }
 
     static String combineWithBreak(String responseText, String newText) {
