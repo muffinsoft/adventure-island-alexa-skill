@@ -392,6 +392,7 @@ public class SessionStateManager {
 
     private String getSceneOutro() {
         String phrase = getPhrase(getNameKey(stateItem, State.OUTRO));
+        logger.debug("Scene outro phrase: {}", phrase);
         if (phrase != null) {
             phrase = wrap(phrase);
         }
