@@ -58,7 +58,7 @@ public class GameProperties {
     }
 
     public void addCoin() {
-        coins++;
+        coins = getCoins() + 1;
         sessionAttributeManager.updateObject(COINS, coins);
     }
 
