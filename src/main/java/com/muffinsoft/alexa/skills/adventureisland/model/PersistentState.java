@@ -161,7 +161,7 @@ public class PersistentState {
 
     public void addLocationIntro(String key, List<String> locationIntros) {
         getLocationIntros().put(key, locationIntros);
-        persistentAttributeManager.updateObject(LOCATION_INTROS, locationIntros);
+        persistentAttributeManager.updateObject(LOCATION_INTROS, this.locationIntros);
     }
 
     public Map<String, List<String>> getSceneIntros() {
@@ -173,6 +173,6 @@ public class PersistentState {
 
     public void addSceneIntro(String key, List<String> sceneIntros) {
         getSceneIntros().put(key, sceneIntros);
-        persistentAttributeManager.updateObject(SCENE_INTROS, sceneIntros);
+        persistentAttributeManager.updateObject(SCENE_INTROS, this.sceneIntros);
     }
 }
