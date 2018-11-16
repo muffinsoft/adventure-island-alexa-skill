@@ -29,7 +29,7 @@ public class Utils {
     }
 
     static String combineWithBreak(String responseText, String newText) {
-        if (responseText != null && newText != null) {
+        if (responseText != null && !responseText.isEmpty() && newText != null && !newText.isEmpty()) {
             return responseText + " <break time=\"3s\"/> " + newText;
         }
         if (responseText != null) {
