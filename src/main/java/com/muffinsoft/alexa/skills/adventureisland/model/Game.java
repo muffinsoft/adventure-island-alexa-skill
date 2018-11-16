@@ -67,7 +67,7 @@ public class Game {
         Mission currentMission = missions.get(missionIndex);
 
         // mission intro played, need to go to the first location
-        if (Objects.equals(state.getMission(), state.getLocation())) {
+        if (Objects.equals(state.getMission(), state.getLocation()) && state.getState() != State.OUTRO) {
             logger.debug("Going to a new location");
             Location nextLocation = currentMission.getLocations().get(0);
             String nextLocationName = nextLocation.getName();
@@ -148,6 +148,14 @@ public class Game {
             state.setSceneIndex(0);
             state.setIntroId(nextLocation.getIntroId());
             state.setOutroId(nextLocation.getOutroId());
+            return state;
+        }
+
+        // quit to mission outro
+        if (state.getState() == State.OUTRO && !Objects.equals(state.getLocation(), state.getMission())) {
+            state.setLocation(state.getMission());
+            state.setScene(state.getMission());
+            state.setIndex(0);
             return state;
         }
 

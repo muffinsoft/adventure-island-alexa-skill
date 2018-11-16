@@ -72,7 +72,7 @@ public class Utils {
             prefix = stateItem.getLocation();
         } else if (stateItem.getState() == State.OUTRO &&
                 Objects.equals(stateItem.getScene(), stateItem.getLocation()) &&
-                !Objects.equals(stateItem.getMission(), ROOT)) {
+                !Objects.equals(stateItem.getMission(), stateItem.getLocation())) {
             prefix = stateItem.getMission();
         }
 

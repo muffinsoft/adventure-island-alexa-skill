@@ -6,6 +6,7 @@ import com.amazon.ask.model.LaunchRequest;
 import com.amazon.ask.model.Response;
 import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
+import com.muffinsoft.alexa.skills.adventureisland.game.MissionSelector;
 import com.muffinsoft.alexa.skills.adventureisland.game.SessionStateManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.TagProcessor;
 import com.muffinsoft.alexa.skills.adventureisland.game.Utils;
@@ -37,13 +38,18 @@ public class LaunchRequestHandler implements RequestHandler {
         String missionName = "";
         String speechText;
 
+        List<List<BigDecimal>> completedMissions = null;
         if (persistentAttributes != null && !persistentAttributes.isEmpty()) {
+            completedMissions = (List<List<BigDecimal>>) persistentAttributes.get(SessionStateManager.COMPLETED_MISSIONS);
+            List<BigDecimal> checkpoint = (List<BigDecimal>) persistentAttributes.get(SessionStateManager.CHECKPOINT);
+            Map<String, List<String>> achievements = (Map<String, List<String>>) persistentAttributes.get(SessionStateManager.ACHIEVEMENTS);
+            Map<String, List<String>> nicknames = (Map<String, List<String>>) persistentAttributes.get(SessionStateManager.NICKNAMES);
             List<BigDecimal> checkpoint = (List<BigDecimal>) persistentAttributes.get(CHECKPOINT);
             Map<String, List<String>> achievements = (Map<String, List<String>>) persistentAttributes.get(ACHIEVEMENTS);
             Map<String, List<String>> nicknames = (Map<String, List<String>>) persistentAttributes.get(NICKNAMES);
             if (achievements != null && !achievements.isEmpty() && nicknames != null && !nicknames.isEmpty()) {
                 speechText = PhraseManager.getPhrase(Constants.WELCOME_BACK_ROYAL);
-            } else if (checkpoint != null) {
+            } else if (checkpoint != null || completedMissions != null) {
                 speechText = PhraseManager.getPhrase(Constants.WELCOME_BACK);
             } else {
                 speechText = PhraseManager.getPhrase(Constants.WELCOME);
@@ -55,6 +61,9 @@ public class LaunchRequestHandler implements RequestHandler {
                 missionName = game.getMissions().get(missionIndex).getTierNames().get(tierIndex);
                 speechText += Utils.wrap(PhraseManager.getPhrase(Constants.WELCOME_CHECKPOINT));
                 input.getAttributesManager().getSessionAttributes().put(STATE, State.CHECKPOINT);
+            } else if (completedMissions != null) {
+                String missionPrompt = MissionSelector.promptForMission(null, completedMissions).getResponseText();
+                speechText += Utils.wrap(missionPrompt);
             }
         } else {
             speechText = PhraseManager.getPhrase(Constants.WELCOME);
