@@ -123,8 +123,8 @@ public class PersistentState {
         return nicknames;
     }
 
-    public void setNicknames(Map<String, List<String>> nicknames) {
-        this.nicknames = nicknames;
+    public void addNickname(String key, List<String> nickname) {
+        getNicknames().put(key, nickname);
         persistentAttributeManager.updateObject(NICKNAMES, nicknames);
     }
 
@@ -159,8 +159,8 @@ public class PersistentState {
         return locationIntros;
     }
 
-    public void setLocationIntros(Map<String, List<String>> locationIntros) {
-        this.locationIntros = locationIntros;
+    public void addLocationIntro(String key, List<String> locationIntros) {
+        getLocationIntros().put(key, locationIntros);
         persistentAttributeManager.updateObject(LOCATION_INTROS, locationIntros);
     }
 

@@ -115,7 +115,7 @@ public class Utils {
             result = Integer.parseInt(lastIndex) + 1;
         }
         locationIntros.add(locationStoreKey + result);
-        persistentState.getLocationIntros().put(stateItem.getLocation(), locationIntros);
+        persistentState.addLocationIntro(stateItem.getLocation(), locationIntros);
         return result;
     }
 
@@ -136,7 +136,7 @@ public class Utils {
             result = Integer.parseInt(lastIndex) + 1;
         }
         sceneIntros.add(sceneStoreKey + result);
-        persistentState.getSceneIntros().put(stateItem.getScene(), sceneIntros);
+        persistentState.addSceneIntro(stateItem.getScene(), sceneIntros);
         return result;
     }
 
