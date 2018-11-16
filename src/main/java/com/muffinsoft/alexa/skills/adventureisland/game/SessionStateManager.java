@@ -438,14 +438,18 @@ public class SessionStateManager {
                 }
                 String responseText = dialog.getResponseText();
                 dialog = getResponse();
-                dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
+                if (responseText != null) {
+                    dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
+                }
             } else {
                 String responseText = dialog.getResponseText();
                 dialog = getActionDialog();
                 if (!persistentState.getVisitedLocations().contains(stateItem.getLocation())) {
                     responseText = combineWithBreak(responseText, getObstacleExplanation(stateItem));
                 }
-                dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
+                if (responseText != null) {
+                    dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
+                }
                 break;
             }
         }

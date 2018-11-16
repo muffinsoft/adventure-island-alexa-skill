@@ -162,6 +162,8 @@ public class Game {
         // we do not go to the next mission automatically, return to the 'main menu'
         logger.debug("Quitting to root");
         state.setMission(Constants.ROOT);
+        state.setLocation(Constants.ROOT);
+        state.setScene(Constants.ROOT);
         return state;
     }
 }
