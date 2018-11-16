@@ -703,6 +703,7 @@ public class SessionStateManager {
 
         // handle silent scenes
         if (Objects.equals(SILENT_SCENE, stateItem.getScene())) {
+            speechText = TagProcessor.insertTags(speechText);
             speechText = "<amazon:effect name=\"whispered\">" + speechText + "</amazon:effect>";
         }
         return speechText;
