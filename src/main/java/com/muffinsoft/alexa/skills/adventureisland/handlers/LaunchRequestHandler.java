@@ -38,12 +38,9 @@ public class LaunchRequestHandler implements RequestHandler {
         String missionName = "";
         String speechText;
 
-        List<List<BigDecimal>> completedMissions = null;
+        List<List<BigDecimal>> completedMissions;
         if (persistentAttributes != null && !persistentAttributes.isEmpty()) {
-            completedMissions = (List<List<BigDecimal>>) persistentAttributes.get(SessionStateManager.COMPLETED_MISSIONS);
-            List<BigDecimal> checkpoint = (List<BigDecimal>) persistentAttributes.get(SessionStateManager.CHECKPOINT);
-            Map<String, List<String>> achievements = (Map<String, List<String>>) persistentAttributes.get(SessionStateManager.ACHIEVEMENTS);
-            Map<String, List<String>> nicknames = (Map<String, List<String>>) persistentAttributes.get(SessionStateManager.NICKNAMES);
+            completedMissions = (List<List<BigDecimal>>) persistentAttributes.get(COMPLETED_MISSIONS);
             List<BigDecimal> checkpoint = (List<BigDecimal>) persistentAttributes.get(CHECKPOINT);
             Map<String, List<String>> achievements = (Map<String, List<String>>) persistentAttributes.get(ACHIEVEMENTS);
             Map<String, List<String>> nicknames = (Map<String, List<String>>) persistentAttributes.get(NICKNAMES);
