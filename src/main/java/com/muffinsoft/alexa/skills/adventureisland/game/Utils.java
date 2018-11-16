@@ -87,9 +87,11 @@ public class Utils {
             // for mission intro / outro, use tier-specific intro / outro
             if (Objects.equals(stateItem.getMission(), stateItem.getLocation())) {
                 introOutroId = tierIndex == 0 ? "" : "" + tierIndex;
-            } else if (Objects.equals(stateItem.getLocation(), stateItem.getScene()) && stateItem.getState() == State.INTRO) {
-                int locationIndex = getNextLocationIndex(stateItem, persistentState) % Constants.INTRO_VARIANTS;
-                introOutroId = locationIndex == 0 ? "" : "" + locationIndex;
+            } else if (Objects.equals(stateItem.getLocation(), stateItem.getScene())) {
+                if (stateItem.getState() == State.INTRO) {
+                    int locationIndex = getNextLocationIndex(stateItem, persistentState) % Constants.INTRO_VARIANTS;
+                    introOutroId = locationIndex == 0 ? "" : "" + locationIndex;
+                }
             } else {
                 int sceneIndex = getNextSceneIndex(stateItem, persistentState) % Constants.INTRO_VARIANTS;
                 introOutroId = sceneIndex == 0 ? "" : "" + sceneIndex;
