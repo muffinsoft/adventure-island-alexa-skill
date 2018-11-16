@@ -61,7 +61,7 @@ public class LaunchRequestHandler implements RequestHandler {
             } else if (completedMissions != null) {
                 String missionPrompt = MissionSelector.promptForMission(null, completedMissions).getResponseText();
                 speechText += Utils.wrap(missionPrompt);
-                input.getAttributesManager().getSessionAttributes().put(SessionStateManager.STATE, State.INTRO);
+                input.getAttributesManager().getSessionAttributes().put(STATE, State.INTRO);
             }
         } else {
             speechText = PhraseManager.getPhrase(Constants.WELCOME);
