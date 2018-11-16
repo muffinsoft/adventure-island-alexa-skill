@@ -71,22 +71,22 @@ public class Utils {
 
     static String getNameKey(StateItem stateItem, State state, PersistentState persistentState) {
         String prefix = "";
+        String introOutroId = stateItem.getIntroOutroId(state);
         if (Objects.equals(stateItem.getScene(), SILENT_SCENE)) {
             prefix = stateItem.getLocation();
         } else if (stateItem.getState() == State.OUTRO &&
                 Objects.equals(stateItem.getScene(), stateItem.getLocation()) &&
                 !Objects.equals(stateItem.getMission(), stateItem.getLocation())) {
             prefix = stateItem.getMission();
+            introOutroId = "" + stateItem.getTierIndex();
         }
-
-        String introOutroId = stateItem.getIntroOutroId(state);
 
         if (!Objects.equals(stateItem.getMission(), ROOT)) {
             // for mission intro / outro, use tier-specific intro / outro
             if (Objects.equals(stateItem.getMission(), stateItem.getLocation())) {
                 int tierIndex = stateItem.getTierIndex();
                 introOutroId = tierIndex == 0 ? "" : "" + tierIndex;
-            } else if (Objects.equals(stateItem.getLocation(), stateItem.getScene())) {
+            } else if (Objects.equals(stateItem.getLocation(), stateItem.getScene()) && stateItem.getState() == State.INTRO) {
                 int locationIndex = getNextLocationIndex(stateItem, persistentState) % Constants.INTRO_VARIANTS;
                 introOutroId = locationIndex == 0 ? "" : "" + locationIndex;
             } else {
