@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
+import static com.muffinsoft.alexa.skills.adventureisland.content.AttributeKeys.PENDING_STATE;
+import static com.muffinsoft.alexa.skills.adventureisland.content.AttributeKeys.STATE;
 
 public class ResetIntentHandler implements RequestHandler {
     private static final Logger logger = LoggerFactory.getLogger(CancelIntentHandler.class);
@@ -38,8 +40,8 @@ public class ResetIntentHandler implements RequestHandler {
 
     private void changeState(HandlerInput input) {
         Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
-        State state = State.valueOf(String.valueOf(sessionAttributes.getOrDefault(SessionStateManager.STATE, State.INTRO)));
-        sessionAttributes.put(SessionStateManager.STATE, State.RESET);
-        sessionAttributes.put(SessionStateManager.PENDING_STATE, state);
+        State state = State.valueOf(String.valueOf(sessionAttributes.getOrDefault(STATE, State.INTRO)));
+        sessionAttributes.put(STATE, State.RESET);
+        sessionAttributes.put(PENDING_STATE, state);
     }
 }

@@ -2,7 +2,10 @@ package com.muffinsoft.alexa.skills.adventureisland.game;
 
 import com.amazon.ask.attributes.AttributesManager;
 import com.amazon.ask.model.Slot;
-import com.muffinsoft.alexa.skills.adventureisland.content.*;
+import com.muffinsoft.alexa.skills.adventureisland.content.NicknameManager;
+import com.muffinsoft.alexa.skills.adventureisland.content.ObstacleManager;
+import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
+import com.muffinsoft.alexa.skills.adventureisland.content.PowerupManager;
 import com.muffinsoft.alexa.skills.adventureisland.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,54 +14,15 @@ import java.math.BigDecimal;
 import java.util.*;
 
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.*;
-import static com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager.getCoinsToCollect;
-import static com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager.getNumber;
-import static com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager.getTurnsToNextExclamation;
+import static com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager.*;
 import static com.muffinsoft.alexa.skills.adventureisland.content.ObstacleManager.getObstacleExplanation;
-import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getExclamation;
-import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getPhrase;
-import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.nameToKey;
+import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.*;
 import static com.muffinsoft.alexa.skills.adventureisland.content.ReplyManager.getReply;
 import static com.muffinsoft.alexa.skills.adventureisland.game.Utils.*;
 
 public class SessionStateManager {
 
     private static final Logger logger = LoggerFactory.getLogger(SessionStateManager.class);
-
-    /**
-     * Below are keys for session attributes. They aren't used anywhere
-     * outside of the program, thus the values can be chosen freely.
-     */
-    static final String OBSTACLE = "obstacle";
-    static final String MISSION = "mission";
-    static final String LOCATION = "location";
-    static final String SCENE = "scene";
-    public static final String STATE = "state";
-    public static final String PENDING_STATE = "pendingState";
-    static final String STATE_INDEX = "stateIndex";
-    static final String PENDING_INDEX = "pendingIndex";
-    static final String TIER_INDEX = "tierIndex";
-    static final String MISSION_INDEX = "missionIndex";
-    static final String LOCATION_INDEX = "locationIndex";
-    static final String SCENE_INDEX = "sceneIndex";
-    public static final String USERNAME = "userName";
-    static final String HEALTH = "health";
-    static final String COINS = "coins";
-    static final String TOTAL_COINS = "totalCoins";
-    static final String VISITED_LOCATIONS = "visitedLocations";
-    static final String OLD_OBSTACLES = "oldObstacles";
-    static final String TURNS_TO_NEXT_EXCLAMATION = "turnsToNextExclamation";
-    static final String TURNS_TO_NEXT_HEADS_UP = "turnsToNextHeadsUp";
-    static final String COMPLETED_MISSIONS = "completedMissions";
-    public static final String CHECKPOINT = "checkpoint";
-    static final String JUST_FAILED = "justFailed";
-    static final String POWERUPS = "powerups";
-    public static final String NICKNAMES = "nicknames";
-    public static final String ACHIEVEMENTS = "achievements";
-    static final String HITS_HISTORY = "hitsHistory";
-    static final String HELP_STATE = "helpState";
-    static final String LOCATION_INTROS = "locationIntros";
-    static final String SCENE_INTROS = "sceneIntros";
 
     private AttributesManager attributesManager;
     private Map<String, Object> sessionAttributes;
@@ -68,8 +32,9 @@ public class SessionStateManager {
     private String replyResolution;
     private String additionalResponse;
 
-    // SESSION attributes
-    private StateItem stateItem = new StateItem();
+    private StateItem stateItem;
+    private PersistentState persistentState;
+
     private int health;
     private int coins;
     private String currentObstacle;
@@ -79,35 +44,15 @@ public class SessionStateManager {
     private boolean justFailed;
     private List<String> powerups;
 
-    // PERSISTENT attributes
-    private String userName;
-    private int totalCoins;
-    private List<String> visitedLocations;
-    private List<String> oldObstacles;
-    /**
-     * Index of the external list is tier, it contains a list of indices of completed missions
-     */
-    private List<List<BigDecimal>> completedMissions;
-    /**
-     * Checkpoint contains 4 integers: tier, mission, location, and last successful scene
-     */
-    private List<BigDecimal> checkpoint;
-
-    /**
-     * Earned nicknames are mapped to mission name keys (missionName).
-     */
-    private Map<String, List<String>> nicknames;
-    private Map<String, List<String>> achievements;
-    /**
-     * How many times the user was hit in the mission, contains 36 digits as String (4*3 per mission * 3 tiers)
-     */
-    private Map<String, List<String>> hitsHistory;
-
 
     public SessionStateManager(Map<String, Slot> slots, AttributesManager attributesManager) {
         this.attributesManager = attributesManager;
         this.sessionAttributes = verifyMap(attributesManager.getSessionAttributes());
         this.persistentAttributes = verifyMap(attributesManager.getPersistentAttributes());
+
+        stateItem = new StateItem(attributesManager);
+        persistentState = new PersistentState(attributesManager);
+
         populateFields();
         if (slots != null && !slots.isEmpty()) {
             Slot slot = slots.get(slotName);
@@ -116,30 +61,9 @@ public class SessionStateManager {
         }
     }
 
-    private Map<String, Object> verifyMap(Map<String, Object> map) {
-        if (map == null || map.isEmpty()) {
-            map = new HashMap<>();
-        }
-        return map;
-    }
-
     @SuppressWarnings("unchecked")
     private void populateFields() {
-        stateItem.setMission(String.valueOf(sessionAttributes.getOrDefault(MISSION, ROOT)));
-        stateItem.setLocation(String.valueOf(sessionAttributes.getOrDefault(LOCATION, ROOT)));
-        stateItem.setScene(String.valueOf(sessionAttributes.getOrDefault(SCENE, ROOT)));
-        String stateStr = String.valueOf(sessionAttributes.getOrDefault(STATE, State.INTRO));
-        stateItem.setState(State.valueOf(stateStr));
-        stateStr = String.valueOf(sessionAttributes.get(PENDING_STATE));
-        if (stateStr != null && !Objects.equals("null", stateStr)) {
-            stateItem.setPendingState(State.valueOf(stateStr));
-        }
-        stateItem.setIndex((int) sessionAttributes.getOrDefault(STATE_INDEX, 0));
-        stateItem.setTierIndex((int) sessionAttributes.getOrDefault(TIER_INDEX, 0));
-        stateItem.setMissionIndex((int) sessionAttributes.getOrDefault(MISSION_INDEX, 0));
-        stateItem.setLocationIndex((int) sessionAttributes.getOrDefault(LOCATION_INDEX, 0));
-        stateItem.setSceneIndex((int) sessionAttributes.getOrDefault(SCENE_INDEX, 0));
-        stateItem.setPendingIndex((int) sessionAttributes.getOrDefault(PENDING_INDEX, 0));
+
         health = (int) sessionAttributes.getOrDefault(HEALTH, getNumber(HEALTH));
         coins = (int) sessionAttributes.getOrDefault(COINS, 0);
         Object obstacle = sessionAttributes.get(OBSTACLE);
@@ -149,12 +73,6 @@ public class SessionStateManager {
         justFailed = sessionAttributes.get(JUST_FAILED) != null;
         powerups = (List<String>) sessionAttributes.getOrDefault(POWERUPS, new ArrayList<>());
 
-        stateStr = String.valueOf(sessionAttributes.get(HELP_STATE));
-        if (stateStr != null && !Objects.equals("null", stateStr)) {
-            stateItem.setHelpState(HelpState.valueOf(stateStr));
-        }
-
-        userName = String.valueOf(persistentAttributes.getOrDefault(USERNAME, "my friend"));
         BigDecimal totalCoinsBD = (BigDecimal) persistentAttributes.getOrDefault(TOTAL_COINS, BigDecimal.ZERO);
         totalCoins = totalCoinsBD.intValue();
         visitedLocations = (List<String>) persistentAttributes.getOrDefault(VISITED_LOCATIONS, new ArrayList<String>());
@@ -171,38 +89,48 @@ public class SessionStateManager {
     public DialogItem nextResponse() {
 
         logger.debug("Starting to process user reply {}, resolved to {}, state: {}", userReply, replyResolution, stateItem.getState());
-        DialogItem dialog;
+        DialogItem dialog = getDialogByState();
 
-        if (stateItem.getState() == State.HELP) {
-            dialog = processHelp();
-        } else if (stateItem.getState() == State.CANCEL) {
-            dialog = processCancel();
-        } else if (stateItem.getState() == State.QUIT) {
-            dialog = processQuit();
-        } else if (stateItem.getState() == State.RESET) {
-            dialog = processReset();
-        } else if (stateItem.getState() == State.RESTART) {
-            dialog = processRestart();
-        } else {
-            if (checkpoint != null && Objects.equals(CONTINUE, userReply)) {
-                restoreFromCheckpoint();
-            }
-
-            if (stateItem.getState() == State.FAILED) {
-                dialog = getFailedChoice();
-            } else if (stateItem.getState() != State.ACTION) {
-                dialog = getIntroOutroDialog();
-            } else {
-                dialog = getActionDialog();
-            }
-
-            String responseText = dialog.getResponseText().replace(USERNAME_PLACEHOLDER, userName);
-            dialog.setResponseText(responseText);
-        }
+        String responseText = dialog.getResponseText().replace(USERNAME_PLACEHOLDER, userName);
+        dialog.setResponseText(responseText);
 
         updateSession();
+        return dialog;
+    }
 
-        dialog.setResponseText(TagProcessor.insertTags(dialog.getResponseText()));
+    private DialogItem getDialogByState() {
+        DialogItem dialog;
+        switch (stateItem.getState()) {
+            case HELP:
+                dialog = processHelp();
+                break;
+            case CANCEL:
+                dialog = processCancel();
+                break;
+            case QUIT:
+                dialog = processQuit();
+                break;
+            case RESET:
+                dialog = processReset();
+                break;
+            case RESTART:
+                dialog = processRestart();
+                break;
+            case CHECKPOINT:
+                restoreFromCheckpoint();
+                dialog = nextResponse();
+                break;
+            case FAILED:
+                dialog = getFailedChoice();
+                break;
+            case INTRO:
+            case OUTRO:
+                dialog = getIntroOutroDialog();
+                break;
+            default:
+                dialog = getActionDialog();
+                break;
+        }
         return dialog;
     }
 
@@ -215,12 +143,12 @@ public class SessionStateManager {
     }
 
     private DialogItem restartMission() {
-        totalCoins = 0;
+        persistentState.setTotalCoins(0);
         coins = 0;
         currentObstacle = null;
         justFailed = false;
         powerups.clear();
-        checkpoint = null;
+        persistentState.setCheckpoint(null);
         health = getNumber(HEALTH);
         stateItem.setState(State.INTRO);
         stateItem.setLocation(stateItem.getMission());
@@ -263,15 +191,19 @@ public class SessionStateManager {
     }
 
     private void restoreFromCheckpoint() {
-        stateItem.setTierIndex(checkpoint.get(0).intValue());
-        stateItem.setMissionIndex(checkpoint.get(1).intValue());
-        stateItem.setLocationIndex(checkpoint.get(2).intValue());
-        stateItem.setSceneIndex(checkpoint.get(3).intValue());
-        Mission currentMission = game.getMissions().get(stateItem.getMissionIndex());
-        stateItem.setMission(nameToKey(currentMission.getName()));
-        Location currentLocation = currentMission.getLocations().get(stateItem.getLocationIndex());
-        stateItem.setLocation(nameToKey(currentLocation.getName()));
-        stateItem.setScene(nameToKey(currentLocation.getActivities().get(stateItem.getSceneIndex()).getName()));
+        List<BigDecimal> checkpoint = persistentState.getCheckpoint();
+        if (checkpoint != null && Objects.equals(CONTINUE, userReply)) {
+            stateItem.setTierIndex(checkpoint.get(0).intValue());
+            stateItem.setMissionIndex(checkpoint.get(1).intValue());
+            stateItem.setLocationIndex(checkpoint.get(2).intValue());
+            stateItem.setSceneIndex(checkpoint.get(3).intValue());
+            Mission currentMission = game.getMissions().get(stateItem.getMissionIndex());
+            stateItem.setMission(nameToKey(currentMission.getName()));
+            Location currentLocation = currentMission.getLocations().get(stateItem.getLocationIndex());
+            stateItem.setLocation(nameToKey(currentLocation.getName()));
+            stateItem.setScene(nameToKey(currentLocation.getActivities().get(stateItem.getSceneIndex()).getName()));
+        }
+        stateItem.setState(State.INTRO);
     }
 
     private DialogItem getFailedChoice() {
@@ -301,26 +233,22 @@ public class SessionStateManager {
         stateItem.setMissionIndex(0);
         stateItem.setLocationIndex(0);
         stateItem.setSceneIndex(0);
-        checkpoint = null;
+        persistentState.setCheckpoint(null);
+        persistentState.setTotalCoins(0);
         currentObstacle = null;
-        totalCoins = 0;
         coins = 0;
         health = getNumber(HEALTH);
         powerups.clear();
         justFailed = false;
-        return MissionSelector.promptForMission(slotName, completedMissions);
+        return MissionSelector.promptForMission(slotName, persistentState.getCompletedMissions());
     }
 
     private DialogItem getCoinsDialog() {
         List<String> expectedReplies = ObstacleManager.getTreasureResponses(currentObstacle);
-        String speechText = "";
+        String speechText;
         if (expectedReplies != null && expectedReplies.contains(userReply)) {
             coins++;
-            Powerup powerup = PowerupManager.useFirstRelevant(powerups, currentObstacle, MULTIPLY);
-            if (powerup != null) {
-                coins++;
-                speechText = wrap(getPhrase(POWERUP_USED).replace(POWERUP_PLACEHOLDER, powerup.getName()));
-            }
+            speechText = useMultiplicationPowerUp();
             if (coins >= getCoinsToCollect(stateItem.getTierIndex())) {
                 currentObstacle = null;
                 return finishScene(speechText);
@@ -338,8 +266,18 @@ public class SessionStateManager {
         return new DialogItem(speechText, false, slotName);
     }
 
+    private String useMultiplicationPowerUp() {
+        String speechText = "";
+        Powerup powerup = PowerupManager.useFirstRelevant(powerups, currentObstacle, MULTIPLY);
+        if (powerup != null) {
+            coins++;
+            speechText = wrap(getPhrase(POWERUP_USED).replace(POWERUP_PLACEHOLDER, powerup.getName()));
+        }
+        return speechText;
+    }
+
     private DialogItem finishScene(String speechText) {
-        totalCoins += coins;
+        persistentState.addCoins(coins);
         coins = 0;
         stateItem.setIndex(0);
 
@@ -361,10 +299,12 @@ public class SessionStateManager {
     }
 
     private void saveHits(int hits) {
+        Map<String, List<String>> hitsHistory = persistentState.getHitsHistory();
         logger.debug("Saving hits history to {}", hitsHistory);
         List<String> allHits = hitsHistory.getOrDefault(stateItem.getMission(), new ArrayList<>());
         allHits.add("" + hits);
         hitsHistory.put(stateItem.getMission(), allHits);
+        persistentState.setHitsHistory(hitsHistory);
     }
 
     private void setCheckpoint() {
@@ -383,11 +323,13 @@ public class SessionStateManager {
                 return;
             }
         }
-        checkpoint = new ArrayList<>();
+        List<BigDecimal> checkpoint = new ArrayList<>();
         checkpoint.add(BigDecimal.valueOf(stateItem.getTierIndex()));
         checkpoint.add(BigDecimal.valueOf(stateItem.getMissionIndex()));
         checkpoint.add(BigDecimal.valueOf(locationIndex));
         checkpoint.add(BigDecimal.valueOf(sceneIndex));
+
+        persistentState.setCheckpoint(checkpoint);
     }
 
     private String getSceneOutro() {
@@ -514,7 +456,7 @@ public class SessionStateManager {
                         }
                         additionalResponse = null;
                     }
-                    dialog = MissionSelector.promptForMission(slotName, completedMissions);
+                    dialog = MissionSelector.promptForMission(slotName, persistentState.getCompletedMissions());
                     if (responseText != null) {
                         dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
                     }
@@ -525,7 +467,7 @@ public class SessionStateManager {
             }
             if (stateItem.getState() != State.ACTION) {
                 if (stateItem.getState() == State.OUTRO) {
-                    visitedLocations.add(stateItem.getLocation());
+                    persistentState.addVisitedLocation(stateItem.getLocation());
                 }
                 String responseText = dialog.getResponseText();
                 dialog = getResponse();
@@ -533,7 +475,7 @@ public class SessionStateManager {
             } else {
                 String responseText = dialog.getResponseText();
                 dialog = getActionDialog();
-                if (!visitedLocations.contains(stateItem.getLocation())) {
+                if (!persistentState.getVisitedLocations().contains(stateItem.getLocation())) {
                     responseText = combineWithBreak(responseText, getObstacleExplanation(stateItem));
                 }
                 dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
@@ -591,7 +533,7 @@ public class SessionStateManager {
         List<Mission> missions = game.getMissions();
         for (int i = 0; i < missions.size(); i++) {
 
-            int tier = MissionSelector.getTier(i, completedMissions);
+            int tier = MissionSelector.getTier(i, persistentState.getCompletedMissions());
             String missionName = missions.get(i).getTierNames().get(tier);
             logger.debug("Comparing reply {} with mission name {}", userReply, missionName);
             if (Objects.equals(missionName.toLowerCase(), userReply)) {
@@ -606,7 +548,7 @@ public class SessionStateManager {
                 stateItem.setMissionIndex(i);
 
                 health = getNumber(HEALTH);
-                checkpoint = null;
+                persistentState.setCheckpoint(null);
 
                 return true;
             }
@@ -620,7 +562,7 @@ public class SessionStateManager {
         stateItem = game.nextActivity(stateItem);
         if (Objects.equals(stateItem.getMission(), ROOT)) {
             updateCompletedMissions();
-            checkpoint = null;
+            persistentState.setCheckpoint(null);
             updateNicknames(oldMission, oldTier);
         }
     }
@@ -644,19 +586,6 @@ public class SessionStateManager {
     }
 
     private void updateSession() {
-        sessionAttributes.put(MISSION, stateItem.getMission());
-        sessionAttributes.put(LOCATION, stateItem.getLocation());
-        sessionAttributes.put(SCENE, stateItem.getScene());
-        sessionAttributes.put(STATE, stateItem.getState());
-        sessionAttributes.put(STATE_INDEX, stateItem.getIndex());
-        sessionAttributes.put(TIER_INDEX, stateItem.getTierIndex());
-        sessionAttributes.put(MISSION_INDEX, stateItem.getMissionIndex());
-        sessionAttributes.put(LOCATION_INDEX, stateItem.getLocationIndex());
-        sessionAttributes.put(SCENE_INDEX, stateItem.getSceneIndex());
-        sessionAttributes.put(PENDING_STATE, stateItem.getPendingState());
-        sessionAttributes.put(PENDING_INDEX, stateItem.getPendingIndex());
-        sessionAttributes.put(HELP_STATE, stateItem.getHelpState());
-
         sessionAttributes.put(OBSTACLE, currentObstacle);
         sessionAttributes.put(COINS, coins);
         sessionAttributes.put(HEALTH, health);
@@ -666,18 +595,6 @@ public class SessionStateManager {
         sessionAttributes.put(POWERUPS, powerups);
 
         attributesManager.setSessionAttributes(sessionAttributes);
-
-        persistentAttributes.put(TOTAL_COINS, totalCoins);
-        persistentAttributes.put(VISITED_LOCATIONS, visitedLocations);
-        persistentAttributes.put(OLD_OBSTACLES, oldObstacles);
-        persistentAttributes.put(USERNAME, userName);
-        persistentAttributes.put(CHECKPOINT, checkpoint);
-        persistentAttributes.put(COMPLETED_MISSIONS, completedMissions);
-        persistentAttributes.put(NICKNAMES, nicknames);
-        persistentAttributes.put(ACHIEVEMENTS, achievements);
-        persistentAttributes.put(HITS_HISTORY, hitsHistory);
-        persistentAttributes.put(LOCATION_INTROS, stateItem.getLocationIntros());
-        persistentAttributes.put(SCENE_INTROS, stateItem.getSceneIntros());
 
         attributesManager.setPersistentAttributes(persistentAttributes);
         attributesManager.savePersistentAttributes();
@@ -709,13 +626,13 @@ public class SessionStateManager {
     }
 
     private String getPreObstacle(String speechText, String obstacle) {
-        if (oldObstacles.contains(obstacle)) {
+        if (persistentState.getOldObstacles().contains(obstacle)) {
             if (--toNextHeadsUp <= 0) {
                 speechText += wrap(ObstacleManager.getHeadsUp(stateItem, obstacle));
                 toNextHeadsUp = getNumber(HEADS_UP);
             }
         } else {
-            oldObstacles.add(obstacle);
+            persistentState.addOldObstacle(obstacle);
             String preObstacle = ObstacleManager.getPreObstacle(stateItem, obstacle);
             speechText += wrap(preObstacle);
         }
@@ -752,7 +669,7 @@ public class SessionStateManager {
     }
 
     private DialogItem getInMissionHelp(String inSlotName) {
-        String reply = wrap(getPhrase(stateItem.getMission() + HELP).replace(TOTAL_COINS_PLACEHOLDER, "" + totalCoins));
+        String reply = wrap(getPhrase(stateItem.getMission() + HELP).replace(TOTAL_COINS_PLACEHOLDER, "" + persistentState.getTotalCoins()));
         reply += wrap(getPhrase(QUIT + HELP + capitalizeFirstLetter(CONTINUE)));
         stateItem.setHelpState(HelpState.ROOT);
         updateSession();

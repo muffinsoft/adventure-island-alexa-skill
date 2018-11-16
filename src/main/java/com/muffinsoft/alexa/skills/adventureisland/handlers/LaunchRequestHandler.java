@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.requestType;
+import static com.muffinsoft.alexa.skills.adventureisland.content.AttributeKeys.*;
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.MISSION_NAME_PLACEHOLDER;
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.game;
 
@@ -37,26 +38,27 @@ public class LaunchRequestHandler implements RequestHandler {
         String speechText;
 
         if (persistentAttributes != null && !persistentAttributes.isEmpty()) {
-            List<BigDecimal> checkpoint = (List<BigDecimal>) persistentAttributes.get(SessionStateManager.CHECKPOINT);
-            Map<String, List<String>> achievements = (Map<String, List<String>>) persistentAttributes.get(SessionStateManager.ACHIEVEMENTS);
-            Map<String, List<String>> nicknames = (Map<String, List<String>>) persistentAttributes.get(SessionStateManager.NICKNAMES);
+            List<BigDecimal> checkpoint = (List<BigDecimal>) persistentAttributes.get(CHECKPOINT);
+            Map<String, List<String>> achievements = (Map<String, List<String>>) persistentAttributes.get(ACHIEVEMENTS);
+            Map<String, List<String>> nicknames = (Map<String, List<String>>) persistentAttributes.get(NICKNAMES);
             if (achievements != null && !achievements.isEmpty() && nicknames != null && !nicknames.isEmpty()) {
                 speechText = PhraseManager.getPhrase(Constants.WELCOME_BACK_ROYAL);
             } else if (checkpoint != null) {
                 speechText = PhraseManager.getPhrase(Constants.WELCOME_BACK);
             } else {
                 speechText = PhraseManager.getPhrase(Constants.WELCOME);
-                input.getAttributesManager().getSessionAttributes().put(SessionStateManager.STATE, State.WELCOME);
+                input.getAttributesManager().getSessionAttributes().put(STATE, State.WELCOME);
             }
             if (checkpoint != null) {
                 int missionIndex = checkpoint.get(1).intValue();
                 int tierIndex = checkpoint.get(0).intValue();
                 missionName = game.getMissions().get(missionIndex).getTierNames().get(tierIndex);
                 speechText += Utils.wrap(PhraseManager.getPhrase(Constants.WELCOME_CHECKPOINT));
+                input.getAttributesManager().getSessionAttributes().put(STATE, State.CHECKPOINT);
             }
         } else {
             speechText = PhraseManager.getPhrase(Constants.WELCOME);
-            input.getAttributesManager().getSessionAttributes().put(SessionStateManager.STATE, State.WELCOME);
+            input.getAttributesManager().getSessionAttributes().put(STATE, State.WELCOME);
 
         }
         if (!missionName.isEmpty()) {
