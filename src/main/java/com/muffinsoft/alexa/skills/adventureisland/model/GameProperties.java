@@ -135,7 +135,7 @@ public class GameProperties {
     }
 
     public void resetPowerups() {
-        powerups.clear();
+        getPowerups().clear();
         sessionAttributeManager.updateObject(POWERUPS, powerups);
     }
 }
