@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
 
+import static com.muffinsoft.alexa.skills.adventureisland.content.AttributeKeys.*;
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.*;
 import static com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager.getNumber;
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getPhrase;
@@ -246,7 +247,7 @@ class SessionStateManagerTest {
     }
 
     private StateItem stateFromAttributes(Map<String, Object> attributes) {
-        StateItem result = new StateItem();
+        StateItem result = new StateItem(getAttributesManager(attributes));
         result.setMission(attributes.get(MISSION).toString());
         result.setLocation(attributes.get(LOCATION).toString());
         result.setScene(attributes.get(SCENE).toString());
@@ -272,6 +273,12 @@ class SessionStateManagerTest {
     }
 
     private SessionStateManager getSessionStateManager(Map<String, Slot> slots, Map<String, Object> sessionAttributes) {
+        AttributesManager attributesManager = getAttributesManager(sessionAttributes);
+
+        return new SessionStateManager(slots, attributesManager);
+    }
+
+    private AttributesManager getAttributesManager(Map<String, Object> sessionAttributes) {
         Session session = Session.builder()
                 .withAttributes(sessionAttributes)
                 .build();
@@ -282,7 +289,6 @@ class SessionStateManagerTest {
                 .withRequestEnvelope(requestEnvelope)
                 .build();
         attributesManager.setPersistentAttributes(new HashMap<>());
-
-        return new SessionStateManager(slots, attributesManager);
+        return attributesManager;
     }
 }

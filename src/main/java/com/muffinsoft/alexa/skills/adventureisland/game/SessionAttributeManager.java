@@ -29,6 +29,10 @@ public class SessionAttributeManager {
         return String.valueOf(sessionAttributes.getOrDefault(key, defaultValue));
     }
 
+    public String getString(String key) {
+        return (String) sessionAttributes.get(key);
+    }
+
     public State getState(String key, State defaultValue) {
         String stateStr = String.valueOf(sessionAttributes.getOrDefault(key, defaultValue));
         if (stateStr != null && !Objects.equals(stateStr, "null")) {

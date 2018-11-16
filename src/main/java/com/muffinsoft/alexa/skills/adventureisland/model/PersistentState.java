@@ -76,8 +76,11 @@ public class PersistentState {
     }
 
     public void addVisitedLocation(String location) {
-        getVisitedLocations().add(location);
-        persistentAttributeManager.updateObject(VISITED_LOCATIONS, visitedLocations);
+        visitedLocations = getVisitedLocations();
+        if (!visitedLocations.contains(location)) {
+            visitedLocations.add(location);
+            persistentAttributeManager.updateObject(VISITED_LOCATIONS, visitedLocations);
+        }
     }
 
     public List<String> getOldObstacles() {
@@ -88,8 +91,11 @@ public class PersistentState {
     }
 
     public void addOldObstacle(String obstacle) {
-        getOldObstacles().add(obstacle);
-        persistentAttributeManager.updateObject(OLD_OBSTACLES, oldObstacles);
+        oldObstacles = getOldObstacles();
+        if (!oldObstacles.contains(obstacle)) {
+            oldObstacles.add(obstacle);
+            persistentAttributeManager.updateObject(OLD_OBSTACLES, oldObstacles);
+        }
     }
 
     public List<List<BigDecimal>> getCompletedMissions() {
@@ -106,7 +112,7 @@ public class PersistentState {
 
     public List<BigDecimal> getCheckpoint() {
         if (checkpoint == null) {
-            persistentAttributeManager.getBigDecimalList(CHECKPOINT);
+            checkpoint = persistentAttributeManager.getBigDecimalList(CHECKPOINT);
         }
         return checkpoint;
     }
@@ -123,8 +129,8 @@ public class PersistentState {
         return nicknames;
     }
 
-    public void setNicknames(Map<String, List<String>> nicknames) {
-        this.nicknames = nicknames;
+    public void addNickname(String key, List<String> nickname) {
+        getNicknames().put(key, nickname);
         persistentAttributeManager.updateObject(NICKNAMES, nicknames);
     }
 
@@ -159,9 +165,9 @@ public class PersistentState {
         return locationIntros;
     }
 
-    public void setLocationIntros(Map<String, List<String>> locationIntros) {
-        this.locationIntros = locationIntros;
-        persistentAttributeManager.updateObject(LOCATION_INTROS, locationIntros);
+    public void addLocationIntro(String key, List<String> locationIntros) {
+        getLocationIntros().put(key, locationIntros);
+        persistentAttributeManager.updateObject(LOCATION_INTROS, this.locationIntros);
     }
 
     public Map<String, List<String>> getSceneIntros() {
@@ -173,6 +179,6 @@ public class PersistentState {
 
     public void addSceneIntro(String key, List<String> sceneIntros) {
         getSceneIntros().put(key, sceneIntros);
-        persistentAttributeManager.updateObject(SCENE_INTROS, sceneIntros);
+        persistentAttributeManager.updateObject(SCENE_INTROS, this.sceneIntros);
     }
 }

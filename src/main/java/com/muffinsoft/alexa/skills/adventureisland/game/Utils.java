@@ -29,8 +29,11 @@ public class Utils {
     }
 
     static String combineWithBreak(String responseText, String newText) {
-        if (responseText != null) {
+        if (responseText != null && !responseText.isEmpty() && newText != null && !newText.isEmpty()) {
             return responseText + " <break time=\"3s\"/> " + newText;
+        }
+        if (responseText != null) {
+            return responseText;
         }
         return newText;
     }
@@ -68,22 +71,27 @@ public class Utils {
 
     static String getNameKey(StateItem stateItem, State state, PersistentState persistentState) {
         String prefix = "";
+        String introOutroId = stateItem.getIntroOutroId(state);
+        int tierIndex = stateItem.getTierIndex();
+
         if (Objects.equals(stateItem.getScene(), SILENT_SCENE)) {
             prefix = stateItem.getLocation();
-        } else if (stateItem.getState() == State.OUTRO && Objects.equals(stateItem.getScene(), stateItem.getLocation())) {
+        } else if (stateItem.getState() == State.OUTRO &&
+                Objects.equals(stateItem.getScene(), stateItem.getLocation()) &&
+                !Objects.equals(stateItem.getMission(), stateItem.getLocation())) {
             prefix = stateItem.getMission();
+            introOutroId = tierIndex == 0 ? "" : "" + tierIndex;
         }
-
-        String introOutroId = stateItem.getIntroOutroId(state);
 
         if (!Objects.equals(stateItem.getMission(), ROOT)) {
             // for mission intro / outro, use tier-specific intro / outro
             if (Objects.equals(stateItem.getMission(), stateItem.getLocation())) {
-                int tierIndex = stateItem.getTierIndex();
                 introOutroId = tierIndex == 0 ? "" : "" + tierIndex;
             } else if (Objects.equals(stateItem.getLocation(), stateItem.getScene())) {
-                int locationIndex = getNextLocationIndex(stateItem, persistentState) % Constants.INTRO_VARIANTS;
-                introOutroId = locationIndex == 0 ? "" : "" + locationIndex;
+                if (stateItem.getState() == State.INTRO) {
+                    int locationIndex = getNextLocationIndex(stateItem, persistentState) % Constants.INTRO_VARIANTS;
+                    introOutroId = locationIndex == 0 ? "" : "" + locationIndex;
+                }
             } else {
                 int sceneIndex = getNextSceneIndex(stateItem, persistentState) % Constants.INTRO_VARIANTS;
                 introOutroId = sceneIndex == 0 ? "" : "" + sceneIndex;
@@ -115,7 +123,7 @@ public class Utils {
             result = Integer.parseInt(lastIndex) + 1;
         }
         locationIntros.add(locationStoreKey + result);
-        persistentState.getLocationIntros().put(stateItem.getLocation(), locationIntros);
+        persistentState.addLocationIntro(stateItem.getLocation(), locationIntros);
         return result;
     }
 
@@ -136,7 +144,7 @@ public class Utils {
             result = Integer.parseInt(lastIndex) + 1;
         }
         sceneIntros.add(sceneStoreKey + result);
-        persistentState.getSceneIntros().put(stateItem.getScene(), sceneIntros);
+        persistentState.addSceneIntro(stateItem.getScene(), sceneIntros);
         return result;
     }
 

@@ -1,6 +1,7 @@
 package com.muffinsoft.alexa.skills.adventureisland.content;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.muffinsoft.alexa.skills.adventureisland.model.GameProperties;
 import com.muffinsoft.alexa.skills.adventureisland.model.Powerup;
 
 import java.util.ArrayList;
@@ -30,14 +31,16 @@ public class PowerupManager {
         return powerup;
     }
 
-    public static Powerup useFirstRelevant(List<String> names, String obstacle, String... actions) {
+    public static Powerup useFirstRelevant(GameProperties props, String... actions) {
+        List<String> names = props.getPowerups();
         for (Powerup powerup : powerups) {
             String powerupAction = powerup.getAction().toLowerCase();
             if (names.contains(powerup.getName()) &&
-                    (powerupAction.contains(obstacle.toLowerCase()) || powerupAction.contains(ANYTHING))) {
+                    (powerupAction.contains(props.getCurrentObstacle().toLowerCase()) || powerupAction.contains(ANYTHING))) {
                 for (String action : actions) {
                     if (powerupAction.contains(action)) {
                         names.remove(powerup.getName());
+                        props.setPowerups(names);
                         return powerup;
                     }
                 }
