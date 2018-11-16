@@ -67,7 +67,7 @@ public class Game {
         Mission currentMission = missions.get(missionIndex);
 
         // mission intro played, need to go to the first location
-        if (Objects.equals(state.getMission(), state.getLocation())) {
+        if (Objects.equals(state.getMission(), state.getLocation()) && state.getState() != State.OUTRO) {
             logger.debug("Going to a new location");
             Location nextLocation = currentMission.getLocations().get(0);
             String nextLocationName = nextLocation.getName();
