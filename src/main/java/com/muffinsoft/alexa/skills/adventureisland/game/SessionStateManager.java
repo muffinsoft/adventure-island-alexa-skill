@@ -530,7 +530,7 @@ public class SessionStateManager {
         if (Objects.equals(stateItem.getMission(), ROOT)) {
             updateCompletedMissions();
             persistentState.setCheckpoint(null);
-            updateNicknames(oldMission, oldTier);
+            //updateNicknames(oldMission, oldTier);
         }
     }
 
