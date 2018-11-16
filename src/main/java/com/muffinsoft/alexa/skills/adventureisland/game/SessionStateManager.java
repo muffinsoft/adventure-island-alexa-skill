@@ -131,6 +131,10 @@ public class SessionStateManager {
                 dialog = getActionDialog();
                 break;
         }
+
+        updateSession();
+
+        dialog.setResponseText(TagProcessor.insertTags(dialog.getResponseText()));
         return dialog;
     }
 

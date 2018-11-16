@@ -7,7 +7,9 @@ import com.amazon.ask.model.Response;
 import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.SessionStateManager;
+import com.muffinsoft.alexa.skills.adventureisland.game.TagProcessor;
 import com.muffinsoft.alexa.skills.adventureisland.game.Utils;
+import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
 
 import java.math.BigDecimal;
@@ -63,10 +65,8 @@ public class LaunchRequestHandler implements RequestHandler {
             speechText = speechText.replace(MISSION_NAME_PLACEHOLDER, missionName);
         }
 
-        return input.getResponseBuilder()
-                .withSpeech(speechText)
-                .withSimpleCard(PhraseManager.getPhrase("welcomeCard"), speechText)
-                .withReprompt(speechText)
-                .build();
+        speechText = TagProcessor.insertTags(speechText);
+
+        return Optional.of(ActionIntentHandler.assembleResponse(new DialogItem(speechText, false, null, true)));
     }
 }
