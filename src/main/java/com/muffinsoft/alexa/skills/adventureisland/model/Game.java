@@ -151,6 +151,14 @@ public class Game {
             return state;
         }
 
+        // quit to mission outro
+        if (state.getState() == State.OUTRO && !Objects.equals(state.getLocation(), state.getMission())) {
+            state.setLocation(state.getMission());
+            state.setScene(state.getMission());
+            state.setIndex(0);
+            return state;
+        }
+
         // we do not go to the next mission automatically, return to the 'main menu'
         logger.debug("Quitting to root");
         state.setMission(Constants.ROOT);

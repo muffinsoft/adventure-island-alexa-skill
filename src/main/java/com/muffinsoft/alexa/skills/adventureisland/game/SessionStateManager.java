@@ -49,7 +49,7 @@ public class SessionStateManager {
     static final String OLD_OBSTACLES = "oldObstacles";
     static final String TURNS_TO_NEXT_EXCLAMATION = "turnsToNextExclamation";
     static final String TURNS_TO_NEXT_HEADS_UP = "turnsToNextHeadsUp";
-    static final String COMPLETED_MISSIONS = "completedMissions";
+    public static final String COMPLETED_MISSIONS = "completedMissions";
     public static final String CHECKPOINT = "checkpoint";
     static final String JUST_FAILED = "justFailed";
     static final String POWERUPS = "powerups";

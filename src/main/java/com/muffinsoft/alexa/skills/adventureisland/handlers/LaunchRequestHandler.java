@@ -42,7 +42,7 @@ public class LaunchRequestHandler implements RequestHandler {
             Map<String, List<String>> nicknames = (Map<String, List<String>>) persistentAttributes.get(SessionStateManager.NICKNAMES);
             if (achievements != null && !achievements.isEmpty() && nicknames != null && !nicknames.isEmpty()) {
                 speechText = PhraseManager.getPhrase(Constants.WELCOME_BACK_ROYAL);
-            } else if (checkpoint != null) {
+            } else if (checkpoint != null || persistentAttributes.get(SessionStateManager.COMPLETED_MISSIONS) != null) {
                 speechText = PhraseManager.getPhrase(Constants.WELCOME_BACK);
             } else {
                 speechText = PhraseManager.getPhrase(Constants.WELCOME);
