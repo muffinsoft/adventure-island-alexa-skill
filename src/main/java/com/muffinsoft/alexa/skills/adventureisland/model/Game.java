@@ -164,6 +164,8 @@ public class Game {
         state.setMission(Constants.ROOT);
         state.setLocation(Constants.ROOT);
         state.setScene(Constants.ROOT);
+        state.setState(State.INTRO);
+        state.setIndex(0);
         return state;
     }
 }

@@ -256,11 +256,11 @@ public class SessionStateManager {
         setCheckpoint();
         String sceneOutro = getSceneOutro();
         if (sceneOutro != null) {
-            sceneOutro = speechText + sceneOutro;
+            speechText = speechText + sceneOutro;
         }
         getNextScene();
         DialogItem response = getIntroOutroDialog();
-        response.setResponseText(combineWithBreak(sceneOutro, response.getResponseText()));
+        response.setResponseText(combineWithBreak(speechText, response.getResponseText()));
         return response;
     }
 
@@ -324,7 +324,7 @@ public class SessionStateManager {
                     speechText += wrap(getExclamation());
                     props.setToNextExclamation(getTurnsToNextExclamation());
                 }
-            // wrong reply
+                // wrong reply
             } else {
                 // check if a powerup is available
                 Powerup powerup = PowerupManager.useFirstRelevant(props, SKIP, RETRY);
@@ -333,7 +333,7 @@ public class SessionStateManager {
                     if (powerup.getAction().toLowerCase().contains(RETRY)) {
                         return new DialogItem(speechText, false, slotName);
                     }
-                // lose a heart if no powerup
+                    // lose a heart if no powerup
                 } else {
                     props.decrementHealth();
                     if (props.getHealth() <= 0) {
@@ -376,7 +376,7 @@ public class SessionStateManager {
         String responseText = "";
 
         // user is ready
-        if (userReply.contains(getReply(DEMO + 1))) {
+        if (userReply != null && userReply.contains(getReply(DEMO + 1))) {
             responseText = nextObstacle(responseText);
             stateItem.setIndex(stateItem.getIndex() + 1);
             return new DialogItem(responseText, false, slotName);
@@ -384,7 +384,7 @@ public class SessionStateManager {
 
         if (stateItem.getTierIndex() == 0 && stateItem.getLocationIndex() == 0 && stateItem.getSceneIndex() == 0) {
             // Lily first
-            if (userReply.contains(getReply(DEMO + 2))) {
+            if (userReply != null && userReply.contains(getReply(DEMO + 2))) {
                 responseText += wrap(getPhrase(stateItem.getScene() + capitalizeFirstLetter(DEMO)));
             } else {
                 // prompt for demo round
@@ -424,9 +424,7 @@ public class SessionStateManager {
                         additionalResponse = null;
                     }
                     dialog = MissionSelector.promptForMission(slotName, persistentState.getCompletedMissions());
-                    if (responseText != null) {
-                        dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
-                    }
+                    dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
                     return dialog;
                 }
             } else {
@@ -438,18 +436,14 @@ public class SessionStateManager {
                 }
                 String responseText = dialog.getResponseText();
                 dialog = getResponse();
-                if (responseText != null) {
-                    dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
-                }
+                dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
             } else {
                 String responseText = dialog.getResponseText();
                 dialog = getActionDialog();
                 if (!persistentState.getVisitedLocations().contains(stateItem.getLocation())) {
                     responseText = combineWithBreak(responseText, getObstacleExplanation(stateItem));
                 }
-                if (responseText != null) {
-                    dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
-                }
+                dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
                 break;
             }
         }
@@ -478,16 +472,16 @@ public class SessionStateManager {
         String responseText;
         if (expectedReply != null) {
             if (Objects.equals(expectedReply, userReply)) {
-                responseText = wrap(getPhrase(nameKey + YES));
+                responseText = getPhrase(nameKey + YES);
             } else {
-                responseText = wrap(getPhrase(nameKey + NO));
+                responseText = getPhrase(nameKey + NO);
             }
 
         } else {
             responseText = getPhrase(nameKey);
-            if (responseText != null) {
-                responseText = wrap(responseText);
-            }
+        }
+        if (responseText != null) {
+            responseText = wrap(responseText);
         }
         stateItem.setIndex(stateItem.getIndex() + 1);
 
@@ -531,6 +525,7 @@ public class SessionStateManager {
         String oldMission = stateItem.getMission();
         int oldTier = stateItem.getTierIndex();
         stateItem = game.nextActivity(stateItem);
+        userReply = null;
         if (Objects.equals(stateItem.getMission(), ROOT)) {
             updateCompletedMissions();
             persistentState.setCheckpoint(null);

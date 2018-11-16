@@ -76,8 +76,11 @@ public class PersistentState {
     }
 
     public void addVisitedLocation(String location) {
-        getVisitedLocations().add(location);
-        persistentAttributeManager.updateObject(VISITED_LOCATIONS, visitedLocations);
+        visitedLocations = getVisitedLocations();
+        if (!visitedLocations.contains(location)) {
+            visitedLocations.add(location);
+            persistentAttributeManager.updateObject(VISITED_LOCATIONS, visitedLocations);
+        }
     }
 
     public List<String> getOldObstacles() {
@@ -88,8 +91,11 @@ public class PersistentState {
     }
 
     public void addOldObstacle(String obstacle) {
-        getOldObstacles().add(obstacle);
-        persistentAttributeManager.updateObject(OLD_OBSTACLES, oldObstacles);
+        oldObstacles = getOldObstacles();
+        if (!oldObstacles.contains(obstacle)) {
+            oldObstacles.add(obstacle);
+            persistentAttributeManager.updateObject(OLD_OBSTACLES, oldObstacles);
+        }
     }
 
     public List<List<BigDecimal>> getCompletedMissions() {
