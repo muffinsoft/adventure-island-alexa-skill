@@ -89,6 +89,7 @@ public class SessionStateManager {
                 break;
             case INTRO:
             case OUTRO:
+            case WELCOME:
                 dialog = getIntroOutroDialog();
                 break;
             default:

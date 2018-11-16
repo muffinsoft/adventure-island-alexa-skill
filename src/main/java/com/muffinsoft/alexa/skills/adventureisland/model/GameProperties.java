@@ -18,7 +18,7 @@ public class GameProperties {
     private String currentObstacle;
     private Integer toNextExclamation;
     private Integer toNextHeadsUp;
-    private Boolean skipReadyPrompt;
+    private boolean skipReadyPrompt;
     private Boolean justFailed;
     private List<String> powerups;
 
@@ -112,7 +112,7 @@ public class GameProperties {
 
     public boolean isJustFailed() {
         if (justFailed == null) {
-            sessionAttributeManager.getBoolean(JUST_FAILED);
+            justFailed = sessionAttributeManager.getBoolean(JUST_FAILED);
         }
         return justFailed;
     }
@@ -124,7 +124,7 @@ public class GameProperties {
 
     public List<String> getPowerups() {
         if (powerups == null) {
-            sessionAttributeManager.getStringList(POWERUPS);
+            powerups = sessionAttributeManager.getStringList(POWERUPS);
         }
         return powerups;
     }

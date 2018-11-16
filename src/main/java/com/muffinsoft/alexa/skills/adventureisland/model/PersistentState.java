@@ -106,7 +106,7 @@ public class PersistentState {
 
     public List<BigDecimal> getCheckpoint() {
         if (checkpoint == null) {
-            persistentAttributeManager.getBigDecimalList(CHECKPOINT);
+            checkpoint = persistentAttributeManager.getBigDecimalList(CHECKPOINT);
         }
         return checkpoint;
     }
