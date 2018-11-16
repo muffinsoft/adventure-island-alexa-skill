@@ -59,6 +59,7 @@ public class SessionStateManager {
 
         attributesManager.savePersistentAttributes();
         dialog.setResponseText(TagProcessor.insertTags(dialog.getResponseText()));
+        logger.debug("Sending response {}", dialog.getResponseText());
         return dialog;
     }
 
@@ -485,6 +486,7 @@ public class SessionStateManager {
         }
         stateItem.setIndex(stateItem.getIndex() + 1);
 
+        logger.debug("Got response {}", responseText);
         DialogItem dialog = new DialogItem();
         dialog.setResponseText(responseText);
         dialog.setEnd(false);
