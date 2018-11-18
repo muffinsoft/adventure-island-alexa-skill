@@ -36,7 +36,8 @@ class SessionStateManagerTest {
     void nextResponseRootIntro() {
         SessionStateManager stateManager = getSessionStateManager(Collections.emptyMap());
         DialogItem dialogItem = stateManager.nextResponse();
-        String expected = PhraseManager.getPhrase(ROOT + State.INTRO.getKey() + 0);
+        String expected = PhraseManager.getPhrase(Constants.SELECT_MISSION);
+        expected = TagProcessor.insertTags(expected);
         assertTrue(dialogItem.getResponseText().startsWith(expected));
     }
 
@@ -62,7 +63,7 @@ class SessionStateManagerTest {
         attributes.put(LOCATION, "ancientTemple");
         attributes.put(SCENE, "templeHalls");
         attributes.put(USERNAME, userName);
-        attributes.put(OBSTACLE, "treasure");
+        attributes.put(OBSTACLE, "coins");
         attributes.put(STATE, State.ACTION);
         attributes.put(COINS, 4);
         SessionStateManager stateManager = getSessionStateManager(attributes, "mine");
@@ -131,39 +132,6 @@ class SessionStateManagerTest {
         System.out.println(dialogItem.getResponseText());
     }
 
-    @Test
-    void nextResponseAskPasswordWrong() {
-        String userName = "Test user";
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put(MISSION, "royalRansom");
-        attributes.put(LOCATION, "ancientTemple");
-        attributes.put(SCENE, "ancientTemple");
-        attributes.put(STATE_INDEX, 1);
-        attributes.put(USERNAME, userName);
-        SessionStateManager stateManager = getSessionStateManager(attributes);
-        DialogItem dialogItem = stateManager.nextResponse();
-
-        String expected = getPhrase("ancientTemple" + State.INTRO.getKey() + 1 + NO);
-
-        assertTrue(dialogItem.getResponseText().startsWith(expected));
-    }
-
-    @Test
-    void nextResponseAskPasswordRight() {
-        String userName = "Test user";
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put(MISSION, "royalRansom");
-        attributes.put(LOCATION, "ancientTemple");
-        attributes.put(SCENE, "ancientTemple");
-        attributes.put(STATE_INDEX, 1);
-        attributes.put(USERNAME, userName);
-        SessionStateManager stateManager = getSessionStateManager(attributes, "password");
-        DialogItem dialogItem = stateManager.nextResponse();
-
-        String expected = getPhrase("ancientTemple" + State.INTRO.getKey() + 1 + YES);
-
-        assertTrue(dialogItem.getResponseText().startsWith(expected));
-    }
 
     @Test
     void nextResponsePreObstacle() {
@@ -202,6 +170,7 @@ class SessionStateManagerTest {
         DialogItem dialogItem = stateManager.nextResponse();
 
         String expected = getPhrase(SCENE_FAIL);
+        expected = TagProcessor.insertTags(expected);
         assertEquals(expected, dialogItem.getResponseText());
 
     }
@@ -241,6 +210,7 @@ class SessionStateManagerTest {
         DialogItem dialogItem = stateManager.nextResponse();
 
         String expected = getPhrase(SELECT_MISSION);
+        expected = TagProcessor.insertTags(expected);
 
         assertTrue(dialogItem.getResponseText().startsWith(expected));
 
