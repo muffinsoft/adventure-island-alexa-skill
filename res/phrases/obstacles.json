@@ -3,26 +3,26 @@
     {
       "name" : "snakes",
       "responses" : ["whee"],
-      "preObstacle" : "Snakes! Jump over them by saying 'whee'!",
-      "headsUp" : "I hear hissing!"
+      "preObstacle" : "snakesPre",
+      "headsUp" : "snakesHeadsUp"
     },
     {
       "name" : "blow darts",
       "responses" : ["yikes"],
-      "preObstacle" : "Blow darts incoming! Don't forget to shout 'yikes' to roll under them!",
-      "headsUp" : "Keep your head down up ahead!"
+      "preObstacle" : "blowDartsPre",
+      "headsUp" : "blowDartsHeadsUp"
     },
     {
       "name" : "floor spikes",
       "responses" : ["whee"],
-      "preObstacle" : "Floor spikes up ahead! Shout 'whee' to jump!",
-      "headsUp" : "I see some sharp dangers coming up!"
+      "preObstacle" : "floorSpikePre",
+      "headsUp" : "floorSpikesHeadsUp"
     },
     {
       "name" : "arrows",
       "responses" : ["yikes"],
-      "preObstacle" : "Arrows! Remember to duck under them by saying 'yikes'!",
-      "headsUp" : "Better stay low soon!"
+      "preObstacle" : "arrowsPre",
+      "headsUp" : "arrowsHeadsUp"
     },
     {
       "name" : "swinging axe",
@@ -63,28 +63,28 @@
   ],
   "pirateBay" : [
     {
-      "name" : "rocks ahead",
+      "name" : "rocks",
       "responses" : ["wowzer"],
-      "preObstacle" : "Rocks ahead! Remember to say 'wowzer' to avoid them!",
-      "headsUp" : "Something big and sharp up ahead!"
+      "preObstacle" : "rocksPre",
+      "headsUp" : "rocksHeadsUp"
     },
     {
       "name" : "sailors",
       "responses" : ["ahoy"],
-      "preObstacle" : "Sailors! Remember to let them know we're friendly by shouting 'ahoy!'",
-      "headsUp" : "I think I see people in front of us!"
+      "preObstacle" : "sailorsPre",
+      "headsUp" : "sailorsHeadsUp"
     },
     {
       "name" : "pirates",
       "responses" : ["whammo"],
-      "preObstacle" : "Evil pirates! Don't forget to give your crew the signal by shouting 'whammo'!",
-      "headsUp" : "Oh no! The Jolly Roger flag!"
+      "preObstacle" : "piratesPre",
+      "headsUp" : "piratesHeadsUp"
     },
     {
       "name" : "big wave",
       "responses" : ["whee"],
-      "preObstacle" : "Woah, that's one big wave! Remember to say 'whee' to speed up!",
-      "headsUp" : "Uh oh, the ocean's getting crazier!"
+      "preObstacle" : "bigWavePre",
+      "headsUp" : "bigWaveHeadsUp"
     },
     {
       "name" : "mermaids",
@@ -127,26 +127,26 @@
     {
       "name" : "wall",
       "responses" : ["woo hoo", "woo-hoo"],
-      "preObstacle" : "The thief ran into a wall! Remember to say 'woo hoo' to woo hoo over it!",
-      "headsUp" : "I see something ahead that we'll need to climb!"
+      "preObstacle" : "wallPre",
+      "headsUp" : "wallHeadsUp"
     },
     {
       "name" : "moat",
       "responses" : ["splash"],
-      "preObstacle" : "Water coming up! Don't forget, you can swim across by saying 'splash'!",
-      "headsUp" : "Get ready to get wet!"
+      "preObstacle" : "moatPre",
+      "headsUp" : "moatHeadsUp"
     },
     {
       "name" : "rose bush",
       "responses" : ["whee"],
-      "preObstacle" : "A rose bush coming up! Remember to say 'whee' to not get poked!",
-      "headsUp" : "I think I smell roses!"
+      "preObstacle" : "roseBushPre",
+      "headsUp" : "roseBushHeadsUp"
     },
     {
       "name" : "dragon",
       "responses" : ["uh oh", "uh-oh"],
-      "preObstacle" : "No way, a dragon! Remember to shout 'uh oh' before it sees you!",
-      "headsUp" : "Did anyone else hear a roar?"
+      "preObstacle" : "dragonPre",
+      "headsUp" : "dragonHeadsUp"
     },
     {
       "name" : "tomato",

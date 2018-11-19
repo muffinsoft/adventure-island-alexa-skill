@@ -1,5 +1,5 @@
 {
-  "name": "coins",
+  "name": "coin",
   "responses": ["aha"],
   "preObstacle": "Ooh, I see a shiny coin! Remember, say  'aha' to take it!",
   "headsUp": {

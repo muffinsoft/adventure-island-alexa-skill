@@ -58,7 +58,6 @@ public class SessionStateManager {
         dialog.setResponseText(responseText);
 
         attributesManager.savePersistentAttributes();
-        dialog.setResponseText(TagProcessor.insertTags(dialog.getResponseText()));
         logger.debug("Sending response {}", dialog.getResponseText());
         return dialog;
     }
