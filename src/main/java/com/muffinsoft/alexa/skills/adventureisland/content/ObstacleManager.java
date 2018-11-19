@@ -77,14 +77,23 @@ public class ObstacleManager {
         if (isTreasure(obstacle)) {
             return getTreasurePre(obstacle);
         }
-        return getObstacleByName(state, obstacle).getPreObstacle();
+        String preObstacle = getObstacleByName(state, obstacle).getPreObstacle();
+        preObstacle = getAudio(preObstacle);
+        return preObstacle;
+    }
+
+    private static String getAudio(String key) {
+        if (!key.contains(" ")) {
+            key = AudioManager.getAudio(key);
+        }
+        return key;
     }
 
     public static String getHeadsUp(StateItem state, String obstacle) {
         if (isTreasure(obstacle)) {
             return getTreasureHeadsUp(obstacle, state);
         }
-        return getObstacleByName(state, obstacle).getHeadsUp();
+        return getAudio(getObstacleByName(state, obstacle).getHeadsUp());
     }
 
     public static List<String> getObstacleResponses(StateItem state, String key) {
