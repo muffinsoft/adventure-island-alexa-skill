@@ -20,6 +20,7 @@ public class MissionSelector {
 
     public static DialogItem promptForMission(String slotName, List<List<BigDecimal>> completedMissions) {
         StringBuilder responseText = new StringBuilder(getPhrase(SELECT_MISSION));
+        responseText.append(" ");
         List<Mission> missions = game.getMissions();
         for (int i = 0; i < missions.size(); i++) {
             int tier = getTier(i, completedMissions);
