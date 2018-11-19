@@ -33,13 +33,13 @@ public class AudioManager {
 
     public static String getAudio(String key) {
         if (audio.contains(key)) {
-            return openTag + baseAudioUrl + key + extension + closeTag;
+            return getForKey(key);
         }
         return null;
     }
 
     public static String getForKey(String key) {
-        return baseAudioUrl + key + extension;
+        return openTag + baseAudioUrl + key + extension + closeTag;
     }
 
 }

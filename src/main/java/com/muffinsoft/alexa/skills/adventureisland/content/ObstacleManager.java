@@ -84,7 +84,7 @@ public class ObstacleManager {
 
     private static String getAudio(String key) {
         if (!key.contains(" ")) {
-            key = AudioManager.getAudio(key);
+            key = AudioManager.getForKey(key);
         }
         return key;
     }
