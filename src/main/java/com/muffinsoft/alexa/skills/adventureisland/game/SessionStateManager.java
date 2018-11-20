@@ -391,12 +391,18 @@ public class SessionStateManager {
                 responseText += wrap(getPhrase(DEMO + PROMPT));
                 return new DialogItem(responseText, false, slotName, true);
             }
+        } else {
+            // ask if the user ready or needs help
+            responseText += wrap(getPhrase(READY + PROMPT));
+            return new DialogItem(responseText, false, slotName, true);
         }
 
-        // ask if the user ready or needs help
-        responseText += wrap(getPhrase(READY + PROMPT));
-
-        return new DialogItem(responseText, false, slotName, true);
+        // after demo -> action
+        props.setSkipReadyPrompt(true);
+        DialogItem result = getActionDialog();
+        responseText += wrap(getPhrase(READY + RHETORICAL));
+        result.setResponseText(responseText + wrap(result.getResponseText()));
+        return result;
     }
 
     private DialogItem processSceneFail() {
