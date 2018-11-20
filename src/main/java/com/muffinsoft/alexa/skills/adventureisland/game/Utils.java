@@ -69,6 +69,10 @@ public class Utils {
         return s.substring(0, 1).toUpperCase() + s.substring(1);
     }
 
+    public static boolean exists(String s) {
+        return (s != null && !s.isEmpty());
+    }
+
     static String getNameKey(StateItem stateItem, State state, PersistentState persistentState) {
         String prefix = "";
         String introOutroId = stateItem.getIntroOutroId(state);
