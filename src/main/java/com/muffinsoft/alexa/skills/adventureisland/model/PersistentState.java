@@ -11,7 +11,7 @@ import static com.muffinsoft.alexa.skills.adventureisland.content.AttributeKeys.
 
 public class PersistentState {
 
-    private String userName = "my friend";
+    private static final String userName = "my friend";
     private Integer totalCoins;
     private List<String> visitedLocations;
     private List<String> oldObstacles;
@@ -46,10 +46,6 @@ public class PersistentState {
 
     public String getUserName() {
         return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public int getTotalCoins() {

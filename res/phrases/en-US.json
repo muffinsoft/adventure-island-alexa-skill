@@ -1,7 +1,7 @@
 {
   "rootWelcomeNew1" : "Alexa: I'd love to join you. Let me just put on my adventure hat. Ben: Great! Hey adventure buddy, what would you buy with all the gold in the world?",
-  "welcomeBackRoyalNicknames" : "Alexa: Welcome back you great __NICKNAMES__.",
-  "welcomeBackRoyalAchievements" : "I'm so happy to see you again, you mighty __ACHIEVEMENTS__.",
+  "welcomeBackRoyalNicknames" : "Alexa: Welcome back you great __NICKNAMES__!",
+  "welcomeBackRoyalAchievements" : "I'm so happy to see you again, you mighty __ACHIEVEMENTS__!",
   "welcomeBackRoyalLast" : "New adventures are waiting for you.",
   "welcomeBackCheckpoint" : "Alexa: Would you like to continue with __MISSION_NAME__ or choose a new mission?",
   "newMissionUnlocked" : "Alexa: Hey, you've unlocked a new mission, called __MISSION_NAME__! I bet it's lots of fun! If you want to go on the new mission, say YES. Or if you want to choose a different mission, say NO.",
