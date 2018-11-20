@@ -29,6 +29,7 @@ public class Constants {
     public static final String LEARN_MORE = "learnMore";
     public static final String FULL_HELP = "helpFull";
     public static final String READY = "ready";
+    public static final String RHETORICAL = "Rhetorical";
     public static final String ANYTHING = "any";
     public static final String REPLACE = "replace";
     public static final String REPLACEMENT_PREFIX = "with";

@@ -48,6 +48,7 @@
   "templeHalls2Intro1" : "Lily: Dibs on any shiny gems! Oh, and fancy jewelry!",
   "demoPrompt" : "I am ready. How about you, __USERNAME__? If not, say 'Lily first' to see how it's done! Or if you're ready, say 'I'm ready!'",
   "readyPrompt" : "Ready to go, __USERNAME__? If not, say 'Help' to see how it's done! Or, if you're ready, say 'I'm ready!'",
+  "readyRhetorical" : "Ben: Ready now? Okay, let's go!",
   "templeHallsDemo" : "Ben: Okay! Watch and learn. [they start running] Ben: [sound of blow darts whizzing ]... Darts! [alexa_answer_sound] Lily: 'yikes!' Ben: [sound of the snakes]... Snake! [alexa_answer_sound] Lily: 'Whee!' Ben: [sound of coins]... Coins! [alexa_answer_sound] Lily: 'aha!' Alexa: Alright, Adventurer, it's your turn to follow Ben! Ready?",
   "templeHallsOutro0" : "Great work, everyone! We made it to the next area of the temple!",
   "templeHalls1Outro0" : "That was a good start! We'll be out of this temple in no time!",
