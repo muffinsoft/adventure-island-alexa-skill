@@ -28,9 +28,19 @@ public class Utils {
         return " " + phrase + " ";
     }
 
-    static String combineWithBreak(String responseText, String newText) {
+    public static String combineWithBreak(String responseText, String newText) {
         if (responseText != null && !responseText.isEmpty() && newText != null && !newText.isEmpty()) {
             return responseText + " <break time=\"3s\"/> " + newText;
+        }
+        if (responseText != null && !responseText.isEmpty()) {
+            return responseText;
+        }
+        return newText;
+    }
+
+    public static String combine(String responseText, String newText) {
+        if (responseText != null && !responseText.isEmpty() && newText != null && !newText.isEmpty()) {
+            return responseText + " " + newText;
         }
         if (responseText != null && !responseText.isEmpty()) {
             return responseText;
