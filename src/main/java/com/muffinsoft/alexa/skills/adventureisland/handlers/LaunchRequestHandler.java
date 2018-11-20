@@ -31,10 +31,19 @@ public class LaunchRequestHandler implements RequestHandler {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Optional<Response> handle(HandlerInput input) {
 
+        String speechText = getSpeechText(input);
+        speechText = TagProcessor.insertTags(speechText);
+
+        return Optional.of(ActionIntentHandler.assembleResponse(new DialogItem(speechText, false, null, true)));
+    }
+
+    @SuppressWarnings("unchecked")
+    private String getSpeechText(HandlerInput input) {
+
         Map<String, Object> persistentAttributes = input.getAttributesManager().getPersistentAttributes();
+        Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
         String missionName = "";
         String speechText;
 
@@ -50,30 +59,27 @@ public class LaunchRequestHandler implements RequestHandler {
                 speechText = PhraseManager.getPhrase(Constants.WELCOME_BACK);
             } else {
                 speechText = PhraseManager.getPhrase(Constants.WELCOME);
-                input.getAttributesManager().getSessionAttributes().put(STATE, State.WELCOME);
+                sessionAttributes.put(STATE, State.WELCOME);
             }
             if (checkpoint != null) {
                 int missionIndex = checkpoint.get(1).intValue();
                 int tierIndex = checkpoint.get(0).intValue();
                 missionName = game.getMissions().get(missionIndex).getTierNames().get(tierIndex);
                 speechText += Utils.wrap(PhraseManager.getPhrase(Constants.WELCOME_CHECKPOINT));
-                input.getAttributesManager().getSessionAttributes().put(STATE, State.CHECKPOINT);
+                sessionAttributes.put(STATE, State.CHECKPOINT);
             } else if (completedMissions != null) {
                 String missionPrompt = MissionSelector.promptForMission(null, completedMissions).getResponseText();
                 speechText += Utils.wrap(missionPrompt);
-                input.getAttributesManager().getSessionAttributes().put(STATE, State.INTRO);
+                sessionAttributes.put(STATE, State.INTRO);
             }
         } else {
             speechText = PhraseManager.getPhrase(Constants.WELCOME);
-            input.getAttributesManager().getSessionAttributes().put(STATE, State.WELCOME);
+            sessionAttributes.put(STATE, State.WELCOME);
 
         }
         if (!missionName.isEmpty()) {
             speechText = speechText.replace(MISSION_NAME_PLACEHOLDER, missionName);
         }
-
-        speechText = TagProcessor.insertTags(speechText);
-
-        return Optional.of(ActionIntentHandler.assembleResponse(new DialogItem(speechText, false, null, true)));
+        return speechText;
     }
 }

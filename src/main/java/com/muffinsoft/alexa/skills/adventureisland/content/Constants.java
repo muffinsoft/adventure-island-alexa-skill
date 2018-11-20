@@ -16,6 +16,9 @@ public class Constants {
     public static final String WELCOME = "welcome";
     public static final String WELCOME_BACK = "welcomeBack";
     public static final String WELCOME_BACK_ROYAL = "welcomeBackRoyal";
+    public static final String NICKNAMES = "Nicknames";
+    public static final String ACHIEVEMENTS = "Achievements";
+    public static final String LAST = "Last";
     public static final String WELCOME_CHECKPOINT = "welcomeBackCheckpoint";
     public static final String CONTINUE = "continue";
     public static final String ROOT = "root";
