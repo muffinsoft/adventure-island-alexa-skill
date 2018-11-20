@@ -81,7 +81,7 @@ public class SessionStateManager {
                 dialog = processRestart();
                 break;
             case CHECKPOINT:
-                restoreFromCheckpoint();
+                CheckpointManager.restoreFromCheckpoint(stateItem, persistentState, userReply);
                 dialog = nextResponse();
                 break;
             case FAILED:
@@ -153,22 +153,6 @@ public class SessionStateManager {
             stateItem.setState(stateItem.getPendingState());
             return nextResponse();
         }
-    }
-
-    private void restoreFromCheckpoint() {
-        List<BigDecimal> checkpoint = persistentState.getCheckpoint();
-        if (checkpoint != null && Objects.equals(CONTINUE, userReply)) {
-            stateItem.setTierIndex(checkpoint.get(0).intValue());
-            stateItem.setMissionIndex(checkpoint.get(1).intValue());
-            stateItem.setLocationIndex(checkpoint.get(2).intValue());
-            stateItem.setSceneIndex(checkpoint.get(3).intValue());
-            Mission currentMission = game.getMissions().get(stateItem.getMissionIndex());
-            stateItem.setMission(nameToKey(currentMission.getName()));
-            Location currentLocation = currentMission.getLocations().get(stateItem.getLocationIndex());
-            stateItem.setLocation(nameToKey(currentLocation.getName()));
-            stateItem.setScene(nameToKey(currentLocation.getActivities().get(stateItem.getSceneIndex()).getName()));
-        }
-        stateItem.setState(State.INTRO);
     }
 
     private DialogItem getFailedChoice() {
@@ -253,7 +237,7 @@ public class SessionStateManager {
         props.resetHealth();
         props.resetPowerups();
         props.setJustFailed(false);
-        setCheckpoint();
+        CheckpointManager.setCheckpoint(stateItem, persistentState);
         String sceneOutro = getSceneOutro();
         if (sceneOutro != null) {
             speechText = speechText + sceneOutro;
@@ -271,31 +255,6 @@ public class SessionStateManager {
         allHits.add("" + hits);
         hitsHistory.put(stateItem.getMission(), allHits);
         persistentState.setHitsHistory(hitsHistory);
-    }
-
-    private void setCheckpoint() {
-        int locationIndex = stateItem.getLocationIndex();
-
-        List<Location> locations = game.getMissions().get(stateItem.getMissionIndex()).getLocations();
-        List<Activity> scenes = locations.get(locationIndex).getActivities();
-
-        int sceneIndex = stateItem.getSceneIndex() + 1;
-        // location finished, proceed to next location
-        if (sceneIndex >= scenes.size()) {
-            sceneIndex = 0;
-            locationIndex = stateItem.getLocationIndex() + 1;
-            // location finished, nothing to save
-            if (locationIndex >= locations.size()) {
-                return;
-            }
-        }
-        List<BigDecimal> checkpoint = new ArrayList<>();
-        checkpoint.add(BigDecimal.valueOf(stateItem.getTierIndex()));
-        checkpoint.add(BigDecimal.valueOf(stateItem.getMissionIndex()));
-        checkpoint.add(BigDecimal.valueOf(locationIndex));
-        checkpoint.add(BigDecimal.valueOf(sceneIndex));
-
-        persistentState.setCheckpoint(checkpoint);
     }
 
     private String getSceneOutro() {
