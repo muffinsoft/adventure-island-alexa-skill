@@ -397,6 +397,8 @@ public class SessionStateManager {
             responseText += wrap(getPhrase(READY + PROMPT));
             return new DialogItem(responseText, false, slotName, true);
         }
+
+        // after demo -> action
         props.setSkipReadyPrompt(true);
         DialogItem result = getActionDialog();
         responseText += wrap(getPhrase(READY + RHETORICAL));
