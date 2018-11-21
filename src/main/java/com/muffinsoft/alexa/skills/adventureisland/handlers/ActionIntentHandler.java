@@ -44,7 +44,7 @@ public class ActionIntentHandler implements RequestHandler {
 
         Card card = SimpleCard.builder()
                 .withTitle(PhraseManager.getPhrase("welcomeCard"))
-                .withContent(speechText)
+                .withContent(dialog.getCardText())
                 .build();
 
         Response.Builder response = Response.builder()
