@@ -103,7 +103,7 @@ public class SessionStateManager {
     }
 
     private DialogItem processRestart() {
-        if (Objects.equals(replyResolution, YES.toLowerCase())) {
+        if (isYes()) {
             return restartMission();
         } else {
             return quitToRoot();
@@ -128,7 +128,7 @@ public class SessionStateManager {
     }
 
     private DialogItem processReset() {
-        if (Objects.equals(replyResolution, YES.toLowerCase())) {
+        if (isYes()) {
             String response = getPhrase(State.RESTART.getKey().toLowerCase() + PROMPT);
             stateItem.setState(State.RESTART);
             return DialogItem.builder()
@@ -144,7 +144,7 @@ public class SessionStateManager {
     }
 
     private DialogItem processCancel() {
-        if (Objects.equals(replyResolution, YES.toLowerCase())) {
+        if (isYes()) {
             return quitToRoot();
         } else {
             String response = getPhrase(State.QUIT.getKey().toLowerCase() + PROMPT);
@@ -159,7 +159,7 @@ public class SessionStateManager {
     }
 
     private DialogItem processQuit() {
-        if (Objects.equals(replyResolution, YES.toLowerCase())) {
+        if (isYes()) {
             String response = getPhrase(STOP);
             return DialogItem.builder()
                     .responseText(response)
@@ -189,8 +189,7 @@ public class SessionStateManager {
     }
 
     private DialogItem getFailedChoice() {
-        String basicKey = State.FAILED.getKey().toLowerCase();
-        if (userReply.contains(getReply(basicKey + 1))) {
+        if (isYes()) {
             stateItem.setState(State.ACTION);
             stateItem.setIndex(0);
             props.setCoins(0);
@@ -199,18 +198,9 @@ public class SessionStateManager {
             props.setJustFailed(false);
             props.setSkipReadyPrompt(true);
             return getActionDialog();
-        }
-        if (userReply.contains(getReply(basicKey + 2))) {
+        } else {
             return quitToRoot();
         }
-        String response = getPhrase(SCENE_FAIL + REPROMPT);
-
-        return DialogItem.builder()
-                .responseText(response)
-                .slotName(slotName)
-                .reprompt(response)
-                .cardText(getTextOnly(RETRY + CARD))
-                .build();
     }
 
     private DialogItem quitToRoot() {
@@ -719,7 +709,7 @@ public class SessionStateManager {
             case ROOT:
                 return getRootHelpOrContinue();
             case MISSION:
-                if (Objects.equals(replyResolution, YES.toLowerCase())) {
+                if (isYes()) {
                     return getInMissionHelp(slotName);
                 } else {
                     return continueMission();
@@ -734,7 +724,7 @@ public class SessionStateManager {
     }
 
     private DialogItem startNewMission() {
-        if (Objects.equals(replyResolution, YES.toLowerCase())) {
+        if (isYes()) {
             return quitToRoot();
         } else {
             return continueMission();
@@ -742,7 +732,7 @@ public class SessionStateManager {
     }
 
     private DialogItem getRootHelpOrContinue() {
-        if (Objects.equals(replyResolution, YES.toLowerCase())) {
+        if (isYes()) {
             return continueMission();
         } else {
             stateItem.setHelpState(HelpState.QUIT);
@@ -751,9 +741,13 @@ public class SessionStateManager {
         }
     }
 
+    private boolean isYes() {
+        return Objects.equals(replyResolution, YES.toLowerCase());
+    }
+
     private DialogItem getActionHelpShort() {
         String prefix = stateItem.getTierIndex() > 0 ? "" + stateItem.getTierIndex() : "";
-        if (Objects.equals(replyResolution, YES.toLowerCase())) {
+        if (isYes()) {
             String reply = getPhrase(stateItem.getScene() + prefix + HELP);
             if (stateItem.getSceneIndex() != 0) {
                 stateItem.setHelpState(HelpState.ACTION_LONG);
@@ -777,7 +771,7 @@ public class SessionStateManager {
     private DialogItem getActionHelpLong() {
         String prefix = stateItem.getTierIndex() > 0 ? "" + stateItem.getTierIndex() : "";
         String reply = "";
-        if (Objects.equals(replyResolution, YES.toLowerCase())) {
+        if (isYes()) {
             reply = getPhrase(stateItem.getScene() + prefix + capitalizeFirstLetter(FULL_HELP));
         }
         stateItem.setHelpState(HelpState.MISSION);
