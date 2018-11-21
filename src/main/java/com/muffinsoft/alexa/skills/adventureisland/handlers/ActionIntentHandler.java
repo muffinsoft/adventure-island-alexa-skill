@@ -59,9 +59,12 @@ public class ActionIntentHandler implements RequestHandler {
             response = response.addDirectivesItem(directive);
         }
 
-        if (dialog.isRepromptRequired()) {
+        if (dialog.getReprompt() != null) {
+            OutputSpeech text = SsmlOutputSpeech.builder()
+                    .withSsml("<speak>" + dialog.getReprompt() + "</speak>")
+                    .build();
             Reprompt reprompt = Reprompt.builder()
-                    .withOutputSpeech(speech)
+                    .withOutputSpeech(text)
                     .build();
             response = response.withReprompt(reprompt);
         }

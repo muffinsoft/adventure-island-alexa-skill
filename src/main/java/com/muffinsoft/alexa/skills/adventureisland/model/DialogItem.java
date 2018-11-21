@@ -5,23 +5,58 @@ public class DialogItem {
     private String responseText;
     private boolean end;
     private String slotName;
-    private boolean repromptRequired;
+    private String reprompt;
+    private String cardText;
 
     public DialogItem() {}
 
-    public DialogItem(String response, boolean shouldEnd) {
-        this(response, shouldEnd, null, false);
+    public static Builder builder() {
+        return new Builder();
     }
 
-    public DialogItem(String response, boolean shouldEnd, String slotName) {
-        this(response, shouldEnd, slotName, false);
-    }
+    public static class Builder {
+        private String bResponseText;
+        private boolean bEnd;
+        private String bSlotName;
+        private String bRePrompt;
+        private String bCardText;
 
-    public DialogItem(String response, boolean shouldEnd, String slotName, boolean repromptRequired) {
-        this.responseText = response;
-        this.end = shouldEnd;
-        this.slotName = slotName;
-        this.repromptRequired = repromptRequired;
+        private Builder() {}
+
+        public Builder responseText(String text) {
+            this.bResponseText = text;
+            return this;
+        }
+
+        public Builder end(boolean end) {
+            this.bEnd = end;
+            return this;
+        }
+
+        public Builder slotName(String name) {
+            this.bSlotName = name;
+            return this;
+        }
+
+        public Builder reprompt(String text) {
+            this.bRePrompt = text;
+            return this;
+        }
+
+        public Builder cardText(String text) {
+            this.bCardText = text;
+            return this;
+        }
+
+        public DialogItem build() {
+            DialogItem dialogItem = new DialogItem();
+            dialogItem.cardText = bCardText;
+            dialogItem.reprompt = bRePrompt;
+            dialogItem.slotName = bSlotName;
+            dialogItem.end = bEnd;
+            dialogItem.responseText = bResponseText;
+            return dialogItem;
+        }
     }
 
     public String getResponseText() {
@@ -48,11 +83,19 @@ public class DialogItem {
         this.slotName = slotName;
     }
 
-    public boolean isRepromptRequired() {
-        return repromptRequired;
+    public String getReprompt() {
+        return reprompt;
     }
 
-    public void setRepromptRequired(boolean repromptRequired) {
-        this.repromptRequired = repromptRequired;
+    public void setReprompt(String reprompt) {
+        this.reprompt = reprompt;
+    }
+
+    public String getCardText() {
+        return cardText;
+    }
+
+    public void setCardText(String cardText) {
+        this.cardText = cardText;
     }
 }

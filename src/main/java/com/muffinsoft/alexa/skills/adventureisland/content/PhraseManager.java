@@ -1,6 +1,7 @@
 package com.muffinsoft.alexa.skills.adventureisland.content;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.muffinsoft.alexa.skills.adventureisland.game.TagProcessor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +33,10 @@ public class PhraseManager {
     }
 
     public static String getPhrase(String key) {
+        return TagProcessor.insertTags(phrases.get(key));
+    }
+
+    public static String getTextOnly(String key) {
         return phrases.get(key);
     }
 

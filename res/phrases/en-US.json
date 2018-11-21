@@ -20,7 +20,7 @@
   "coinNotPicked" : "Ben: Oops, you missed the coin! Don't worry, we'll find another!",
   "sceneConfirm" : "We made it! Lucky us!",
   "sceneFail" : "Ben: Aww, that was the third time you got hurt, which means we failed. It was a effort! Alexa: Do you want to try again?",
-  "sceneFailReprompt" : "Please say 'restart' to restart the scene or 'another mission' to try your luck in another mission",
+  "sceneFailReprompt" : "Do you want to try again?",
   "youHave" : "You have",
   "coinSingle" : "coin",
   "coinPlural" : "coins",
@@ -304,5 +304,15 @@
   "newMissionPrompt" : "Do you want to start a new mission?",
   "quitPrompt" : "Do you want to quit the game?",
   "resetPrompt" : "Are you sure you want to discontinue the mission and lose all your titles?",
-  "restartPrompt" : "Do you want to start the mission from the beginning?"
+  "restartPrompt" : "Do you want to start the mission from the beginning?",
+  "restartCard" : "Restart?",
+  "quitCard" : "Quit?",
+  "stopCard" : "See you soon!",
+  "retryCard" : "Try again?",
+  "readyCard" : "Ready?",
+  "selectMissionCard" : "Select mission",
+  "helpCard" : "Help",
+  "continueCard" : "Continue?",
+  "newMissionCard" : "Start new mission?",
+  "welcomeReprompt" : "Would you like to join Ben?"
 }

@@ -20,6 +20,9 @@ public class TagProcessor {
     }
 
     public static String insertTags(String text) {
+        if (text == null) {
+            return null;
+        }
         while (containsVoices(text)) {
             text = replaceVoices(text);
         }

@@ -8,10 +8,9 @@ import org.slf4j.LoggerFactory;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.SELECT_MISSION;
-import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.TIERS;
-import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.game;
+import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.*;
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getPhrase;
+import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getTextOnly;
 import static com.muffinsoft.alexa.skills.adventureisland.game.Utils.wrap;
 
 public class MissionSelector {
@@ -19,14 +18,20 @@ public class MissionSelector {
     private static final Logger logger = LoggerFactory.getLogger(MissionSelector.class);
 
     public static DialogItem promptForMission(String slotName, List<List<BigDecimal>> completedMissions) {
-        StringBuilder responseText = new StringBuilder(getPhrase(SELECT_MISSION));
+        String description = getPhrase(SELECT_MISSION) + " ";
+        StringBuilder responseText = new StringBuilder(description);
         List<Mission> missions = game.getMissions();
         for (int i = 0; i < missions.size(); i++) {
             int tier = getTier(i, completedMissions);
             responseText.append(missions.get(i).getTierNames().get(tier));
             responseText.append(". ");
         }
-        return new DialogItem(wrap(responseText.toString()), false, slotName, true);
+        return DialogItem.builder()
+                .responseText(responseText.toString())
+                .slotName(slotName)
+                .reprompt(responseText.toString())
+                .cardText(getTextOnly(SELECT_MISSION + CARD))
+                .build();
     }
 
     public static int getTier(int missionIndex, List<List<BigDecimal>> completedMissions) {

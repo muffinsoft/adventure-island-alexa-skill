@@ -58,7 +58,6 @@ public class SessionStateManager {
         dialog.setResponseText(responseText);
 
         attributesManager.savePersistentAttributes();
-        dialog.setResponseText(TagProcessor.insertTags(dialog.getResponseText()));
         logger.debug("Sending response {}", dialog.getResponseText());
         return dialog;
     }
@@ -129,7 +128,12 @@ public class SessionStateManager {
         if (Objects.equals(replyResolution, YES.toLowerCase())) {
             String response = getPhrase(State.RESTART.getKey().toLowerCase() + PROMPT);
             stateItem.setState(State.RESTART);
-            return new DialogItem(response, false, slotName, true);
+            return DialogItem.builder()
+                    .responseText(response)
+                    .slotName(slotName)
+                    .reprompt(response)
+                    .cardText(getTextOnly(State.RESTART.getKey().toLowerCase() + CARD))
+                    .build();
         } else {
             stateItem.setState(stateItem.getPendingState());
             return nextResponse();
@@ -142,14 +146,23 @@ public class SessionStateManager {
         } else {
             String response = getPhrase(State.QUIT.getKey().toLowerCase() + PROMPT);
             stateItem.setState(State.QUIT);
-            return new DialogItem(response, false, slotName, true);
+            return DialogItem.builder()
+                    .responseText(response)
+                    .slotName(slotName)
+                    .reprompt(response)
+                    .cardText(getTextOnly(State.QUIT.getKey().toLowerCase() + CARD))
+                    .build();
         }
     }
 
     private DialogItem processQuit() {
         if (Objects.equals(replyResolution, YES.toLowerCase())) {
             String response = getPhrase(STOP);
-            return new DialogItem(response, true);
+            return DialogItem.builder()
+                    .responseText(response)
+                    .end(true)
+                    .cardText(getTextOnly(STOP + CARD))
+                    .build();
         } else {
             stateItem.setState(stateItem.getPendingState());
             return nextResponse();
@@ -188,7 +201,13 @@ public class SessionStateManager {
             return quitToRoot();
         }
         String response = getPhrase(SCENE_FAIL + REPROMPT);
-        return new DialogItem(response, false, slotName, true);
+
+        return DialogItem.builder()
+                .responseText(response)
+                .slotName(slotName)
+                .reprompt(response)
+                .cardText(getTextOnly(RETRY + CARD))
+                .build();
     }
 
     private DialogItem quitToRoot() {
@@ -230,7 +249,15 @@ public class SessionStateManager {
         props.setCurrentObstacle(null);
         speechText = nextObstacle(speechText);
         stateItem.setIndex(stateItem.getIndex() + 1);
-        return new DialogItem(speechText, false, slotName);
+        return DialogItem.builder()
+                .responseText(speechText)
+                .slotName(slotName)
+                .cardText(currentObstacleToCard())
+                .build();
+    }
+
+    private String currentObstacleToCard() {
+        return capitalizeFirstLetter(props.getCurrentObstacle()) + "!";
     }
 
     private String useMultiplicationPowerUp() {
@@ -332,7 +359,11 @@ public class SessionStateManager {
                 if (powerup != null) {
                     speechText = wrap(getPhrase(POWERUP_USED).replace(POWERUP_PLACEHOLDER, powerup.getName()));
                     if (powerup.getAction().toLowerCase().contains(RETRY)) {
-                        return new DialogItem(speechText, false, slotName);
+                        return DialogItem.builder()
+                                .responseText(speechText)
+                                .slotName(slotName)
+                                .cardText(currentObstacleToCard())
+                                .build();
                     }
                     // lose a heart if no powerup
                 } else {
@@ -354,7 +385,11 @@ public class SessionStateManager {
         speechText = nextObstacle(speechText);
         stateItem.setIndex(stateItem.getIndex() + 1);
 
-        return new DialogItem(speechText, false, slotName);
+        return DialogItem.builder()
+                .responseText(speechText)
+                .slotName(slotName)
+                .cardText(currentObstacleToCard())
+                .build();
     }
 
     private String getPowerup() {
@@ -380,7 +415,11 @@ public class SessionStateManager {
         if (userReply != null && userReply.contains(getReply(DEMO + 1))) {
             responseText = nextObstacle(responseText);
             stateItem.setIndex(stateItem.getIndex() + 1);
-            return new DialogItem(responseText, false, slotName);
+            return DialogItem.builder()
+                    .responseText(responseText)
+                    .slotName(slotName)
+                    .cardText(currentObstacleToCard())
+                    .build();
         }
 
         if (stateItem.getTierIndex() == 0 && stateItem.getLocationIndex() == 0 && stateItem.getSceneIndex() == 0) {
@@ -390,12 +429,22 @@ public class SessionStateManager {
             } else {
                 // prompt for demo round
                 responseText += wrap(getPhrase(DEMO + PROMPT));
-                return new DialogItem(responseText, false, slotName, true);
+                return DialogItem.builder()
+                        .responseText(responseText)
+                        .slotName(slotName)
+                        .reprompt(responseText)
+                        .cardText(getTextOnly(READY + CARD))
+                        .build();
             }
         } else {
             // ask if the user ready or needs help
             responseText += wrap(getPhrase(READY + PROMPT));
-            return new DialogItem(responseText, false, slotName, true);
+            return DialogItem.builder()
+                    .responseText(responseText)
+                    .slotName(slotName)
+                    .reprompt(responseText)
+                    .cardText(getTextOnly(READY + PROMPT))
+                    .build();
         }
 
         // after demo -> action
@@ -410,7 +459,12 @@ public class SessionStateManager {
         props.setCurrentObstacle(null);
         stateItem.setState(State.FAILED);
         stateItem.setIndex(0);
-        return new DialogItem(getPhrase(SCENE_FAIL), false, slotName, true);
+        return DialogItem.builder()
+                .responseText(getPhrase(SCENE_FAIL))
+                .slotName(slotName)
+                .reprompt(getPhrase(SCENE_FAIL + REPROMPT))
+                .cardText(getTextOnly(RETRY + CARD))
+                .build();
     }
 
     private DialogItem getIntroOutroDialog() {
@@ -493,13 +547,12 @@ public class SessionStateManager {
         stateItem.setIndex(stateItem.getIndex() + 1);
 
         logger.debug("Got response {}", responseText);
-        DialogItem dialog = new DialogItem();
-        dialog.setResponseText(responseText);
-        dialog.setEnd(false);
-        dialog.setSlotName(slotName);
-        dialog.setRepromptRequired(stateItem.getState() == State.INTRO);
 
-        return dialog;
+        return DialogItem.builder()
+                .responseText(responseText)
+                .slotName(slotName)
+                .build();
+
     }
 
     private boolean detectMission() {
@@ -616,7 +669,11 @@ public class SessionStateManager {
             stateItem.setHelpState(HelpState.ACTION_SHORT);
             resetAction();
             attributesManager.savePersistentAttributes();
-            return new DialogItem(reply, false, null, true);
+            return DialogItem.builder()
+                    .responseText(reply)
+                    .reprompt(reply)
+                    .cardText(getTextOnly(HELP.toLowerCase() + CARD))
+                    .build();
         }
 
         return getInMissionHelp(null);
@@ -635,12 +692,21 @@ public class SessionStateManager {
         reply += wrap(getPhrase(QUIT + HELP + capitalizeFirstLetter(CONTINUE)));
         stateItem.setHelpState(HelpState.ROOT);
         attributesManager.savePersistentAttributes();
-        return new DialogItem(reply, false, inSlotName, true);
+        return DialogItem.builder()
+                .responseText(reply)
+                .reprompt(reply)
+                .slotName(inSlotName)
+                .cardText(getTextOnly(CONTINUE + CARD))
+                .build();
     }
 
     private DialogItem getRootHelp() {
         String reply = wrap(getPhrase(ROOT + HELP));
-        return new DialogItem(reply, false, null, true);
+        return DialogItem.builder()
+                .responseText(reply)
+                .reprompt(getPhrase(NEW_MISSION + PROMPT))
+                .cardText(getTextOnly(NEW_MISSION + CARD))
+                .build();
     }
 
     private DialogItem processHelp() {
@@ -694,7 +760,12 @@ public class SessionStateManager {
                 reply += wrap(getPhrase(LEARN_MORE));
             }
             attributesManager.savePersistentAttributes();
-            return new DialogItem(reply, false, slotName, true);
+            return DialogItem.builder()
+                    .responseText(reply)
+                    .reprompt(reply)
+                    .slotName(slotName)
+                    .cardText(getTextOnly(HELP + CARD))
+                    .build();
         } else {
             return getInMissionHelp(slotName);
         }
@@ -709,7 +780,13 @@ public class SessionStateManager {
         stateItem.setHelpState(HelpState.MISSION);
         attributesManager.savePersistentAttributes();
         reply += wrap(getPhrase(LEARN_MORE));
-        return new DialogItem(reply, false, slotName, true);
+
+        return DialogItem.builder()
+                .responseText(reply)
+                .slotName(slotName)
+                .reprompt(getPhrase(LEARN_MORE))
+                .cardText(getTextOnly(HELP + CARD))
+                .build();
     }
 
     private DialogItem continueMission() {
