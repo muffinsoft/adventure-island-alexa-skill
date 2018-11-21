@@ -565,7 +565,7 @@ public class SessionStateManager {
             int tier = MissionSelector.getTier(i, persistentState.getCompletedMissions());
             String missionName = missions.get(i).getTierNames().get(tier);
             logger.debug("Comparing reply {} with mission name {}", userReply, missionName);
-            if (Objects.equals(missionName.toLowerCase(), userReply)) {
+            if (missionName.toLowerCase().contains(userReply)) {
                 String key = PhraseManager.nameToKey(missions.get(i).getName());
 
                 stateItem.setTierIndex(tier);
