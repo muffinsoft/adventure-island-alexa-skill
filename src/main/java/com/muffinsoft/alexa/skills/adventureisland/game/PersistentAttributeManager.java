@@ -16,8 +16,7 @@ public class PersistentAttributeManager {
     private final Map<String, Object> persistentAttributes;
 
     public PersistentAttributeManager(AttributesManager attributesManager) {
-        this.persistentAttributes = verifyMap(attributesManager.getPersistentAttributes());
-        attributesManager.setPersistentAttributes(persistentAttributes);
+        this.persistentAttributes = attributesManager.getPersistentAttributes();
     }
 
     public int getInt(String key) {

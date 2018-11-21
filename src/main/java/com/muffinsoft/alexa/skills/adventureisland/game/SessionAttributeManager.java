@@ -17,8 +17,7 @@ public class SessionAttributeManager {
     private final Map<String, Object> sessionAttributes;
 
     public SessionAttributeManager(AttributesManager attributesManager) {
-        this.sessionAttributes = verifyMap(attributesManager.getSessionAttributes());
-        attributesManager.setSessionAttributes(sessionAttributes);
+        this.sessionAttributes = attributesManager.getSessionAttributes();
     }
 
     public List<String> getStringList(String key) {

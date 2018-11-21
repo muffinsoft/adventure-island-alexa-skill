@@ -38,6 +38,9 @@ public class SessionStateManager {
     public SessionStateManager(Map<String, Slot> slots, AttributesManager attributesManager) {
         this.attributesManager = attributesManager;
 
+        attributesManager.setSessionAttributes(verifyMap(attributesManager.getSessionAttributes()));
+        attributesManager.setPersistentAttributes(verifyMap(attributesManager.getPersistentAttributes()));
+
         stateItem = new StateItem(attributesManager);
         persistentState = new PersistentState(attributesManager);
         props = new GameProperties(attributesManager);
