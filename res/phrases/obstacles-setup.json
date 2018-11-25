@@ -4,45 +4,45 @@
       "templeHalls":
         [
           {
-            "explanation": "If I see a SNAKE, say 'whee' to jump over it! If I see BLOW DARTS, say 'yikes' to duck. And hey, if we spot some COINS lying around before the treasure room, say 'grab' to pick them up!",
+            "explanation": "If I see a SNAKE, say Alexa Speechcon: whee! to jump over it! If I see BLOW DARTS, say Alexa Speechcon: yikes! to duck. And hey, if we spot some COINS lying around before the treasure room, say Alexa Speechcon: aha! to pick them up!",
             "obstacleIndices": [0, 1]
           },
           {
-            "explanation": "Bad news! The SWING AXE traps are working now! Say 'yikes' to not lose your hair, or worse!",
+            "explanation": "Bad news! The SWING AXE traps are working now! Say Alexa Speechcon: yikes! to not lose your hair, or worse!",
             "obstacleIndices": [0, 1, 2, 3, 4]
           },
           {
-            "explanation": "There are lots of RATS here now! Shout 'whee' to jump over them!",
+            "explanation": "There are lots of RATS here now! Shout Alexa Speechcon: whee! to jump over them!",
             "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7]
           }
         ],
       "cryptRoom":
       [
         {
-          "explanation" : "Those FLOOR SPIKES are still very pointy! Say 'whee' to hop over them!",
+          "explanation" : "Those FLOOR SPIKES are still very pointy! Say Alexa Speechcon: whee! to hop over them!",
           "obstacleIndices": [0, 1, 2]
         },
         {
-          "explanation": "The ground doesn't look very stable up ahead! If we get to a COLLAPSING FLOOR, shout 'whee' to jump over!",
+          "explanation": "The ground doesn't look very stable up ahead! If we get to a COLLAPSING FLOOR, shout Alexa Speechcon: whee! to jump over!",
           "obstacleIndices": [0, 1, 2, 3, 4, 5]
         },
         {
-          "explanation": "That snapping sounds like a CROCODILE! Use a tasty steak to distract it by shouting 'yum!'",
+          "explanation": "That snapping sounds like a CROCODILE! Use a tasty steak to distract it by shouting Alexa Speechcon: yum!",
           "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8]
         }
       ],
       "templeEscape":
       [
         {
-          "explanation" : "There are ARROWS up ahead! Say 'yikes' to get down!",
+          "explanation" : "There are ARROWS up ahead! Say Alexa Speechcon: yikes! to get down!",
           "obstacleIndices": [0, 1, 2, 3]
         },
         {
-          "explanation": "I think some big jungle cats got into the temple! If we find a JAGUAR, shout 'yum' to keep it busy with a juicy steak.",
+          "explanation": "I think some big jungle cats got into the temple! If we find a JAGUAR, shout Alexa Speechcon: yum! to keep it busy with a juicy steak.",
           "obstacleIndices": [0, 1, 2, 3, 4, 5, 6]
         },
         {
-          "explanation": "There are nasty POISON GAS booby traps around here! Say 'yikes' to duck under and not breath it in!",
+          "explanation": "There are nasty POISON GAS booby traps around here! Say Alexa Speechcon: yikes! to duck under and not breath it in!",
           "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         }
       ],
@@ -67,45 +67,45 @@
       "outToSea":
       [
         {
-          "explanation": "If we see underwater COINS, say 'aha' to pull them up. If we see rocks up ahead, say WOWZER to avoid them. Remember to say a friendly 'ahoy' to to SAILORS so they don't attack us!",
+          "explanation": "If we see underwater COINS, say Alexa Speechcon: aha! to pull them up. If we see rocks up ahead, say Alexa Speechcon: wowzer! to avoid them. Remember to say a friendly Alexa Speechcon: ahoy! to to SAILORS so they don't attack us!",
           "obstacleIndices": [0, 1]
         },
         {
-          "explanation": "MERMAIDS live around here! Say 'ahoy' to be nice to them, otherwise they might think we're pirates!",
+          "explanation": "MERMAIDS live around here! Say Alexa Speechcon: ahoy! to be nice to them, otherwise they might think we're pirates!",
           "obstacleIndices": [0, 1, 2, 3, 4]
         },
         {
-          "explanation": "I think there are some BARREL BOMBS floating in these waters. Shout 'wowzer' To avoid them!",
+          "explanation": "I think there are some BARREL BOMBS floating in these waters. Shout Alexa Speechcon: wowzer! To avoid them!",
           "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7]
         }
       ],
       "perilousWaters":
       [
         {
-          "explanation": "There be evil PIRATES in these waters! Shout 'whammo' to shoot the cannons at them!",
+          "explanation": "There be evil PIRATES in these waters! Shout Alexa Speechcon: whammo! to shoot the cannons at them!",
           "obstacleIndices": [0, 1, 2]
         },
         {
-          "explanation": "I'm afraid the PIRATE QUEEN is after us! Say 'whammo' to keep her away with our cannons!",
+          "explanation": "I'm afraid the PIRATE QUEEN is after us! Say Alexa Speechcon: whammo! to keep her away with our cannons!",
           "obstacleIndices": [0, 1, 2, 3, 4, 5]
         },
         {
-          "explanation": "Lots of WHIRLPOOLS around here! Say 'whee' to speed through the rough waters!",
+          "explanation": "Lots of WHIRLPOOLS around here! Say Alexa Speechcon: whee! to speed through the rough waters!",
           "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8]
         }
       ],
       "shipwreckBay":
       [
         {
-          "explanation": "BIG WAVES coming up! Say 'whee' to speed up and get over the wave!",
+          "explanation": "BIG WAVES coming up! Say Alexa Speechcon: whee! to speed up and get over the wave!",
           "obstacleIndices": [0, 1, 2, 3]
         },
         {
-          "explanation": "See that? It's a giant SEA SNAKE is trying to get our ship. Shout 'kerpow' to fight it off with a harpoon.",
+          "explanation": "See that? It's a giant SEA SNAKE is trying to get our ship. Shout Alexa Speechcon: kerpow! to fight it off with a harpoon.",
           "obstacleIndices": [0, 1, 2, 3, 4, 5, 6]
         },
         {
-          "explanation": "They say the legendary KRAKEN is back! If we spot it, shout 'kerpow' to keep it away with a giant harpoon!",
+          "explanation": "They say the legendary KRAKEN is back! If we spot it, shout Alexa Speechcon: kerpow! to keep it away with a giant harpoon!",
           "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         }
       ],
@@ -130,45 +130,45 @@
     "theVillage" :
     [
       {
-        "explanation": "Say 'aha' to grab COINS. When the the thief runs into a WALL, shout 'woo hoo'. If he falls into a MOAT, say 'splash'.",
+        "explanation": "Say Alexa Speechcon: aha! to grab COINS. When the the thief runs into a WALL, shout Alexa Speechcon: woo hoo! If he falls into a MOAT, say Alexa Speechcon: splash!",
         "obstacleIndices": [0, 1]
       },
       {
-        "explanation": "The sneaky thief thinks he can slow us down with TOMATOES. Say 'yikes' to dodge them!",
+        "explanation": "The sneaky thief thinks he can slow us down with TOMATOES. Say Alexa Speechcon: yikes! to dodge them!",
         "obstacleIndices": [0, 1, 2, 3, 4]
       },
       {
-        "explanation": "The thief thinks he can outswim us across a POND! Let's stay right behind him by shouting 'splash' to swim!",
+        "explanation": "The thief thinks he can outswim us across a POND! Let's stay right behind him by shouting Alexa Speechcon: splash! to swim!",
         "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8]
       }
     ],
     "castleGrounds" :
     [
       {
-        "explanation": "There are thorny ROSE BUSHES around here! Say 'whee' to jump over them and not get pricked!",
+        "explanation": "There are thorny ROSE BUSHES around here! Say Alexa Speechcon: whee! to jump over them and not get pricked!",
         "obstacleIndices": [0, 1, 2]
       },
       {
-        "explanation": "Careful! I think BABY DUCKS like playing in this area! Say 'whee' to jump over them!",
+        "explanation": "Careful! I think BABY DUCKS like playing in this area! Say Alexa Speechcon: whee! to jump over them!",
         "obstacleIndices": [0, 1, 2, 3, 4, 5]
       },
       {
-        "explanation": "King Max said hungry TROLLS now roam these lands! Say 'uh oh' to find a good hiding spot when one is near!",
+        "explanation": "King Max said hungry TROLLS now roam these lands! Say Alexa Speechcon: uh oh! to find a good hiding spot when one is near!",
         "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7]
       }
     ],
     "dragonAttack" :
     [
       {
-        "explanation": "I can't believe it! A DRAGON in the sky! Shout 'uh oh' to take cover when it comes by.",
+        "explanation": "I can't believe it! A DRAGON in the sky! Shout Alexa Speechcon: uh oh! to take cover when it comes by.",
         "obstacleIndices": [0, 1, 2, 3]
       },
       {
-        "explanation": "Now the thief is going to throw BEEHIVES at us! Shout 'yikes' to dodge them and not get stung!",
+        "explanation": "Now the thief is going to throw BEEHIVES at us! Shout Alexa Speechcon: yikes! to dodge them and not get stung!",
         "obstacleIndices": [0, 1, 2, 3, 4, 5, 6]
       },
       {
-        "explanation": "Is that a SLEEPING GIANT in the way? Shout 'woo hoo' to climb right over him!",
+        "explanation": "Is that a SLEEPING GIANT in the way? Shout Alexa Speechcon: woo hoo! to climb right over him!",
         "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
       }
     ],

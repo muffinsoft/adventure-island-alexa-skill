@@ -53,7 +53,11 @@ public class TagProcessor {
         int start = text.indexOf(placeholder);
         while (start >= 0) {
             text = text.replaceFirst(placeholder, "<say-as interpret-as=\"interjection\">").trim();
+            int exclamationPosition = text.indexOf("!", start);
             int end = nextCharacter(text, start);
+            if (exclamationPosition > 0 && exclamationPosition < end) {
+                end = exclamationPosition;
+            }
             text = text.substring(0, end) + "</say-as>" + text.substring(end);
             start = text.indexOf(placeholder);
         }
