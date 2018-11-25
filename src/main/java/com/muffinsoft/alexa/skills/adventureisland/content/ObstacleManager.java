@@ -1,6 +1,7 @@
 package com.muffinsoft.alexa.skills.adventureisland.content;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.muffinsoft.alexa.skills.adventureisland.game.TagProcessor;
 import com.muffinsoft.alexa.skills.adventureisland.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +63,9 @@ public class ObstacleManager {
 
     public static String getObstacleExplanation(StateItem state) {
         logger.debug("Getting obstacle explanation for location {},  scene {}", state.getLocation(), state.getScene());
-        return obstacleSetup.get(state.getLocation()).get(state.getScene()).get(state.getTierIndex()).getExplanation();
+        String explanation = obstacleSetup.get(state.getLocation()).get(state.getScene()).get(state.getTierIndex()).getExplanation();
+        explanation = TagProcessor.insertTags(explanation);
+        return explanation;
     }
 
     private static ObstacleItem getObstacleByName(StateItem state, String obstacle) {
@@ -77,7 +80,9 @@ public class ObstacleManager {
         if (isTreasure(obstacle)) {
             return getTreasurePre(obstacle);
         }
-        return getObstacleByName(state, obstacle).getPreObstacle();
+        String preObstacle = getObstacleByName(state, obstacle).getPreObstacle();
+        preObstacle = TagProcessor.insertTags(preObstacle);
+        return preObstacle;
     }
 
     public static String getHeadsUp(StateItem state, String obstacle) {
