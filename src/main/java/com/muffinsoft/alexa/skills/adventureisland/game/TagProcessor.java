@@ -9,14 +9,20 @@ import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.cont
 public class TagProcessor {
 
     private static final String PATH = "phrases/characters.json";
+    private static final String PATH_SOUNDS = "phrases/sounds.json";
     private static final String SPEECHCON = "speechcon";
     private static final String NONE = "none";
+    private static final String SOUNDS_OPEN = "[";
+    private static final String SOUNDS_CLOSE = "]";
+    private static final String SOUNDS_OPEN_TAG = "<audio src=\"soundbank://soundlibrary/";
+    private static final String SOUNDS_CLOSE_TAG = "\"/>";
 
     private static Map<String, String> characters = new HashMap<>();
+    private static Map<String, String> sounds = new HashMap<>();
 
     static {
-        characters = contentLoader.loadContent(characters, PATH, new TypeReference<HashMap<String, String>>() {
-        });
+        characters = contentLoader.loadContent(characters, PATH, new TypeReference<HashMap<String, String>>() {});
+        sounds = contentLoader.loadContent(sounds, PATH_SOUNDS, new TypeReference<HashMap<String, String>>() {});
     }
 
     public static String insertTags(String text) {
@@ -28,6 +34,7 @@ public class TagProcessor {
         }
         text = replaceSpeechcon(text);
         text = replaceNone(text);
+        text = insertSounds(text);
         return text;
     }
 
@@ -38,6 +45,18 @@ public class TagProcessor {
                 String placeholder = character + ": ";
                 text = text.replace(placeholder, "").trim();
             }
+        }
+        return text;
+    }
+
+    private static String insertSounds(String text) {
+        while (text.contains(SOUNDS_OPEN)) {
+            String name = text.substring(text.indexOf(SOUNDS_OPEN) + 1, text.indexOf(SOUNDS_CLOSE));
+            String replacement = "";
+            if (sounds.containsKey(name)) {
+                replacement = SOUNDS_OPEN_TAG + sounds.get(name) + SOUNDS_CLOSE_TAG;
+            }
+            text = text.replace(SOUNDS_OPEN + name + SOUNDS_CLOSE, replacement);
         }
         return text;
     }
