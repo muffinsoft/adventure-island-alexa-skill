@@ -610,6 +610,8 @@ public class SessionStateManager {
     private String nextObstacle(String speechText) {
         String obstacle = game.nextObstacle(stateItem);
 
+        props.setCurrentObstacle(obstacle);
+
         Powerup powerup = null;
         if (!ObstacleManager.isTreasure(obstacle)) {
             powerup = PowerupManager.useFirstRelevant(props, REPLACE);
@@ -626,7 +628,6 @@ public class SessionStateManager {
             }
         }
 
-        props.setCurrentObstacle(obstacle);
         speechText += wrap(capitalizeFirstLetter(obstacle) + "!");
 
         // handle silent scenes
