@@ -1,5 +1,6 @@
 package com.muffinsoft.alexa.skills.adventureisland.game;
 
+import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
 import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
 import com.muffinsoft.alexa.skills.adventureisland.model.Mission;
 import org.slf4j.Logger;
@@ -18,18 +19,26 @@ public class MissionSelector {
     private static final Logger logger = LoggerFactory.getLogger(MissionSelector.class);
 
     public static DialogItem promptForMission(String slotName, List<List<BigDecimal>> completedMissions) {
-        String description = getPhrase(SELECT_MISSION) + " ";
-        StringBuilder responseText = new StringBuilder(description);
+        String description = getPhrase(SELECT_MISSION);
+        StringBuilder missionNames = new StringBuilder();
         List<Mission> missions = game.getMissions();
         for (int i = 0; i < missions.size(); i++) {
             int tier = getTier(i, completedMissions);
-            responseText.append(missions.get(i).getTierNames().get(tier));
-            responseText.append(". ");
+            missionNames.append(missions.get(i).getTierNames().get(tier));
+            if (i < missions.size() - 1) {
+                missionNames.append(", ");
+            }
+            if (i == missions.size() - 2) {
+                missionNames.append("and ");
+            }
         }
+
+        String responseText = description.replace(Constants.MISSIONS_AVAILABLE, missionNames);
+
         return DialogItem.builder()
-                .responseText(responseText.toString())
+                .responseText(responseText)
                 .slotName(slotName)
-                .reprompt(responseText.toString())
+                .reprompt(missionNames.toString())
                 .cardText(getTextOnly(SELECT_MISSION + CARD))
                 .build();
     }
