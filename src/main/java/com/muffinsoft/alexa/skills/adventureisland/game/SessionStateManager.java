@@ -258,7 +258,7 @@ public class SessionStateManager {
         Powerup powerup = PowerupManager.useFirstRelevant(props, MULTIPLY);
         if (powerup != null) {
             props.addCoin();
-            speechText = wrap(getPhrase(POWERUP_USED).replace(POWERUP_PLACEHOLDER, powerup.getName()));
+            speechText = wrap(powerup.getUsed());
         }
         return speechText;
     }
@@ -350,7 +350,7 @@ public class SessionStateManager {
                 // check if a powerup is available
                 Powerup powerup = PowerupManager.useFirstRelevant(props, SKIP, RETRY);
                 if (powerup != null) {
-                    speechText = wrap(getPhrase(POWERUP_USED).replace(POWERUP_PLACEHOLDER, powerup.getName()));
+                    speechText = wrap(powerup.getUsed());
                     if (powerup.getAction().toLowerCase().contains(RETRY)) {
                         return DialogItem.builder()
                                 .responseText(speechText)
@@ -395,8 +395,7 @@ public class SessionStateManager {
             Powerup powerup = PowerupManager.getPowerup(previous);
             powerUps.add(powerup.getName());
             props.setJustFailed(false);
-            return wrap(getPhrase(POWERUP_GOT).replace(POWERUP_PLACEHOLDER, powerup.getName()) +
-                    " " + powerup.getExplanation());
+            return wrap(powerup.getGot());
         }
         return "";
     }
@@ -614,7 +613,7 @@ public class SessionStateManager {
         if (powerup != null) {
             String action = powerup.getAction().toLowerCase();
             obstacle = action.substring(action.indexOf(REPLACEMENT_PREFIX) + REPLACEMENT_PREFIX.length());
-            speechText += wrap(getPhrase(POWERUP_USED).replace(POWERUP_PLACEHOLDER, powerup.getName()));
+            speechText += wrap(powerup.getUsed());
         } else {
             logger.debug("Got obstacle {} for {} {} {}", obstacle, stateItem.getMission(), stateItem.getLocation(), stateItem.getScene());
             if (!Objects.equals(SILENT_SCENE, stateItem.getScene())) {

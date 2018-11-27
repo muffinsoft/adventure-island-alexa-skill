@@ -1,5 +1,7 @@
 package com.muffinsoft.alexa.skills.adventureisland.model;
 
+import com.muffinsoft.alexa.skills.adventureisland.game.TagProcessor;
+
 public class Powerup {
 
     private String name;
@@ -25,7 +27,7 @@ public class Powerup {
     }
 
     public String getGot() {
-        return got;
+        return TagProcessor.insertTags(got);
     }
 
     public void setGot(String got) {
@@ -33,7 +35,7 @@ public class Powerup {
     }
 
     public String getUsed() {
-        return used;
+        return TagProcessor.insertTags(used);
     }
 
     public void setUsed(String used) {
