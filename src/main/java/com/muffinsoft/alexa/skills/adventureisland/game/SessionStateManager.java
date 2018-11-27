@@ -394,6 +394,7 @@ public class SessionStateManager {
         if (props.isJustFailed()) {
             Powerup powerup = PowerupManager.getPowerup(previous);
             powerUps.add(powerup.getName());
+            props.setPowerups(powerUps);
             props.setJustFailed(false);
             return wrap(powerup.getGot());
         }
@@ -609,7 +610,11 @@ public class SessionStateManager {
     private String nextObstacle(String speechText) {
         String obstacle = game.nextObstacle(stateItem);
 
-        Powerup powerup = PowerupManager.useFirstRelevant(props, REPLACE);
+        Powerup powerup = null;
+        if (!ObstacleManager.isTreasure(obstacle)) {
+            powerup = PowerupManager.useFirstRelevant(props, REPLACE);
+        }
+
         if (powerup != null) {
             String action = powerup.getAction().toLowerCase();
             obstacle = action.substring(action.indexOf(REPLACEMENT_PREFIX) + REPLACEMENT_PREFIX.length());
