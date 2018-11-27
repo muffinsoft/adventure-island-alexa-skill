@@ -49,14 +49,16 @@ public class ObstacleManager {
 
     public static String getTreasurePre(String obstacle) {
         if (Objects.equals(treasure.getName(), obstacle)) {
-            return treasure.getPreObstacle();
+            String response = treasure.getPreObstacle();
+            return TagProcessor.insertTags(response);
         }
         throw new NoSuchElementException("No responses for treasure: " + obstacle);
     }
 
     public static String getTreasureHeadsUp(String obstacle, StateItem state) {
         if (Objects.equals(treasure.getName(), obstacle)) {
-            return treasure.getHeadsUp().get(state.getLocation());
+            String response = treasure.getHeadsUp().get(state.getLocation());
+            return TagProcessor.insertTags(response);
         }
         throw new NoSuchElementException("No responses for treasure: " + obstacle);
     }
@@ -89,7 +91,8 @@ public class ObstacleManager {
         if (isTreasure(obstacle)) {
             return getTreasureHeadsUp(obstacle, state);
         }
-        return getObstacleByName(state, obstacle).getHeadsUp();
+        String response = getObstacleByName(state, obstacle).getHeadsUp();
+        return TagProcessor.insertTags(response);
     }
 
     public static List<String> getObstacleResponses(StateItem state, String key) {

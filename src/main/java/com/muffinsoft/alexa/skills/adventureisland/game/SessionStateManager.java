@@ -660,7 +660,6 @@ public class SessionStateManager {
         if (stateItem.getPendingState() == State.ACTION) {
             String reply = wrap(getPhrase(State.ACTION.getKey().toLowerCase() + HELP));
             stateItem.setHelpState(HelpState.ACTION_SHORT);
-            resetAction();
             attributesManager.savePersistentAttributes();
             return DialogItem.builder()
                     .responseText(reply)
@@ -670,14 +669,6 @@ public class SessionStateManager {
         }
 
         return getInMissionHelp(null);
-    }
-
-    private void resetAction() {
-        stateItem.setPendingIndex(0);
-        props.setCoins(0);
-        props.resetHealth();
-        props.resetPowerups();
-        props.setCurrentObstacle(null);
     }
 
     private DialogItem getInMissionHelp(String inSlotName) {

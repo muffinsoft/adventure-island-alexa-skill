@@ -11,8 +11,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class LevelGenerator {
 
     private static ThreadLocalRandom random = ThreadLocalRandom.current();
-    private static final String LOCATION = "ancientTemple";
-    private static final String SCENE = "templeEscape";
+    private static final String LOCATION = "pirateBay";
+    private static final String SCENE = "shipwreckBay";
     private static final int MAX = 50;
 
     public static void main(String[] args) {
