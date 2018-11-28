@@ -11,8 +11,7 @@ public class AdventureIslandStreamHandler extends SkillStreamHandler {
         String amazonSkillId = System.getProperty("amazon-skill-id");
         return Skills.standard()
                 .addRequestHandlers(
-                        new StopIntentHandler(),
-                        new CancelIntentHandler(),
+                        new CancelAndStopIntentHandler(),
                         new ResetIntentHandler(),
                         new HelpIntentHandler(),
                         new LaunchRequestHandler(),

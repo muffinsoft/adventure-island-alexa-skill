@@ -5,7 +5,6 @@ import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.Response;
 import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
-import com.muffinsoft.alexa.skills.adventureisland.game.SessionStateManager;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +17,7 @@ import static com.muffinsoft.alexa.skills.adventureisland.content.AttributeKeys.
 import static com.muffinsoft.alexa.skills.adventureisland.content.AttributeKeys.STATE;
 
 public class ResetIntentHandler implements RequestHandler {
-    private static final Logger logger = LoggerFactory.getLogger(CancelIntentHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(CancelAndStopIntentHandler.class);
 
     public boolean canHandle(HandlerInput input) {
         return input.matches(intentName("ResetIntent"));
@@ -27,14 +26,16 @@ public class ResetIntentHandler implements RequestHandler {
     public Optional<Response> handle(HandlerInput input) {
         String speechText = PhraseManager.getPhrase(State.RESET.getKey().toLowerCase() + Constants.PROMPT);
 
+        String reprompt = PhraseManager.getPhrase(State.RESET.getKey().toLowerCase() + Constants.REPROMPT);
+
         logger.debug("Processing request to reset with reply {}", speechText);
 
         changeState(input);
 
         return input.getResponseBuilder()
                 .withSpeech(speechText)
-                .withSimpleCard(PhraseManager.getPhrase("welcomeCard"), speechText)
-                .withReprompt(speechText)
+                .withSimpleCard(PhraseManager.getPhrase("welcomeCard"), reprompt)
+                .withReprompt(reprompt)
                 .build();
     }
 

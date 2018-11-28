@@ -2,10 +2,7 @@ package com.muffinsoft.alexa.skills.adventureisland.game;
 
 import com.amazon.ask.attributes.AttributesManager;
 import com.amazon.ask.model.Slot;
-import com.muffinsoft.alexa.skills.adventureisland.content.NicknameManager;
-import com.muffinsoft.alexa.skills.adventureisland.content.ObstacleManager;
-import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
-import com.muffinsoft.alexa.skills.adventureisland.content.PowerupManager;
+import com.muffinsoft.alexa.skills.adventureisland.content.*;
 import com.muffinsoft.alexa.skills.adventureisland.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -129,14 +126,7 @@ public class SessionStateManager {
 
     private DialogItem processReset() {
         if (isYes()) {
-            String response = getPhrase(State.RESTART.getKey().toLowerCase() + PROMPT);
-            stateItem.setState(State.RESTART);
-            return DialogItem.builder()
-                    .responseText(response)
-                    .slotName(slotName)
-                    .reprompt(response)
-                    .cardText(getTextOnly(State.RESTART.getKey().toLowerCase() + CARD))
-                    .build();
+            return quitToRoot();
         } else {
             stateItem.setState(stateItem.getPendingState());
             return nextResponse();
@@ -145,16 +135,15 @@ public class SessionStateManager {
 
     private DialogItem processCancel() {
         if (isYes()) {
-            return quitToRoot();
-        } else {
-            String response = getPhrase(State.QUIT.getKey().toLowerCase() + PROMPT);
-            stateItem.setState(State.QUIT);
+            String response = getPhrase(STOP);
             return DialogItem.builder()
                     .responseText(response)
-                    .slotName(slotName)
-                    .reprompt(response)
-                    .cardText(getTextOnly(State.QUIT.getKey().toLowerCase() + CARD))
+                    .cardText(STOP + CARD)
+                    .end(true)
                     .build();
+        } else {
+            stateItem.setState(stateItem.getPendingState());
+            return nextResponse();
         }
     }
 
@@ -663,14 +652,7 @@ public class SessionStateManager {
         stateItem.setIndex(0);
 
         if (stateItem.getPendingState() == State.ACTION) {
-            String reply = wrap(getPhrase(State.ACTION.getKey().toLowerCase() + HELP));
-            stateItem.setHelpState(HelpState.ACTION_SHORT);
-            attributesManager.savePersistentAttributes();
-            return DialogItem.builder()
-                    .responseText(reply)
-                    .reprompt(reply)
-                    .cardText(getTextOnly(HELP.toLowerCase() + CARD))
-                    .build();
+            return getActionHelpLong();
         }
 
         return getInMissionHelp(null);
@@ -691,11 +673,9 @@ public class SessionStateManager {
 
     private DialogItem getRootHelp() {
         String reply = wrap(getPhrase(ROOT + HELP));
-        return DialogItem.builder()
-                .responseText(reply)
-                .reprompt(getPhrase(NEW_MISSION + PROMPT))
-                .cardText(getTextOnly(NEW_MISSION + CARD))
-                .build();
+        DialogItem dialog = MissionSelector.promptForMission(null, persistentState.getCompletedMissions());
+        dialog.setResponseText(reply + dialog.getResponseText());
+        return dialog;
     }
 
     private DialogItem processHelp() {
@@ -710,10 +690,6 @@ public class SessionStateManager {
                 } else {
                     return continueMission();
                 }
-            case ACTION_SHORT:
-                return getActionHelpShort();
-            case ACTION_LONG:
-                return getActionHelpLong();
             default:
                 throw new RuntimeException("Unexpected help state: " + stateItem.getHelpState());
         }
@@ -731,7 +707,7 @@ public class SessionStateManager {
         if (isYes()) {
             return continueMission();
         } else {
-            stateItem.setHelpState(HelpState.QUIT);
+            quitToRoot();
             attributesManager.savePersistentAttributes();
             return getRootHelp();
         }
@@ -741,42 +717,15 @@ public class SessionStateManager {
         return Objects.equals(replyResolution, YES.toLowerCase());
     }
 
-    private DialogItem getActionHelpShort() {
-        String prefix = stateItem.getTierIndex() > 0 ? "" + stateItem.getTierIndex() : "";
-        if (isYes()) {
-            String reply = getPhrase(stateItem.getScene() + prefix + HELP);
-            if (stateItem.getSceneIndex() != 0) {
-                stateItem.setHelpState(HelpState.ACTION_LONG);
-                reply += wrap(getPhrase(FULL_HELP));
-            } else {
-                stateItem.setHelpState(HelpState.MISSION);
-                reply += wrap(getPhrase(LEARN_MORE));
-            }
-            attributesManager.savePersistentAttributes();
-            return DialogItem.builder()
-                    .responseText(reply)
-                    .reprompt(reply)
-                    .slotName(slotName)
-                    .cardText(getTextOnly(HELP + CARD))
-                    .build();
-        } else {
-            return getInMissionHelp(slotName);
-        }
-    }
-
     private DialogItem getActionHelpLong() {
         String prefix = stateItem.getTierIndex() > 0 ? "" + stateItem.getTierIndex() : "";
-        String reply = "";
-        if (isYes()) {
-            reply = getPhrase(stateItem.getScene() + prefix + capitalizeFirstLetter(FULL_HELP));
-        }
+        String reply = getPhrase(stateItem.getScene() + prefix + capitalizeFirstLetter(HELP));
         stateItem.setHelpState(HelpState.MISSION);
         attributesManager.savePersistentAttributes();
         reply += wrap(getPhrase(LEARN_MORE));
 
         return DialogItem.builder()
                 .responseText(reply)
-                .slotName(slotName)
                 .reprompt(getPhrase(LEARN_MORE))
                 .cardText(getTextOnly(HELP + CARD))
                 .build();
