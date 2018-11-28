@@ -204,11 +204,7 @@ public class SessionStateManager {
     }
 
     private DialogItem quitToRoot() {
-        stateItem.setMission(ROOT);
-        stateItem.setLocation(ROOT);
-        stateItem.setScene(ROOT);
-        stateItem.setState(State.INTRO);
-        stateItem.setIndex(0);
+        goToIntro(ROOT);
         stateItem.setMissionIndex(0);
         stateItem.setLocationIndex(0);
         stateItem.setSceneIndex(0);
@@ -559,11 +555,7 @@ public class SessionStateManager {
                 String key = PhraseManager.nameToKey(missions.get(i).getName());
 
                 stateItem.setTierIndex(tier);
-                stateItem.setMission(key);
-                stateItem.setLocation(key);
-                stateItem.setScene(key);
-                stateItem.setState(State.INTRO);
-                stateItem.setIndex(0);
+                goToIntro(key);
                 stateItem.setMissionIndex(i);
 
                 props.resetHealth();
@@ -573,6 +565,14 @@ public class SessionStateManager {
             }
         }
         return false;
+    }
+
+    private void goToIntro(String key) {
+        stateItem.setMission(key);
+        stateItem.setLocation(key);
+        stateItem.setScene(key);
+        stateItem.setState(State.INTRO);
+        stateItem.setIndex(0);
     }
 
     private void getNextScene() {
@@ -787,6 +787,11 @@ public class SessionStateManager {
         state = state != null ? state : State.INTRO;
         stateItem.setState(state);
         stateItem.setIndex(stateItem.getPendingIndex());
+        if (state == State.ACTION) {
+            stateItem.setIndex(stateItem.getIndex() - 1);
+            props.setCurrentObstacle(null);
+            props.setSkipReadyPrompt(true);
+        }
         return nextResponse();
     }
 }
