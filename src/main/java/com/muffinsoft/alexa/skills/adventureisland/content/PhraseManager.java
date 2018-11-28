@@ -47,6 +47,6 @@ public class PhraseManager {
 
     public static String getExclamation() {
         int index = random.nextInt(exclamations.size());
-        return exclamations.get(index);
+        return TagProcessor.insertTags(exclamations.get(index));
     }
 }
