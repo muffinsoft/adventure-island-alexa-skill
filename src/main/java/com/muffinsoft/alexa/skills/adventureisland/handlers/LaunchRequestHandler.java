@@ -49,14 +49,16 @@ public class LaunchRequestHandler implements RequestHandler {
         String cardText;
 
         List<List<BigDecimal>> completedMissions;
+        List<String> oldObstacles;
         if (persistentAttributes != null && !persistentAttributes.isEmpty()) {
             completedMissions = (List<List<BigDecimal>>) persistentAttributes.get(COMPLETED_MISSIONS);
+            oldObstacles = (List<String>) persistentAttributes.get(OLD_OBSTACLES);
             List<BigDecimal> checkpoint = (List<BigDecimal>) persistentAttributes.get(CHECKPOINT);
             Map<String, List<String>> achievements = (Map<String, List<String>>) persistentAttributes.get(ACHIEVEMENTS);
             Map<String, List<String>> nicknames = (Map<String, List<String>>) persistentAttributes.get(NICKNAMES);
             if (achievements != null && !achievements.isEmpty() && nicknames != null && !nicknames.isEmpty()) {
                 speechText = PhraseManager.getPhrase(Constants.WELCOME_BACK_ROYAL);
-            } else if (checkpoint != null || completedMissions != null) {
+            } else if (checkpoint != null || completedMissions != null || oldObstacles != null) {
                 speechText = PhraseManager.getPhrase(Constants.WELCOME_BACK);
             } else {
                 speechText = PhraseManager.getPhrase(Constants.WELCOME);
@@ -70,7 +72,7 @@ public class LaunchRequestHandler implements RequestHandler {
                 reprompt = PhraseManager.getPhrase(Constants.WELCOME_CHECKPOINT);
                 sessionAttributes.put(STATE, State.CHECKPOINT);
                 cardText = PhraseManager.getTextOnly(Constants.CONTINUE + Constants.CARD);
-            } else if (completedMissions != null) {
+            } else if (completedMissions != null || oldObstacles != null) {
                 String missionPrompt = MissionSelector.promptForMission(null, completedMissions).getResponseText();
                 speechText += Utils.wrap(missionPrompt);
                 sessionAttributes.put(STATE, State.INTRO);
