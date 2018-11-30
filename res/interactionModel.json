@@ -244,6 +244,7 @@
               "name": {
                 "value": "no",
                 "synonyms": [
+                  "nah",
                   "not now",
                   "not sure",
                   "nope"
@@ -255,6 +256,10 @@
               "name": {
                 "value": "yes",
                 "synonyms": [
+                  "go",
+                  "ready",
+                  "yep",
+                  "ya",
                   "ye",
                   "yeah",
                   "i like",
