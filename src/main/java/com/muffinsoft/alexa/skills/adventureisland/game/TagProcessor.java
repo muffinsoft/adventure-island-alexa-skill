@@ -1,12 +1,16 @@
 package com.muffinsoft.alexa.skills.adventureisland.game;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.contentLoader;
 
 public class TagProcessor {
+
+    private static final Logger logger = LoggerFactory.getLogger(TagProcessor.class);
 
     private static final String PATH = "phrases/characters.json";
     private static final String PATH_SOUNDS = "phrases/sounds.json";
@@ -29,10 +33,10 @@ public class TagProcessor {
         if (text == null) {
             return null;
         }
+        text = replaceSpeechcon(text);
         while (containsVoices(text)) {
             text = replaceVoices(text);
         }
-        text = replaceSpeechcon(text);
         text = replaceNone(text);
         text = insertSounds(text);
         return text;
@@ -109,8 +113,22 @@ public class TagProcessor {
                     text = text.replaceFirst(placeholder, tag);
                     int end = nextCharacter(text, start);
                     text = text.substring(0, end) + "</voice>" + text.substring(end);
+                    logger.debug("Unframed: " + text);
+                    text = boundSpeechcon(tag, text);
+                    logger.debug("Framed: " + text);
                 }
             }
+        }
+        return text;
+    }
+
+    private static String boundSpeechcon(String tag, String text) {
+        int i = text.indexOf(" <say-as");
+        String endTag = "</say-as>";
+        while (i >= 0 && i < text.lastIndexOf("</voice>")) {
+            int end = text.indexOf(endTag, i + 1);
+            text = text.substring(0, i + 1) + "</voice>" + text.substring(i + 1, end + endTag.length()) + tag + text.substring(end + endTag.length());
+            i = text.indexOf(" <say-as");
         }
         return text;
     }
@@ -119,7 +137,7 @@ public class TagProcessor {
         int smallest = text.length();
         for (String character : characters.keySet()) {
             int end = text.indexOf(character + ": ", start + 1);
-            int tagStart = text.indexOf("<", start + 2);
+            int tagStart = text.indexOf("<voice", start + 2);
             if (tagStart > 0 && tagStart < end) {
                 end = tagStart;
             }

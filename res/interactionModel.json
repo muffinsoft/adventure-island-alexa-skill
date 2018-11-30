@@ -163,112 +163,75 @@
             },
             {
               "name": {
-                "value": "aloha ukulele melody",
+                "value": "aloha melody",
                 "synonyms": [
                   "aloha melody",
-                  "ukulele melody",
-                  "aloha ukulele",
                   "melody",
-                  "ukulele",
                   "aloha"
                 ]
               }
             },
             {
               "name": {
-                "value": "jamming jungle beat",
+                "value": "jungle beat",
                 "synonyms": [
                   "jungle",
-                  "jamming beat",
-                  "beat",
-                  "jungle beat",
-                  "jamming jungle",
-                  "jamming"
+                  "beat"
                 ]
               }
             },
             {
               "name": {
-                "value": "bouncy bamboo rhythm",
+                "value": "bamboo rhythm",
                 "synonyms": [
-                  "bouncy rhythm",
                   "rhythm",
-                  "bamboo rhythm",
-                  "bamboo",
-                  "bouncy bamboo"
+                  "bamboo"
                 ]
               }
             },
             {
               "name": {
-                "value": "captain seadog sails again",
+                "value": "return to sea",
+                "synonyms": [
+                  "to sea",
+                  "sea",
+                  "return"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "seadog reunion",
                 "synonyms": [
                   "seadog",
-                  "captain sails again",
-                  "captain sails",
-                  "seadog again",
-                  "captain seadog sails",
-                  "seadog sails again",
-                  "sails again",
-                  "seadog sails",
-                  "captain seadog"
+                  "reunion"
                 ]
               }
             },
             {
               "name": {
-                "value": "pirate crew reunion",
+                "value": "pirate inspiration",
                 "synonyms": [
-                  "reunion",
-                  "crew",
-                  "pirate reunion",
-                  "crew reunion",
-                  "pirate crew",
-                  "pirate"
+                  "pirate",
+                  "inspiration"
                 ]
               }
             },
             {
               "name": {
-                "value": "old seadog inspiration",
+                "value": "puppy rescue",
                 "synonyms": [
-                  "inspiration",
-                  "old seadog",
-                  "seadog inspiration"
+                  "puppy",
+                  "rescue"
                 ]
               }
             },
             {
               "name": {
-                "value": "long live the king",
+                "value": "princess heroes",
                 "synonyms": [
-                  "king",
-                  "the king",
-                  "long live"
-                ]
-              }
-            },
-            {
-              "name": {
-                "value": "royal pet rescue",
-                "synonyms": [
-                  "pet",
-                  "rescue",
-                  "pet rescue",
-                  "royal pet",
-                  "royal"
-                ]
-              }
-            },
-            {
-              "name": {
-                "value": "pretty princess heroes",
-                "synonyms": [
-                  "princess heroes",
                   "heroes",
-                  "princess",
-                  "pretty princess",
-                  "pretty"
+                  "princess"
                 ]
               }
             },
@@ -279,7 +242,12 @@
             },
             {
               "name": {
-                "value": "no"
+                "value": "no",
+                "synonyms": [
+                  "not now",
+                  "not sure",
+                  "nope"
+                ]
               }
             },
             {
@@ -313,17 +281,29 @@
             },
             {
               "name": {
-                "value": "tiki trouble"
+                "value": "tiki trouble",
+                "synonyms": [
+                  "trouble",
+                  "tiki"
+                ]
               }
             },
             {
               "name": {
-                "value": "pirate business"
+                "value": "pirate business",
+                "synonyms": [
+                  "business",
+                  "pirate"
+                ]
               }
             },
             {
               "name": {
-                "value": "royal ransom"
+                "value": "royal ransom",
+                "synonyms": [
+                  "ransom",
+                  "royal"
+                ]
               }
             },
             {

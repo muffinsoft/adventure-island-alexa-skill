@@ -50,6 +50,7 @@ public class ObstacleManager {
     public static String getTreasurePre(String obstacle) {
         if (Objects.equals(treasure.getName(), obstacle)) {
             String response = treasure.getPreObstacle();
+            response = "Lily: " + response;
             return TagProcessor.insertTags(response);
         }
         throw new NoSuchElementException("No responses for treasure: " + obstacle);
@@ -58,6 +59,7 @@ public class ObstacleManager {
     public static String getTreasureHeadsUp(String obstacle, StateItem state) {
         if (Objects.equals(treasure.getName(), obstacle)) {
             String response = treasure.getHeadsUp().get(state.getLocation());
+            response = "Lily: " + response;
             return TagProcessor.insertTags(response);
         }
         throw new NoSuchElementException("No responses for treasure: " + obstacle);
@@ -66,6 +68,7 @@ public class ObstacleManager {
     public static String getObstacleExplanation(StateItem state) {
         logger.debug("Getting obstacle explanation for location {},  scene {}", state.getLocation(), state.getScene());
         String explanation = obstacleSetup.get(state.getLocation()).get(state.getScene()).get(state.getTierIndex()).getExplanation();
+        explanation = "Ben: " + explanation;
         explanation = TagProcessor.insertTags(explanation);
         return explanation;
     }
@@ -83,6 +86,7 @@ public class ObstacleManager {
             return getTreasurePre(obstacle);
         }
         String preObstacle = getObstacleByName(state, obstacle).getPreObstacle();
+        preObstacle = "Lily: " + preObstacle;
         preObstacle = TagProcessor.insertTags(preObstacle);
         return preObstacle;
     }
@@ -92,6 +96,7 @@ public class ObstacleManager {
             return getTreasureHeadsUp(obstacle, state);
         }
         String response = getObstacleByName(state, obstacle).getHeadsUp();
+        response = "Lily: " + response;
         return TagProcessor.insertTags(response);
     }
 
@@ -104,10 +109,14 @@ public class ObstacleManager {
     }
 
     public static String getObstacleByIndex(String location, int index) {
+        String response;
         if (index < 0) {
-            return getTreasureName();
+            response = getTreasureName();
+        } else {
+            response = obstacles.get(location).get(index).getName();
         }
-        return obstacles.get(location).get(index).getName();
+        response = "Ben: " + response;
+        return TagProcessor.insertTags(response);
     }
 
     public static String getTreasureName() {

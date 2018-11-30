@@ -88,6 +88,7 @@ public class LaunchRequestHandler implements RequestHandler {
         }
         if (!missionName.isEmpty()) {
             speechText = speechText.replace(MISSION_NAME_PLACEHOLDER, missionName);
+            reprompt = reprompt.replace(MISSION_NAME_PLACEHOLDER, missionName);
         }
         return DialogItem.builder()
                 .responseText(speechText)

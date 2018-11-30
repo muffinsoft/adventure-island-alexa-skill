@@ -1,7 +1,7 @@
 {
   "name": "coins",
-  "responses": ["aha"],
-  "preObstacle": "Ooh, I see a shiny coin! Remember, say  'aha' to take it!",
+  "responses": ["bazinga"],
+  "preObstacle": "Ooh, I see a shiny coin! Remember, say Alexa Speechcon: bazinga! to take it!",
   "headsUp": {
     "ancientTemple" : "I see something shiny!",
     "pirateBay" : "Get ready to grab a doubloon soon!",

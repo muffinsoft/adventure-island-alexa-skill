@@ -390,7 +390,7 @@ public class SessionStateManager {
         String responseText = "";
 
         // user is ready
-        if (userReply != null && userReply.contains(getReply(DEMO + 1))) {
+        if (userReply != null && ((isFirstScene() && !isYes()) || (!isFirstScene() && isYes()))) {
             responseText = nextObstacle(responseText);
             stateItem.setIndex(stateItem.getIndex() + 1);
             return DialogItem.builder()
@@ -400,9 +400,9 @@ public class SessionStateManager {
                     .build();
         }
 
-        if (stateItem.getTierIndex() == 0 && stateItem.getLocationIndex() == 0 && stateItem.getSceneIndex() == 0) {
+        if (isFirstScene()) {
             // Lily first
-            if (userReply != null && userReply.contains(getReply(DEMO + 2))) {
+            if (userReply != null && isYes()) {
                 responseText += wrap(getPhrase(stateItem.getScene() + capitalizeFirstLetter(DEMO)));
             } else {
                 // prompt for demo round
@@ -428,9 +428,12 @@ public class SessionStateManager {
         // after demo -> action
         props.setSkipReadyPrompt(true);
         DialogItem result = getActionDialog();
-        responseText += wrap(getPhrase(READY + RHETORICAL));
         result.setResponseText(responseText + wrap(result.getResponseText()));
         return result;
+    }
+
+    private boolean isFirstScene() {
+        return stateItem.getTierIndex() == 0 && stateItem.getLocationIndex() == 0 && stateItem.getSceneIndex() == 0;
     }
 
     private DialogItem processSceneFail() {

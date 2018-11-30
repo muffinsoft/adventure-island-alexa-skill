@@ -45,21 +45,21 @@ public class MissionSelector {
 
     public static int getTier(int missionIndex, List<List<BigDecimal>> completedMissions) {
         int result = 0;
-        logger.debug("Detecting tier, completed missions size: {}", completedMissions.size());
-        for (int i = (completedMissions.size() - 1); i >= 0; i--) {
-            logger.debug("{} contains {}?", completedMissions.get(i).toArray(), missionIndex);
-            for (BigDecimal savedMissionIndex : completedMissions.get(i)) {
-                if (savedMissionIndex.intValue() == missionIndex) {
-                    result = i + 1;
-                    // do not go over the max tier available
-                    if (result >= TIERS) {
-                        result = i;
-                    }
-                    logger.debug("Mission {} is at tier {}", missionIndex, result);
-                    break;
-                }
-            }
-        }
+//        logger.debug("Detecting tier, completed missions size: {}", completedMissions.size());
+//        for (int i = (completedMissions.size() - 1); i >= 0; i--) {
+//            logger.debug("{} contains {}?", completedMissions.get(i).toArray(), missionIndex);
+//            for (BigDecimal savedMissionIndex : completedMissions.get(i)) {
+//                if (savedMissionIndex.intValue() == missionIndex) {
+//                    result = i + 1;
+//                    // do not go over the max tier available
+//                    if (result >= TIERS) {
+//                        result = i;
+//                    }
+//                    logger.debug("Mission {} is at tier {}", missionIndex, result);
+//                    break;
+//                }
+//            }
+//        }
         return result;
     }
 }

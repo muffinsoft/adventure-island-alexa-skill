@@ -8,7 +8,7 @@
     },
     {
       "name" : "blow darts",
-      "responses" : ["yikes"],
+      "responses" : ["yikes", "yay", "yes", "ok yes"],
       "preObstacle" : "Blow darts incoming! Don't forget to shout Alexa Speechcon: yikes! to roll under them!",
       "headsUp" : "Keep your head down up ahead!"
     },
@@ -20,13 +20,13 @@
     },
     {
       "name" : "arrows",
-      "responses" : ["yikes"],
+      "responses" : ["yikes", "yay", "yes", "ok yes"],
       "preObstacle" : "Arrows! Remember to duck under them by saying Alexa Speechcon: yikes!",
       "headsUp" : "Better stay low soon!"
     },
     {
       "name" : "swinging axe",
-      "responses" : ["yikes"],
+      "responses" : ["yikes", "yay", "yes", "ok yes"],
       "preObstacle" : "A swinging axe! Remember to say Alexa Speechcon: yikes! to duck!",
       "headsUp" : "Something sharp and heavy up ahead!"
     },
@@ -56,7 +56,7 @@
     },
     {
       "name" : "poison gas",
-      "responses": ["yikes"],
+      "responses": ["yikes", "yay", "yes", "ok yes"],
       "preObstacle" : "A stinky poison gas in the air! Don't forget to say Alexa Speechcon: yikes! to slide under!",
       "headsUp" : "What's that green cloud I see?"
     }
@@ -150,7 +150,7 @@
     },
     {
       "name" : "tomato",
-      "responses" : ["yikes"],
+      "responses" : ["yikes", "yay", "yes", "ok yes"],
       "preObstacle" : "The thief has a tomato! Don't forget to say Alexa Speechcon: yikes! to duck under it!",
       "headsUp" : "Careful! The thief is digging into his bag!"
     },
@@ -162,7 +162,7 @@
     },
     {
       "name" : "beehive",
-      "responses" : ["yikes"],
+      "responses" : ["yikes", "yay", "yes", "ok yes"],
       "preObstacle" : "The thief has a beehive! Duck under by saying Alexa Speechcon: yikes!",
       "headsUp" : "I hear buzzing coming from the thief!"
     },
