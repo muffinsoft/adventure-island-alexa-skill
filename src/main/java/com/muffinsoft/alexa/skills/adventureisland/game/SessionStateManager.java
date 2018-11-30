@@ -620,7 +620,7 @@ public class SessionStateManager {
             }
         }
 
-        speechText += wrap(capitalizeFirstLetter(obstacle) + "!");
+        speechText += wrap(TagProcessor.insertTags("Ben: " + capitalizeFirstLetter(obstacle) + "!"));
 
         // handle silent scenes
         if (Objects.equals(SILENT_SCENE, stateItem.getScene())) {

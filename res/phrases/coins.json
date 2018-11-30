@@ -1,5 +1,5 @@
 {
-  "name": "coins",
+  "name": "coin",
   "responses": ["bazinga"],
   "preObstacle": "Ooh, I see a shiny coin! Remember, say Alexa Speechcon: bazinga! to take it!",
   "headsUp": {

@@ -115,7 +115,6 @@ public class ObstacleManager {
         } else {
             response = obstacles.get(location).get(index).getName();
         }
-        response = "Ben: " + response;
         return TagProcessor.insertTags(response);
     }
 
