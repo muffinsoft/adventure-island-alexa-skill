@@ -620,13 +620,17 @@ public class SessionStateManager {
             }
         }
 
-        speechText += wrap(TagProcessor.insertTags("Ben: " + capitalizeFirstLetter(obstacle) + "!"));
+        String obstacleSound = AudioManager.getObstacleSound(nameToKey(obstacle));
+        speechText = combine(speechText, obstacleSound);
 
-        // handle silent scenes
-        if (Objects.equals(SILENT_SCENE, stateItem.getScene())) {
-            speechText = TagProcessor.insertTags(speechText);
-            speechText = "<amazon:effect name=\"whispered\">" + speechText + "</amazon:effect>";
+        String warn = TagProcessor.insertTags("Ben: " + capitalizeFirstLetter(obstacle) + "!");
+
+        if (!Objects.equals(SILENT_SCENE, stateItem.getScene())) {
+            speechText = combine(speechText, warn);
+        } else if (obstacleSound == null) {
+            speechText = combine(speechText,"<amazon:effect name=\"whispered\">" + warn + "</amazon:effect>");
         }
+
         return speechText;
     }
 

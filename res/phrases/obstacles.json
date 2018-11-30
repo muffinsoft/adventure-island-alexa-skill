@@ -8,7 +8,7 @@
     },
     {
       "name" : "blow darts",
-      "responses" : ["yikes", "yay", "yes", "ok yes"],
+      "responses" : ["yikes", "yay", "yes", "ok yes", "yeah yay"],
       "preObstacle" : "Blow darts incoming! Don't forget to shout Alexa Speechcon: yikes! to roll under them!",
       "headsUp" : "Keep your head down up ahead!"
     },
@@ -20,13 +20,13 @@
     },
     {
       "name" : "arrows",
-      "responses" : ["yikes", "yay", "yes", "ok yes"],
+      "responses" : ["yikes", "yay", "yes", "ok yes", "yeah yay"],
       "preObstacle" : "Arrows! Remember to duck under them by saying Alexa Speechcon: yikes!",
       "headsUp" : "Better stay low soon!"
     },
     {
       "name" : "swinging axe",
-      "responses" : ["yikes", "yay", "yes", "ok yes"],
+      "responses" : ["yikes", "yay", "yes", "ok yes", "yeah yay"],
       "preObstacle" : "A swinging axe! Remember to say Alexa Speechcon: yikes! to duck!",
       "headsUp" : "Something sharp and heavy up ahead!"
     },
@@ -56,7 +56,7 @@
     },
     {
       "name" : "poison gas",
-      "responses": ["yikes", "yay", "yes", "ok yes"],
+      "responses": ["yikes", "yay", "yes", "ok yes", "yeah yay"],
       "preObstacle" : "A stinky poison gas in the air! Don't forget to say Alexa Speechcon: yikes! to slide under!",
       "headsUp" : "What's that green cloud I see?"
     }
@@ -64,13 +64,13 @@
   "pirateBay" : [
     {
       "name" : "rocks ahead",
-      "responses" : ["wowzer"],
+      "responses" : ["wowzer", "what was the"],
       "preObstacle" : "Rocks ahead! Remember to say Alexa Speechcon: wowzer! to avoid them!",
       "headsUp" : "Something big and sharp up ahead!"
     },
     {
       "name" : "sailors",
-      "responses" : ["ahoy"],
+      "responses" : ["ahoy", "are", "i'm whee"],
       "preObstacle" : "Sailors! Remember to let them know we're friendly by shouting Alexa Speechcon: ahoy!",
       "headsUp" : "I think I see people in front of us!"
     },
@@ -88,7 +88,7 @@
     },
     {
       "name" : "mermaids",
-      "responses" : ["ahoy"],
+      "responses" : ["ahoy", "are", "i'm whee"],
       "preObstacle" : "I see mermaids! Don't forget, they'll attack if you don't say Alexa Speechcon: ahoy!",
       "headsUp" : "Are those fish ladies up ahead?"
     },
@@ -106,7 +106,7 @@
     },
     {
       "name" : "barrel bomb",
-      "responses" : ["wowzer"],
+      "responses" : ["wowzer", "what was the"],
       "preObstacle" : "Remember to say Alexa Speechcon: wowzer! to avoid those barrel bombs coming our way!",
       "headsUp" : "Explosives in the water incoming!"
     },
@@ -150,7 +150,7 @@
     },
     {
       "name" : "tomato",
-      "responses" : ["yikes", "yay", "yes", "ok yes"],
+      "responses" : ["yikes", "yay", "yes", "ok yes", "yeah yay"],
       "preObstacle" : "The thief has a tomato! Don't forget to say Alexa Speechcon: yikes! to duck under it!",
       "headsUp" : "Careful! The thief is digging into his bag!"
     },
@@ -162,7 +162,7 @@
     },
     {
       "name" : "beehive",
-      "responses" : ["yikes", "yay", "yes", "ok yes"],
+      "responses" : ["yikes", "yay", "yes", "ok yes", "yeah yay"],
       "preObstacle" : "The thief has a beehive! Duck under by saying Alexa Speechcon: yikes!",
       "headsUp" : "I hear buzzing coming from the thief!"
     },

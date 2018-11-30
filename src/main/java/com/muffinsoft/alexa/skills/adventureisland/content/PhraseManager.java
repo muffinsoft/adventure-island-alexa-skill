@@ -41,7 +41,12 @@ public class PhraseManager {
     }
 
     public static String nameToKey(String name) {
-        String result = name.replace(" ", "");
+        String[] words = name.split(" ");
+        StringBuilder result = new StringBuilder();
+        for (String word : words) {
+            String firstUp = word.substring(0, 1).toUpperCase() + word.substring(1);
+            result.append(firstUp);
+        }
         return result.substring(0, 1).toLowerCase() + result.substring(1);
     }
 

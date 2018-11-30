@@ -113,9 +113,7 @@ public class TagProcessor {
                     text = text.replaceFirst(placeholder, tag);
                     int end = nextCharacter(text, start);
                     text = text.substring(0, end) + "</voice>" + text.substring(end);
-                    logger.debug("Unframed: " + text);
                     text = boundSpeechcon(tag, text);
-                    logger.debug("Framed: " + text);
                 }
             }
         }

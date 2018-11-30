@@ -1,6 +1,6 @@
 {
   "name": "coin",
-  "responses": ["bazinga"],
+  "responses": ["bazinga", "resume", "zynga", "hiyaaa", "buzzing", "business", "that's it"],
   "preObstacle": "Ooh, I see a shiny coin! Remember, say Alexa Speechcon: bazinga! to take it!",
   "headsUp": {
     "ancientTemple" : "I see something shiny!",
