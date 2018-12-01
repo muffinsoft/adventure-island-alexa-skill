@@ -290,6 +290,7 @@
   "resetReprompt" : "Are you sure you want to reset your mission progress?",
   "restartPrompt" : "Do you want to reset your progress in this mission and start it from the beginning?",
   "finished" : "You have already completed this mission. Finish all 3 missions to complete the game.",
+  "allFinished" : "Congratulations! You have completed all adventures for now! New missions are coming soon!",
   "restartCard" : "Restart?",
   "quitCard" : "Quit?",
   "stopCard" : "See you soon!",

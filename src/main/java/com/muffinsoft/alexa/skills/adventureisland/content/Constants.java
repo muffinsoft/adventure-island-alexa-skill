@@ -71,6 +71,9 @@ public class Constants {
     public static final String SCENE_TRANSITION = "SceneTransition";
     public static final String FINISHED = "finished";
     public static final String RESTART = "restart";
+    public static final String ALL = "all";
+    public static final String TIERS = "tiers";
+    public static final String TOTAL_MISSIONS = "missions";
 
     public static final ContentLoader contentLoader = new ContentLoader();
     public static final Game game = LayoutManager.loadGame();
@@ -78,7 +81,6 @@ public class Constants {
     public static final int SCENES_PER_MISSION = 12;
     public static final int SCENES_PER_LOCATION = 4;
     public static final int INTRO_VARIANTS = 3;
-    public static final int TIERS = 3;
 
     static {
         COINS_FOUND.add("coins");
