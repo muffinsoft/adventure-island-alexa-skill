@@ -243,7 +243,7 @@ public class SessionStateManager {
         Powerup powerup = PowerupManager.useFirstRelevant(props, MULTIPLY);
         if (powerup != null) {
             props.addCoin();
-            speechText = wrap(powerup.getUsed());
+            speechText = wrap(TagProcessor.insertTags(powerup.getUsed()));
         }
         return speechText;
     }
@@ -335,7 +335,7 @@ public class SessionStateManager {
                 // check if a powerup is available
                 Powerup powerup = PowerupManager.useFirstRelevant(props, SKIP, RETRY);
                 if (powerup != null) {
-                    speechText = wrap(powerup.getUsed());
+                    speechText = wrap(TagProcessor.insertTags(powerup.getUsed()));
                     if (powerup.getAction().toLowerCase().contains(RETRY)) {
                         return DialogItem.builder()
                                 .responseText(speechText)
@@ -381,7 +381,7 @@ public class SessionStateManager {
             powerUps.add(powerup.getName());
             props.setPowerups(powerUps);
             props.setJustFailed(false);
-            return wrap(powerup.getGot());
+            return wrap(TagProcessor.insertTags(powerup.getGot()));
         }
         return "";
     }
@@ -618,7 +618,7 @@ public class SessionStateManager {
         if (powerup != null) {
             String action = powerup.getAction().toLowerCase();
             obstacle = action.substring(action.indexOf(REPLACEMENT_PREFIX) + REPLACEMENT_PREFIX.length());
-            speechText += wrap(powerup.getUsed());
+            speechText += wrap(TagProcessor.insertTags(powerup.getUsed()));
         } else {
             logger.debug("Got obstacle {} for {} {} {}", obstacle, stateItem.getMission(), stateItem.getLocation(), stateItem.getScene());
             if (!Objects.equals(SILENT_SCENE, stateItem.getScene())) {
