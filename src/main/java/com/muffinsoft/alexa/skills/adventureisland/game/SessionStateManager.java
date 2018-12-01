@@ -395,7 +395,7 @@ public class SessionStateManager {
         String responseText = "";
 
         // user is ready
-        if (userReply != null && ((isFirstScene() && !isYes()) || (!isFirstScene() && isYes()))) {
+        if (userReply != null && (isFirstScene() && !isYes())) {
             responseText = nextObstacle(responseText);
             stateItem.setIndex(stateItem.getIndex() + 1);
             return DialogItem.builder()
@@ -430,6 +430,7 @@ public class SessionStateManager {
                     .cardText(getTextOnly(READY + PROMPT))
                     .build();
         } else if (!isYes()) {
+            stateItem.setState(State.ACTION);
             return initHelp();
         }
 
@@ -475,9 +476,7 @@ public class SessionStateManager {
                         }
                         additionalResponse = null;
                     }
-                    String dialogText = dialog.getResponseText();
                     dialog = MissionSelector.promptForMission(slotName, persistentState.getCompletedMissions());
-                    responseText = combine(responseText, dialogText);
                     dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
                     return dialog;
                 }
@@ -581,7 +580,7 @@ public class SessionStateManager {
 
                 props.resetHealth();
                 persistentState.setCheckpoint(null);
-                if (completedMissions != null && !completedMissions.isEmpty()) {
+                if (!completedMissions.isEmpty()) {
                     List<BigDecimal> completed = completedMissions.get(tier);
                     if (completed != null && completed.contains(BigDecimal.valueOf(i))) {
                         stateItem.setState(State.RESTART);
