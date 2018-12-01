@@ -449,6 +449,7 @@ public class SessionStateManager {
     }
 
     private DialogItem getIntroOutroDialog() {
+
         DialogItem dialog = getResponse();
 
         while (isLastStep()) {
@@ -508,6 +509,8 @@ public class SessionStateManager {
 
     private DialogItem getResponse() {
 
+        String soundIntro = IntroSoundManager.getIntroSound(stateItem);
+
         String nameKey = getNameKey(stateItem, stateItem.getState(), persistentState);
         logger.debug("Will look up the following phrase: {}", nameKey);
         String expectedReply = getReply(nameKey);
@@ -525,6 +528,9 @@ public class SessionStateManager {
         if (responseText != null) {
             responseText = wrap(responseText);
         }
+
+        responseText = combine(soundIntro, responseText);
+
         stateItem.setIndex(stateItem.getIndex() + 1);
 
         logger.debug("Got response {}", responseText);

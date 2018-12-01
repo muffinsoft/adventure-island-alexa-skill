@@ -68,6 +68,7 @@ public class Constants {
     public static final String MISSIONS_AVAILABLE = "__MISSIONS_AVAILABLE__";
     public static final String CARD = "Card";
     public static final List<String> COINS_FOUND = new ArrayList<>();
+    public static final String SCENE_TRANSITION = "SceneTransition";
 
     public static final ContentLoader contentLoader = new ContentLoader();
     public static final Game game = LayoutManager.loadGame();
