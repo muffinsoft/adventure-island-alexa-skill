@@ -23,7 +23,7 @@ public class MissionSelector {
 
         String responseText = "";
 
-        if (completedMissions.size() == NumbersManager.TIERS - 1) {
+        if (completedMissions.size() == NumbersManager.TIERS) {
             List<BigDecimal> lastTier = completedMissions.get(NumbersManager.TIERS - 1);
             if (lastTier.size() == NumbersManager.MISSIONS) {
                 responseText = getPhrase(ALL + capitalizeFirstLetter(FINISHED));

@@ -475,7 +475,9 @@ public class SessionStateManager {
                         }
                         additionalResponse = null;
                     }
+                    String dialogText = dialog.getResponseText();
                     dialog = MissionSelector.promptForMission(slotName, persistentState.getCompletedMissions());
+                    responseText = combine(responseText, dialogText);
                     dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
                     return dialog;
                 }

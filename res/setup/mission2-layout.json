@@ -22,7 +22,7 @@
           ]
         },
         {
-          "name": "Dragon Attack",
+          "name": "Dragon Valley",
           "obstacles": [
             ["coin", "moat", "dragon", "coin", "rose bush", "dragon", "coin", "dragon", "moat", "dragon", "coin", "dragon", "moat", "coin", "wall", "coin", "moat", "coin", "moat", "coin", "rose bush", "rose bush", "coin", "moat", "rose bush", "coin", "dragon", "coin", "dragon", "coin", "wall", "coin", "moat", "coin", "moat", "coin", "wall", "moat", "coin", "wall", "moat", "coin", "dragon", "moat", "coin", "dragon", "coin", "moat", "wall", "coin", "dragon"],
             ["tomato", "wall", "moat", "coin", "wall", "coin", "moat", "wall", "coin", "tomato", "rose bush", "moat", "coin", "rose bush", "beehive", "dragon", "coin", "tomato", "baby ducks", "coin", "tomato", "coin", "dragon", "baby ducks", "coin", "rose bush", "beehive", "coin", "tomato", "wall", "coin", "tomato", "baby ducks", "coin", "dragon", "wall", "coin", "beehive", "coin", "coin", "coin", "wall", "coin", "coin", "baby ducks", "coin", "beehive", "coin", "moat", "dragon", "coin"],
