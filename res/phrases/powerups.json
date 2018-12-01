@@ -11,7 +11,7 @@
     "explanation" : "Find a hidden coin up ahead (instead of an obstacle).",
     "got" : "[powerup] Lily: Hey, you're a pro! You got Coin Goggles. They'll help you find a hidden coin.",
     "used" : "[powerup] Ben: Nice job with the Coin Goggles to find a hidden coin!",
-    "action" : "replaceAnyObstacleWithCoins"
+    "action" : "replaceAnyObstacleWithCoin"
   },
   {
     "name" : "Energy Juice",
@@ -25,6 +25,6 @@
     "explanation" : "A magic wand that turns one coin into two!",
     "got" : "[powerup] Lily: Awesome stuff! You got a magic wand. It can turn a coin into two!",
     "used" : "[powerup] Ben: Was that a Magic Wand? That coin turned into two! So cool!",
-    "action" : "multiplyCoins2"
+    "action" : "multiplyCoin2"
   }
 ]

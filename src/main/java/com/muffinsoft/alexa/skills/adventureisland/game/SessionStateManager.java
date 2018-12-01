@@ -108,6 +108,11 @@ public class SessionStateManager {
     }
 
     private DialogItem restartMission() {
+        List<BigDecimal> completed = persistentState.getCompletedMissions().get(stateItem.getTierIndex());
+        if (completed != null) {
+            completed.remove(BigDecimal.valueOf(stateItem.getMissionIndex()));
+            persistentState.setCompletedMissions(persistentState.getCompletedMissions());
+        }
         props.setCoins(0);
         props.setCurrentObstacle(null);
         props.setJustFailed(false);
@@ -163,7 +168,7 @@ public class SessionStateManager {
 
     private void restoreFromCheckpoint() {
         List<BigDecimal> checkpoint = persistentState.getCheckpoint();
-        if (checkpoint != null && Objects.equals(CONTINUE, userReply)) {
+        if (checkpoint != null && (Objects.equals(CONTINUE, userReply) || isYes())) {
             stateItem.setTierIndex(checkpoint.get(0).intValue());
             stateItem.setMissionIndex(checkpoint.get(1).intValue());
             stateItem.setLocationIndex(checkpoint.get(2).intValue());
@@ -414,19 +419,23 @@ public class SessionStateManager {
                         .cardText(getTextOnly(READY + CARD))
                         .build();
             }
-        } else {
+        } else if (stateItem.getState() != State.READY) {
             // ask if the user ready or needs help
             responseText += wrap(getPhrase(READY + PROMPT));
+            stateItem.setState(State.READY);
             return DialogItem.builder()
                     .responseText(responseText)
                     .slotName(slotName)
                     .reprompt(responseText)
                     .cardText(getTextOnly(READY + PROMPT))
                     .build();
+        } else if (!isYes()) {
+            return initHelp();
         }
 
         // after demo -> action
         props.setSkipReadyPrompt(true);
+        stateItem.setState(State.ACTION);
         DialogItem result = getActionDialog();
         result.setResponseText(responseText + wrap(result.getResponseText()));
         return result;
@@ -472,6 +481,17 @@ public class SessionStateManager {
                 }
             } else {
                 getNextScene();
+            }
+            if (stateItem.getState() == State.RESTART) {
+                String response = getPhrase(FINISHED);
+                String prompt = getPhrase(RESTART + PROMPT);
+                response = combine(response, prompt);
+                return DialogItem.builder()
+                        .responseText(response)
+                        .reprompt(prompt)
+                        .cardText(getPhrase(RESTART + CARD))
+                        .slotName(slotName)
+                        .build();
             }
             if (stateItem.getState() != State.ACTION) {
                 if (stateItem.getState() == State.OUTRO) {
@@ -544,9 +564,10 @@ public class SessionStateManager {
 
     private boolean detectMission() {
         List<Mission> missions = game.getMissions();
+        List<List<BigDecimal>> completedMissions = persistentState.getCompletedMissions();
         for (int i = 0; i < missions.size(); i++) {
 
-            int tier = MissionSelector.getTier(i, persistentState.getCompletedMissions());
+            int tier = MissionSelector.getTier(i, completedMissions);
             String missionName = missions.get(i).getTierNames().get(tier);
             logger.debug("Comparing reply {} with mission name {}", userReply, missionName);
             if (missionName.toLowerCase().contains(userReply)) {
@@ -558,6 +579,12 @@ public class SessionStateManager {
 
                 props.resetHealth();
                 persistentState.setCheckpoint(null);
+                if (completedMissions != null && !completedMissions.isEmpty()) {
+                    List<BigDecimal> completed = completedMissions.get(tier);
+                    if (completed != null && completed.contains(BigDecimal.valueOf(i))) {
+                        stateItem.setState(State.RESTART);
+                    }
+                }
 
                 return true;
             }

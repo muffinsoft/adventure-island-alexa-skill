@@ -2,8 +2,10 @@ package com.muffinsoft.alexa.skills.adventureisland.model;
 
 public enum State {
 
-    WELCOME("WelcomeNew"), INTRO("Intro"), ACTION("Action"), OUTRO("Outro"), FAILED("Failed"),
-    HELP("Help"), CANCEL("Cancel"), QUIT("Quit"), CHECKPOINT("Checkpoint"), RESET("Reset"), RESTART("Restart");
+    WELCOME("WelcomeNew"), INTRO("Intro"), READY("Ready"),
+    ACTION("Action"), OUTRO("Outro"), FAILED("Failed"),
+    HELP("Help"), CANCEL("Cancel"), QUIT("Quit"),
+    CHECKPOINT("Checkpoint"), RESET("Reset"), RESTART("Restart");
 
     private String key;
 
