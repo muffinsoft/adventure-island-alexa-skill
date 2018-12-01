@@ -289,7 +289,7 @@
   "resetPrompt" : "If you reset the mission, you’ll lose all your mission progress. You can always start this mission from the beginning later. Are you sure you want to reset your mission progress?",
   "resetReprompt" : "Are you sure you want to reset your mission progress?",
   "restartPrompt" : "Do you want to reset your progress in this mission and start it from the beginning?",
-  "finished" : "You have already finished this mission.",
+  "finished" : "You have already completed this mission. Finish all 3 missions to complete the game.",
   "restartCard" : "Restart?",
   "quitCard" : "Quit?",
   "stopCard" : "See you soon!",

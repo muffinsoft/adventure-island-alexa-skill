@@ -645,6 +645,7 @@ public class SessionStateManager {
         if (powerup != null) {
             String action = powerup.getAction().toLowerCase();
             obstacle = action.substring(action.indexOf(REPLACEMENT_PREFIX) + REPLACEMENT_PREFIX.length());
+            props.setCurrentObstacle(obstacle);
             speechText += wrap(TagProcessor.insertTags(powerup.getUsed()));
         } else {
             logger.debug("Got obstacle {} for {} {} {}", obstacle, stateItem.getMission(), stateItem.getLocation(), stateItem.getScene());
