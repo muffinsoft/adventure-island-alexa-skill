@@ -779,7 +779,9 @@ public class SessionStateManager {
         stateItem.setState(state);
         stateItem.setIndex(stateItem.getPendingIndex());
         if (state == State.ACTION) {
-            stateItem.setIndex(stateItem.getIndex() - 1);
+            if (stateItem.getIndex() > 0) {
+                stateItem.setIndex(stateItem.getIndex() - 1);
+            }
             props.setCurrentObstacle(null);
             props.setSkipReadyPrompt(true);
         }
