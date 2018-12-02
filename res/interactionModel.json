@@ -1,7 +1,7 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "adventure island",
+      "invocationName": "maxi test",
       "intents": [
         {
           "name": "AMAZON.FallbackIntent",
@@ -256,6 +256,9 @@
               "name": {
                 "value": "yes",
                 "synonyms": [
+                  "i want",
+                  "yes ok",
+                  "yes please",
                   "go",
                   "ready",
                   "yep",
