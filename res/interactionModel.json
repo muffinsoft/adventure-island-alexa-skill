@@ -1,7 +1,7 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "maxi test",
+      "invocationName": "adventure island",
       "intents": [
         {
           "name": "AMAZON.FallbackIntent",
