@@ -67,7 +67,7 @@
       "outToSea":
       [
         {
-          "explanation": "If we see underwater COINS, say Alexa Speechcon: bazinga! to pull them up. If we see rocks up ahead, say Alexa Speechcon: wowzer! to avoid them. Remember to say a friendly Alexa Speechcon: ahoy! to to SAILORS so they don't attack us!",
+          "explanation": "If we see underwater COINS, say Alexa Speechcon: bazinga! to pull them up. If we see rocks up ahead, say Alexa Speechcon: wowzer! to avoid them. Remember to say a friendly Alexa Speechcon: ahoy! to SAILORS so they don't attack us!",
           "obstacleIndices": [0, 1]
         },
         {
