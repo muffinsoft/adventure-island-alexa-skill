@@ -117,6 +117,7 @@ public class TagProcessor {
                     text = boundSpeechcon(tag, text);
                 }
             }
+            logger.debug("Prepared text: {}", text);
         }
         return text;
     }
@@ -124,7 +125,7 @@ public class TagProcessor {
     private static String boundSpeechcon(String tag, String text) {
         int i = text.indexOf(" <say-as");
         String endTag = "</say-as>";
-        while (i >= 0 && i < text.lastIndexOf("</voice>")) {
+        while (i >= 0 && i > text.indexOf(tag) && i < text.lastIndexOf("</voice>")) {
             int end = text.indexOf(endTag, i + 1);
             text = text.substring(0, i + 1) + "</voice>" + text.substring(i + 1, end + endTag.length()) + tag + text.substring(end + endTag.length());
             i = text.indexOf(" <say-as");
