@@ -117,7 +117,6 @@ public class TagProcessor {
                     text = boundSpeechcon(tag, text);
                 }
             }
-            logger.debug("Prepared text: {}", text);
         }
         return text;
     }
