@@ -170,7 +170,7 @@ public class AudioGenerator {
     }
 
     private static boolean checkAlexa(String text, Map<String, String> result) {
-        if (text.contains(ALEXA) || text.contains(SPEECHCON)) {
+        if (text.contains(ALEXA + ": ") || text.contains(SPEECHCON + ": ")) {
             result.put("NoAudio" + noAudioIndex++, "\"" + text + "\"");
             return true;
         }
@@ -246,7 +246,7 @@ public class AudioGenerator {
                 continue;
             }
             int end = text.indexOf(character + ": ");
-            if (end > 0 && end < smallest) {
+            if (end >= 0 && end < smallest) {
                 smallest = end;
             }
         }
