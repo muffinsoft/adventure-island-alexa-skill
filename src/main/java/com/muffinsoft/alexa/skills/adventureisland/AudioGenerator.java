@@ -1,44 +1,131 @@
 package com.muffinsoft.alexa.skills.adventureisland;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
+import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.TagProcessor;
+import com.muffinsoft.alexa.skills.adventureisland.game.Utils;
+import com.muffinsoft.alexa.skills.adventureisland.model.CoinItem;
+import com.muffinsoft.alexa.skills.adventureisland.model.ObstacleItem;
+import com.muffinsoft.alexa.skills.adventureisland.model.ObstacleSetupItem;
+import com.muffinsoft.alexa.skills.adventureisland.model.Powerup;
 import com.muffinsoft.alexa.skills.adventureisland.util.ContentLoader;
 
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class AudioGenerator {
 
     private static final String PATH = "phrases/en-US.json";
     private static final String CHARACTERS = "phrases/characters.json";
+
+    private static final String PATH_OBSTACLES = "phrases/obstacles.json";
+    private static final String PATH_SETUP = "phrases/obstacles-setup.json";
+    private static final String PATH_COINS = "phrases/coins.json";
+    private static final String PATH_POWERUPS = "phrases/powerups.json";
+
     private static final String OUT = "phrases-for-audio.csv";
     private static final String ALEXA = "Alexa";
     private static final String SPEECHCON = "Alexa Speechcon";
+
     private static int noAudioIndex = 0;
     private static int wrap = 140;
 
     private static Map<String, String> phrases = new LinkedHashMap<>();
     private static Map<String, String> characters = new LinkedHashMap<>();
+    private static Map<String, List<ObstacleItem>> obstacles = new LinkedHashMap<>();
+    private static Map<String, Map<String, List<ObstacleSetupItem>>> obstacleSetup = new LinkedHashMap<>();
+    private static CoinItem treasure = new CoinItem();
+    private static List<Powerup> powerups = new ArrayList<>();
 
     public static void main(String[] args) {
         ContentLoader contentLoader = new ContentLoader();
-        phrases = contentLoader.loadContent(phrases, PATH, new TypeReference<LinkedHashMap<String, String>>() {
-        });
-        characters = contentLoader.loadContent(characters, CHARACTERS, new TypeReference<HashMap<String, String>>() {
-        });
+        phrases = contentLoader.loadContent(phrases, PATH, new TypeReference<LinkedHashMap<String, String>>() {});
+        characters = contentLoader.loadContent(characters, CHARACTERS, new TypeReference<HashMap<String, String>>() {});
+
+        obstacles = contentLoader.loadContent(obstacles, PATH_OBSTACLES, new TypeReference<LinkedHashMap<String, List<ObstacleItem>>>() {});
+        obstacleSetup = contentLoader.loadContent(obstacleSetup, PATH_SETUP, new TypeReference<LinkedHashMap<String, Map<String, List<ObstacleSetupItem>>>>() {});
+        treasure = contentLoader.loadContent(treasure, PATH_COINS, new TypeReference<CoinItem>() {});
+        powerups = Constants.contentLoader.loadContent(powerups, PATH_POWERUPS, new TypeReference<ArrayList<Powerup>>() {});
+
 
         Map<String, String> result = new LinkedHashMap<>();
 
         parsePhrases(result);
 
+        addObstacleExplanations(result);
+
+        addObstaclesStuff(result);
+
+        addTreasureStuff(result);
+
+        addPowerUps(result);
+
         for (String key : result.keySet()) {
             System.out.println(key + ";" + result.get(key));
+        }
+    }
+
+    private static void addPowerUps(Map<String, String> result) {
+        for (Powerup powerup : powerups) {
+            String name = PhraseManager.nameToKey(powerup.getName());
+            StringBuilder stringBuilder = new StringBuilder();
+            String got = powerup.getGotRaw();
+            doAppend(got, stringBuilder);
+            got = "\"" + stringBuilder.toString() + "\"";
+            stringBuilder = new StringBuilder();
+            String used = powerup.getUsedRaw();
+            doAppend(used, stringBuilder);
+            used = "\"" + stringBuilder.toString() + "\"";
+            result.put(name + "Got", got);
+            result.put(name + "Used", used);
+        }
+    }
+
+    private static void addTreasureStuff(Map<String, String> result) {
+        String name = treasure.getName();
+        String preObstacle = "\"Lily: " + treasure.getPreObstacle().replace(SPEECHCON + ": ", "") + "\"";
+        result.put(name + "PreObstacle", preObstacle);
+        for (String location : treasure.getHeadsUp().keySet()) {
+            String headUp = "\"Lily: " + treasure.getHeadsUp().get(location) + "\"";
+            result.put(name + "HeadsUp" + Utils.capitalizeFirstLetter(location), headUp);
+        }
+    }
+
+    private static void addObstaclesStuff(Map<String, String> result) {
+        for (String location : obstacles.keySet()) {
+            List<ObstacleItem> items = obstacles.get(location);
+            for (ObstacleItem item : items) {
+                String name = PhraseManager.nameToKey(item.getName());
+                String headsUp = "\"Lily: " + item.getHeadsUp() + "\"";
+                String preObstacle = "\"Lily: " + item.getPreObstacle().replace(SPEECHCON + ": ", "") + "\"";
+                result.put(name + "PreObstacle", preObstacle);
+                result.put(name + "HeadsUp", headsUp);
+            }
+        }
+    }
+
+    private static void addObstacleExplanations(Map<String, String> result) {
+        for (String location : obstacleSetup.keySet()) {
+            Map<String, List<ObstacleSetupItem>> setups = obstacleSetup.get(location);
+            for (String scene : setups.keySet()) {
+                List<ObstacleSetupItem> items = setups.get(scene);
+                for (int i = 0; i < items.size(); i++) {
+                    String explanation = items.get(i).getExplanation();
+                    if (!explanation.isEmpty()) {
+                        String filename = scene + i + "ObstacleExplanation";
+                        StringBuilder phraseBuilder = new StringBuilder();
+                        doAppend("Ben: " + explanation, phraseBuilder);
+                        String phrase = "\"" + phraseBuilder.toString() + "\"";
+
+                        phrase = phrase.replace(SPEECHCON + ": ", "");
+                        result.put(filename, phrase);
+                    }
+                }
+            }
         }
     }
 

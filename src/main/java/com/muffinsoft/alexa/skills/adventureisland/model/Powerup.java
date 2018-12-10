@@ -30,12 +30,20 @@ public class Powerup {
         return TagProcessor.insertTags(got);
     }
 
+    public String getGotRaw() {
+        return got;
+    }
+
     public void setGot(String got) {
         this.got = got;
     }
 
     public String getUsed() {
         return TagProcessor.insertTags(used);
+    }
+
+    public String getUsedRaw() {
+        return used;
     }
 
     public void setUsed(String used) {
