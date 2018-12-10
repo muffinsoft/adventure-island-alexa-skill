@@ -21,6 +21,7 @@ public class AudioGenerator {
     private static final String ALEXA = "Alexa";
     private static final String SPEECHCON = "Alexa Speechcon";
     private static int noAudioIndex = 0;
+    private static int wrap = 140;
 
     private static Map<String, String> phrases = new LinkedHashMap<>();
     private static Map<String, String> characters = new LinkedHashMap<>();
@@ -96,12 +97,24 @@ public class AudioGenerator {
             if (phrase.length() > 1) {
                 phrase.append("\n");
             }
-            phrase.append(text, 0, phraseEnd);
+            String newPhrase = text.substring(0, phraseEnd);
+            doAppend(newPhrase, phrase);
             text = text.substring(phraseEnd);
         }
-        phrase.append(text);
+        doAppend(text, phrase);
         phrase.append("\"");
         return phrase.toString();
+    }
+
+    private static void doAppend(String text, StringBuilder phrase) {
+        if (text.length() > wrap) {
+            int i = text.lastIndexOf(" ", wrap);
+            phrase.append(text, 0, i);
+            phrase.append("\n");
+            phrase.append(text.substring(i + 1));
+        } else {
+            phrase.append(text);
+        }
     }
 
     private static boolean containsCharacters(String text) {
