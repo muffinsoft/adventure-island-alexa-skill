@@ -3,6 +3,7 @@ package com.muffinsoft.alexa.skills.adventureisland.game;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.muffinsoft.alexa.skills.adventureisland.content.AudioManager;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
+import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -148,4 +149,21 @@ public class TagProcessor {
     }
 
 
+    public static void getReprompt(DialogItem dialog) {
+        String response = dialog.getResponseText().trim();
+        int i = response.lastIndexOf(".");
+        int j = response.lastIndexOf("!");
+        if (j > i) {
+            i = j;
+        }
+        String reprompt = response.substring(i + 1).trim();
+        if (reprompt.endsWith("</voice>")) {
+            int tagStart = response.lastIndexOf("<voice");
+            int tagEnd = response.indexOf(">", tagStart+1);
+            String tag = response.substring(tagStart, tagEnd + 1);
+            reprompt = tag + reprompt;
+        }
+        dialog.setReprompt(reprompt);
+
+    }
 }
