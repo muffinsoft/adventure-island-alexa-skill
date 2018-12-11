@@ -12,7 +12,7 @@
   "selectMission" : "The following missions are unlocked: __MISSIONS_AVAILABLE__. Which one would you like to do? ",
   "selectMission2" : "Please make your selection",
   "welcomeCard" : "Adventure Island",
-  "fallback" : "We cannot do that right now",
+  "fallback" : "We cannot do that right now. Would you like to return to the game?",
   "actionDescription" : "Let's start our treasure quest. Say whee if you see snake, say woah if you see darts.",
   "actionApprove" : "Very well!",
   "actionFail2" : "Ben: Ouch! You now have only two lives left! But no worries, we've got this!",

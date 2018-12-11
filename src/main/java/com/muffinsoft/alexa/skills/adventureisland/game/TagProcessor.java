@@ -162,6 +162,8 @@ public class TagProcessor {
             int tagEnd = response.indexOf(">", tagStart+1);
             String tag = response.substring(tagStart, tagEnd + 1);
             reprompt = tag + reprompt;
+        } else {
+            reprompt = reprompt.replace("</voice>", "");
         }
         dialog.setReprompt(reprompt);
 
