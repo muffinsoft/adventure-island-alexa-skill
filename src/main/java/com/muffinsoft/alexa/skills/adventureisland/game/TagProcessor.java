@@ -166,9 +166,20 @@ public class TagProcessor {
                 reprompt = tag + reprompt;
             } else if (reprompt.indexOf(VOICE_TAG_END) != reprompt.lastIndexOf(VOICE_TAG_END)) {
                 reprompt = reprompt.replaceFirst(VOICE_TAG_END, "");
+                i = reprompt.indexOf("</");
+                j = reprompt.indexOf(VOICE_TAG_END);
+                while (i < j) {
+                    int k = reprompt.indexOf(">", i);
+                    reprompt = reprompt.substring(0, i).trim() + reprompt.substring(k + 1).trim();
+                    j = reprompt.indexOf("</");
+                }
             }
         } else {
-            reprompt = reprompt.replace(VOICE_TAG_END, "");
+            while (reprompt.contains("<")) {
+                i = reprompt.indexOf("<");
+                j = reprompt.indexOf(">");
+                reprompt = reprompt.substring(0, i).trim() + reprompt.substring(j + 1).trim();
+            }
         }
         dialog.setReprompt(reprompt);
 
