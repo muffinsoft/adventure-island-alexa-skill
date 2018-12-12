@@ -14,6 +14,7 @@ import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -73,6 +74,7 @@ public class LaunchRequestHandler implements RequestHandler {
                 sessionAttributes.put(STATE, State.CHECKPOINT);
                 cardText = PhraseManager.getTextOnly(Constants.CONTINUE + Constants.CARD);
             } else if (completedMissions != null || oldObstacles != null) {
+                completedMissions = completedMissions != null ? completedMissions : new ArrayList<>();
                 String missionPrompt = MissionSelector.promptForMission(null, completedMissions).getResponseText();
                 speechText += Utils.wrap(missionPrompt);
                 sessionAttributes.put(STATE, State.INTRO);
