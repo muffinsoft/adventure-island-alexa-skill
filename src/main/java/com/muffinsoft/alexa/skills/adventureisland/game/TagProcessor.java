@@ -21,6 +21,7 @@ public class TagProcessor {
     private static final String NONE = "none";
     private static final String SOUNDS_OPEN = "[";
     private static final String SOUNDS_CLOSE = "]";
+    public static final String VOICE_TAG_END = "</voice>";
 
     private static Map<String, String> characters = new HashMap<>();
     private static List<String> sounds = new ArrayList<>();
@@ -114,7 +115,7 @@ public class TagProcessor {
                     String tag = "<voice name=\"" + replacement + "\">";
                     text = text.replaceFirst(placeholder, tag);
                     int end = nextCharacter(text, start);
-                    text = text.substring(0, end) + "</voice>" + text.substring(end);
+                    text = text.substring(0, end) + VOICE_TAG_END + text.substring(end);
                     text = boundSpeechcon(tag, text);
                 }
             }
@@ -125,9 +126,9 @@ public class TagProcessor {
     private static String boundSpeechcon(String tag, String text) {
         int i = text.indexOf(" <say-as");
         String endTag = "</say-as>";
-        while (i >= 0 && i > text.indexOf(tag) && i < text.lastIndexOf("</voice>")) {
+        while (i >= 0 && i > text.indexOf(tag) && i < text.lastIndexOf(VOICE_TAG_END)) {
             int end = text.indexOf(endTag, i + 1);
-            text = text.substring(0, i + 1) + "</voice>" + text.substring(i + 1, end + endTag.length()) + tag + text.substring(end + endTag.length());
+            text = text.substring(0, i + 1) + VOICE_TAG_END + text.substring(i + 1, end + endTag.length()) + tag + text.substring(end + endTag.length());
             i = text.indexOf(" <say-as");
         }
         return text;
@@ -157,13 +158,17 @@ public class TagProcessor {
             i = j;
         }
         String reprompt = response.substring(i + 1).trim();
-        if (reprompt.endsWith("</voice>")) {
-            int tagStart = response.lastIndexOf("<voice");
-            int tagEnd = response.indexOf(">", tagStart+1);
-            String tag = response.substring(tagStart, tagEnd + 1);
-            reprompt = tag + reprompt;
+        if (reprompt.endsWith(VOICE_TAG_END)) {
+            if (!reprompt.contains("<voice")) {
+                int tagStart = response.lastIndexOf("<voice");
+                int tagEnd = response.indexOf(">", tagStart + 1);
+                String tag = response.substring(tagStart, tagEnd + 1);
+                reprompt = tag + reprompt;
+            } else if (reprompt.indexOf(VOICE_TAG_END) != reprompt.lastIndexOf(VOICE_TAG_END)) {
+                reprompt = reprompt.replaceFirst(VOICE_TAG_END, "");
+            }
         } else {
-            reprompt = reprompt.replace("</voice>", "");
+            reprompt = reprompt.replace(VOICE_TAG_END, "");
         }
         dialog.setReprompt(reprompt);
 
