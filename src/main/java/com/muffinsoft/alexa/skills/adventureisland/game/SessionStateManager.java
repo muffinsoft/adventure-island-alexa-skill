@@ -135,6 +135,7 @@ public class SessionStateManager {
             return quitToRoot();
         } else {
             stateItem.setState(stateItem.getPendingState());
+            resetAction();
             return nextResponse();
         }
     }
@@ -149,6 +150,7 @@ public class SessionStateManager {
                     .build();
         } else {
             stateItem.setState(stateItem.getPendingState());
+            resetAction();
             return nextResponse();
         }
     }
@@ -163,6 +165,7 @@ public class SessionStateManager {
                     .build();
         } else {
             stateItem.setState(stateItem.getPendingState());
+            resetAction();
             return nextResponse();
         }
     }
@@ -779,13 +782,17 @@ public class SessionStateManager {
         state = state != null ? state : State.INTRO;
         stateItem.setState(state);
         stateItem.setIndex(stateItem.getPendingIndex());
-        if (state == State.ACTION) {
+        resetAction();
+        return nextResponse();
+    }
+
+    private void resetAction() {
+        if (stateItem.getState() == State.ACTION) {
             if (stateItem.getIndex() > 0) {
                 stateItem.setIndex(stateItem.getIndex() - 1);
             }
             props.setCurrentObstacle(null);
             props.setSkipReadyPrompt(true);
         }
-        return nextResponse();
     }
 }
