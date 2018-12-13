@@ -44,12 +44,14 @@ public class MissionSelector {
             }
         }
 
-        responseText = combine(responseText, description.replace(Constants.MISSIONS_AVAILABLE, missionNames));
+        description = description.replace(Constants.MISSIONS_AVAILABLE, missionNames);
+
+        responseText = combine(responseText, description);
 
         return DialogItem.builder()
                 .responseText(responseText)
                 .slotName(slotName)
-                .reprompt(missionNames.toString())
+                .reprompt(description)
                 .cardText(getTextOnly(SELECT_MISSION + CARD))
                 .build();
     }
