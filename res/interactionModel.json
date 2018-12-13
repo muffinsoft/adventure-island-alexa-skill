@@ -40,26 +40,41 @@
           ]
         },
         {
-          "name": "DummyIntent",
+          "name": "AMAZON.YesIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NoIntent",
+          "samples": []
+        },
+        {
+          "name": "StartMissionIntent",
           "slots": [
             {
-              "name": "part",
-              "type": "DummyPart",
-              "samples": [
-                "I want some {part}"
-              ]
+              "name": "mission",
+              "type": "MISSION"
             }
           ],
-          "samples": [
-            "please take me to some {part}"
-          ]
+          "samples": []
+        },
+        {
+          "name": "RandomQuestionIntent",
+          "slots": [
+            {
+              "name": "whatever",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": []
         },
         {
           "name": "ResetIntent",
           "slots": [],
-          "samples": [
-            "reset"
-          ]
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StartOverIntent",
+          "samples": []
         }
       ],
       "types": [
@@ -78,7 +93,11 @@
             },
             {
               "name": {
-                "value": "woo hoo"
+                "value": "woo hoo",
+                "synonyms": [
+                  "woo-hoo",
+                  "woohoo"
+                ]
               }
             },
             {
@@ -163,115 +182,7 @@
             },
             {
               "name": {
-                "value": "aloha melody",
-                "synonyms": [
-                  "aloha melody",
-                  "melody",
-                  "aloha"
-                ]
-              }
-            },
-            {
-              "name": {
-                "value": "jungle beat",
-                "synonyms": [
-                  "jungle",
-                  "beat"
-                ]
-              }
-            },
-            {
-              "name": {
-                "value": "bamboo rhythm",
-                "synonyms": [
-                  "rhythm",
-                  "bamboo"
-                ]
-              }
-            },
-            {
-              "name": {
-                "value": "return to sea",
-                "synonyms": [
-                  "to sea",
-                  "sea",
-                  "return"
-                ]
-              }
-            },
-            {
-              "name": {
-                "value": "seadog reunion",
-                "synonyms": [
-                  "seadog",
-                  "reunion"
-                ]
-              }
-            },
-            {
-              "name": {
-                "value": "pirate inspiration",
-                "synonyms": [
-                  "pirate",
-                  "inspiration"
-                ]
-              }
-            },
-            {
-              "name": {
-                "value": "puppy rescue",
-                "synonyms": [
-                  "puppy",
-                  "rescue"
-                ]
-              }
-            },
-            {
-              "name": {
-                "value": "princess heroes",
-                "synonyms": [
-                  "heroes",
-                  "princess"
-                ]
-              }
-            },
-            {
-              "name": {
                 "value": "continue"
-              }
-            },
-            {
-              "name": {
-                "value": "no",
-                "synonyms": [
-                  "nah",
-                  "not now",
-                  "not sure",
-                  "nope"
-                ]
-              }
-            },
-            {
-              "id": "yes",
-              "name": {
-                "value": "yes",
-                "synonyms": [
-                  "i want",
-                  "yes ok",
-                  "yes please",
-                  "go",
-                  "ready",
-                  "yep",
-                  "ya",
-                  "ye",
-                  "yeah",
-                  "i like",
-                  "love to",
-                  "I do",
-                  "of course",
-                  "ok",
-                  "sure"
-                ]
               }
             },
             {
@@ -285,38 +196,6 @@
             {
               "name": {
                 "value": "restart scene"
-              }
-            },
-            {
-              "name": {
-                "value": "tiki trouble",
-                "synonyms": [
-                  "trouble",
-                  "tiki"
-                ]
-              }
-            },
-            {
-              "name": {
-                "value": "pirate business",
-                "synonyms": [
-                  "business",
-                  "pirate"
-                ]
-              }
-            },
-            {
-              "name": {
-                "value": "royal ransom",
-                "synonyms": [
-                  "ransom",
-                  "royal"
-                ]
-              }
-            },
-            {
-              "name": {
-                "value": "password"
               }
             },
             {
@@ -345,47 +224,93 @@
           ]
         },
         {
-          "name": "DummyPart",
+          "name": "MISSION",
           "values": [
             {
               "name": {
-                "value": "whatever"
+                "value": "royal ransom",
+                "synonyms": [
+                  "ransom",
+                  "royal"
+                ]
               }
-            }
-          ]
-        }
-      ]
-    },
-    "dialog": {
-      "intents": [
-        {
-          "name": "DummyIntent",
-          "confirmationRequired": false,
-          "prompts": {},
-          "slots": [
+            },
             {
-              "name": "part",
-              "type": "DummyPart",
-              "confirmationRequired": false,
-              "elicitationRequired": true,
-              "prompts": {
-                "elicitation": "Elicit.Slot.323516811559.863715167340"
+              "name": {
+                "value": "princess heroes",
+                "synonyms": [
+                  "heroes",
+                  "princess"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "puppy rescue",
+                "synonyms": [
+                  "rescue",
+                  "puppy"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "pirate inspiration",
+                "synonyms": [
+                  "inspiration",
+                  "pirate"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "seadog reunion",
+                "synonyms": [
+                  "reunion",
+                  "seadog"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "return to sea",
+                "synonyms": [
+                  "sea",
+                  "to sea",
+                  "return"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "bamboo rhythm",
+                "synonyms": [
+                  "rhythm",
+                  "bamboo"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "jungle beat",
+                "synonyms": [
+                  "beat",
+                  "jungle"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "aloha melody",
+                "synonyms": [
+                  "melody",
+                  "aloha"
+                ]
               }
             }
           ]
         }
       ]
-    },
-    "prompts": [
-      {
-        "id": "Elicit.Slot.323516811559.863715167340",
-        "variations": [
-          {
-            "type": "PlainText",
-            "value": "Could you please say what you want?"
-          }
-        ]
-      }
-    ]
+    }
   }
 }

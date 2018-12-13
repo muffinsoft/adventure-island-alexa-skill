@@ -20,7 +20,7 @@ public class ResetIntentHandler implements RequestHandler {
     private static final Logger logger = LoggerFactory.getLogger(CancelAndStopIntentHandler.class);
 
     public boolean canHandle(HandlerInput input) {
-        return input.matches(intentName("ResetIntent"));
+        return input.matches(intentName("ResetIntent").or(intentName("AMAZON.StartOverIntent")));
     }
 
     public Optional<Response> handle(HandlerInput input) {

@@ -23,6 +23,7 @@ import static com.amazon.ask.request.Predicates.requestType;
 import static com.muffinsoft.alexa.skills.adventureisland.content.AttributeKeys.*;
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.MISSION_NAME_PLACEHOLDER;
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.game;
+import static com.muffinsoft.alexa.skills.adventureisland.util.ResponseBuilder.assembleResponse;
 
 public class LaunchRequestHandler implements RequestHandler {
 
@@ -36,7 +37,7 @@ public class LaunchRequestHandler implements RequestHandler {
 
         DialogItem dialog = getSpeechText(input);
 
-        return Optional.of(ActionIntentHandler.assembleResponse(dialog));
+        return Optional.of(assembleResponse(dialog));
     }
 
     @SuppressWarnings("unchecked")

@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
+import static com.muffinsoft.alexa.skills.adventureisland.util.ResponseBuilder.assembleResponse;
 
 public class HelpIntentHandler implements RequestHandler {
 
@@ -19,9 +20,9 @@ public class HelpIntentHandler implements RequestHandler {
     }
 
     public Optional<Response> handle(HandlerInput input) {
-        SessionStateManager stateManager = new SessionStateManager(Collections.emptyMap(), input.getAttributesManager());
+        SessionStateManager stateManager = new SessionStateManager(null, input.getAttributesManager(), null);
         DialogItem dialog = stateManager.initHelp();
-        Response response = ActionIntentHandler.assembleResponse(dialog);
+        Response response = assembleResponse(dialog);
         return Optional.of(response);
     }
 }

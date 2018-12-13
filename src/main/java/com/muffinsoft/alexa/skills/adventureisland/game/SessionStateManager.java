@@ -1,14 +1,16 @@
 package com.muffinsoft.alexa.skills.adventureisland.game;
 
 import com.amazon.ask.attributes.AttributesManager;
-import com.amazon.ask.model.Slot;
 import com.muffinsoft.alexa.skills.adventureisland.content.*;
 import com.muffinsoft.alexa.skills.adventureisland.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.*;
 import static com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager.*;
@@ -24,7 +26,7 @@ public class SessionStateManager {
     private AttributesManager attributesManager;
     private String slotName = SlotName.ACTION.text;
     private String userReply;
-    private String replyResolution;
+    private SpecialReply specialReply;
     private String additionalResponse;
 
     private StateItem stateItem;
@@ -32,7 +34,7 @@ public class SessionStateManager {
     private GameProperties props;
 
 
-    public SessionStateManager(Map<String, Slot> slots, AttributesManager attributesManager) {
+    public SessionStateManager(String userReply, AttributesManager attributesManager, SpecialReply specialReply) {
         this.attributesManager = attributesManager;
 
         attributesManager.setSessionAttributes(verifyMap(attributesManager.getSessionAttributes()));
@@ -42,16 +44,13 @@ public class SessionStateManager {
         persistentState = new PersistentState(attributesManager);
         props = new GameProperties(attributesManager);
 
-        if (slots != null && !slots.isEmpty()) {
-            Slot slot = slots.get(slotName);
-            userReply = slot.getValue();
-            replyResolution = Utils.extractSlotResolution(slot, userReply);
-        }
+        this.userReply = userReply;
+        this.specialReply = specialReply;
     }
 
     public DialogItem nextResponse() {
 
-        logger.debug("Starting to process user reply {}, resolved to {}, state: {}", userReply, replyResolution, stateItem.getState());
+        logger.debug("Starting to process user reply {}, state: {}, special reply: {}", userReply, stateItem.getState(), specialReply);
         DialogItem dialog = getDialogByState();
 
         String responseText = dialog.getResponseText().replace(USERNAME_PLACEHOLDER, persistentState.getUserName());
@@ -398,41 +397,27 @@ public class SessionStateManager {
     private DialogItem getStartConfirmation() {
         String responseText = "";
 
-        // user is ready
-        if (userReply != null && (isFirstScene() && !isYes())) {
-            responseText = nextObstacle(responseText);
-            stateItem.setIndex(stateItem.getIndex() + 1);
-            return DialogItem.builder()
-                    .responseText(responseText)
-                    .slotName(slotName)
-                    .cardText(currentObstacleToCard())
-                    .build();
-        }
-
-        if (isFirstScene()) {
-            // Lily first
-            if (userReply != null && isYes()) {
-                responseText += wrap(getPhrase(stateItem.getScene() + capitalizeFirstLetter(DEMO)));
-            } else {
-                // prompt for demo round
+        if (stateItem.getState() != State.READY) {
+            if (isFirstScene()) {
                 responseText += wrap(getPhrase(DEMO + PROMPT));
-                return DialogItem.builder()
-                        .responseText(responseText)
-                        .slotName(slotName)
-                        .reprompt(responseText)
-                        .cardText(getTextOnly(READY + CARD))
-                        .build();
+            } else {
+                responseText += wrap(getPhrase(READY + PROMPT));
             }
-        } else if (stateItem.getState() != State.READY) {
-            // ask if the user ready or needs help
-            responseText += wrap(getPhrase(READY + PROMPT));
             stateItem.setState(State.READY);
             return DialogItem.builder()
                     .responseText(responseText)
                     .slotName(slotName)
                     .reprompt(responseText)
-                    .cardText(getTextOnly(READY + PROMPT))
+                    .cardText(getTextOnly(READY + CARD))
                     .build();
+        }
+
+        if (isFirstScene()) {
+            // lily first
+            if (isYes()) {
+                responseText += wrap(getPhrase(stateItem.getScene() + capitalizeFirstLetter(DEMO)));
+            }
+            // not ready without demo
         } else if (!isYes()) {
             stateItem.setState(State.ACTION);
             return initHelp();
@@ -760,7 +745,7 @@ public class SessionStateManager {
     }
 
     private boolean isYes() {
-        return Objects.equals(replyResolution, YES.toLowerCase());
+        return specialReply == SpecialReply.YES;
     }
 
     private DialogItem getActionHelpLong() {

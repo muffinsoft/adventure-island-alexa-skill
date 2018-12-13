@@ -8,12 +8,16 @@ import com.amazon.ask.model.ui.*;
 import com.amazon.ask.response.ResponseBuilder;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.SessionStateManager;
+import com.muffinsoft.alexa.skills.adventureisland.game.Utils;
 import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
+import com.muffinsoft.alexa.skills.adventureisland.model.SlotName;
 
 import java.util.Map;
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
+import static com.muffinsoft.alexa.skills.adventureisland.util.ResponseBuilder.assembleResponse;
+import static com.muffinsoft.alexa.skills.adventureisland.util.ResponseBuilder.getResponse;
 
 public class ActionIntentHandler implements RequestHandler {
 
@@ -24,51 +28,6 @@ public class ActionIntentHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        Request request = input.getRequestEnvelope().getRequest();
-        IntentRequest intentRequest = (IntentRequest) request;
-
-        Map<String, Slot> slots = intentRequest.getIntent().getSlots();
-        SessionStateManager stateManager = new SessionStateManager(slots, input.getAttributesManager());
-        DialogItem dialog = stateManager.nextResponse();
-
-        Response response = assembleResponse(dialog);
-
-        return Optional.of(response);
-    }
-
-    static Response assembleResponse(DialogItem dialog) {
-        String speechText = dialog.getResponseText();
-        OutputSpeech speech = SsmlOutputSpeech.builder()
-                .withSsml("<speak>" + speechText + "</speak>")
-                .build();
-
-        Card card = SimpleCard.builder()
-                .withTitle(PhraseManager.getPhrase("welcomeCard"))
-                .withContent(dialog.getCardText())
-                .build();
-
-        Response.Builder response = Response.builder()
-                .withOutputSpeech(speech)
-                .withCard(card)
-                .withShouldEndSession(dialog.isEnd());
-
-        if (dialog.getSlotName() != null) {
-            Directive directive = ElicitSlotDirective.builder()
-                    .withSlotToElicit(dialog.getSlotName())
-                    .build();
-            response = response.addDirectivesItem(directive);
-        }
-
-        if (dialog.getReprompt() != null) {
-            OutputSpeech text = SsmlOutputSpeech.builder()
-                    .withSsml("<speak>" + dialog.getReprompt() + "</speak>")
-                    .build();
-            Reprompt reprompt = Reprompt.builder()
-                    .withOutputSpeech(text)
-                    .build();
-            response = response.withReprompt(reprompt);
-        }
-
-        return response.build();
+        return getResponse(input, SlotName.ACTION);
     }
 }
