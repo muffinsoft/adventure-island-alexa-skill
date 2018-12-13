@@ -52,7 +52,6 @@ public class MissionSelector {
                 .responseText(responseText)
                 .slotName(slotName)
                 .reprompt(description)
-                .cardText(getTextOnly(SELECT_MISSION + CARD))
                 .build();
     }
 

@@ -46,15 +46,18 @@ public class ResponseBuilder {
                 .withSsml("<speak>" + speechText + "</speak>")
                 .build();
 
-        Card card = SimpleCard.builder()
-                .withTitle(PhraseManager.getPhrase("welcomeCard"))
-                .withContent(dialog.getCardText())
-                .build();
 
         Response.Builder response = Response.builder()
                 .withOutputSpeech(speech)
-                .withCard(card)
                 .withShouldEndSession(dialog.isEnd());
+
+        if (dialog.getCardText() != null) {
+            Card card = SimpleCard.builder()
+                    .withTitle(PhraseManager.getPhrase("welcomeCard"))
+                    .withContent(dialog.getCardText())
+                    .build();
+            response = response.withCard(card);
+        }
 
 
         if (dialog.getReprompt() != null) {

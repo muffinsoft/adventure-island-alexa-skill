@@ -98,7 +98,6 @@ public class LaunchRequestHandler implements RequestHandler {
         return DialogItem.builder()
                 .responseText(speechText)
                 .reprompt(reprompt)
-                .cardText(cardText)
                 .build();
     }
 }

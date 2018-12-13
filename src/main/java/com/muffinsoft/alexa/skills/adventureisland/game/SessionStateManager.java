@@ -144,7 +144,6 @@ public class SessionStateManager {
             String response = getPhrase(STOP);
             return DialogItem.builder()
                     .responseText(response)
-                    .cardText(STOP + CARD)
                     .end(true)
                     .build();
         } else {
@@ -160,7 +159,6 @@ public class SessionStateManager {
             return DialogItem.builder()
                     .responseText(response)
                     .end(true)
-                    .cardText(getTextOnly(STOP + CARD))
                     .build();
         } else {
             stateItem.setState(stateItem.getPendingState());
@@ -238,12 +236,7 @@ public class SessionStateManager {
         return DialogItem.builder()
                 .responseText(speechText)
                 .slotName(slotName)
-                .cardText(currentObstacleToCard())
                 .build();
-    }
-
-    private String currentObstacleToCard() {
-        return capitalizeFirstLetter(props.getCurrentObstacle()) + "!";
     }
 
     private String useMultiplicationPowerUp() {
@@ -348,7 +341,6 @@ public class SessionStateManager {
                         return DialogItem.builder()
                                 .responseText(speechText)
                                 .slotName(slotName)
-                                .cardText(currentObstacleToCard())
                                 .build();
                     }
                     // lose a heart if no powerup
@@ -374,7 +366,6 @@ public class SessionStateManager {
         return DialogItem.builder()
                 .responseText(speechText)
                 .slotName(slotName)
-                .cardText(currentObstacleToCard())
                 .build();
     }
 
@@ -408,7 +399,6 @@ public class SessionStateManager {
                     .responseText(responseText)
                     .slotName(slotName)
                     .reprompt(responseText)
-                    .cardText(getTextOnly(READY + CARD))
                     .build();
         }
 
@@ -443,7 +433,6 @@ public class SessionStateManager {
                 .responseText(getPhrase(SCENE_FAIL))
                 .slotName(slotName)
                 .reprompt(getPhrase(SCENE_FAIL + REPROMPT))
-                .cardText(getTextOnly(RETRY + CARD))
                 .build();
     }
 
@@ -479,7 +468,6 @@ public class SessionStateManager {
                 return DialogItem.builder()
                         .responseText(response)
                         .reprompt(prompt)
-                        .cardText(getPhrase(RESTART + CARD))
                         .slotName(slotName)
                         .build();
             }
@@ -698,7 +686,6 @@ public class SessionStateManager {
                 .responseText(reply)
                 .reprompt(reply)
                 .slotName(inSlotName)
-                .cardText(getTextOnly(CONTINUE + CARD))
                 .build();
     }
 
@@ -758,7 +745,6 @@ public class SessionStateManager {
         return DialogItem.builder()
                 .responseText(reply)
                 .reprompt(getPhrase(LEARN_MORE))
-                .cardText(getTextOnly(HELP + CARD))
                 .build();
     }
 
