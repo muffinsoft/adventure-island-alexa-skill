@@ -236,16 +236,13 @@ class SessionStateManagerTest {
     }
 
     private SessionStateManager getSessionStateManager(Map<String, Object> sessionAttributes, String inSlot) {
-        Map<String, Slot> slots = new HashMap<>();
-        Slot slot = Slot.builder().withName(SlotName.ACTION.text).withValue(inSlot).build();
-        slots.put(SlotName.ACTION.text, slot);
-        return getSessionStateManager(slots, sessionAttributes);
+        return getSessionStateManager(inSlot, sessionAttributes);
     }
 
-    private SessionStateManager getSessionStateManager(Map<String, Slot> slots, Map<String, Object> sessionAttributes) {
+    private SessionStateManager getSessionStateManager(String reply, Map<String, Object> sessionAttributes) {
         AttributesManager attributesManager = getAttributesManager(sessionAttributes);
 
-        return new SessionStateManager(slots, attributesManager);
+        return new SessionStateManager(reply, attributesManager, null);
     }
 
     private AttributesManager getAttributesManager(Map<String, Object> sessionAttributes) {
