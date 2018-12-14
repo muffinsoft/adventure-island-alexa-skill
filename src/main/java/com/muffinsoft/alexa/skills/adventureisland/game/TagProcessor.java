@@ -58,10 +58,13 @@ public class TagProcessor {
     private static String insertSounds(String text) {
         while (text.contains(SOUNDS_OPEN)) {
             String name = text.substring(text.indexOf(SOUNDS_OPEN) + 1, text.indexOf(SOUNDS_CLOSE));
-            String replacement = "";
+            String replacement;
             String key = PhraseManager.nameToKey(name);
             if (sounds.contains(key)) {
                 replacement = AudioManager.getSound(key, AudioManager.generalDir);
+            } else {
+                replacement = AudioManager.getObstacleSound(key);
+                replacement = replacement == null ? "" : replacement;
             }
             text = text.replace(SOUNDS_OPEN + name + SOUNDS_CLOSE, replacement);
         }
