@@ -34,7 +34,6 @@ public class CancelAndStopIntentHandler implements RequestHandler {
 
         return input.getResponseBuilder()
                 .withSpeech(speechText)
-                .withSimpleCard(PhraseManager.getPhrase("welcomeCard"), reprompt)
                 .withReprompt(reprompt)
                 .build();
     }
