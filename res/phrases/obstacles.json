@@ -45,7 +45,7 @@
     {
       "name" : "rats",
       "responses" : ["whee"],
-      "preObstacle" : "Careful! The floor is moving up ahead!",
+      "preObstacle" : "I see rats coming this way! Don't forget to say 'whee' to jump!",
       "headsUp" : "Careful! The floor is moving up ahead!"
     },
     {
@@ -127,7 +127,7 @@
     {
       "name" : "wall",
       "responses" : ["woo hoo", "woo-hoo"],
-      "preObstacle" : "The thief ran into a wall! Remember to say Alexa Speechcon: woo hoo! to woo hoo over it!",
+      "preObstacle" : "The thief ran into a wall! Remember to say Alexa Speechcon: woo hoo! to climb over it!",
       "headsUp" : "I see something ahead that we'll need to climb!"
     },
     {
@@ -163,7 +163,7 @@
     {
       "name" : "beehive",
       "responses" : ["yikes", "yay", "yes", "ok yes", "yeah yay"],
-      "preObstacle" : "The thief has a beehive! Duck under by saying Alexa Speechcon: yikes!",
+      "preObstacle" : "He's got a beehive! Remember to say Alexa Speechcon: yikes! to duck!",
       "headsUp" : "I hear buzzing coming from the thief!"
     },
     {
@@ -181,7 +181,7 @@
     {
       "name" : "sleeping giant",
       "responses" : ["woo hoo", "woo-hoo"],
-      "preObstacle" : "The thief ran into a wall! Don't forget to say Alexa Speechcon: woo hoo! to climb over it!",
+      "preObstacle" : "He's heading toward a sleeping giant! Remember, say Alexa Speechcon: woo hoo! to climb over it!",
       "headsUp" : "We're about to run into something huge!"
     }
   ]
