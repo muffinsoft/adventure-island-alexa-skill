@@ -3,7 +3,7 @@
     {
       "name" : "snakes",
       "responses" : ["whee"],
-      "preObstacle" : "Snakes! Jump over them by saying Alexa Speechcon: whee!",
+      "preObstacle" : "Snakes! Remember to jump over them by saying Alexa Speechcon: whee!",
       "headsUp" : "I hear hissing!"
     },
     {
@@ -15,7 +15,7 @@
     {
       "name" : "floor spikes",
       "responses" : ["whee"],
-      "preObstacle" : "Floor spikes up ahead! Shout Alexa Speechcon: whee! to jump!",
+      "preObstacle" : "Those floor spikes ahead look painful! Remember, say Alexa Speechcon: whee! to jump!",
       "headsUp" : "I see some sharp dangers coming up!"
     },
     {
@@ -33,7 +33,7 @@
     {
       "name" : "collapsing floor",
       "responses" : ["whee"],
-      "preObstacle" : "The floor ahead looks unstable! Shout Alexa Speechcon: whee! to jump!",
+      "preObstacle" : "The floor ahead looks unstable! Don't forget to shout Alexa Speechcon: whee! to jump!",
       "headsUp" : "The ground is unstable here!"
     },
     {
