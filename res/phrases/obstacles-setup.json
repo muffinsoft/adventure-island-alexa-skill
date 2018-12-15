@@ -4,7 +4,7 @@
       "templeHalls":
         [
           {
-            "explanation": "If I see a SNAKE, say Alexa Speechcon: whee! to jump over it! If I see BLOW DARTS, say Alexa Speechcon: yikes! to duck. And hey, if we spot some COINS lying around before the treasure room, say Alexa Speechcon: bazinga! to pick them up!",
+            "explanation": "If I see a SNAKE, say Alexa Speechcon: whee! to jump over it! If I see BLOW DARTS, say Alexa Speechcon: yikes! to duck. And hey, if we spot some COINS lying around before the treasure room, say Alexa Speechcon: kaching! to pick them up!",
             "obstacleIndices": [0, 1]
           },
           {
@@ -67,7 +67,7 @@
       "outToSea":
       [
         {
-          "explanation": "If we see underwater COINS, say Alexa Speechcon: bazinga! to pull them up. If we see rocks up ahead, say Alexa Speechcon: wowzer! to avoid them. Remember to say a friendly Alexa Speechcon: ahoy! to SAILORS so they don't attack us!",
+          "explanation": "If we see underwater COINS, say Alexa Speechcon: kaching! to pull them up. If we see rocks up ahead, say Alexa Speechcon: wowzer! to avoid them. Remember to say a friendly Alexa Speechcon: ahoy! to SAILORS so they don't attack us!",
           "obstacleIndices": [0, 1]
         },
         {
@@ -130,7 +130,7 @@
     "theVillage" :
     [
       {
-        "explanation": "Say Alexa Speechcon: bazinga! to grab COINS. When the the thief runs into a WALL, shout Alexa Speechcon: woo hoo! If he falls into a MOAT, say Alexa Speechcon: splash!",
+        "explanation": "Say Alexa Speechcon: kaching! to grab COINS. When the the thief runs into a WALL, shout Alexa Speechcon: woo hoo! If he falls into a MOAT, say Alexa Speechcon: splash!",
         "obstacleIndices": [0, 1]
       },
       {
