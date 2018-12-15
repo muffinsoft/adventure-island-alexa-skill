@@ -32,10 +32,6 @@
             }
           ],
           "samples": [
-            "i am {action}",
-            "my name is {action}",
-            "i'm {action}",
-            "find treasure",
             "{action}"
           ]
         },
@@ -55,7 +51,14 @@
               "type": "MISSION"
             }
           ],
-          "samples": []
+          "samples": [
+            "I'm feeling {mission}",
+            "I'd like {mission}",
+            "{mission} please",
+            "{mission} adventure",
+            "{mission} mission",
+            "{mission}"
+          ]
         },
         {
           "name": "RandomQuestionIntent",
@@ -65,15 +68,19 @@
               "type": "AMAZON.SearchQuery"
             }
           ],
-          "samples": []
-        },
-        {
-          "name": "ResetIntent",
-          "slots": [],
-          "samples": []
+          "samples": [
+            "{whatever}"
+          ]
         },
         {
           "name": "AMAZON.StartOverIntent",
+          "samples": [
+            "restart",
+            "reset"
+          ]
+        },
+        {
+          "name": "AMAZON.ResumeIntent",
           "samples": []
         }
       ],
@@ -83,7 +90,7 @@
           "values": [
             {
               "name": {
-                "value": "bazinga"
+                "value": "kaching"
               }
             },
             {
@@ -183,34 +190,6 @@
             {
               "name": {
                 "value": "hiyaaa"
-              }
-            },
-            {
-              "name": {
-                "value": "continue"
-              }
-            },
-            {
-              "name": {
-                "value": "another mission",
-                "synonyms": [
-                  "new mission"
-                ]
-              }
-            },
-            {
-              "name": {
-                "value": "restart scene"
-              }
-            },
-            {
-              "name": {
-                "value": "lily first"
-              }
-            },
-            {
-              "name": {
-                "value": "i'm ready"
               }
             },
             {

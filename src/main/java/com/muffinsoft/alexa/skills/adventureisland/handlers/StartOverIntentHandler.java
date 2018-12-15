@@ -16,11 +16,11 @@ import static com.amazon.ask.request.Predicates.intentName;
 import static com.muffinsoft.alexa.skills.adventureisland.content.AttributeKeys.PENDING_STATE;
 import static com.muffinsoft.alexa.skills.adventureisland.content.AttributeKeys.STATE;
 
-public class ResetIntentHandler implements RequestHandler {
+public class StartOverIntentHandler implements RequestHandler {
     private static final Logger logger = LoggerFactory.getLogger(CancelAndStopIntentHandler.class);
 
     public boolean canHandle(HandlerInput input) {
-        return input.matches(intentName("ResetIntent").or(intentName("AMAZON.StartOverIntent")));
+        return input.matches(intentName("AMAZON.StartOverIntent"));
     }
 
     public Optional<Response> handle(HandlerInput input) {

@@ -31,6 +31,8 @@ public class ResponseBuilder {
         if (slots != null && !slots.isEmpty()) {
             Slot slot = slots.get(slotName.text);
             userReply = slot.getValue();
+        } else if (specialReply != null) {
+            userReply = specialReply.text;
         }
         SessionStateManager stateManager = new SessionStateManager(userReply, input.getAttributesManager(), specialReply);
         DialogItem dialog = stateManager.nextResponse();

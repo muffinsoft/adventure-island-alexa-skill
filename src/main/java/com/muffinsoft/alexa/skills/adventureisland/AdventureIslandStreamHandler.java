@@ -13,9 +13,10 @@ public class AdventureIslandStreamHandler extends SkillStreamHandler {
                 .addRequestHandlers(
                         new CancelAndStopIntentHandler(),
                         new FallbackIntentHandler(),
-                        new ResetIntentHandler(),
+                        new StartOverIntentHandler(),
                         new YesIntentHandler(),
                         new NoIntentHandler(),
+                        new ResumeIntentHandler(),
                         new HelpIntentHandler(),
                         new LaunchRequestHandler(),
                         new StartMissionIntent(),
