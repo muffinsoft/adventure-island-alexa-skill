@@ -38,7 +38,7 @@ public class StartOverIntentHandler implements RequestHandler {
                 .build();
     }
 
-    private void changeState(HandlerInput input) {
+    private static void changeState(HandlerInput input) {
         Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
         State state = State.valueOf(String.valueOf(sessionAttributes.getOrDefault(STATE, State.INTRO)));
         sessionAttributes.put(STATE, State.RESET);

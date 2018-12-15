@@ -52,6 +52,12 @@
             }
           ],
           "samples": [
+            "do {mission}",
+            "i want {mission}",
+            "go to {mission}",
+            "play {mission}",
+            "start {mission}",
+            "switch to {mission}",
             "I'm feeling {mission}",
             "I'd like {mission}",
             "{mission} please",
@@ -69,7 +75,7 @@
             }
           ],
           "samples": [
-            "{whatever}"
+            "it's {whatever}"
           ]
         },
         {

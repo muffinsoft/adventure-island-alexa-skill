@@ -596,7 +596,7 @@ public class SessionStateManager {
         nicknamesForMission.add(newNickname);
         persistentState.addNickname(oldMission, nicknamesForMission);
 
-        additionalResponse = wrap(getPhrase(NICKNAME_GOT).replace(NICKNAME_PLACEHOLDER, newNickname));
+        //additionalResponse = wrap(getPhrase(NICKNAME_GOT).replace(NICKNAME_PLACEHOLDER, newNickname));
     }
 
     private void updateCompletedMissions() {
