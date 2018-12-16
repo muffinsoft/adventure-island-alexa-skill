@@ -586,15 +586,17 @@ public class SessionStateManager {
         if (Objects.equals(stateItem.getMission(), ROOT)) {
             updateCompletedMissions();
             persistentState.setCheckpoint(null);
-            //updateNicknames(oldMission, oldTier);
+            updateNicknames(oldMission, oldTier);
         }
     }
 
     private void updateNicknames(String oldMission, int oldTier) {
         List<String> nicknamesForMission = persistentState.getNicknames().getOrDefault(oldMission, new ArrayList<>());
         String newNickname = NicknameManager.getNickname(oldMission, oldTier);
-        nicknamesForMission.add(newNickname);
-        persistentState.addNickname(oldMission, nicknamesForMission);
+        if (!nicknamesForMission.contains(newNickname)) {
+            nicknamesForMission.add(newNickname);
+            persistentState.addNickname(oldMission, nicknamesForMission);
+        }
 
         //additionalResponse = wrap(getPhrase(NICKNAME_GOT).replace(NICKNAME_PLACEHOLDER, newNickname));
     }

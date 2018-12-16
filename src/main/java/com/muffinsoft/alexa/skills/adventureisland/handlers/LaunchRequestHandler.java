@@ -5,6 +5,7 @@ import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.LaunchRequest;
 import com.amazon.ask.model.Response;
 import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
+import com.muffinsoft.alexa.skills.adventureisland.content.NicknameManager;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.MissionSelector;
 import com.muffinsoft.alexa.skills.adventureisland.game.SessionStateManager;
@@ -23,6 +24,7 @@ import static com.amazon.ask.request.Predicates.requestType;
 import static com.muffinsoft.alexa.skills.adventureisland.content.AttributeKeys.*;
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.MISSION_NAME_PLACEHOLDER;
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.game;
+import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getPhrase;
 import static com.muffinsoft.alexa.skills.adventureisland.util.ResponseBuilder.assembleResponse;
 
 public class LaunchRequestHandler implements RequestHandler {
@@ -58,20 +60,26 @@ public class LaunchRequestHandler implements RequestHandler {
             List<BigDecimal> checkpoint = (List<BigDecimal>) persistentAttributes.get(CHECKPOINT);
             Map<String, List<String>> achievements = (Map<String, List<String>>) persistentAttributes.get(ACHIEVEMENTS);
             Map<String, List<String>> nicknames = (Map<String, List<String>>) persistentAttributes.get(NICKNAMES);
-            if (achievements != null && !achievements.isEmpty() && nicknames != null && !nicknames.isEmpty()) {
-                speechText = PhraseManager.getPhrase(Constants.WELCOME_BACK_ROYAL);
+            if (exists(achievements) || exists(nicknames)) {
+                speechText = getPhrase(Constants.WELCOME_BACK_ROYAL);
+                if (exists(achievements)) {
+                    speechText += " " + getPhrase(Constants.WELCOME_BACK_ROYAL + Constants.ACHIEVEMENTS);
+                }
+                if (exists(nicknames)) {
+                    speechText += " " + NicknameManager.getNicknamesGreeting(nicknames);
+                }
             } else if (checkpoint != null || completedMissions != null || oldObstacles != null) {
-                speechText = PhraseManager.getPhrase(Constants.WELCOME_BACK);
+                speechText = getPhrase(Constants.WELCOME_BACK);
             } else {
-                speechText = PhraseManager.getPhrase(Constants.WELCOME);
+                speechText = getPhrase(Constants.WELCOME);
                 sessionAttributes.put(STATE, State.WELCOME);
             }
             if (checkpoint != null) {
                 int missionIndex = checkpoint.get(1).intValue();
                 int tierIndex = checkpoint.get(0).intValue();
                 missionName = game.getMissions().get(missionIndex).getTierNames().get(tierIndex);
-                speechText += Utils.wrap(PhraseManager.getPhrase(Constants.WELCOME_CHECKPOINT));
-                reprompt = PhraseManager.getPhrase(Constants.WELCOME_CHECKPOINT);
+                speechText += Utils.wrap(getPhrase(Constants.WELCOME_CHECKPOINT));
+                reprompt = getPhrase(Constants.WELCOME_CHECKPOINT);
                 sessionAttributes.put(STATE, State.CHECKPOINT);
                 cardText = PhraseManager.getTextOnly(Constants.CONTINUE + Constants.CARD);
             } else if (completedMissions != null || oldObstacles != null) {
@@ -82,13 +90,13 @@ public class LaunchRequestHandler implements RequestHandler {
                 reprompt = missionPrompt;
                 cardText = PhraseManager.getTextOnly(Constants.SELECT_MISSION + Constants.CARD);
             } else {
-                reprompt = PhraseManager.getPhrase(Constants.WELCOME + Constants.REPROMPT);
+                reprompt = getPhrase(Constants.WELCOME + Constants.REPROMPT);
                 cardText = PhraseManager.getTextOnly(Constants.CONTINUE + Constants.CARD);
             }
         } else {
-            speechText = PhraseManager.getPhrase(Constants.WELCOME);
+            speechText = getPhrase(Constants.WELCOME);
             sessionAttributes.put(STATE, State.WELCOME);
-            reprompt = PhraseManager.getPhrase(Constants.WELCOME + Constants.REPROMPT);
+            reprompt = getPhrase(Constants.WELCOME + Constants.REPROMPT);
             cardText = PhraseManager.getTextOnly(Constants.CONTINUE + Constants.CARD);
         }
         if (!missionName.isEmpty()) {
@@ -97,7 +105,12 @@ public class LaunchRequestHandler implements RequestHandler {
         }
         return DialogItem.builder()
                 .responseText(speechText)
+                .cardText(getPhrase(Constants.WELCOME + Constants.CARD))
                 .reprompt(reprompt)
                 .build();
+    }
+
+    private boolean exists(Map<String, List<String>> map) {
+        return map != null && !map.isEmpty();
     }
 }

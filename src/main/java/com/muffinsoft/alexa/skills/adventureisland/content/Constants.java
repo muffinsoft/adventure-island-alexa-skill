@@ -62,7 +62,7 @@ public class Constants {
     public static final String POWERUP_GOT = "powerupGot";
     public static final String POWERUP_PLACEHOLDER = "__POWERUP__";
     public static final String NICKNAME_GOT = "nicknameGot";
-    public static final String NICKNAME_PLACEHOLDER = "__NICKNAME__";
+    public static final String NICKNAME_PLACEHOLDER = "__NICKNAMES__";
     public static final String TOTAL_COINS_PLACEHOLDER = "__TOTAL_COINS__";
     public static final String MISSION_NAME_PLACEHOLDER = "__MISSION_NAME__";
     public static final String MISSIONS_AVAILABLE = "__MISSIONS_AVAILABLE__";
