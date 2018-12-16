@@ -55,7 +55,7 @@ public class ResponseBuilder {
 
         if (dialog.getCardText() != null) {
             Card card = SimpleCard.builder()
-                    .withTitle(PhraseManager.getPhrase("welcomeCard"))
+                    .withTitle(PhraseManager.getPhrase("welcomeCardTitle"))
                     .withContent(dialog.getCardText())
                     .build();
             response = response.withCard(card);
