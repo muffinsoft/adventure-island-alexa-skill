@@ -68,10 +68,8 @@ public class SessionStateManager {
                 dialog = processHelp();
                 break;
             case CANCEL:
-                dialog = processCancel();
-                break;
             case QUIT:
-                dialog = processQuit();
+                dialog = processCancel();
                 break;
             case RESET:
                 dialog = processReset();
@@ -140,20 +138,6 @@ public class SessionStateManager {
     }
 
     private DialogItem processCancel() {
-        if (isYes()) {
-            String response = getPhrase(STOP);
-            return DialogItem.builder()
-                    .responseText(response)
-                    .end(true)
-                    .build();
-        } else {
-            stateItem.setState(stateItem.getPendingState());
-            resetAction();
-            return nextResponse();
-        }
-    }
-
-    private DialogItem processQuit() {
         if (isYes()) {
             String response = getPhrase(STOP);
             return DialogItem.builder()
