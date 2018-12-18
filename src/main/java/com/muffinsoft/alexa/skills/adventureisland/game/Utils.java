@@ -48,39 +48,12 @@ public class Utils {
         return newText;
     }
 
-    static String extractSlotResolution(Slot slot, String defaultValue) {
-        Resolutions resolutions = slot.getResolutions();
-        if (resolutions != null) {
-            List<Resolution> resolutionList = resolutions.getResolutionsPerAuthority();
-            if (resolutionList != null && !resolutionList.isEmpty()) {
-                Resolution resolution = resolutionList.get(0);
-                if (resolution != null) {
-                    List<ValueWrapper> valueWrappers = resolution.getValues();
-                    if (valueWrappers != null && !valueWrappers.isEmpty()) {
-                        ValueWrapper valueWrapper = valueWrappers.get(0);
-                        if (valueWrapper != null) {
-                            Value value = valueWrapper.getValue();
-                            if (value != null) {
-                                return value.getId();
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return defaultValue;
-    }
-
     private static String getLocationStoreKey(StateItem stateItem) {
         return String.format("%d-%d-%d::", stateItem.getTierIndex(), stateItem.getMissionIndex(), stateItem.getLocationIndex());
     }
 
     public static String capitalizeFirstLetter(String s) {
         return s.substring(0, 1).toUpperCase() + s.substring(1);
-    }
-
-    public static boolean exists(String s) {
-        return (s != null && !s.isEmpty());
     }
 
     static String getNameKey(StateItem stateItem, State state, PersistentState persistentState) {

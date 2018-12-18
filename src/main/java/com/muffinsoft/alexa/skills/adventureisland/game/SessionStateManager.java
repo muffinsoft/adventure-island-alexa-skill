@@ -131,9 +131,7 @@ public class SessionStateManager {
         if (isYes()) {
             return quitToRoot();
         } else {
-            stateItem.setState(stateItem.getPendingState());
-            resetAction();
-            return nextResponse();
+            return goToLastAction();
         }
     }
 
@@ -145,10 +143,29 @@ public class SessionStateManager {
                     .end(true)
                     .build();
         } else {
-            stateItem.setState(stateItem.getPendingState());
-            resetAction();
-            return nextResponse();
+            return goToLastAction();
         }
+    }
+
+    private DialogItem goToLastAction() {
+        stateItem.setState(stateItem.getPendingState());
+
+        if (stateItem.getState() == State.ACTION) {
+            if (stateItem.getIndex() > 0) {
+                stateItem.setIndex(stateItem.getIndex() - 1);
+            }
+            props.setCurrentObstacle(null);
+            props.setSkipReadyPrompt(true);
+        }
+
+        DialogItem dialog = nextResponse();
+        if (stateItem.getState() == State.INTRO || stateItem.getState() == State.OUTRO) {
+            if (stateItem.getIndex() > 0) {
+                stateItem.setIndex(stateItem.getIndex() - 1);
+                dialog.setResponseText(dialog.getReprompt());
+            }
+        }
+        return dialog;
     }
 
     private void restoreFromCheckpoint() {
@@ -723,7 +740,13 @@ public class SessionStateManager {
 
     private DialogItem getActionHelpLong() {
         String prefix = stateItem.getTierIndex() > 0 ? "" + stateItem.getTierIndex() : "";
-        String reply = getPhrase(stateItem.getScene() + prefix + capitalizeFirstLetter(HELP));
+        String sceneKey = stateItem.getScene();
+        if (Objects.equals(stateItem.getScene(), SILENT_SCENE)) {
+            sceneKey = nameToKey(game.getMissions().get(stateItem.getMissionIndex())
+                    .getLocations().get(stateItem.getLocationIndex())
+                    .getActivities().get(stateItem.getSceneIndex() - 1).getName());
+        }
+        String reply = getPhrase(sceneKey + prefix + capitalizeFirstLetter(HELP));
         stateItem.setHelpState(HelpState.MISSION);
         attributesManager.savePersistentAttributes();
         reply += wrap(getPhrase(LEARN_MORE));
@@ -738,18 +761,8 @@ public class SessionStateManager {
         State state = stateItem.getPendingState();
         state = state != null ? state : State.INTRO;
         stateItem.setState(state);
+        stateItem.setPendingState(state);
         stateItem.setIndex(stateItem.getPendingIndex());
-        resetAction();
-        return nextResponse();
-    }
-
-    private void resetAction() {
-        if (stateItem.getState() == State.ACTION) {
-            if (stateItem.getIndex() > 0) {
-                stateItem.setIndex(stateItem.getIndex() - 1);
-            }
-            props.setCurrentObstacle(null);
-            props.setSkipReadyPrompt(true);
-        }
+        return goToLastAction();
     }
 }
