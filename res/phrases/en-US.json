@@ -1,8 +1,8 @@
 {
-  "welcome" : "[phone ring] Ben: Hey! I'm glad you called your friend Ben. Are you ready for some adventure?",
-  "rootWelcomeNew0" : "Ben: That sounds neat.  I love adventure! Lily: Do you mean going shopping with mom? Because that's always an adventure... Ben: No, Lily, I'm talking about a real adventure. Hey friend, what's the coolest place you've ever visited?",
-  "rootWelcomeNew1" : "Ben: Awesome! Well - if we go on an adventure, we'll explore ancient temples, sail the seven seas, and even visit a fantasy kingdom... together! Lily: That sounds so great! Can I come too? Pretty please! Ben: Sure, but be warned -- we'll face a lot of exciting dangers! Alexa, want to come along to keep track of our coins? Alexa: I'd love to join you.  Let me just put on my adventure hat. Ben: Great! Hey adventure buddy, what would you buy with all the gold in the world?",
-  "rootWelcomeNew2" : "Ben: Nice! Alexa, tell us about the available missions!",
+  "welcome" : "[phone ring] Hi, I am Ben! Welcome to Adventure Island! Are you as thrilled as I am to explore fun, exciting places?",
+  "rootWelcomeNew0" : "Ben: Great! We'll raid ancient temples, sail the seven seas, and even visit a fantasy kingdom... together! Lily: Ooh, that sounds so great! Can I come too? Pretty please! Ben: Sure, but be warned - there are lots of dangers! Hey friend, what's the coolest place you've ever visited?",
+  "rootWelcomeNew1" : "Ben: Neat! Our goal will be to help some of my friends on Adventure Island by collecting gold! Hey adventure buddy, what would you buy with all the gold in the world?",
+  "rootWelcomeNew2" : "Ben: Nice! Well, let's get started. Alexa, tell us about the available missions!",
   "welcomeBackRoyal" : "Ben: Welcome back to Adventure Island! Alexa - please give our friend a royal greeting!",
   "welcomeBackRoyalNicknames" : "Alexa: Welcome back you great __NICKNAMES__.",
   "welcomeBackRoyalAchievements" : "I'm so happy to see you again, you mighty __ACHIEVEMENTS__.",
