@@ -63,9 +63,7 @@ public class Utils {
 
         if (Objects.equals(stateItem.getScene(), SILENT_SCENE)) {
             prefix = stateItem.getLocation();
-        } else if (stateItem.getState() == State.OUTRO &&
-                Objects.equals(stateItem.getScene(), stateItem.getLocation()) &&
-                !Objects.equals(stateItem.getMission(), stateItem.getLocation())) {
+        } else if (isLocationConnector(stateItem)) {
             prefix = stateItem.getMission();
             introOutroId = tierIndex == 0 ? "" : "" + tierIndex;
         }
@@ -89,6 +87,12 @@ public class Utils {
         scene = "".equals(prefix) ? scene : capitalizeFirstLetter(scene);
 
         return prefix + scene + introOutroId + state.getKey() + stateItem.getIndex();
+    }
+
+    public static boolean isLocationConnector(StateItem stateItem) {
+        return stateItem.getState() == State.OUTRO &&
+                Objects.equals(stateItem.getScene(), stateItem.getLocation()) &&
+                !Objects.equals(stateItem.getMission(), stateItem.getLocation());
     }
 
     private static int getNextLocationIndex(StateItem stateItem, PersistentState persistentState) {

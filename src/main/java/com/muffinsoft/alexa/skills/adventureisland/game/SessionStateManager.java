@@ -85,7 +85,9 @@ public class SessionStateManager {
             case OUTRO:
             case WELCOME:
                 dialog = getIntroOutroDialog();
-                TagProcessor.getReprompt(dialog);
+                if (!Utils.isLocationConnector(stateItem)) {
+                    TagProcessor.getReprompt(dialog);
+                }
                 break;
             default:
                 dialog = getActionDialog();
