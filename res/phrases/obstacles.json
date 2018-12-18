@@ -46,7 +46,7 @@
       "name" : "rats",
       "responses" : ["whee"],
       "preObstacle" : "I see rats coming this way! Don't forget to say 'whee' to jump!",
-      "headsUp" : "Careful! The floor is moving up ahead!"
+      "headsUp" : "Rats! I think we're about to see some rats."
     },
     {
       "name" : "crocodile",
