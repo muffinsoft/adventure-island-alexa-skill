@@ -53,9 +53,6 @@ public class SessionStateManager {
         logger.debug("Starting to process user reply {}, state: {}, special reply: {}", userReply, stateItem.getState(), specialReply);
         DialogItem dialog = getDialogByState();
 
-        String responseText = dialog.getResponseText().replace(USERNAME_PLACEHOLDER, persistentState.getUserName());
-        dialog.setResponseText(responseText);
-
         attributesManager.savePersistentAttributes();
         logger.debug("Sending response {}", dialog.getResponseText());
         return dialog;
@@ -158,12 +155,17 @@ public class SessionStateManager {
             props.setSkipReadyPrompt(true);
         }
 
-        DialogItem dialog = nextResponse();
+        boolean setToReprompt = false;
+
         if (stateItem.getState() == State.INTRO || stateItem.getState() == State.OUTRO) {
             if (stateItem.getIndex() > 0) {
                 stateItem.setIndex(stateItem.getIndex() - 1);
-                dialog.setResponseText(dialog.getReprompt());
+                setToReprompt = true;
             }
+        }
+        DialogItem dialog = nextResponse();
+        if (setToReprompt) {
+            dialog.setResponseText(dialog.getReprompt());
         }
         return dialog;
     }
@@ -460,6 +462,10 @@ public class SessionStateManager {
                     return dialog;
                 }
             } else {
+                if (stateItem.getState() == State.OUTRO &&
+                        !Objects.equals(stateItem.getMission(), stateItem.getLocation())) {
+                    persistentState.addVisitedLocation(stateItem.getLocation());
+                }
                 getNextScene();
             }
             if (stateItem.getState() == State.RESTART) {
@@ -473,9 +479,6 @@ public class SessionStateManager {
                         .build();
             }
             if (stateItem.getState() != State.ACTION) {
-                if (stateItem.getState() == State.OUTRO) {
-                    persistentState.addVisitedLocation(stateItem.getLocation());
-                }
                 String responseText = dialog.getResponseText();
                 dialog = getResponse();
                 dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
