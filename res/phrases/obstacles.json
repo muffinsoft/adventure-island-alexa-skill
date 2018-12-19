@@ -2,37 +2,37 @@
   "ancientTemple" : [
     {
       "name" : "snakes",
-      "responses" : ["whee"],
+      "responses" : ["whee", "real", "return", "ye", "ya", "line", "clean", "we didn't"],
       "preObstacle" : "Snakes! Remember to jump over them by saying Alexa Speechcon: whee!",
       "headsUp" : "I hear hissing!"
     },
     {
       "name" : "blow darts",
-      "responses" : ["yikes", "yay", "yes", "ok yes", "yeah yay"],
+      "responses" : ["yikes", "yes yikes", "yay", "yes", "ok yes", "yeah yay", "right", "yeah thanks", "next"],
       "preObstacle" : "Blow darts incoming! Don't forget to shout Alexa Speechcon: yikes! to roll under them!",
       "headsUp" : "Keep your head down up ahead!"
     },
     {
       "name" : "floor spikes",
-      "responses" : ["whee"],
+      "responses" : ["whee", "real", "return", "ye", "ya", "line", "clean", "we didn't"],
       "preObstacle" : "Those floor spikes ahead look painful! Remember, say Alexa Speechcon: whee! to jump!",
       "headsUp" : "I see some sharp dangers coming up!"
     },
     {
       "name" : "arrows",
-      "responses" : ["yikes", "yay", "yes", "ok yes", "yeah yay"],
+      "responses" : ["yikes", "yes yikes", "yay", "yes", "ok yes", "yeah yay", "right", "yeah thanks", "next"],
       "preObstacle" : "Arrows! Remember to duck under them by saying Alexa Speechcon: yikes!",
       "headsUp" : "Better stay low soon!"
     },
     {
       "name" : "swinging axe",
-      "responses" : ["yikes", "yay", "yes", "ok yes", "yeah yay"],
+      "responses" : ["yikes", "yes yikes", "yay", "yes", "ok yes", "yeah yay", "right", "yeah thanks", "next"],
       "preObstacle" : "A swinging axe! Remember to say Alexa Speechcon: yikes! to duck!",
       "headsUp" : "Something sharp and heavy up ahead!"
     },
     {
       "name" : "collapsing floor",
-      "responses" : ["whee"],
+      "responses" : ["whee", "real", "return", "ye", "ya", "line", "clean", "we didn't"],
       "preObstacle" : "The floor ahead looks unstable! Don't forget to shout Alexa Speechcon: whee! to jump!",
       "headsUp" : "The ground is unstable here!"
     },
@@ -44,7 +44,7 @@
     },
     {
       "name" : "rats",
-      "responses" : ["whee"],
+      "responses" : ["whee", "real", "return", "ye", "ya", "line", "clean", "we didn't"],
       "preObstacle" : "I see rats coming this way! Don't forget to say 'whee' to jump!",
       "headsUp" : "Rats! I think we're about to see some rats."
     },
@@ -56,7 +56,7 @@
     },
     {
       "name" : "poison gas",
-      "responses": ["yikes", "yay", "yes", "ok yes", "yeah yay"],
+      "responses": ["yikes", "yes yikes", "yay", "yes", "ok yes", "yeah yay", "right", "yeah thanks", "next"],
       "preObstacle" : "A stinky poison gas in the air! Don't forget to say Alexa Speechcon: yikes! to slide under!",
       "headsUp" : "What's that green cloud I see?"
     }
@@ -64,37 +64,37 @@
   "pirateBay" : [
     {
       "name" : "rocks ahead",
-      "responses" : ["wowzer", "what was the"],
+      "responses" : ["wowzer", "what was the", "what was that", "what is", "whoa", "wat was", "laos what's up", "what was it", "what was there"],
       "preObstacle" : "Rocks ahead! Remember to say Alexa Speechcon: wowzer! to avoid them!",
       "headsUp" : "Something big and sharp up ahead!"
     },
     {
       "name" : "sailors",
-      "responses" : ["ahoy", "are", "i'm whee"],
+      "responses" : ["ahoy", "are", "i'm whee", "hiyaaa", "how", "oh ok", "oh holy", "holy", "oh no", "oh no", "yeah totally", "i'm hiyaaa", "hallway", "no way", "no i'm ye", "ahoy matey"],
       "preObstacle" : "Sailors! Remember to let them know we're friendly by shouting Alexa Speechcon: ahoy!",
       "headsUp" : "I think I see people in front of us!"
     },
     {
       "name" : "pirates",
-      "responses" : ["whammo"],
+      "responses" : ["whammo", "how more", "how mong", "one more", "where am i", "whoa"],
       "preObstacle" : "Evil pirates! Don't forget to give your crew the signal by shouting Alexa Speechcon: whammo!",
       "headsUp" : "Oh no! The Jolly Roger flag!"
     },
     {
       "name" : "big wave",
-      "responses" : ["whee"],
+      "responses" : ["whee", "real", "return", "ye", "ya", "line", "clean", "we didn't"],
       "preObstacle" : "Woah, that's one big wave! Remember to say Alexa Speechcon: whee! to speed up!",
       "headsUp" : "Uh oh, the ocean's getting crazier!"
     },
     {
       "name" : "mermaids",
-      "responses" : ["ahoy", "are", "i'm whee"],
+      "responses" : ["ahoy", "are", "i'm whee", "hiyaaa", "how", "oh ok", "oh holy", "holy", "oh no", "oh no", "yeah totally", "i'm hiyaaa", "hallway", "no way", "no i'm ye", "ahoy matey"],
       "preObstacle" : "I see mermaids! Don't forget, they'll attack if you don't say Alexa Speechcon: ahoy!",
       "headsUp" : "Are those fish ladies up ahead?"
     },
     {
       "name" : "pirate queen",
-      "responses" : ["whammo"],
+      "responses" : ["whammo", "how more", "how mong", "one more", "where am i", "whoa"],
       "preObstacle" : "The dreaded pirate queen! Remember, you can defend with our cannons by saying Alexa Speechcon: whammo!",
       "headsUp" : "Yikes! We're about to face one mean lady!"
     },
@@ -106,13 +106,13 @@
     },
     {
       "name" : "barrel bomb",
-      "responses" : ["wowzer", "what was the"],
+      "responses" : ["wowzer", "what was the", "what was that", "what is", "whoa", "wat was", "laos what's up", "what was it", "what was there"],
       "preObstacle" : "Remember to say Alexa Speechcon: wowzer! to avoid those barrel bombs coming our way!",
       "headsUp" : "Explosives in the water incoming!"
     },
     {
       "name" : "whirlpool",
-      "responses" : ["whee"],
+      "responses" : ["whee", "real", "return", "ye", "ya", "line", "clean", "we didn't"],
       "preObstacle" : "We're approaching a whirlpool. Don't forget to say Alexa Speechcon: whee! to speed through it!",
       "headsUp" : "We're nearing a giant whirlpool!"
     },
@@ -126,61 +126,61 @@
   "kingdomChase" : [
     {
       "name" : "wall",
-      "responses" : ["woo hoo", "woo-hoo"],
+      "responses" : ["woo hoo", "woo-hoo", "woohoo", "whoa", "ready"],
       "preObstacle" : "The thief ran into a wall! Remember to say Alexa Speechcon: woo hoo! to climb over it!",
       "headsUp" : "I see something ahead that we'll need to climb!"
     },
     {
       "name" : "moat",
-      "responses" : ["splash"],
+      "responses" : ["splash", "yes"],
       "preObstacle" : "Water coming up! Don't forget, you can swim across by saying Alexa Speechcon: splash!",
       "headsUp" : "Get ready to get wet!"
     },
     {
       "name" : "rose bush",
-      "responses" : ["whee"],
+      "responses" : ["whee", "real", "return", "ye", "ya", "line", "clean", "we didn't"],
       "preObstacle" : "A rose bush coming up! Remember to say Alexa Speechcon: whee! to not get poked!",
       "headsUp" : "I think I smell roses!"
     },
     {
       "name" : "dragon",
-      "responses" : ["uh oh", "uh-oh"],
+      "responses" : ["uh oh", "uh-oh", "who are", "oh oh"],
       "preObstacle" : "No way, a dragon! Remember to shout Alexa Speechcon: uh oh! before it sees you!",
       "headsUp" : "Did anyone else hear a roar?"
     },
     {
       "name" : "tomato",
-      "responses" : ["yikes", "yay", "yes", "ok yes", "yeah yay"],
+      "responses" : ["yikes", "yes yikes", "yay", "yes", "ok yes", "yeah yay", "right", "yeah thanks", "next"],
       "preObstacle" : "The thief has a tomato! Don't forget to say Alexa Speechcon: yikes! to duck under it!",
       "headsUp" : "Careful! The thief is digging into his bag!"
     },
     {
       "name" : "baby ducks",
-      "responses" : ["whee"],
+      "responses" : ["whee", "real", "return", "ye", "ya", "line", "clean", "we didn't"],
       "preObstacle" : "Oh no, baby ducks up ahead! Remember to jump over by saying Alexa Speechcon: whee!",
       "headsUp" : "Are those cute fluffy things up ahead?"
     },
     {
       "name" : "beehive",
-      "responses" : ["yikes", "yay", "yes", "ok yes", "yeah yay"],
+      "responses" : ["yikes", "yes yikes", "yay", "yes", "ok yes", "yeah yay", "right", "yeah thanks", "next"],
       "preObstacle" : "He's got a beehive! Remember to say Alexa Speechcon: yikes! to duck!",
       "headsUp" : "I hear buzzing coming from the thief!"
     },
     {
       "name" : "pond",
-      "responses" : ["splash"],
+      "responses" : ["splash", "yes"],
       "preObstacle" : "Pond incoming! Remember to swim by shouting Alexa Speechcon: splash!",
       "headsUp" : "The thief just dove into some water!"
     },
     {
       "name" : "troll",
-      "responses" : ["uh oh"],
+      "responses" : ["uh oh", "uh-oh", "who are", "oh oh"],
       "preObstacle" : "I see a hungry troll! Remember to hide by saying Alexa Speechcon: uh oh!",
       "headsUp" : "Woah, a dangerous creature up ahead!"
     },
     {
       "name" : "sleeping giant",
-      "responses" : ["woo hoo", "woo-hoo"],
+      "responses" : ["woo hoo", "woo-hoo", "woohoo", "whoa", "ready"],
       "preObstacle" : "He's heading toward a sleeping giant! Remember, say Alexa Speechcon: woo hoo! to climb over it!",
       "headsUp" : "We're about to run into something huge!"
     }
