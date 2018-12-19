@@ -101,7 +101,12 @@
             },
             {
               "name": {
-                "value": "uh oh"
+                "value": "uh oh",
+                "synonyms": [
+                  "who are",
+                  "oh oh",
+                  "uh-oh"
+                ]
               }
             },
             {
@@ -125,17 +130,37 @@
             },
             {
               "name": {
-                "value": "whammo"
+                "value": "whammo",
+                "synonyms": [
+                  "where am i",
+                  "one more",
+                  "how mong",
+                  "how more"
+                ]
               }
             },
             {
               "name": {
-                "value": "ahoy"
+                "value": "ahoy",
+                "synonyms": [
+                  "ahoy mateys",
+                  "ahoy matey"
+                ]
               }
             },
             {
               "name": {
-                "value": "wowzer"
+                "value": "wowzer",
+                "synonyms": [
+                  "what was there",
+                  "what was it",
+                  "what's up",
+                  "wat was",
+                  "whoa",
+                  "what is",
+                  "what was the",
+                  "what was that"
+                ]
               }
             },
             {
@@ -200,15 +225,10 @@
             },
             {
               "name": {
-                "value": "woah",
+                "value": "whee",
                 "synonyms": [
-                  "whoa"
+                  "we didn't"
                 ]
-              }
-            },
-            {
-              "name": {
-                "value": "whee"
               }
             }
           ]
