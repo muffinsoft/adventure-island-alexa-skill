@@ -2,9 +2,13 @@ package com.muffinsoft.alexa.skills.adventureisland.content;
 
 import com.muffinsoft.alexa.skills.adventureisland.model.Game;
 import com.muffinsoft.alexa.skills.adventureisland.util.ContentLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * These constants are used both internally and in external configuration
@@ -12,6 +16,9 @@ import java.util.List;
  */
 public class Constants {
 
+    private static final Logger logger = LoggerFactory.getLogger(Constants.class);
+
+    public static final Properties props;
     public static final String TABLE_NAME = "adventure_island";
     public static final String WELCOME = "welcome";
     public static final String WELCOME_BACK = "welcomeBack";
@@ -86,5 +93,12 @@ public class Constants {
     static {
         COINS_FOUND.add("coins");
         COINS_FOUND.add("treasure");
+
+        props = new Properties();
+        try {
+            props.load(AudioManager.class.getClassLoader().getResourceAsStream("application.properties"));
+        } catch (IOException e) {
+            logger.error("Exception caught", e);
+        }
     }
 }

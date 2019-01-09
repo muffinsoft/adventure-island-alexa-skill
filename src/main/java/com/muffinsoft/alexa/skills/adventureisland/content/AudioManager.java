@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.props;
+
 public class AudioManager {
 
     private static final Logger logger = LoggerFactory.getLogger(AudioManager.class);
@@ -31,12 +33,6 @@ public class AudioManager {
     private static final String closeTag = "\" />";
 
     static {
-        Properties props = new Properties();
-        try {
-            props.load(AudioManager.class.getClassLoader().getResourceAsStream("application.properties"));
-        } catch (IOException e) {
-            logger.error("Exception caught", e);
-        }
         baseAudioUrl = props.getProperty("base-audio-url");
         soundsDir = props.getProperty("sounds-dir");
         obstaclesDir = props.getProperty("obstacles-dir");

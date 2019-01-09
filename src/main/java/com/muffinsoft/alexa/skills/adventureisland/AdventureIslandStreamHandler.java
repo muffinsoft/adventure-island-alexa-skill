@@ -8,7 +8,7 @@ import com.muffinsoft.alexa.skills.adventureisland.handlers.*;
 
 public class AdventureIslandStreamHandler extends SkillStreamHandler {
     private static Skill getSkill() {
-        String amazonSkillId = System.getProperty("amazon-skill-id");
+        String amazonSkillId = Constants.props.getProperty("amazon-skill-id");
         return Skills.standard()
                 .addRequestHandlers(
                         new CancelAndStopIntentHandler(),
@@ -23,8 +23,7 @@ public class AdventureIslandStreamHandler extends SkillStreamHandler {
                         new RandomQuestionHandler(),
                         new ActionIntentHandler(),
                         new SessionEndedRequestHandler())
-                .withSkillId(amazonSkillId)
-                .withTableName(Constants.TABLE_NAME)
+                .withTableName(Constants.props.getProperty("table-name"))
                 .withAutoCreateTable(true)
                 .build();
     }

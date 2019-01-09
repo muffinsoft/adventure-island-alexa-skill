@@ -96,7 +96,14 @@
           "values": [
             {
               "name": {
-                "value": "kaching"
+                "value": "kaching",
+                "synonyms": [
+                  "kerching",
+                  "compute line",
+                  "ketchup",
+                  "catching",
+                  "catch up"
+                ]
               }
             },
             {
@@ -118,6 +125,7 @@
               "name": {
                 "value": "woo hoo",
                 "synonyms": [
+                  "ready",
                   "woo-hoo",
                   "woohoo"
                 ]
@@ -143,6 +151,18 @@
               "name": {
                 "value": "ahoy",
                 "synonyms": [
+                  "no i'm ye",
+                  "no way",
+                  "hallway",
+                  "i'm hiyaaa",
+                  "yeah totally",
+                  "oh no",
+                  "holy",
+                  "oh holy",
+                  "oh ok",
+                  "how",
+                  "i'm whee",
+                  "are",
                   "ahoy mateys",
                   "ahoy matey"
                 ]
@@ -152,6 +172,7 @@
               "name": {
                 "value": "wowzer",
                 "synonyms": [
+                  "laos what's up",
                   "what was there",
                   "what was it",
                   "what's up",
@@ -170,7 +191,17 @@
             },
             {
               "name": {
-                "value": "yikes"
+                "value": "yikes",
+                "synonyms": [
+                  "yeah thanks",
+                  "next",
+                  "yeah thanks",
+                  "right",
+                  "yeah yay",
+                  "ok yes",
+                  "yay",
+                  "yes yikes"
+                ]
               }
             },
             {
@@ -227,7 +258,13 @@
               "name": {
                 "value": "whee",
                 "synonyms": [
-                  "we didn't"
+                  "wee",
+                  "we didn't",
+                  "clean",
+                  "line",
+                  "ye",
+                  "return",
+                  "real"
                 ]
               }
             }
