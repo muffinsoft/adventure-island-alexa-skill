@@ -74,6 +74,7 @@ public class Constants {
     public static final String ALL = "all";
     public static final String TIERS = "tiers";
     public static final String TOTAL_MISSIONS = "missions";
+    public static final String ADDITIONAL_INDEX_SEPARATOR = "_";
 
     public static final ContentLoader contentLoader = new ContentLoader();
     public static final Game game = LayoutManager.loadGame();

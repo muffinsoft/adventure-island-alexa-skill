@@ -16,13 +16,16 @@ public class AudioManager {
 
     private static final String PATH_OBSTACLES = "audio/obstacles-sound.json";
     private static final String PATH_INTROS = "audio/intros.json";
+    private static final String PATH_PHRASES = "audio/phrases.json";
     private static List<String> obstacle_sounds = new ArrayList<>();
     private static List<String> intros = new ArrayList<>();
+    private static List<String> phrases = new ArrayList<>();
     private static String baseAudioUrl;
     private static String soundsDir;
     private static String obstaclesDir;
     private static String introsDir;
     public static String generalDir;
+    public static String phrasesDir;
     private static final String extension = ".mp3";
     private static final String openTag = "<audio src=\"";
     private static final String closeTag = "\" />";
@@ -39,8 +42,10 @@ public class AudioManager {
         obstaclesDir = props.getProperty("obstacles-dir");
         introsDir = props.getProperty("intros-dir");
         generalDir = props.getProperty("general-dir");
+        phrasesDir = props.getProperty("phrases-dir");
         obstacle_sounds = Constants.contentLoader.loadContent(obstacle_sounds, PATH_OBSTACLES, new TypeReference<ArrayList<String>>() {});
         intros = Constants.contentLoader.loadContent(intros, PATH_INTROS, new TypeReference<ArrayList<String>>() {});
+        phrases = Constants.contentLoader.loadContent(phrases, PATH_PHRASES, new TypeReference<ArrayList<String>>() {});
 
         logger.debug("Loaded {} sounds", obstacle_sounds.size());
     }
@@ -59,6 +64,13 @@ public class AudioManager {
 
     public static String getForKey(String key, String url) {
         return openTag + url + key + extension + closeTag;
+    }
+
+    public static String getPhrase(String key) {
+        if (phrases.contains(key)) {
+            return getForKey(key, baseAudioUrl + soundsDir + phrasesDir);
+        }
+        return null;
     }
 
     public static String getLocationIntro(String location) {
