@@ -63,7 +63,7 @@ public class TagProcessor {
             if (sounds.contains(key)) {
                 replacement = AudioManager.getSound(key, AudioManager.generalDir);
             } else {
-                replacement = AudioManager.getObstacleSound(key);
+                replacement = AudioManager.getObstacleSound(PhraseManager.nameToKey(key));
                 replacement = replacement == null ? "" : replacement;
             }
             text = text.replace(SOUNDS_OPEN + name + SOUNDS_CLOSE, replacement);

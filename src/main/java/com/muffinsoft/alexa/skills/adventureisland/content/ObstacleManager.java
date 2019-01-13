@@ -10,6 +10,7 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.*;
+import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.nameToKey;
 import static com.muffinsoft.alexa.skills.adventureisland.game.TagProcessor.insertTags;
 import static com.muffinsoft.alexa.skills.adventureisland.game.Utils.capitalizeFirstLetter;
 
@@ -87,7 +88,7 @@ public class ObstacleManager {
     }
 
     public static String getPreObstacle(StateItem state, String obstacle) {
-        String preObstacle = AudioManager.getObstaclePre(obstacle + OBSTACLE_PRE);
+        String preObstacle = AudioManager.getObstaclePre(nameToKey(obstacle) + OBSTACLE_PRE);
         if (preObstacle == null) {
             if (isTreasure(obstacle)) {
                 return getTreasurePre(obstacle);
@@ -100,7 +101,7 @@ public class ObstacleManager {
     }
 
     public static String getHeadsUp(StateItem state, String obstacle) {
-        String response = AudioManager.getObstacleHeadsUp(obstacle + OBSTACLE_HEADS_UP);
+        String response = AudioManager.getObstacleHeadsUp(nameToKey(obstacle) + OBSTACLE_HEADS_UP);
         if (response == null) {
             if (isTreasure(obstacle)) {
                 return getTreasureHeadsUp(obstacle, state);
@@ -135,7 +136,7 @@ public class ObstacleManager {
     }
 
     public static String getWarning(String obstacle) {
-        String response = AudioManager.getObstacleName(obstacle);
+        String response = AudioManager.getObstacleName(nameToKey(obstacle));
         return response != null ? response : insertTags("Ben: " + capitalizeFirstLetter(obstacle) + "!");
     }
 }

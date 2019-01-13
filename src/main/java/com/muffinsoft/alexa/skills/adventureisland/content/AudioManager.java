@@ -91,7 +91,7 @@ public class AudioManager {
     }
 
     public static String getObstacleName(String key) {
-        logger.debug("Looking for obstacle: {}", key);
+        logger.debug("Looking for obstacle name: {}", key);
         if (obstacleNames.contains(key)) {
             return getForKey(key, baseAudioUrl + soundsDir + obstacleNamesDir);
         }
