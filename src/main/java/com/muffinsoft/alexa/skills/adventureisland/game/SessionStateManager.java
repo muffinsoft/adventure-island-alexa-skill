@@ -422,7 +422,7 @@ public class SessionStateManager {
         props.setSkipReadyPrompt(true);
         stateItem.setState(State.ACTION);
         DialogItem result = getActionDialog();
-        result.setResponseText(responseText + wrap(result.getResponseText()));
+        result.setResponseText(responseText + wrap(combine(getPhrase(READY + RHETORICAL), result.getResponseText())));
         return result;
     }
 

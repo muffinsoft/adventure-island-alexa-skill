@@ -101,7 +101,11 @@ public class ObstacleManager {
     }
 
     public static String getHeadsUp(StateItem state, String obstacle) {
-        String response = AudioManager.getObstacleHeadsUp(nameToKey(obstacle) + OBSTACLE_HEADS_UP);
+        String key = nameToKey(obstacle) + OBSTACLE_HEADS_UP;
+        if (isTreasure(obstacle)) {
+            key = key + capitalizeFirstLetter(state.getLocation());
+        }
+        String response = AudioManager.getObstacleHeadsUp(key);
         if (response == null) {
             if (isTreasure(obstacle)) {
                 return getTreasureHeadsUp(obstacle, state);
