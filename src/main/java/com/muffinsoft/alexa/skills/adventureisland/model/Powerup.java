@@ -1,5 +1,8 @@
 package com.muffinsoft.alexa.skills.adventureisland.model;
 
+import com.muffinsoft.alexa.skills.adventureisland.content.AudioManager;
+import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
+import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.TagProcessor;
 
 public class Powerup {
@@ -27,7 +30,8 @@ public class Powerup {
     }
 
     public String getGot() {
-        return TagProcessor.insertTags(got);
+        String response = AudioManager.getPowerup(PhraseManager.nameToKey(name) + Constants.GOT);
+        return response != null ? response : TagProcessor.insertTags(got);
     }
 
     public String getGotRaw() {
@@ -39,7 +43,8 @@ public class Powerup {
     }
 
     public String getUsed() {
-        return TagProcessor.insertTags(used);
+        String response = AudioManager.getPowerup(PhraseManager.nameToKey(name) + Constants.USED);
+        return response != null ? response : TagProcessor.insertTags(used);
     }
 
     public String getUsedRaw() {

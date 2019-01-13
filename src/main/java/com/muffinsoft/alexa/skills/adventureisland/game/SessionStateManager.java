@@ -249,7 +249,7 @@ public class SessionStateManager {
         Powerup powerup = PowerupManager.useFirstRelevant(props, MULTIPLY);
         if (powerup != null) {
             props.addCoin();
-            speechText = wrap(TagProcessor.insertTags(powerup.getUsed()));
+            speechText = powerup.getUsed();
         }
         return speechText;
     }
@@ -341,7 +341,7 @@ public class SessionStateManager {
                 // check if a powerup is available
                 Powerup powerup = PowerupManager.useFirstRelevant(props, SKIP, RETRY);
                 if (powerup != null) {
-                    speechText = wrap(TagProcessor.insertTags(powerup.getUsed()));
+                    speechText = powerup.getUsed();
                     if (powerup.getAction().toLowerCase().contains(RETRY)) {
                         return DialogItem.builder()
                                 .responseText(speechText)
@@ -385,7 +385,7 @@ public class SessionStateManager {
             powerUps.add(powerup.getName());
             props.setPowerups(powerUps);
             props.setJustFailed(false);
-            return wrap(TagProcessor.insertTags(powerup.getGot()));
+            return powerup.getGot();
         }
         return "";
     }
@@ -632,7 +632,7 @@ public class SessionStateManager {
             String action = powerup.getAction().toLowerCase();
             obstacle = action.substring(action.indexOf(REPLACEMENT_PREFIX) + REPLACEMENT_PREFIX.length());
             props.setCurrentObstacle(obstacle);
-            speechText += wrap(TagProcessor.insertTags(powerup.getUsed()));
+            speechText += powerup.getUsed();
         } else {
             logger.debug("Got obstacle {} for {} {} {}", obstacle, stateItem.getMission(), stateItem.getLocation(), stateItem.getScene());
             if (!Objects.equals(SILENT_SCENE, stateItem.getScene())) {
@@ -643,7 +643,7 @@ public class SessionStateManager {
         String obstacleSound = AudioManager.getObstacleSound(nameToKey(obstacle));
         speechText = combine(speechText, obstacleSound);
 
-        String warn = TagProcessor.insertTags("Ben: " + capitalizeFirstLetter(obstacle) + "!");
+        String warn = ObstacleManager.getWarning(obstacle);
 
         if (!Objects.equals(SILENT_SCENE, stateItem.getScene())) {
             speechText = combine(speechText, warn);

@@ -64,12 +64,6 @@ public class Constants {
     public static final String MAX_OBSTACLES_EXCLAIM = "maxObstaclesExclamation";
     public static final String HEADS_UP = "headsUp";
     public static final String SELECT_MISSION = "selectMission";
-    public static final String SELECT_MISSION2 = "selectMission2";
-    public static final String USERNAME_PLACEHOLDER = "__USERNAME__";
-    public static final String POWERUP_USED = "powerupUsed";
-    public static final String POWERUP_GOT = "powerupGot";
-    public static final String POWERUP_PLACEHOLDER = "__POWERUP__";
-    public static final String NICKNAME_GOT = "nicknameGot";
     public static final String NICKNAME_PLACEHOLDER = "__NICKNAMES__";
     public static final String TOTAL_COINS_PLACEHOLDER = "__TOTAL_COINS__";
     public static final String MISSION_NAME_PLACEHOLDER = "__MISSION_NAME__";
@@ -83,6 +77,11 @@ public class Constants {
     public static final String TIERS = "tiers";
     public static final String TOTAL_MISSIONS = "missions";
     public static final String ADDITIONAL_INDEX_SEPARATOR = "_";
+    public static final String OBSTACLE_EXPLANATION = "ObstacleExplanation";
+    public static final String OBSTACLE_HEADS_UP = "HeadsUp";
+    public static final String OBSTACLE_PRE = "PreObstacle";
+    public static final String GOT = "Got";
+    public static final String USED = "Used";
 
     public static final ContentLoader contentLoader = new ContentLoader();
     public static final Game game = LayoutManager.loadGame();

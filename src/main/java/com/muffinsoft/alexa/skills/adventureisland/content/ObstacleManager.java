@@ -9,7 +9,9 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.contentLoader;
+import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.*;
+import static com.muffinsoft.alexa.skills.adventureisland.game.TagProcessor.insertTags;
+import static com.muffinsoft.alexa.skills.adventureisland.game.Utils.capitalizeFirstLetter;
 
 public class ObstacleManager {
 
@@ -51,7 +53,7 @@ public class ObstacleManager {
         if (Objects.equals(treasure.getName(), obstacle)) {
             String response = treasure.getPreObstacle();
             response = "Lily: " + response;
-            return TagProcessor.insertTags(response);
+            return insertTags(response);
         }
         throw new NoSuchElementException("No responses for treasure: " + obstacle);
     }
@@ -60,16 +62,19 @@ public class ObstacleManager {
         if (Objects.equals(treasure.getName(), obstacle)) {
             String response = treasure.getHeadsUp().get(state.getLocation());
             response = "Lily: " + response;
-            return TagProcessor.insertTags(response);
+            return insertTags(response);
         }
         throw new NoSuchElementException("No responses for treasure: " + obstacle);
     }
 
     public static String getObstacleExplanation(StateItem state) {
         logger.debug("Getting obstacle explanation for location {},  scene {}", state.getLocation(), state.getScene());
-        String explanation = obstacleSetup.get(state.getLocation()).get(state.getScene()).get(state.getTierIndex()).getExplanation();
-        explanation = "Ben: " + explanation;
-        explanation = TagProcessor.insertTags(explanation);
+        String explanation = AudioManager.getObstacleExplanation(state.getScene(), state.getTierIndex());
+        if (explanation == null) {
+            explanation = obstacleSetup.get(state.getLocation()).get(state.getScene()).get(state.getTierIndex()).getExplanation();
+            explanation = "Ben: " + explanation;
+            explanation = insertTags(explanation);
+        }
         return explanation;
     }
 
@@ -82,22 +87,29 @@ public class ObstacleManager {
     }
 
     public static String getPreObstacle(StateItem state, String obstacle) {
-        if (isTreasure(obstacle)) {
-            return getTreasurePre(obstacle);
+        String preObstacle = AudioManager.getObstaclePre(obstacle + OBSTACLE_PRE);
+        if (preObstacle == null) {
+            if (isTreasure(obstacle)) {
+                return getTreasurePre(obstacle);
+            }
+            preObstacle = getObstacleByName(state, obstacle).getPreObstacle();
+            preObstacle = "Lily: " + preObstacle;
+            preObstacle = insertTags(preObstacle);
         }
-        String preObstacle = getObstacleByName(state, obstacle).getPreObstacle();
-        preObstacle = "Lily: " + preObstacle;
-        preObstacle = TagProcessor.insertTags(preObstacle);
         return preObstacle;
     }
 
     public static String getHeadsUp(StateItem state, String obstacle) {
-        if (isTreasure(obstacle)) {
-            return getTreasureHeadsUp(obstacle, state);
+        String response = AudioManager.getObstacleHeadsUp(obstacle + OBSTACLE_HEADS_UP);
+        if (response == null) {
+            if (isTreasure(obstacle)) {
+                return getTreasureHeadsUp(obstacle, state);
+            }
+            response = getObstacleByName(state, obstacle).getHeadsUp();
+            response = "Lily: " + response;
+            response = insertTags(response);
         }
-        String response = getObstacleByName(state, obstacle).getHeadsUp();
-        response = "Lily: " + response;
-        return TagProcessor.insertTags(response);
+        return  response;
     }
 
     public static List<String> getObstacleResponses(StateItem state, String key) {
@@ -115,10 +127,15 @@ public class ObstacleManager {
         } else {
             response = obstacles.get(location).get(index).getName();
         }
-        return TagProcessor.insertTags(response);
+        return insertTags(response);
     }
 
     public static String getTreasureName() {
         return treasure.getName();
+    }
+
+    public static String getWarning(String obstacle) {
+        String response = AudioManager.getObstacleName(obstacle);
+        return response != null ? response : insertTags("Ben: " + capitalizeFirstLetter(obstacle) + "!");
     }
 }
