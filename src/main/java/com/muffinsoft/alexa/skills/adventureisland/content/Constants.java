@@ -16,6 +16,7 @@ import java.util.Properties;
  */
 public class Constants {
 
+    public static final String DEFAULT_IMAGE_EXTENSION = "jpg";
     private static final Logger logger = LoggerFactory.getLogger(Constants.class);
 
     public static final Properties props;

@@ -31,6 +31,20 @@ public class MissionSelector {
         }
 
         String description = getPhrase(SELECT_MISSION);
+        StringBuilder missionNames = getMissionNames(completedMissions);
+
+        description = description.replace(Constants.MISSIONS_AVAILABLE, missionNames);
+
+        responseText = combine(responseText, description);
+
+        return DialogItem.builder()
+                .responseText(responseText)
+                .slotName(slotName)
+                .reprompt(description)
+                .build();
+    }
+
+    public static StringBuilder getMissionNames(List<List<BigDecimal>> completedMissions) {
         StringBuilder missionNames = new StringBuilder();
         List<Mission> missions = game.getMissions();
         for (int i = 0; i < missions.size(); i++) {
@@ -43,16 +57,7 @@ public class MissionSelector {
                 missionNames.append("and ");
             }
         }
-
-        description = description.replace(Constants.MISSIONS_AVAILABLE, missionNames);
-
-        responseText = combine(responseText, description);
-
-        return DialogItem.builder()
-                .responseText(responseText)
-                .slotName(slotName)
-                .reprompt(description)
-                .build();
+        return missionNames;
     }
 
     public static int getTier(int missionIndex, List<List<BigDecimal>> completedMissions) {

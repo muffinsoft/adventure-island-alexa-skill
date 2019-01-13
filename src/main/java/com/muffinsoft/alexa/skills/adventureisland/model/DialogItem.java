@@ -1,5 +1,7 @@
 package com.muffinsoft.alexa.skills.adventureisland.model;
 
+import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
+
 public class DialogItem {
 
     private String responseText;
@@ -7,6 +9,8 @@ public class DialogItem {
     private String slotName;
     private String reprompt;
     private String cardText;
+    private String backgroundImageName;
+    private String backgroundImageExt = Constants.DEFAULT_IMAGE_EXTENSION;
 
     public DialogItem() {}
 
@@ -20,6 +24,8 @@ public class DialogItem {
         private String bSlotName;
         private String bRePrompt;
         private String bCardText;
+        private String bBackgroundImageName;
+        private String bBackgroundImageExt = Constants.DEFAULT_IMAGE_EXTENSION;
 
         private Builder() {}
 
@@ -48,6 +54,16 @@ public class DialogItem {
             return this;
         }
 
+        public Builder backgroundImageName(String filename) {
+            this.bBackgroundImageName = filename;
+            return this;
+        }
+
+        public Builder backgroundImageExt(String extension) {
+            this.bBackgroundImageExt = extension;
+            return this;
+        }
+
         public DialogItem build() {
             DialogItem dialogItem = new DialogItem();
             dialogItem.cardText = bCardText;
@@ -55,6 +71,8 @@ public class DialogItem {
             dialogItem.slotName = bSlotName;
             dialogItem.end = bEnd;
             dialogItem.responseText = bResponseText;
+            dialogItem.backgroundImageName = bBackgroundImageName;
+            dialogItem.backgroundImageExt = bBackgroundImageExt;
             return dialogItem;
         }
     }
@@ -97,5 +115,21 @@ public class DialogItem {
 
     public void setCardText(String cardText) {
         this.cardText = cardText;
+    }
+
+    public String getBackgroundImageName() {
+        return backgroundImageName;
+    }
+
+    public void setBackgroundImageName(String backgroundImageName) {
+        this.backgroundImageName = backgroundImageName;
+    }
+
+    public String getBackgroundImageExt() {
+        return backgroundImageExt;
+    }
+
+    public void setBackgroundImageExt(String backgroundImageExt) {
+        this.backgroundImageExt = backgroundImageExt;
     }
 }

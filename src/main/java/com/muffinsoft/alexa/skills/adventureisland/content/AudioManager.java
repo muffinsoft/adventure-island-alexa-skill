@@ -33,7 +33,7 @@ public class AudioManager {
     private static final String closeTag = "\" />";
 
     static {
-        baseAudioUrl = props.getProperty("base-audio-url");
+        baseAudioUrl = props.getProperty("base-storage-url") + props.getProperty("base-audio-url");
         soundsDir = props.getProperty("sounds-dir");
         obstaclesDir = props.getProperty("obstacles-dir");
         introsDir = props.getProperty("intros-dir");

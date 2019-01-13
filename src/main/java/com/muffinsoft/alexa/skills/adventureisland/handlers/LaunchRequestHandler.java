@@ -15,10 +15,7 @@ import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static com.amazon.ask.request.Predicates.requestType;
 import static com.muffinsoft.alexa.skills.adventureisland.content.AttributeKeys.*;
@@ -39,7 +36,7 @@ public class LaunchRequestHandler implements RequestHandler {
 
         DialogItem dialog = getSpeechText(input);
 
-        return Optional.of(assembleResponse(dialog));
+        return Optional.of(assembleResponse(dialog, input));
     }
 
     @SuppressWarnings("unchecked")
@@ -52,7 +49,7 @@ public class LaunchRequestHandler implements RequestHandler {
         String reprompt;
         String cardText;
 
-        List<List<BigDecimal>> completedMissions;
+        List<List<BigDecimal>> completedMissions = Collections.emptyList();
         List<String> oldObstacles;
         if (persistentAttributes != null && !persistentAttributes.isEmpty()) {
             completedMissions = (List<List<BigDecimal>>) persistentAttributes.get(COMPLETED_MISSIONS);
@@ -105,7 +102,8 @@ public class LaunchRequestHandler implements RequestHandler {
         }
         return DialogItem.builder()
                 .responseText(speechText)
-                .cardText(getPhrase(Constants.WELCOME + Constants.CARD))
+                .cardText(MissionSelector.getMissionNames(completedMissions).toString())
+                .backgroundImageName("1")
                 .reprompt(reprompt)
                 .build();
     }

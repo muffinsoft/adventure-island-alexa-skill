@@ -22,7 +22,7 @@ public class HelpIntentHandler implements RequestHandler {
     public Optional<Response> handle(HandlerInput input) {
         SessionStateManager stateManager = new SessionStateManager(null, input.getAttributesManager(), null);
         DialogItem dialog = stateManager.initHelp();
-        Response response = assembleResponse(dialog);
+        Response response = assembleResponse(dialog, input);
         return Optional.of(response);
     }
 }
