@@ -52,7 +52,7 @@ public class LaunchRequestHandler implements RequestHandler {
         List<List<BigDecimal>> completedMissions = Collections.emptyList();
         List<String> oldObstacles;
         if (persistentAttributes != null && !persistentAttributes.isEmpty()) {
-            completedMissions = (List<List<BigDecimal>>) persistentAttributes.get(COMPLETED_MISSIONS);
+            completedMissions = (List<List<BigDecimal>>) persistentAttributes.getOrDefault(COMPLETED_MISSIONS, Collections.emptyList());
             oldObstacles = (List<String>) persistentAttributes.get(OLD_OBSTACLES);
             List<BigDecimal> checkpoint = (List<BigDecimal>) persistentAttributes.get(CHECKPOINT);
             Map<String, List<String>> achievements = (Map<String, List<String>>) persistentAttributes.get(ACHIEVEMENTS);

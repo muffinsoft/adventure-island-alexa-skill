@@ -85,7 +85,7 @@ public class SessionStateManager {
             case OUTRO:
             case WELCOME:
                 dialog = getIntroOutroDialog();
-                if (!Utils.isLocationConnector(stateItem)) {
+                if (!Utils.isLocationConnector(stateItem) && dialog.getReprompt() == null) {
                     TagProcessor.getReprompt(dialog);
                 }
                 break;
@@ -519,15 +519,19 @@ public class SessionStateManager {
         logger.debug("Will look up the following phrase: {}", nameKey);
         String expectedReply = getReply(nameKey);
         String responseText;
+        String lastPhrase;
         if (expectedReply != null) {
             if (Objects.equals(expectedReply, userReply)) {
                 responseText = getPhrase(nameKey + YES);
+                lastPhrase = getPhraseNoAudio(nameKey + YES);
             } else {
                 responseText = getPhrase(nameKey + NO);
+                lastPhrase = getPhraseNoAudio(nameKey + NO);
             }
 
         } else {
             responseText = getPhrase(nameKey);
+            lastPhrase = getPhraseNoAudio(nameKey);
         }
         if (responseText != null) {
             responseText = wrap(responseText);
@@ -538,9 +542,11 @@ public class SessionStateManager {
         stateItem.setIndex(stateItem.getIndex() + 1);
 
         logger.debug("Got response {}", responseText);
+        logger.debug("Last phrase {}", lastPhrase);
 
         return DialogItem.builder()
                 .responseText(responseText)
+                .lastPhrase(lastPhrase)
                 .slotName(slotName)
                 .build();
 

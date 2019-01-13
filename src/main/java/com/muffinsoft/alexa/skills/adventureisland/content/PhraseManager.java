@@ -35,14 +35,19 @@ public class PhraseManager {
         return result;
     }
 
+    public static String getPhraseNoAudio(String key) {
+        return phrases.get(key);
+    }
+
     private static String getAudioAndText(String key, int additionalIndex) {
         if (additionalIndex > 0) {
             key = key + ADDITIONAL_INDEX_SEPARATOR + additionalIndex;
         }
-        String audio = AudioManager.getPhrase(key);
-        String phrase = phrases.get(key);
-        phrase = TagProcessor.insertTags(phrase);
-        phrase = Utils.combine(audio, phrase);
+        String phrase = AudioManager.getPhrase(key);
+        if (phrase == null) {
+            phrase = phrases.get(key);
+            phrase = TagProcessor.insertTags(phrase);
+        }
         return phrase;
     }
 
