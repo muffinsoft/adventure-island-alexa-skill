@@ -1,6 +1,7 @@
 package com.muffinsoft.alexa.skills.adventureisland.game;
 
 import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
+import com.muffinsoft.alexa.skills.adventureisland.content.ImageManager;
 import com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager;
 import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
 import com.muffinsoft.alexa.skills.adventureisland.model.Mission;
@@ -31,20 +32,24 @@ public class MissionSelector {
         }
 
         String description = getPhrase(SELECT_MISSION);
-        StringBuilder missionNames = getMissionNames(completedMissions);
+        String missionNames = getMissionNames(completedMissions);
 
         description = description.replace(Constants.MISSIONS_AVAILABLE, missionNames);
 
         responseText = combine(responseText, description);
 
+        String imageUrl = ImageManager.getGeneralImageByKey(ROOT);
+
         return DialogItem.builder()
                 .responseText(responseText)
                 .slotName(slotName)
                 .reprompt(description)
+                .backgroundImage(imageUrl)
+                .cardText(missionNames)
                 .build();
     }
 
-    public static StringBuilder getMissionNames(List<List<BigDecimal>> completedMissions) {
+    public static String getMissionNames(List<List<BigDecimal>> completedMissions) {
         StringBuilder missionNames = new StringBuilder();
         List<Mission> missions = game.getMissions();
         for (int i = 0; i < missions.size(); i++) {
@@ -57,7 +62,7 @@ public class MissionSelector {
                 missionNames.append("and ");
             }
         }
-        return missionNames;
+        return missionNames.toString();
     }
 
     public static int getTier(int missionIndex, List<List<BigDecimal>> completedMissions) {

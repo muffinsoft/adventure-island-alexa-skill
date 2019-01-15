@@ -233,12 +233,7 @@ public class SessionStateManager {
         }
 
         props.setCurrentObstacle(null);
-        speechText = nextObstacle(speechText);
-        stateItem.setIndex(stateItem.getIndex() + 1);
-        return DialogItem.builder()
-                .responseText(speechText)
-                .slotName(slotName)
-                .build();
+        return nextObstacle(speechText);
     }
 
     private String useMultiplicationPowerUp() {
@@ -362,13 +357,7 @@ public class SessionStateManager {
             return getStartConfirmation();
         }
 
-        speechText = nextObstacle(speechText);
-        stateItem.setIndex(stateItem.getIndex() + 1);
-
-        return DialogItem.builder()
-                .responseText(speechText)
-                .slotName(slotName)
-                .build();
+        return nextObstacle(speechText);
     }
 
     private String getPowerup() {
@@ -486,6 +475,8 @@ public class SessionStateManager {
                 dialog = getActionDialog();
                 if (!persistentState.getVisitedLocations().contains(stateItem.getLocation())) {
                     responseText = combineWithBreak(responseText, getObstacleExplanation(stateItem));
+                    String imageUrl = ImageManager.getObstacleExplanation(stateItem);
+                    dialog.setBackgroundImage(imageUrl);
                 }
                 dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
                 break;
@@ -621,7 +612,7 @@ public class SessionStateManager {
         persistentState.setTotalCoins(0);
     }
 
-    private String nextObstacle(String speechText) {
+    private DialogItem nextObstacle(String speechText) {
         String obstacle = game.nextObstacle(stateItem);
 
         props.setCurrentObstacle(obstacle);
@@ -654,7 +645,14 @@ public class SessionStateManager {
             speechText = combine(speechText,"<amazon:effect name=\"whispered\">" + warn + "</amazon:effect>");
         }
 
-        return speechText;
+        String imageUrl = ImageManager.getObstacleImageUrl(obstacle);
+        stateItem.setIndex(stateItem.getIndex() + 1);
+
+        return DialogItem.builder()
+                .responseText(speechText)
+                .slotName(slotName)
+                .backgroundImage(imageUrl)
+                .build();
     }
 
     private String getPreObstacle(String speechText, String obstacle) {

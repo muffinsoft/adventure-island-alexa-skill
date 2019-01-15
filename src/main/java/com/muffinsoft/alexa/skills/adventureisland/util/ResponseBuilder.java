@@ -59,7 +59,7 @@ public class ResponseBuilder {
                 .withOutputSpeech(speech)
                 .withShouldEndSession(dialog.isEnd());
 
-        if (dialog.getCardText() != null) {
+        if (dialog.getBackgroundImage() != null) {
             createCard(dialog, input, response);
         }
 
