@@ -43,8 +43,9 @@ public class ImageManager {
     }
 
     public static String getObstacleImageUrl(String obstacle) {
-        if (obstacleImages.contains(obstacle)) {
-            return obstaclesDir + obstacle + extension;
+        String key = PhraseManager.nameToKey(obstacle);
+        if (obstacleImages.contains(key)) {
+            return obstaclesDir + key + extension;
         } else {
             return null;
         }
