@@ -10,13 +10,11 @@ import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
 import com.muffinsoft.alexa.skills.adventureisland.model.SlotName;
 import com.muffinsoft.alexa.skills.adventureisland.model.SpecialReply;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.contentLoader;
-import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.props;
 
 public class ResponseBuilder {
 
@@ -82,15 +80,9 @@ public class ResponseBuilder {
     private static void createCard(DialogItem dialog, HandlerInput input, Response.Builder response) {
         Map<String, Object> document = contentLoader.loadContent(new HashMap<>(), DOCUMENT_JSON, new TypeReference<HashMap<String, Object>>() {});
 
-        String baseImageUrl = props.getProperty("base-storage-url") + props.getProperty("images-dir");
-
-        boolean smallScreen = input.getRequestEnvelope().getContext().getViewport().getPixelWidth().compareTo(new BigDecimal(props.getProperty("small-image-width"))) <= 0;
-        String imageFilename = smallScreen ? dialog.getBackgroundImageName() + SMALL_IMAGE : dialog.getBackgroundImageName();
-        String imageUrl = baseImageUrl + imageFilename + "." + dialog.getBackgroundImageExt();
-
         Map<String, Object> content = new HashMap<>();
         content.put("title", dialog.getCardText());
-        content.put("backgroundImage", imageUrl);
+        content.put("backgroundImage", dialog.getBackgroundImage());
         Map<String, Object> dataSources = new HashMap<>();
         dataSources.put("templateData", content);
 

@@ -5,11 +5,10 @@ import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.LaunchRequest;
 import com.amazon.ask.model.Response;
 import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
+import com.muffinsoft.alexa.skills.adventureisland.content.ImageManager;
 import com.muffinsoft.alexa.skills.adventureisland.content.NicknameManager;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.MissionSelector;
-import com.muffinsoft.alexa.skills.adventureisland.game.SessionStateManager;
-import com.muffinsoft.alexa.skills.adventureisland.game.TagProcessor;
 import com.muffinsoft.alexa.skills.adventureisland.game.Utils;
 import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
@@ -102,8 +101,7 @@ public class LaunchRequestHandler implements RequestHandler {
         }
         return DialogItem.builder()
                 .responseText(speechText)
-                .cardText(MissionSelector.getMissionNames(completedMissions).toString())
-                .backgroundImageName("1")
+                .backgroundImage(ImageManager.getGeneralImageByKey(Constants.WELCOME))
                 .reprompt(reprompt)
                 .build();
     }

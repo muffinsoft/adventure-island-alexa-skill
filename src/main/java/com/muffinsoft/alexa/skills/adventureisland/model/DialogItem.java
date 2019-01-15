@@ -9,7 +9,7 @@ public class DialogItem {
     private String slotName;
     private String reprompt;
     private String cardText;
-    private String backgroundImageName;
+    private String backgroundImage;
     private String backgroundImageExt = Constants.DEFAULT_IMAGE_EXTENSION;
     private String lastPhrase;
 
@@ -25,7 +25,7 @@ public class DialogItem {
         private String bSlotName;
         private String bRePrompt;
         private String bCardText;
-        private String bBackgroundImageName;
+        private String bBackgroundImage;
         private String bBackgroundImageExt = Constants.DEFAULT_IMAGE_EXTENSION;
         private String bLastPhrase;
 
@@ -56,8 +56,8 @@ public class DialogItem {
             return this;
         }
 
-        public Builder backgroundImageName(String filename) {
-            this.bBackgroundImageName = filename;
+        public Builder backgroundImage(String url) {
+            this.bBackgroundImage = url;
             return this;
         }
 
@@ -78,7 +78,7 @@ public class DialogItem {
             dialogItem.slotName = bSlotName;
             dialogItem.end = bEnd;
             dialogItem.responseText = bResponseText;
-            dialogItem.backgroundImageName = bBackgroundImageName;
+            dialogItem.backgroundImage = bBackgroundImage;
             dialogItem.backgroundImageExt = bBackgroundImageExt;
             dialogItem.lastPhrase = bLastPhrase;
             return dialogItem;
@@ -118,19 +118,19 @@ public class DialogItem {
     }
 
     public String getCardText() {
-        return cardText;
+        return cardText != null ? cardText : "";
     }
 
     public void setCardText(String cardText) {
         this.cardText = cardText;
     }
 
-    public String getBackgroundImageName() {
-        return backgroundImageName;
+    public String getBackgroundImage() {
+        return backgroundImage;
     }
 
-    public void setBackgroundImageName(String backgroundImageName) {
-        this.backgroundImageName = backgroundImageName;
+    public void setBackgroundImage(String backgroundImage) {
+        this.backgroundImage = backgroundImage;
     }
 
     public String getBackgroundImageExt() {
