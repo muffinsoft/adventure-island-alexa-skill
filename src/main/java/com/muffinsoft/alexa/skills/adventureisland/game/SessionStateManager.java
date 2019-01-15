@@ -228,9 +228,6 @@ public class SessionStateManager {
                 props.setCurrentObstacle(null);
                 return finishScene(speechText);
             }
-            String coinText = props.getCoins() == 1 ? COIN_SINGLE : COIN_PLURAL;
-            speechText += wrap(getPhrase(ACTION_APPROVE) + " " + getPhrase(YOU_HAVE) + " " +
-                    props.getCoins() + " " + getPhrase(coinText) + ".");
         } else {
             speechText = wrap(getPhrase(COIN_NOT_PICKED));
         }
