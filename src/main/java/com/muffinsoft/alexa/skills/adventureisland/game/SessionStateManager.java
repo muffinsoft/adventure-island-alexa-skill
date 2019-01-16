@@ -85,7 +85,10 @@ public class SessionStateManager {
             case OUTRO:
             case WELCOME:
                 dialog = getIntroOutroDialog();
-                if (!Utils.isLocationConnector(stateItem) && dialog.getReprompt() == null) {
+                if (Utils.isLocationConnector(stateItem)) {
+                    logger.debug("Is location connector, will insert image");
+                    dialog.setBackgroundImage(ImageManager.getConnector(stateItem));
+                } else if (dialog.getReprompt() == null) {
                     TagProcessor.getReprompt(dialog);
                 }
                 break;
@@ -527,6 +530,8 @@ public class SessionStateManager {
 
         responseText = combine(soundIntro, responseText);
 
+        String imageUrl = getImageUrl(stateItem);
+
         stateItem.setIndex(stateItem.getIndex() + 1);
 
         logger.debug("Got response {}", responseText);
@@ -536,6 +541,7 @@ public class SessionStateManager {
                 .responseText(responseText)
                 .lastPhrase(lastPhrase)
                 .slotName(slotName)
+                .backgroundImage(imageUrl)
                 .build();
 
     }

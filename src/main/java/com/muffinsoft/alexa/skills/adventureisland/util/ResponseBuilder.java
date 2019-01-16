@@ -103,7 +103,10 @@ public class ResponseBuilder {
         boolean result = false;
         try {
             SupportedInterfaces interfaces = input.getRequestEnvelope().getContext().getSystem().getDevice().getSupportedInterfaces();
-            result = interfaces.getDisplay() != null && interfaces.getAlexaPresentationAPL() != null;
+            boolean hasDisplay = interfaces.getDisplay() != null;
+            boolean supportsApl = interfaces.getAlexaPresentationAPL() != null;
+            logger.debug("Has display: {}, supports APL: {}", hasDisplay, supportsApl);
+            result = supportsApl;
 
         } catch (Exception e) {
             logger.debug("Caught exception", e);

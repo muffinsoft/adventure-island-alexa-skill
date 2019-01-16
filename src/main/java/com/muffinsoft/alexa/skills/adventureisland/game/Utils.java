@@ -6,6 +6,7 @@ import com.amazon.ask.model.slu.entityresolution.Resolutions;
 import com.amazon.ask.model.slu.entityresolution.Value;
 import com.amazon.ask.model.slu.entityresolution.ValueWrapper;
 import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
+import com.muffinsoft.alexa.skills.adventureisland.content.ImageManager;
 import com.muffinsoft.alexa.skills.adventureisland.model.PersistentState;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
 import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
@@ -149,5 +150,17 @@ public class Utils {
             map = new HashMap<>();
         }
         return map;
+    }
+
+    public static String getImageUrl(StateItem stateItem) {
+        String result = null;
+
+        if (stateItem.getIndex() == 0) {
+            if (stateItem.getState() == State.INTRO && !Objects.equals(stateItem.getMission(), stateItem.getLocation()) && Objects.equals(stateItem.getLocation(), stateItem.getScene())) {
+                result = ImageManager.getGeneralImageByKey(stateItem.getLocation());
+            }
+        }
+
+        return result;
     }
 }

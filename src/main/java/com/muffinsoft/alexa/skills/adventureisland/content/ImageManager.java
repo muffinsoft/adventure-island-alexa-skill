@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.muffinsoft.alexa.skills.adventureisland.game.Utils;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
 import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,8 @@ import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.cont
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.props;
 
 public class ImageManager {
+
+    private static final Logger logger = LoggerFactory.getLogger(ImageManager.class);
 
     private static final String PATH_OBSTACLES = "apl/obstacles.json";
     private static final String PATH_CONNECTORS = "apl/connectors.json";
@@ -73,6 +77,7 @@ public class ImageManager {
     public static String getConnector(StateItem stateItem) {
         String tier = stateItem.getTierIndex() == 0 ? "" : "" + stateItem.getTierIndex();
         String key = stateItem.getMission() + Utils.capitalizeFirstLetter(stateItem.getLocation()) + tier + State.OUTRO.getKey();
+        logger.debug("Looking for connector under the key: {}", key);
         if (locationConnectors.contains(key)) {
             return connectorsDir + key + extension;
         } else {
