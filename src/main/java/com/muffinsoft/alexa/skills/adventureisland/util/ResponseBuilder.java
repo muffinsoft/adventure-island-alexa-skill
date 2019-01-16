@@ -9,6 +9,8 @@ import com.muffinsoft.alexa.skills.adventureisland.game.SessionStateManager;
 import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
 import com.muffinsoft.alexa.skills.adventureisland.model.SlotName;
 import com.muffinsoft.alexa.skills.adventureisland.model.SpecialReply;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +19,8 @@ import java.util.Optional;
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.contentLoader;
 
 public class ResponseBuilder {
+
+    private static final Logger logger = LoggerFactory.getLogger(ResponseBuilder.class);
 
     private ResponseBuilder(){}
 
@@ -59,8 +63,8 @@ public class ResponseBuilder {
                 .withOutputSpeech(speech)
                 .withShouldEndSession(dialog.isEnd());
 
-        if (dialog.getBackgroundImage() != null) {
-            createCard(dialog, input, response);
+        if (isAplReady(input) && dialog.getBackgroundImage() != null) {
+            createCard(dialog, response);
         }
 
 
@@ -77,7 +81,8 @@ public class ResponseBuilder {
         return response.build();
     }
 
-    private static void createCard(DialogItem dialog, HandlerInput input, Response.Builder response) {
+    private static void createCard(DialogItem dialog, Response.Builder response) {
+
         Map<String, Object> document = contentLoader.loadContent(new HashMap<>(), DOCUMENT_JSON, new TypeReference<HashMap<String, Object>>() {});
 
         Map<String, Object> content = new HashMap<>();
@@ -92,6 +97,18 @@ public class ResponseBuilder {
                 .build();
 
         response.addDirectivesItem(directive);
+    }
+
+    private static boolean isAplReady(HandlerInput input) {
+        boolean result = false;
+        try {
+            SupportedInterfaces interfaces = input.getRequestEnvelope().getContext().getSystem().getDevice().getSupportedInterfaces();
+            result = interfaces.getDisplay() != null && interfaces.getAlexaPresentationAPL() != null;
+
+        } catch (Exception e) {
+            logger.debug("Caught exception", e);
+        }
+        return result;
     }
 
 }
