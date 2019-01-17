@@ -24,6 +24,8 @@ public class StateItem {
 
     private HelpState helpState;
 
+    private String imageToInsert;
+
     private final SessionAttributeManager sessionAttributeManager;
 
     public StateItem(AttributesManager attributesManager) {
@@ -198,4 +200,11 @@ public class StateItem {
         sessionAttributeManager.updateObject(HELP_STATE, helpState);
     }
 
+    public String getImageToInsert() {
+        return imageToInsert;
+    }
+
+    public void setImageToInsert(String imageToInsert) {
+        this.imageToInsert = imageToInsert;
+    }
 }

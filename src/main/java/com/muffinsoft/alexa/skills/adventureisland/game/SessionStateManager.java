@@ -55,6 +55,11 @@ public class SessionStateManager {
 
         attributesManager.savePersistentAttributes();
         logger.debug("Sending response {}", dialog.getResponseText());
+
+        if (dialog.getBackgroundImage() == null && stateItem.getImageToInsert() != null) {
+            dialog.setBackgroundImage(stateItem.getImageToInsert());
+        }
+
         return dialog;
     }
 
@@ -565,6 +570,7 @@ public class SessionStateManager {
                 stateItem.setTierIndex(tier);
                 goToIntro(key);
                 stateItem.setMissionIndex(i);
+                stateItem.setImageToInsert(ImageManager.getMissionImage(stateItem));
 
                 props.resetHealth();
                 persistentState.setCheckpoint(null);

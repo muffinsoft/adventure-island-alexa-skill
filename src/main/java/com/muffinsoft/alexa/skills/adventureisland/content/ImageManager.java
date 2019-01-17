@@ -21,16 +21,19 @@ public class ImageManager {
     private static final String PATH_CONNECTORS = "apl/connectors.json";
     private static final String PATH_EXPLANATIONS = "apl/explanations.json";
     private static final String PATH_GENERAL = "apl/general.json";
+    private static final String PATH_MISSION = "apl/mission.json";
 
     private static List<String> obstacleImages = new ArrayList<>();
     private static List<String> obstacleExplanations = new ArrayList<>();
     private static List<String> locationConnectors = new ArrayList<>();
     private static List<String> generalImages = new ArrayList<>();
+    private static List<String> missionImages = new ArrayList<>();
 
     private static String baseImageDir;
     private static String obstaclesDir;
     private static String connectorsDir;
     private static String explanationsDir;
+    private static String missionDir;
 
     private static final String extension = ".jpg";
 
@@ -39,11 +42,13 @@ public class ImageManager {
         obstaclesDir = baseImageDir + props.getProperty("obstacles-dir");
         connectorsDir = baseImageDir + props.getProperty("connectors-dir");
         explanationsDir = baseImageDir + props.getProperty("obstacle-explanation");
+        missionDir = baseImageDir + props.getProperty("mission-dir");
 
         obstacleImages = contentLoader.loadContent(obstacleImages, PATH_OBSTACLES, new TypeReference<ArrayList<String>>() {});
         obstacleExplanations = contentLoader.loadContent(obstacleExplanations, PATH_EXPLANATIONS, new TypeReference<ArrayList<String>>() {});
         locationConnectors = contentLoader.loadContent(locationConnectors, PATH_CONNECTORS, new TypeReference<ArrayList<String>>() {});
         generalImages = contentLoader.loadContent(generalImages, PATH_GENERAL, new TypeReference<ArrayList<String>>() {});
+        missionImages = contentLoader.loadContent(missionImages, PATH_MISSION, new TypeReference<ArrayList<String>>() {});
     }
 
     public static String getObstacleImageUrl(String obstacle) {
@@ -80,6 +85,17 @@ public class ImageManager {
         logger.debug("Looking for connector under the key: {}", key);
         if (locationConnectors.contains(key)) {
             return connectorsDir + key + extension;
+        } else {
+            return null;
+        }
+    }
+
+    public static String getMissionImage(StateItem stateItem) {
+        String tier = stateItem.getTierIndex() == 0 ? "" : "" + stateItem.getTierIndex();
+        String key = stateItem.getMission() + tier + stateItem.getState().getKey();
+
+        if (missionImages.contains(key)) {
+            return missionDir + key + extension;
         } else {
             return null;
         }
