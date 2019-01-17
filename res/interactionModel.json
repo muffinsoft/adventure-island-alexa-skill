@@ -9,7 +9,11 @@
         },
         {
           "name": "AMAZON.CancelIntent",
-          "samples": []
+          "samples": [
+            "different game",
+            "return to the main menu",
+            "new game"
+          ]
         },
         {
           "name": "AMAZON.HelpIntent",
@@ -96,14 +100,7 @@
           "values": [
             {
               "name": {
-                "value": "kaching",
-                "synonyms": [
-                  "kerching",
-                  "compute line",
-                  "ketchup",
-                  "catching",
-                  "catch up"
-                ]
+                "value": "kaching"
               }
             },
             {
@@ -125,7 +122,6 @@
               "name": {
                 "value": "woo hoo",
                 "synonyms": [
-                  "ready",
                   "woo-hoo",
                   "woohoo"
                 ]
@@ -151,18 +147,6 @@
               "name": {
                 "value": "ahoy",
                 "synonyms": [
-                  "no i'm ye",
-                  "no way",
-                  "hallway",
-                  "i'm hiyaaa",
-                  "yeah totally",
-                  "oh no",
-                  "holy",
-                  "oh holy",
-                  "oh ok",
-                  "how",
-                  "i'm whee",
-                  "are",
                   "ahoy mateys",
                   "ahoy matey"
                 ]
@@ -172,7 +156,6 @@
               "name": {
                 "value": "wowzer",
                 "synonyms": [
-                  "laos what's up",
                   "what was there",
                   "what was it",
                   "what's up",
@@ -191,17 +174,7 @@
             },
             {
               "name": {
-                "value": "yikes",
-                "synonyms": [
-                  "yeah thanks",
-                  "next",
-                  "yeah thanks",
-                  "right",
-                  "yeah yay",
-                  "ok yes",
-                  "yay",
-                  "yes yikes"
-                ]
+                "value": "yikes"
               }
             },
             {
@@ -258,13 +231,7 @@
               "name": {
                 "value": "whee",
                 "synonyms": [
-                  "wee",
-                  "we didn't",
-                  "clean",
-                  "line",
-                  "ye",
-                  "return",
-                  "real"
+                  "we didn't"
                 ]
               }
             }
