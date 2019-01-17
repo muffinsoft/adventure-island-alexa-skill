@@ -139,6 +139,11 @@ public class StateItem {
         return tierIndex;
     }
 
+    public String getTierIndexForKey() {
+        int index = getTierIndex();
+        return index > 0 ? "" + index : "";
+    }
+
     public void setTierIndex(int tierIndex) {
         this.tierIndex = tierIndex;
         sessionAttributeManager.updateObject(TIER_INDEX, tierIndex);

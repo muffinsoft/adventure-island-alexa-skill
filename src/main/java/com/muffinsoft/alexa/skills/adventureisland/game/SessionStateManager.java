@@ -459,6 +459,10 @@ public class SessionStateManager {
                         additionalResponse = null;
                     }
                     dialog = MissionSelector.promptForMission(slotName, persistentState.getCompletedMissions());
+                    if (stateItem.getImageToInsert() != null) {
+                        dialog.setBackgroundImage(stateItem.getImageToInsert());
+                        dialog.setCardText("");
+                    }
                     dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
                     return dialog;
                 }
@@ -603,6 +607,8 @@ public class SessionStateManager {
         if (Objects.equals(stateItem.getMission(), ROOT)) {
             updateCompletedMissions();
             persistentState.setCheckpoint(null);
+            String imageToInsert = ImageManager.getMissionImageByKey(oldMission + stateItem.getTierIndexForKey() + State.OUTRO.getKey());
+            stateItem.setImageToInsert(imageToInsert);
             updateNicknames(oldMission, oldTier);
         }
     }

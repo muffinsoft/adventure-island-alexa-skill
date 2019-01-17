@@ -93,7 +93,10 @@ public class ImageManager {
     public static String getMissionImage(StateItem stateItem) {
         String tier = stateItem.getTierIndex() == 0 ? "" : "" + stateItem.getTierIndex();
         String key = stateItem.getMission() + tier + stateItem.getState().getKey();
+        return getMissionImageByKey(key);
+    }
 
+    public static String getMissionImageByKey(String key) {
         if (missionImages.contains(key)) {
             return missionDir + key + extension;
         } else {
