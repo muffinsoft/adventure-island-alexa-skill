@@ -85,17 +85,22 @@ public class SessionStateManager {
             case OUTRO:
             case WELCOME:
                 dialog = getIntroOutroDialog();
-                if (Utils.isLocationConnector(stateItem)) {
-                    logger.debug("Is location connector, will insert image");
-                    dialog.setBackgroundImage(ImageManager.getConnector(stateItem));
-                } else if (dialog.getReprompt() == null) {
-                    TagProcessor.getReprompt(dialog);
-                }
                 break;
             default:
                 dialog = getActionDialog();
                 break;
         }
+
+        if ((stateItem.getState() == State.INTRO || stateItem.getState() == State.OUTRO)) {
+            if (Utils.isLocationConnector(stateItem)) {
+                logger.debug("Is location connector, will insert image");
+                dialog.setBackgroundImage(ImageManager.getConnector(stateItem));
+            } else if (dialog.getReprompt() == null) {
+                logger.debug("Extracting reprompt");
+                TagProcessor.getReprompt(dialog);
+            }
+        }
+
         return dialog;
     }
 
