@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.*;
+import static com.muffinsoft.alexa.skills.adventureisland.content.ImageManager.getHeartsImage;
+import static com.muffinsoft.alexa.skills.adventureisland.content.ImageManager.getPowerupImage;
 import static com.muffinsoft.alexa.skills.adventureisland.content.NumbersManager.*;
 import static com.muffinsoft.alexa.skills.adventureisland.content.ObstacleManager.getObstacleExplanation;
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.*;
@@ -59,6 +61,7 @@ public class SessionStateManager {
         if (dialog.getBackgroundImage() == null && stateItem.getImageToInsert() != null) {
             dialog.setBackgroundImage(stateItem.getImageToInsert());
         }
+        dialog.setBackgroundImage1(stateItem.getImage1ToInsert());
 
         return dialog;
     }
@@ -347,6 +350,7 @@ public class SessionStateManager {
                 Powerup powerup = PowerupManager.useFirstRelevant(props, SKIP, RETRY);
                 if (powerup != null) {
                     speechText = powerup.getUsed();
+                    stateItem.setImage1ToInsert(getPowerupImage(nameToKey(powerup.getName()) + USED));
                     if (powerup.getAction().toLowerCase().contains(RETRY)) {
                         return DialogItem.builder()
                                 .responseText(speechText)
@@ -356,6 +360,7 @@ public class SessionStateManager {
                     // lose a heart if no powerup
                 } else {
                     props.decrementHealth();
+                    stateItem.setImage1ToInsert(getHeartsImage(ACTION_FAIL + props.getHealth()));
                     if (props.getHealth() <= 0) {
                         return processSceneFail();
                     }
@@ -384,6 +389,7 @@ public class SessionStateManager {
             powerUps.add(powerup.getName());
             props.setPowerups(powerUps);
             props.setJustFailed(false);
+            stateItem.setImage1ToInsert(getPowerupImage(nameToKey(powerup.getName()) + GOT));
             return powerup.getGot();
         }
         return "";
@@ -650,6 +656,7 @@ public class SessionStateManager {
             obstacle = action.substring(action.indexOf(REPLACEMENT_PREFIX) + REPLACEMENT_PREFIX.length());
             props.setCurrentObstacle(obstacle);
             speechText += powerup.getUsed();
+            stateItem.setImage1ToInsert(getPowerupImage(nameToKey(powerup.getName()) + USED));
         } else {
             logger.debug("Got obstacle {} for {} {} {}", obstacle, stateItem.getMission(), stateItem.getLocation(), stateItem.getScene());
             if (!Objects.equals(SILENT_SCENE, stateItem.getScene())) {

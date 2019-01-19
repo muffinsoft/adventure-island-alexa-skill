@@ -2,7 +2,7 @@ package com.muffinsoft.alexa.skills.adventureisland.util;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.model.*;
-import com.amazon.ask.model.interfaces.alexa.presentation.apl.RenderDocumentDirective;
+import com.amazon.ask.model.interfaces.alexa.presentation.apl.*;
 import com.amazon.ask.model.ui.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.muffinsoft.alexa.skills.adventureisland.game.SessionStateManager;
@@ -25,6 +25,7 @@ public class ResponseBuilder {
     private ResponseBuilder(){}
 
     private static final String DOCUMENT_JSON = "apl/document.json";
+    private static final String DOCUMENT2_JSON = "apl/document2.json";
     private static final String SMALL_IMAGE = "_s";
 
     public static Optional<Response> getResponse(HandlerInput input, SlotName slotName) {
@@ -83,10 +84,17 @@ public class ResponseBuilder {
 
     private static void createCard(DialogItem dialog, Response.Builder response) {
 
-        Map<String, Object> document = contentLoader.loadContent(new HashMap<>(), DOCUMENT_JSON, new TypeReference<HashMap<String, Object>>() {});
+        boolean multipleImages = dialog.getBackgroundImage1() != null;
+
+        String documentPath = multipleImages ? DOCUMENT2_JSON : DOCUMENT_JSON;
+
+        Map<String, Object> document = contentLoader.loadContent(new HashMap<>(), documentPath, new TypeReference<HashMap<String, Object>>() {});
 
         Map<String, Object> content = new HashMap<>();
         content.put("title", dialog.getCardText());
+        if (multipleImages) {
+            content.put("backgroundImage1", dialog.getBackgroundImage1());
+        }
         content.put("backgroundImage", dialog.getBackgroundImage());
         Map<String, Object> dataSources = new HashMap<>();
         dataSources.put("templateData", content);
@@ -94,9 +102,25 @@ public class ResponseBuilder {
         Directive directive = RenderDocumentDirective.builder()
                 .withDocument(document)
                 .withDatasources(dataSources)
+                .withToken("whatever")
                 .build();
 
         response.addDirectivesItem(directive);
+
+        if (multipleImages) {
+            Command command = SetPageCommand.builder()
+                    .withComponentId("picCarousel")
+                    .withPosition(Position.RELATIVE)
+                    .withValue(1)
+                    .build();
+
+            Directive directive1 = ExecuteCommandsDirective.builder()
+                    .addCommandsItem(command)
+                    .withToken("whatever")
+                    .build();
+
+            response.addDirectivesItem(directive1);
+        }
     }
 
     private static boolean isAplReady(HandlerInput input) {

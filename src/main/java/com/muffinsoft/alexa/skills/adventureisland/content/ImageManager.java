@@ -22,18 +22,24 @@ public class ImageManager {
     private static final String PATH_EXPLANATIONS = "apl/explanations.json";
     private static final String PATH_GENERAL = "apl/general.json";
     private static final String PATH_MISSION = "apl/mission.json";
+    private static final String PATH_POWERUPS = "apl/powerups.json";
+    private static final String PATH_HEARTS = "apl/hearts.json";
 
     private static List<String> obstacleImages = new ArrayList<>();
     private static List<String> obstacleExplanations = new ArrayList<>();
     private static List<String> locationConnectors = new ArrayList<>();
     private static List<String> generalImages = new ArrayList<>();
     private static List<String> missionImages = new ArrayList<>();
+    private static List<String> powerupsImages = new ArrayList<>();
+    private static List<String> heartsImages = new ArrayList<>();
 
     private static String baseImageDir;
     private static String obstaclesDir;
     private static String connectorsDir;
     private static String explanationsDir;
     private static String missionDir;
+    private static String powerupsDir;
+    private static String heartsDir;
 
     private static final String extension = ".jpg";
 
@@ -43,12 +49,16 @@ public class ImageManager {
         connectorsDir = baseImageDir + props.getProperty("connectors-dir");
         explanationsDir = baseImageDir + props.getProperty("obstacle-explanation");
         missionDir = baseImageDir + props.getProperty("mission-dir");
+        powerupsDir = baseImageDir + props.getProperty("powerups-dir");
+        heartsDir = baseImageDir + props.getProperty("hearts-dir");
 
         obstacleImages = contentLoader.loadContent(obstacleImages, PATH_OBSTACLES, new TypeReference<ArrayList<String>>() {});
         obstacleExplanations = contentLoader.loadContent(obstacleExplanations, PATH_EXPLANATIONS, new TypeReference<ArrayList<String>>() {});
         locationConnectors = contentLoader.loadContent(locationConnectors, PATH_CONNECTORS, new TypeReference<ArrayList<String>>() {});
         generalImages = contentLoader.loadContent(generalImages, PATH_GENERAL, new TypeReference<ArrayList<String>>() {});
         missionImages = contentLoader.loadContent(missionImages, PATH_MISSION, new TypeReference<ArrayList<String>>() {});
+        powerupsImages = contentLoader.loadContent(powerupsImages, PATH_POWERUPS, new TypeReference<ArrayList<String>>() {});
+        heartsImages = contentLoader.loadContent(heartsImages, PATH_HEARTS, new TypeReference<ArrayList<String>>() {});
     }
 
     public static String getObstacleImageUrl(String obstacle) {
@@ -99,6 +109,22 @@ public class ImageManager {
     public static String getMissionImageByKey(String key) {
         if (missionImages.contains(key)) {
             return missionDir + key + extension;
+        } else {
+            return null;
+        }
+    }
+
+    public static String getPowerupImage(String key) {
+        if (powerupsImages.contains(key)) {
+            return powerupsDir + key + extension;
+        } else {
+            return null;
+        }
+    }
+
+    public static String getHeartsImage(String key) {
+        if (heartsImages.contains(key)) {
+            return heartsDir + key + extension;
         } else {
             return null;
         }

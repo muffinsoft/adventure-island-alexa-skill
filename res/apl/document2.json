@@ -1,0 +1,37 @@
+{
+  "type": "APL",
+  "version": "1.0",
+  "theme": "dark",
+  "mainTemplate": {
+    "description": "Adventure Island GUI",
+    "parameters": [
+      "payload"
+    ],
+    "items": [{
+      "type": "Pager",
+      "id": "picCarousel",
+      "width": "100%",
+      "height": "100%",
+      "alignItems": "center",
+      "justifyContent": "center",
+      "navigation": "none",
+      "items": [{
+        "type": "Image",
+        "source": "${payload.templateData.backgroundImage1}",
+        "position": "absolute",
+        "width": "100vw",
+        "height": "100vh",
+        "scale": "best-fill"
+      },
+        {
+          "type": "Image",
+          "source": "${payload.templateData.backgroundImage}",
+          "position": "absolute",
+          "width": "100vw",
+          "height": "100vh",
+          "scale": "best-fill"
+        }
+      ]
+    }]
+  }
+}

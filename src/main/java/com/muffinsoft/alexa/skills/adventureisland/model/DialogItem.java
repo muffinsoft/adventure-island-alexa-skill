@@ -10,6 +10,7 @@ public class DialogItem {
     private String reprompt;
     private String cardText;
     private String backgroundImage;
+    private String backgroundImage1;
     private String backgroundImageExt = Constants.DEFAULT_IMAGE_EXTENSION;
     private String lastPhrase;
 
@@ -26,6 +27,7 @@ public class DialogItem {
         private String bRePrompt;
         private String bCardText;
         private String bBackgroundImage;
+        private String bBackgroundImage1;
         private String bBackgroundImageExt = Constants.DEFAULT_IMAGE_EXTENSION;
         private String bLastPhrase;
 
@@ -61,6 +63,11 @@ public class DialogItem {
             return this;
         }
 
+        public Builder backgroundImage1(String url) {
+            this.bBackgroundImage1 = url;
+            return this;
+        }
+
         public Builder backgroundImageExt(String extension) {
             this.bBackgroundImageExt = extension;
             return this;
@@ -79,6 +86,7 @@ public class DialogItem {
             dialogItem.end = bEnd;
             dialogItem.responseText = bResponseText;
             dialogItem.backgroundImage = bBackgroundImage;
+            dialogItem.backgroundImage1 = bBackgroundImage1;
             dialogItem.backgroundImageExt = bBackgroundImageExt;
             dialogItem.lastPhrase = bLastPhrase;
             return dialogItem;
@@ -147,5 +155,13 @@ public class DialogItem {
 
     public void setLastPhrase(String lastPhrase) {
         this.lastPhrase = lastPhrase;
+    }
+
+    public String getBackgroundImage1() {
+        return backgroundImage1;
+    }
+
+    public void setBackgroundImage1(String backgroundImage1) {
+        this.backgroundImage1 = backgroundImage1;
     }
 }
