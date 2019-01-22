@@ -63,7 +63,16 @@ public class SessionStateManager {
         }
         dialog.setBackgroundImage1(stateItem.getImage1ToInsert());
 
+        insertMissionOutroImage();
+
         return dialog;
+    }
+
+    private void insertMissionOutroImage() {
+        if (stateItem.getState() == State.OUTRO && stateItem.getMission().equals(stateItem.getLocation())) {
+            String imageToInsert = ImageManager.getMissionImageByKey(stateItem.getMission() + stateItem.getTierIndexForKey() + State.OUTRO.getKey());
+            stateItem.setImageToInsert(imageToInsert);
+        }
     }
 
     private DialogItem getDialogByState() {
@@ -613,8 +622,6 @@ public class SessionStateManager {
         if (Objects.equals(stateItem.getMission(), ROOT)) {
             updateCompletedMissions();
             persistentState.setCheckpoint(null);
-            String imageToInsert = ImageManager.getMissionImageByKey(oldMission + stateItem.getTierIndexForKey() + State.OUTRO.getKey());
-            stateItem.setImageToInsert(imageToInsert);
             updateNicknames(oldMission, oldTier);
         }
     }

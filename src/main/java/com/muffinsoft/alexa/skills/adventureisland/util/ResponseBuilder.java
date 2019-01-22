@@ -3,6 +3,7 @@ package com.muffinsoft.alexa.skills.adventureisland.util;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.model.*;
 import com.amazon.ask.model.interfaces.alexa.presentation.apl.*;
+import com.amazon.ask.model.interfaces.viewport.ViewportState;
 import com.amazon.ask.model.ui.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.muffinsoft.alexa.skills.adventureisland.game.SessionStateManager;
@@ -12,11 +13,13 @@ import com.muffinsoft.alexa.skills.adventureisland.model.SpecialReply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.contentLoader;
+import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.props;
 
 public class ResponseBuilder {
 
@@ -26,7 +29,10 @@ public class ResponseBuilder {
 
     private static final String DOCUMENT_JSON = "apl/document.json";
     private static final String DOCUMENT2_JSON = "apl/document2.json";
-    private static final String SMALL_IMAGE = "_s";
+
+    private static final String IMAGES_DIR = props.getProperty("images-dir");
+    private static final String SMALL_IMAGE_WIDTH = props.getProperty("small-image-width");
+    private static final String SMALL_IMAGE_HEIGHT = props.getProperty("small-image-height");
 
     public static Optional<Response> getResponse(HandlerInput input, SlotName slotName) {
         return getResponse(input, slotName, null);
@@ -65,6 +71,7 @@ public class ResponseBuilder {
                 .withShouldEndSession(dialog.isEnd());
 
         if (isAplReady(input) && dialog.getBackgroundImage() != null) {
+            adjustImageSize(dialog, input);
             createCard(dialog, response);
         }
 
@@ -83,6 +90,11 @@ public class ResponseBuilder {
     }
 
     private static void createCard(DialogItem dialog, Response.Builder response) {
+
+        if (dialog.getBackgroundImage() == null && dialog.getBackgroundImage1() != null) {
+            dialog.setBackgroundImage(dialog.getBackgroundImage1());
+            dialog.setBackgroundImage1(null);
+        }
 
         boolean multipleImages = dialog.getBackgroundImage1() != null;
 
@@ -120,6 +132,20 @@ public class ResponseBuilder {
                     .build();
 
             response.addDirectivesItem(directive1);
+        }
+    }
+
+    private static void adjustImageSize(DialogItem dialog, HandlerInput input) {
+        BigDecimal width = new BigDecimal(SMALL_IMAGE_WIDTH);
+        BigDecimal height = new BigDecimal(SMALL_IMAGE_HEIGHT);
+        ViewportState viewport = input.getRequestEnvelope().getContext().getViewport();
+        if (viewport.getPixelWidth().compareTo(width) < 0 || viewport.getPixelHeight().compareTo(height) < 0) {
+            if (dialog.getBackgroundImage() != null) {
+                dialog.setBackgroundImage(dialog.getBackgroundImage().replace(IMAGES_DIR, IMAGES_DIR + SMALL_IMAGE_WIDTH + "/"));
+            }
+            if (dialog.getBackgroundImage1() != null) {
+                dialog.setBackgroundImage1(dialog.getBackgroundImage1().replace(IMAGES_DIR, IMAGES_DIR + SMALL_IMAGE_WIDTH + "/"));
+            }
         }
     }
 
