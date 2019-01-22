@@ -63,15 +63,15 @@ public class SessionStateManager {
         }
         dialog.setBackgroundImage1(stateItem.getImage1ToInsert());
 
-        insertMissionOutroImage();
+        insertMissionOutroImage(dialog);
 
         return dialog;
     }
 
-    private void insertMissionOutroImage() {
+    private void insertMissionOutroImage(DialogItem dialog) {
         if (stateItem.getState() == State.OUTRO && stateItem.getMission().equals(stateItem.getLocation())) {
             String imageToInsert = ImageManager.getMissionImageByKey(stateItem.getMission() + stateItem.getTierIndexForKey() + State.OUTRO.getKey());
-            stateItem.setImageToInsert(imageToInsert);
+            dialog.setBackgroundImage(imageToInsert);
         }
     }
 
@@ -675,6 +675,8 @@ public class SessionStateManager {
         speechText = combine(speechText, obstacleSound);
 
         String warn = ObstacleManager.getWarning(obstacle);
+        String obstacleKey = SILENT_SCENE.equals(stateItem.getScene()) ? SILENT_SCENE : obstacle;
+        String imageUrl = ImageManager.getObstacleImageUrl(obstacleKey);
 
         if (!Objects.equals(SILENT_SCENE, stateItem.getScene())) {
             speechText = combine(speechText, warn);
@@ -682,7 +684,6 @@ public class SessionStateManager {
             speechText = combine(speechText,"<amazon:effect name=\"whispered\">" + warn + "</amazon:effect>");
         }
 
-        String imageUrl = ImageManager.getObstacleImageUrl(obstacle);
         stateItem.setIndex(stateItem.getIndex() + 1);
 
         return DialogItem.builder()
