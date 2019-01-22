@@ -623,6 +623,8 @@ public class SessionStateManager {
             updateCompletedMissions();
             persistentState.setCheckpoint(null);
             updateNicknames(oldMission, oldTier);
+            String imageToInsert = ImageManager.getMissionImageByKey(oldMission + oldTier + State.OUTRO.getKey());
+            stateItem.setImage1ToInsert(imageToInsert);
         }
     }
 
