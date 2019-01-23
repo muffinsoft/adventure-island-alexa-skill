@@ -161,8 +161,8 @@ public class TagProcessor {
             response = dialog.getResponseText().trim();
         }
         logger.debug("Getting reprompt for {}", response);
-        int i = response.lastIndexOf(".", response.length() - 5);
-        int j = response.lastIndexOf("!");
+        int i = response.lastIndexOf(".", response.length() - 3);
+        int j = response.lastIndexOf("!", response.length() - 3);
         if (j > i) {
             i = j;
         }

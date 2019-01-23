@@ -10,8 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.contentLoader;
-import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.props;
+import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.*;
 
 public class ImageManager {
 
@@ -72,12 +71,26 @@ public class ImageManager {
 
     public static String getObstacleExplanation(StateItem stateItem) {
         String tier = stateItem.getTierIndex() == 0 ? "" : "" + stateItem.getTierIndex();
-        String key = stateItem.getScene() + tier;
+        String scene = SILENT_SCENE.equals(stateItem.getScene()) ? getPreviousSceneName(stateItem) : stateItem.getScene();
+        String key = scene + tier;
+
+        logger.debug("Looking for image key: {}", key);
 
         if (obstacleExplanations.contains(key)) {
             return explanationsDir + key + extension;
         } else {
             return null;
+        }
+    }
+
+    private static String getPreviousSceneName(StateItem stateItem) {
+        try {
+            String missionName = game.getMissions().get(stateItem.getMissionIndex()).getLocations().get(stateItem.getLocationIndex()).getActivities().get(stateItem.getSceneIndex() - 1).getName();
+            logger.debug("Extracted {} for silent scene", missionName);
+            return PhraseManager.nameToKey(missionName);
+        } catch (Exception e) {
+            logger.error("Exception caught", e);
+            return "";
         }
     }
 

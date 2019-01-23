@@ -63,15 +63,18 @@ public class SessionStateManager {
         }
         dialog.setBackgroundImage1(stateItem.getImage1ToInsert());
 
-        insertMissionOutroImage(dialog);
+        insertImage(dialog);
 
         return dialog;
     }
 
-    private void insertMissionOutroImage(DialogItem dialog) {
+    private void insertImage(DialogItem dialog) {
         if (stateItem.getState() == State.OUTRO && stateItem.getMission().equals(stateItem.getLocation())) {
             String imageToInsert = ImageManager.getMissionImageByKey(stateItem.getMission() + stateItem.getTierIndexForKey() + State.OUTRO.getKey());
             dialog.setBackgroundImage(imageToInsert);
+        }
+        if (stateItem.getState() == State.READY && SILENT_SCENE.equals(stateItem.getScene())) {
+            dialog.setBackgroundImage(ImageManager.getObstacleExplanation(stateItem));
         }
     }
 
@@ -182,19 +185,12 @@ public class SessionStateManager {
             props.setSkipReadyPrompt(true);
         }
 
-        boolean setToReprompt = false;
-
         if (stateItem.getState() == State.INTRO || stateItem.getState() == State.OUTRO) {
             if (stateItem.getIndex() > 0) {
                 stateItem.setIndex(stateItem.getIndex() - 1);
-                setToReprompt = true;
             }
         }
-        DialogItem dialog = nextResponse();
-        if (setToReprompt) {
-            dialog.setResponseText(dialog.getReprompt());
-        }
-        return dialog;
+        return nextResponse();
     }
 
     private void restoreFromCheckpoint() {
@@ -425,6 +421,7 @@ public class SessionStateManager {
             // lily first
             if (isYes()) {
                 responseText += wrap(getPhrase(stateItem.getScene() + capitalizeFirstLetter(DEMO)));
+                stateItem.setImage1ToInsert(ImageManager.getObstacleExplanation(stateItem));
             }
             // not ready without demo
         } else if (!isYes()) {
