@@ -48,6 +48,46 @@
           "samples": []
         },
         {
+          "name": "BuyIntent",
+          "slots": [],
+          "samples": [
+            "Purchase expansion pack",
+            "Purchase further missions",
+            "Give me more missions",
+            "Give me more adventures",
+            "Get expansion pack",
+            "Buy expansion pack"
+          ]
+        },
+        {
+          "name": "WhatCanIBuyIntent",
+          "slots": [],
+          "samples": [
+            "what is available for purchase",
+            "what can I purchase",
+            "what can I buy"
+          ]
+        },
+        {
+          "name": "PurchaseHistoryIntent",
+          "slots": [],
+          "samples": [
+            "What have we purchased",
+            "What have I bought",
+            "What did I buy"
+          ]
+        },
+        {
+          "name": "RefundIntent",
+          "slots": [],
+          "samples": [
+            "would like to return expansion pack",
+            "want a refund for expansion pack",
+            "return expansion pack",
+            "refund for expansion pack"
+          ]
+        },
+        {
           "name": "StartMissionIntent",
           "slots": [
             {

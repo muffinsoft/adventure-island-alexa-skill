@@ -6,6 +6,6 @@
   "minObstaclesExclamation" : 3,
   "maxObstaclesExclamation" : 4,
   "headsUp" : 4,
-  "tiers" : 1,
+  "tiers" : 3,
   "missions" : 3
 }

@@ -4,7 +4,9 @@ import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.model.*;
 import com.amazon.ask.model.interfaces.alexa.presentation.apl.*;
 import com.amazon.ask.model.interfaces.viewport.ViewportState;
-import com.amazon.ask.model.ui.*;
+import com.amazon.ask.model.ui.OutputSpeech;
+import com.amazon.ask.model.ui.Reprompt;
+import com.amazon.ask.model.ui.SsmlOutputSpeech;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.muffinsoft.alexa.skills.adventureisland.game.SessionStateManager;
 import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
@@ -61,6 +63,7 @@ public class ResponseBuilder {
 
     public static Response assembleResponse(DialogItem dialog, HandlerInput input) {
         String speechText = dialog.getResponseText();
+        speechText = speechText.replace("> <", "><");
         OutputSpeech speech = SsmlOutputSpeech.builder()
                 .withSsml("<speak>" + speechText + "</speak>")
                 .build();
