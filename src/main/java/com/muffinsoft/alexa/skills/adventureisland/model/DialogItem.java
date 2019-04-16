@@ -13,6 +13,7 @@ public class DialogItem {
     private String backgroundImage1;
     private String backgroundImageExt = Constants.DEFAULT_IMAGE_EXTENSION;
     private String lastPhrase;
+    private String directive;
 
     public DialogItem() {}
 
@@ -163,5 +164,13 @@ public class DialogItem {
 
     public void setBackgroundImage1(String backgroundImage1) {
         this.backgroundImage1 = backgroundImage1;
+    }
+
+    public String getDirective() {
+        return directive;
+    }
+
+    public void setDirective(String directive) {
+        this.directive = directive;
     }
 }

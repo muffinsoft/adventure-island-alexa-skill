@@ -46,9 +46,9 @@ public class RefundIntentHandler implements RequestHandler {
     public SendRequestDirective getRefundDirective(String productId, String token) {
         // Prepare the directive payload
         Map<String,Object> mapObject = new HashMap<>();
-        Map<String, Object> inskillProduct = new HashMap<>();
-        inskillProduct.put("productId", productId);
-        mapObject.put("InSkillProduct", inskillProduct);
+        Map<String, Object> product = new HashMap<>();
+        product.put("productId", productId);
+        mapObject.put("InSkillProduct", product);
 
         // Prepare the directive request
         return SendRequestDirective.builder()

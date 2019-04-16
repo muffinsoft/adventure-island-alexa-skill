@@ -18,11 +18,7 @@ public class PurchaseManager {
         InSkillProductsResponse response = client.getInSkillProducts(locale, null, null, null, null, null);
         List<InSkillProduct> inSkillProducts = response.getInSkillProducts();
         if (null != inSkillProducts && inSkillProducts.size() > 0) {
-            for (InSkillProduct product : inSkillProducts) {
-                if (product.getReferenceName().equalsIgnoreCase("Premium")) {
-                    return product;
-                }
-            }
+            return inSkillProducts.get(0);
         }
         return null;
     }

@@ -3,11 +3,16 @@ package com.muffinsoft.alexa.skills.adventureisland.util;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.model.*;
 import com.amazon.ask.model.interfaces.alexa.presentation.apl.*;
+import com.amazon.ask.model.interfaces.connections.SendRequestDirective;
 import com.amazon.ask.model.interfaces.viewport.ViewportState;
+import com.amazon.ask.model.services.monetization.InSkillProduct;
 import com.amazon.ask.model.ui.OutputSpeech;
 import com.amazon.ask.model.ui.Reprompt;
 import com.amazon.ask.model.ui.SsmlOutputSpeech;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
+import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
+import com.muffinsoft.alexa.skills.adventureisland.game.PurchaseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.SessionStateManager;
 import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
 import com.muffinsoft.alexa.skills.adventureisland.model.SlotName;
@@ -18,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.contentLoader;
@@ -54,11 +60,22 @@ public class ResponseBuilder {
             userReply = specialReply.text;
         }
         SessionStateManager stateManager = new SessionStateManager(userReply, input.getAttributesManager(), specialReply);
+        InSkillProduct product = PurchaseManager.getInSkillProduct(input);
+        stateManager.setEntitled(PurchaseManager.isEntitled(product));
         DialogItem dialog = stateManager.nextResponse();
 
-        Response response = assembleResponse(dialog, input);
-
-        return Optional.of(response);
+        if (Objects.equals(dialog.getDirective(), Constants.UPSELL)) {
+            if (product == null) {
+                throw new RuntimeException("UpSell required, but no product found!");
+            }
+            SendRequestDirective directive = PurchaseManager.getUpsellDirective(product.getProductId(), PhraseManager.getPhrase("purchaseUpSell"), "");
+            return input.getResponseBuilder()
+                    .addDirective(directive)
+                    .build();
+        } else {
+            Response response = assembleResponse(dialog, input);
+            return Optional.of(response);
+        }
     }
 
     public static Response assembleResponse(DialogItem dialog, HandlerInput input) {

@@ -35,6 +35,8 @@ public class SessionStateManager {
     private PersistentState persistentState;
     private GameProperties props;
 
+    private boolean entitled;
+
 
     public SessionStateManager(String userReply, AttributesManager attributesManager, SpecialReply specialReply) {
         this.attributesManager = attributesManager;
@@ -478,6 +480,10 @@ public class SessionStateManager {
                     dialog.setResponseText(combineWithBreak(responseText, dialog.getResponseText()));
                     return dialog;
                 }
+                if (stateItem.getTierIndex() > 0 && !entitled) {
+                    dialog.setDirective(UPSELL);
+                    return dialog;
+                }
             } else {
                 if (stateItem.getState() == State.OUTRO &&
                         !Objects.equals(stateItem.getMission(), stateItem.getLocation())) {
@@ -808,5 +814,9 @@ public class SessionStateManager {
         stateItem.setPendingState(state);
         stateItem.setIndex(stateItem.getPendingIndex());
         return goToLastAction();
+    }
+
+    public void setEntitled(boolean entitled) {
+        this.entitled = entitled;
     }
 }
