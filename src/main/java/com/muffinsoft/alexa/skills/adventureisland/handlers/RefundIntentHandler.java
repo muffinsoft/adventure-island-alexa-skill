@@ -5,6 +5,7 @@ import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.interfaces.connections.SendRequestDirective;
 import com.amazon.ask.model.services.monetization.InSkillProduct;
+import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.PurchaseManager;
 import org.json.JSONObject;
 
@@ -24,13 +25,22 @@ public class RefundIntentHandler implements RequestHandler {
     public Optional<Response> handle(HandlerInput input) {
         InSkillProduct product = PurchaseManager.getInSkillProduct(input);
 
-        Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
-        JSONObject json = new JSONObject(sessionAttributes);
+        if (PurchaseManager.isEntitled(product)) {
+            Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
+            JSONObject json = new JSONObject(sessionAttributes);
 
-        SendRequestDirective directive = getRefundDirective(product.getProductId(), json.toString());
-        return input.getResponseBuilder()
-                .addDirective(directive)
-                .build();
+            SendRequestDirective directive = getRefundDirective(product.getProductId(), json.toString());
+            return input.getResponseBuilder()
+                    .addDirective(directive)
+                    .build();
+        } else {
+            String speechText = PhraseManager.getPhrase("purchaseNoRefund");
+            String repromptText = PhraseManager.getPhrase("unrecognized");
+            return input.getResponseBuilder()
+                    .withSpeech(speechText)
+                    .withReprompt(repromptText)
+                    .build();
+        }
     }
 
     public SendRequestDirective getRefundDirective(String productId, String token) {
