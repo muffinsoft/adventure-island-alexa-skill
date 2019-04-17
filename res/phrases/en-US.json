@@ -306,15 +306,19 @@
   "purchaseUpSell" : "If you wish to continue your adventure with Ben you will need to purchase our expansion pack. The expansion pack includes 6 brand new tiers of missions to go on! Would you like to learn more?",
   "purchaseCancel" : "In the future you can purchase the expansion pack by saying “what can I buy”. For now want to try one of the available missions again?",
   "purchaseUnsuccessful" : "We couldn't complete the purchase. You can always ask me how to get more missions later. Want to try one of the available missions again?",
+  "playAgainRePrompt" : "Want to try one of the available missions again?",
   "purchaseError" : "Sorry, looks like the store is closed for now. Want to try one of the available missions again?",
   "purchaseDeclined" : "Sorry, your payment was declined, maybe try again later or do you want to reset this mission progress and start from the beginning?",
   "purchaseWait" : "While you wait, would you like to take another crack at one of the available missions again?",
   "purchaseComplete" : "Congrats, your purchase was completed! Would you like to continue your adventure with the new available mission?",
+  "purchaseCompleteRePrompt" : "Would you like to continue your adventure with the new available mission?",
   "purchaseHistory" : "You have bought expansion pack, which includes 6 new missions. Say yes to return to the adventure.",
   "purchaseHistoryReprompt" : "You asked me for what you bought, it was the expansion pack with new missions. Say yes to return to the adventure.",
   "purchaseHistoryNothing" : "You haven't purchased the expansion pack with exciting new missions yet.",
   "purchaseHistoryNothingReprompt" : "You asked me for a what you've bought, but you haven't purchased anything yet. You can say - what can I buy, or say yes to return to the adventure.",
   "unrecognized" : "I didn't catch that. What can I help you with?",
   "purchaseNothing" : "There are no products available for purchase right now. Sorry about that. Would you like to return to the main menu?",
-  "purchaseNoRefund" : "You haven't purchased the expansion pack yet. You can say - what can I buy - to get information about the expansion pack, or say yes to return to the adventure."
+  "purchaseNoRefund" : "You haven't purchased the expansion pack yet. You can say - what can I buy - to get information about the expansion pack, or say yes to return to the adventure.",
+  "purchaseAlreadyOwn" : "You already own the expansion pack. Would you like to pick out a mission to play?",
+  "purchaseAlreadyOwnRePrompt" : "Want to select a mission?"
 }

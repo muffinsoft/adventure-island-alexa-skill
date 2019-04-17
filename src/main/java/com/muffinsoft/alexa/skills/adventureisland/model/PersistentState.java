@@ -4,6 +4,7 @@ import com.amazon.ask.attributes.AttributesManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.PersistentAttributeManager;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +37,10 @@ public class PersistentState {
 
     private Map<String, List<String>> locationIntros;
     private Map<String, List<String>> sceneIntros;
+
+    private PurchaseState purchaseState;
+
+    private ZonedDateTime lastPurchaseAttempt;
 
     private final PersistentAttributeManager persistentAttributeManager;
 
@@ -180,5 +185,29 @@ public class PersistentState {
     public void addSceneIntro(String key, List<String> sceneIntros) {
         getSceneIntros().put(key, sceneIntros);
         persistentAttributeManager.updateObject(SCENE_INTROS, this.sceneIntros);
+    }
+
+    public PurchaseState getPurchaseState() {
+        if (purchaseState == null) {
+            purchaseState = persistentAttributeManager.getPurchaseState(PURCHASE_STATE);
+        }
+        return purchaseState;
+    }
+
+    public void setPurchaseState(PurchaseState purchaseState) {
+        this.purchaseState = purchaseState;
+        persistentAttributeManager.updateObject(PURCHASE_STATE, this.purchaseState);
+    }
+
+    public ZonedDateTime getLastPurchaseAttempt() {
+        if (lastPurchaseAttempt == null) {
+            lastPurchaseAttempt = persistentAttributeManager.getDateTime(LAST_PURCHASE_ATTEMPT);
+        }
+        return lastPurchaseAttempt;
+    }
+
+    public void setLastPurchaseAttempt(ZonedDateTime lastPurchaseAttempt) {
+        this.lastPurchaseAttempt = lastPurchaseAttempt;
+        persistentAttributeManager.setDateTime(LAST_PURCHASE_ATTEMPT, lastPurchaseAttempt);
     }
 }

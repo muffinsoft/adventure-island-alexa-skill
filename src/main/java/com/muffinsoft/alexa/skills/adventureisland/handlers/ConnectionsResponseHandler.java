@@ -1,23 +1,29 @@
 package com.muffinsoft.alexa.skills.adventureisland.handlers;
 
+import com.amazon.ask.attributes.AttributesManager;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.exception.AskSdkException;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.interfaces.connections.ConnectionsResponse;
-import com.amazon.ask.model.services.monetization.InSkillProduct;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
-import com.muffinsoft.alexa.skills.adventureisland.game.PurchaseManager;
+import com.muffinsoft.alexa.skills.adventureisland.model.PersistentState;
+import com.muffinsoft.alexa.skills.adventureisland.model.PurchaseState;
+import com.muffinsoft.alexa.skills.adventureisland.model.State;
+import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
 
 import java.io.IOException;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class ConnectionsResponseHandler implements com.amazon.ask.dispatcher.request.handler.impl.ConnectionsResponseHandler{
+import static com.muffinsoft.alexa.skills.adventureisland.game.Utils.verifyMap;
+
+public class ConnectionsResponseHandler implements com.amazon.ask.dispatcher.request.handler.impl.ConnectionsResponseHandler {
     @Override
     public boolean canHandle(HandlerInput input, ConnectionsResponse connectionsResponse) {
         String name = input.getRequestEnvelopeJson().get("request").get("name").asText();
@@ -27,52 +33,74 @@ public class ConnectionsResponseHandler implements com.amazon.ask.dispatcher.req
     @Override
     public Optional<Response> handle(HandlerInput input, ConnectionsResponse connectionsResponse) {
         JsonNode token = input.getRequestEnvelopeJson().get("request").get("token");
-        input.getAttributesManager().setSessionAttributes(getSessionAttributes(token));
+        Map<String, Object> sessionAttributes = getSessionAttributes(token);
+
+        AttributesManager attributesManager = input.getAttributesManager();
+        attributesManager.setSessionAttributes(sessionAttributes);
+        attributesManager.setPersistentAttributes(verifyMap(attributesManager.getPersistentAttributes()));
+        PersistentState persistentState = new PersistentState(attributesManager);
+        StateItem stateItem = new StateItem(attributesManager);
 
         String code = input.getRequestEnvelopeJson().get("request").get("status").get("code").asText();
-        if(code.equalsIgnoreCase("200")) {
+        if (code.equalsIgnoreCase("200")) {
             String speechText;
             String repromptText;
-            InSkillProduct premiumProduct = PurchaseManager.getInSkillProduct(input);
             String purchaseResult = input.getRequestEnvelopeJson().get("request").get("payload").get("purchaseResult").asText();
 
             switch (purchaseResult) {
-                case "PENDING_PURCHASE" :
-                    //TODO
+                case "PENDING_PURCHASE":
+                    persistentState.setLastPurchaseAttempt(ZonedDateTime.now());
+                    persistentState.setPurchaseState(PurchaseState.PENDING);
+                    speechText = PhraseManager.getPhrase("purchaseWait");
+                    stateItem.setState(State.PLAY_AGAIN);
+                    repromptText = speechText;
                     break;
-                case "ACCEPTED" : {
+                case "ACCEPTED": {
+                    persistentState.setPurchaseState(PurchaseState.ENTITLED);
                     speechText = PhraseManager.getPhrase("purchaseComplete");
+                    repromptText = PhraseManager.getPhrase("purchaseCompleteRePrompt");
+                    stateItem.setState(State.PLAY_NEW);
                     break;
                 }
-                case "DECLINED" : {
-                    String name = input.getRequestEnvelopeJson().get("request").get("name").asText();
-                    if(name.equalsIgnoreCase("Buy")) {
-                        // response when declined buy request
-                        speechText = "Thanks for your interest in the "+premiumProduct.getName()+". Would you like to listen to the standard greeting?";
-                        repromptText = "Would you like to listen to the standard greeting?";
-                        break;
-                    }
-                    // response when declined upsell request
+                case "DECLINED": {
+                    persistentState.setLastPurchaseAttempt(ZonedDateTime.now());
+                    persistentState.setPurchaseState(PurchaseState.DECLINED);
+                    speechText = PhraseManager.getPhrase("purchaseDeclined");
+                    repromptText = PhraseManager.getPhrase("restartPrompt");
+                    stateItem.setState(State.RESTART);
                     break;
                 }
                 case "ALREADY_PURCHASED": {
-                    speechText = "You already own the "+premiumProduct.getName()+". "+IspUtil.getPremiumGreeting()+IspUtil.getRandomYesNoQuestion();
-                    repromptText = IspUtil.getRandomYesNoQuestion();
+                    speechText = PhraseManager.getPhrase("purchaseAlreadyOwn");
+                    repromptText = PhraseManager.getPhrase("purchaseAlreadyOwnRePrompt");
+                    persistentState.setPurchaseState(PurchaseState.ENTITLED);
+                    stateItem.setState(State.PLAY_AGAIN);
                     break;
                 }
                 default:
-                    speechText = "Something unexpected happened, but thanks for your interest in the "+premiumProduct.getName()+".  Would you like another random greeting?";
-                    repromptText = "Would you like another random greeting?";
+                    speechText = PhraseManager.getPhrase("purchaseUnsuccessful");
+                    repromptText = PhraseManager.getPhrase("playAgainRePrompt");
+                    stateItem.setState(State.PLAY_AGAIN);
+                    persistentState.setPurchaseState(PurchaseState.FAILED);
+                    persistentState.setLastPurchaseAttempt(ZonedDateTime.now());
+                    break;
             }
+
+            attributesManager.savePersistentAttributes();
+
             return input.getResponseBuilder()
                     .withSpeech(speechText)
                     .withReprompt(repromptText)
                     .build();
         } else {
             //Something failed
-            System.out.println("Connections.Response indicated failure. error: "+input.getRequestEnvelopeJson().get("request").get("status").get("message").toString());
+            System.out.println("Connections.Response indicated failure. error: " + input.getRequestEnvelopeJson().get("request").get("status").get("message").toString());
+            stateItem.setState(State.PLAY_AGAIN);
+            persistentState.setPurchaseState(PurchaseState.FAILED);
+            persistentState.setLastPurchaseAttempt(ZonedDateTime.now());
             return input.getResponseBuilder()
-                    .withSpeech("There was an error handling your purchase request. Please try again or contact us for help.")
+                    .withSpeech(PhraseManager.getPhrase("purchaseError"))
+                    .withReprompt(PhraseManager.getPhrase("playAgainRePrompt"))
                     .build();
         }
 
@@ -83,11 +111,11 @@ public class ConnectionsResponseHandler implements com.amazon.ask.dispatcher.req
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
-            TypeReference<HashMap<String, Object>> mapType = new TypeReference<HashMap<String, Object>>() {};
-            Map<String, Object> result = mapper.readValue(json, mapType);
-            return result;
+            TypeReference<HashMap<String, Object>> mapType = new TypeReference<HashMap<String, Object>>() {
+            };
+            return mapper.readValue(json, mapType);
         } catch (IOException e) {
-            throw new AskSdkException("Unable to read or deserialize data"+e.getMessage());
+            throw new AskSdkException("Unable to read or deserialize data" + e.getMessage());
         }
     }
 }

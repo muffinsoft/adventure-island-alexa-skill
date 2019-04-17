@@ -26,7 +26,8 @@ public class AdventureIslandStreamHandler extends SkillStreamHandler {
                         new BuyIntentHandler(),
                         new PurchaseHistoryHandler(),
                         new RefundIntentHandler(),
-                        new WhatCanIBuyHandler())
+                        new WhatCanIBuyHandler(),
+                        new ConnectionsResponseHandler())
                 .withTableName(Constants.props.getProperty("table-name"))
                 .withAutoCreateTable(true)
                 .build();

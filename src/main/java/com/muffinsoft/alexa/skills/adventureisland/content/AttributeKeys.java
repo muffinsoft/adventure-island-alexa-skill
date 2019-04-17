@@ -35,4 +35,6 @@ public class AttributeKeys {
     public static final String HELP_STATE = "helpState";
     public static final String LOCATION_INTROS = "locationIntros";
     public static final String SCENE_INTROS = "sceneIntros";
+    public static final String PURCHASE_STATE = "purchaseState";
+    public static final String LAST_PURCHASE_ATTEMPT = "lastPurchaseAttempt";
 }
