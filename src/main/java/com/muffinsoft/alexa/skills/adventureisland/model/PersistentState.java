@@ -42,6 +42,8 @@ public class PersistentState {
 
     private ZonedDateTime lastPurchaseAttempt;
 
+    private Integer purchasedMissionIndex;
+
     private final PersistentAttributeManager persistentAttributeManager;
 
     public PersistentState(AttributesManager attributesManager) {
@@ -189,7 +191,7 @@ public class PersistentState {
 
     public PurchaseState getPurchaseState() {
         if (purchaseState == null) {
-            purchaseState = persistentAttributeManager.getPurchaseState(PURCHASE_STATE);
+            purchaseState = persistentAttributeManager.getPurchaseState(PURCHASE_STATE, PurchaseState.NOT_ENTITLED);
         }
         return purchaseState;
     }
@@ -209,5 +211,17 @@ public class PersistentState {
     public void setLastPurchaseAttempt(ZonedDateTime lastPurchaseAttempt) {
         this.lastPurchaseAttempt = lastPurchaseAttempt;
         persistentAttributeManager.setDateTime(LAST_PURCHASE_ATTEMPT, lastPurchaseAttempt);
+    }
+
+    public Integer getPurchasedMissionIndex() {
+        if (purchasedMissionIndex == null) {
+            purchasedMissionIndex = persistentAttributeManager.getInt(PURCHASED_MISSION_INDEX);
+        }
+        return purchasedMissionIndex;
+    }
+
+    public void setPurchasedMissionIndex(Integer purchasedMissionIndex) {
+        this.purchasedMissionIndex = purchasedMissionIndex;
+        persistentAttributeManager.updateObject(PURCHASED_MISSION_INDEX, purchasedMissionIndex);
     }
 }

@@ -9,7 +9,6 @@ import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.PurchaseManager;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -29,7 +28,7 @@ public class BuyIntentHandler implements RequestHandler {
             Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
             JSONObject json = new JSONObject(sessionAttributes);
 
-            SendRequestDirective directive = getBuyDirective(product.getProductId(), json.toString());
+            SendRequestDirective directive = PurchaseManager.getBuyDirective(product.getProductId(), json.toString());
             return input.getResponseBuilder()
                     .addDirective(directive)
                     .build();
@@ -41,22 +40,6 @@ public class BuyIntentHandler implements RequestHandler {
                     .withReprompt(repromptText)
                     .build();
         }
-    }
-
-    private SendRequestDirective getBuyDirective(String productId, String token) {
-        // Prepare the directive payload
-        Map<String,Object> mapObject = new HashMap<>();
-        Map<String, Object> inskillProduct = new HashMap<>();
-        inskillProduct.put("productId", productId);
-        mapObject.put("InSkillProduct", inskillProduct);
-
-        // Prepare the directive request
-
-        return SendRequestDirective.builder()
-                .withPayload(mapObject)
-                .withName("Buy")
-                .withToken(token)
-                .build();
     }
 
 }

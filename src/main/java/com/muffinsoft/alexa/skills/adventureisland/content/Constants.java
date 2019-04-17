@@ -83,6 +83,7 @@ public class Constants {
     public static final String GOT = "Got";
     public static final String USED = "Used";
     public static final String UPSELL = "upSell";
+    public static final String BUY = "buy";
 
     public static final ContentLoader contentLoader = new ContentLoader();
     public static final Game game = LayoutManager.loadGame();

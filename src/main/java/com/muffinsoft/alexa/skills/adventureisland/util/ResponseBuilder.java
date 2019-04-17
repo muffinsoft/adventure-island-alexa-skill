@@ -64,18 +64,27 @@ public class ResponseBuilder {
         stateManager.setEntitled(PurchaseManager.isEntitled(product));
         DialogItem dialog = stateManager.nextResponse();
 
-        if (Objects.equals(dialog.getDirective(), Constants.UPSELL)) {
-            if (product == null) {
-                throw new RuntimeException("UpSell required, but no product found!");
-            }
-            SendRequestDirective directive = PurchaseManager.getUpsellDirective(product.getProductId(), PhraseManager.getPhrase("purchaseUpSell"), "");
-            return input.getResponseBuilder()
-                    .addDirective(directive)
-                    .build();
+        if (dialog.getDirective() != null) {
+            return getDirectiveResponse(input, product, dialog);
         } else {
             Response response = assembleResponse(dialog, input);
             return Optional.of(response);
         }
+    }
+
+    private static Optional<Response> getDirectiveResponse(HandlerInput input, InSkillProduct product, DialogItem dialog) {
+        if (product == null) {
+            throw new RuntimeException("Buy requested, but no product found!");
+        }
+        SendRequestDirective directive;
+        if (Objects.equals(dialog.getDirective(), Constants.UPSELL)) {
+             directive = PurchaseManager.getUpsellDirective(product.getProductId(), PhraseManager.getPhrase("purchaseUpSell"), "");
+        } else {
+            directive = PurchaseManager.getBuyDirective(product.getProductId(), "");
+        }
+        return input.getResponseBuilder()
+                .addDirective(directive)
+                .build();
     }
 
     public static Response assembleResponse(DialogItem dialog, HandlerInput input) {

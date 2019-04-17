@@ -47,4 +47,20 @@ public class PurchaseManager {
                 .withToken(token)
                 .build();
     }
+
+    public static SendRequestDirective getBuyDirective(String productId, String token) {
+        // Prepare the directive payload
+        Map<String,Object> mapObject = new HashMap<>();
+        Map<String, Object> inskillProduct = new HashMap<>();
+        inskillProduct.put("productId", productId);
+        mapObject.put("InSkillProduct", inskillProduct);
+
+        // Prepare the directive request
+
+        return SendRequestDirective.builder()
+                .withPayload(mapObject)
+                .withName("Buy")
+                .withToken(token)
+                .build();
+    }
 }

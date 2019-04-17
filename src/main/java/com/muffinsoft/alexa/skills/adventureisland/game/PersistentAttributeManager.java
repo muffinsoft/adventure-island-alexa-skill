@@ -38,8 +38,8 @@ public class PersistentAttributeManager {
         return (List<List<BigDecimal>>) persistentAttributes.getOrDefault(key, new ArrayList<>());
     }
 
-    public PurchaseState getPurchaseState(String key) {
-        String stateStr = String.valueOf(persistentAttributes.get(key));
+    public PurchaseState getPurchaseState(String key, PurchaseState defaultValue) {
+        String stateStr = String.valueOf(persistentAttributes.getOrDefault(key, defaultValue.name()));
         if (stateStr != null && !Objects.equals(stateStr, "null")) {
             return PurchaseState.valueOf(stateStr);
         } else {

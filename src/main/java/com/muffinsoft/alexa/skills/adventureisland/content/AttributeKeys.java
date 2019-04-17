@@ -37,4 +37,5 @@ public class AttributeKeys {
     public static final String SCENE_INTROS = "sceneIntros";
     public static final String PURCHASE_STATE = "purchaseState";
     public static final String LAST_PURCHASE_ATTEMPT = "lastPurchaseAttempt";
+    public static final String PURCHASED_MISSION_INDEX = "purchasedMissionIndex";
 }

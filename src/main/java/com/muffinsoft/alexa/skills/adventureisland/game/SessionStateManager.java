@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
+import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -90,6 +92,15 @@ public class SessionStateManager {
             case QUIT:
                 dialog = processCancel();
                 break;
+            case PLAY_AGAIN:
+                dialog = processPlayAgain();
+                break;
+            case PLAY_NEW:
+                dialog = processPlayNew();
+                break;
+            case MORE:
+                dialog = processMore();
+                break;
             case RESET:
                 dialog = processReset();
                 break;
@@ -124,6 +135,56 @@ public class SessionStateManager {
         }
 
         return dialog;
+    }
+
+    private DialogItem processMore() {
+        DialogItem dialog = new DialogItem();
+        if (isYes()) {
+            dialog.setDirective(BUY);
+        } else {
+            stateItem.setState(State.PLAY_AGAIN);
+            dialog.setResponseText(getPhrase("purchaseCancel"));
+            dialog.setReprompt("playAgainRePrompt");
+        }
+        return dialog;
+    }
+
+    private DialogItem processPlayNew() {
+        if (isYes()) {
+            stateItem.setTierIndex(1);
+            stateItem.setMissionIndex(persistentState.getPurchasedMissionIndex());
+            stateItem.setLocationIndex(0);
+            stateItem.setSceneIndex(0);
+            List<Mission> missions = game.getMissions();
+            String mission = PhraseManager.nameToKey(missions.get(stateItem.getMissionIndex()).getName());
+            stateItem.setMission(mission);
+            stateItem.setLocation(mission);
+            stateItem.setScene(mission);
+            stateItem.setState(State.INTRO);
+            stateItem.setIndex(0);
+            props.resetHealth();
+            props.setJustFailed(false);
+            props.setCurrentObstacle(null);
+            props.setCoins(0);
+            props.resetPowerups();
+            persistentState.setCheckpoint(null);
+            persistentState.setTotalCoins(0);
+            return getIntroOutroDialog();
+        } else {
+            return quitToRoot();
+        }
+    }
+
+    private DialogItem processPlayAgain() {
+        if (isYes()) {
+            return quitToRoot();
+        } else {
+            String response = getPhrase(STOP);
+            return DialogItem.builder()
+                    .responseText(response)
+                    .end(true)
+                    .build();
+        }
     }
 
     private DialogItem processRestart() {
@@ -481,8 +542,7 @@ public class SessionStateManager {
                     return dialog;
                 }
                 if (stateItem.getTierIndex() > 0 && !entitled) {
-                    dialog.setDirective(UPSELL);
-                    return dialog;
+                    return getPurchaseReaction(dialog);
                 }
             } else {
                 if (stateItem.getState() == State.OUTRO &&
@@ -518,6 +578,24 @@ public class SessionStateManager {
             }
         }
 
+        return dialog;
+    }
+
+    private DialogItem getPurchaseReaction(DialogItem dialog) {
+        if (persistentState.getPurchaseState() == PurchaseState.PENDING) {
+            dialog.setResponseText(getPhrase("purchasePending"));
+            dialog.setReprompt(getPhrase("playAgainRePrompt"));
+            stateItem.setState(State.PLAY_AGAIN);
+            stateItem.setTierIndex(0);
+        } else if (persistentState.getPurchaseState() == PurchaseState.DECLINED && Duration.between(persistentState.getLastPurchaseAttempt(), ZonedDateTime.now()).toHours() <= 36) {
+            dialog.setResponseText(getPhrase("purchaseDeclined"));
+            dialog.setReprompt(getPhrase("restartPrompt"));
+            stateItem.setState(State.RESTART);
+            stateItem.setTierIndex(0);
+        } else {
+            persistentState.setPurchasedMissionIndex(stateItem.getMissionIndex());
+            dialog.setDirective(UPSELL);
+        }
         return dialog;
     }
 
