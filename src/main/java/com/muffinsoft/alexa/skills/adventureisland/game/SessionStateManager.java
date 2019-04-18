@@ -674,7 +674,7 @@ public class SessionStateManager {
 
                 props.resetHealth();
                 persistentState.setCheckpoint(null);
-                if (!completedMissions.isEmpty()) {
+                if (!completedMissions.isEmpty() && completedMissions.size() > tier) {
                     List<BigDecimal> completed = completedMissions.get(tier);
                     if (completed != null && completed.contains(BigDecimal.valueOf(i))) {
                         stateItem.setState(State.RESTART);

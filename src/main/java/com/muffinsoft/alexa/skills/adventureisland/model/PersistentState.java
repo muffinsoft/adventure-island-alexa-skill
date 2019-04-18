@@ -198,7 +198,7 @@ public class PersistentState {
 
     public void setPurchaseState(PurchaseState purchaseState) {
         this.purchaseState = purchaseState;
-        persistentAttributeManager.updateObject(PURCHASE_STATE, this.purchaseState);
+        persistentAttributeManager.updateObject(PURCHASE_STATE, this.purchaseState.name());
     }
 
     public ZonedDateTime getLastPurchaseAttempt() {

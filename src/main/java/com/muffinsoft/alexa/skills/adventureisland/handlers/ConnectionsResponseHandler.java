@@ -33,9 +33,10 @@ public class ConnectionsResponseHandler implements com.amazon.ask.dispatcher.req
     @Override
     public Optional<Response> handle(HandlerInput input, ConnectionsResponse connectionsResponse) {
         JsonNode token = input.getRequestEnvelopeJson().get("request").get("token");
-        Map<String, Object> sessionAttributes = getSessionAttributes(token);
-
         AttributesManager attributesManager = input.getAttributesManager();
+        Map<String, Object> sessionAttributes = token != null ? getSessionAttributes(token) :
+                verifyMap(attributesManager.getSessionAttributes());
+
         attributesManager.setSessionAttributes(sessionAttributes);
         attributesManager.setPersistentAttributes(verifyMap(attributesManager.getPersistentAttributes()));
         PersistentState persistentState = new PersistentState(attributesManager);

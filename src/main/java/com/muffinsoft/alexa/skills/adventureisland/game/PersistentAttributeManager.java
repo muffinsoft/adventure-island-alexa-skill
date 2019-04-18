@@ -4,6 +4,8 @@ import com.amazon.ask.attributes.AttributesManager;
 import com.muffinsoft.alexa.skills.adventureisland.model.PurchaseState;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -50,7 +52,7 @@ public class PersistentAttributeManager {
     public ZonedDateTime getDateTime(String key) {
         String dateTimeStr = String.valueOf(persistentAttributes.get(key));
         if (dateTimeStr != null && !Objects.equals(dateTimeStr, "null")) {
-            return ZonedDateTime.parse(dateTimeStr, DateTimeFormatter.ISO_INSTANT);
+            return Instant.parse(dateTimeStr).atZone(ZoneOffset.systemDefault());
         } else {
             return null;
         }

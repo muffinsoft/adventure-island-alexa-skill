@@ -154,6 +154,9 @@ public class TagProcessor {
 
 
     public static void getReprompt(DialogItem dialog) {
+        if (dialog.getResponseText() == null) {
+            return;
+        }
         String response;
         if (dialog.getLastPhrase() != null) {
             response = dialog.getLastPhrase().trim();
