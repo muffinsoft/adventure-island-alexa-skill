@@ -37,7 +37,7 @@
       "headsUp" : "The ground is unstable here!"
     },
     {
-      "name" : "sleeping jaguar",
+      "name" : "jaguar",
       "responses" : ["yum"],
       "preObstacle" : "A hungry jaguar! Keep it busy with a steak by shouting Alexa Speechcon: yum!",
       "headsUp" : "Is that a big cat?"
