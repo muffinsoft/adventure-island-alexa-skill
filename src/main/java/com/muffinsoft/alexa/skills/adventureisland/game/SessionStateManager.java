@@ -547,7 +547,9 @@ public class SessionStateManager {
             } else {
                 if (stateItem.getState() == State.OUTRO &&
                         !Objects.equals(stateItem.getMission(), stateItem.getLocation())) {
-                    persistentState.addVisitedLocation(stateItem.getLocation());
+                    String key = stateItem.getTierIndex() == 0 ? stateItem.getLocation() :
+                            stateItem.getLocation() + stateItem.getTierIndex();
+                    persistentState.addVisitedLocation(key);
                 }
                 getNextScene();
             }
@@ -568,7 +570,9 @@ public class SessionStateManager {
             } else {
                 String responseText = dialog.getResponseText();
                 dialog = getActionDialog();
-                if (!persistentState.getVisitedLocations().contains(stateItem.getLocation())) {
+                String key = stateItem.getTierIndex() == 0 ? stateItem.getLocation() :
+                        stateItem.getLocation() + stateItem.getTierIndex();
+                if (!persistentState.getVisitedLocations().contains(key)) {
                     responseText = combineWithBreak(responseText, getObstacleExplanation(stateItem));
                     String imageUrl = ImageManager.getObstacleExplanation(stateItem);
                     dialog.setBackgroundImage(imageUrl);
