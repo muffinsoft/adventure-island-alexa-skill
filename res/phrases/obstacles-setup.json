@@ -139,7 +139,7 @@
       },
       {
         "explanation": "The thief thinks he can outswim us across a POND! Let's stay right behind him by shouting Alexa Speechcon: splash! to swim!",
-        "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8]
+        "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7]
       }
     ],
     "castleGrounds" :
@@ -154,7 +154,7 @@
       },
       {
         "explanation": "King Max said hungry TROLLS now roam these lands! Say Alexa Speechcon: uh oh! to find a good hiding spot when one is near!",
-        "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7]
+        "obstacleIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8]
       }
     ],
     "dragonValley" :
