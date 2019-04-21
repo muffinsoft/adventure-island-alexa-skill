@@ -13,8 +13,8 @@ import java.util.List;
 
 import static com.muffinsoft.alexa.skills.adventureisland.content.Constants.*;
 import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getPhrase;
-import static com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager.getTextOnly;
-import static com.muffinsoft.alexa.skills.adventureisland.game.Utils.*;
+import static com.muffinsoft.alexa.skills.adventureisland.game.Utils.capitalizeFirstLetter;
+import static com.muffinsoft.alexa.skills.adventureisland.game.Utils.combine;
 
 public class MissionSelector {
 
@@ -78,7 +78,7 @@ public class MissionSelector {
                         result = i;
                     }
                     logger.debug("Mission {} is at tier {}", missionIndex, result);
-                    break;
+                    return result;
                 }
             }
         }
