@@ -2,7 +2,6 @@ package com.muffinsoft.alexa.skills.adventureisland.content;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,9 +9,11 @@ import java.util.Map;
 public class NicknameManager {
     private static final String PATH = "phrases/nicknames.json";
     private static Map<String, List<String>> nicknames = new HashMap<>();
+    private static final String sep = ", ";
 
     static {
-        nicknames = Constants.contentLoader.loadContent(nicknames, PATH, new TypeReference<Map<String, List<String>>>(){});
+        nicknames = Constants.contentLoader.loadContent(nicknames, PATH, new TypeReference<Map<String, List<String>>>() {
+        });
     }
 
     public static String getNickname(String mission, int tier) {
@@ -25,17 +26,15 @@ public class NicknameManager {
         StringBuilder nicknames = new StringBuilder();
         for (String mission : earnedNicknames.keySet()) {
             List<String> missionNicknames = earnedNicknames.get(mission);
-            for (int i = 0; i < missionNicknames.size(); i++) {
-                nicknames.append(missionNicknames.get(i));
-                if (i < missionNicknames.size() - 1) {
-                    nicknames.append(", ");
-                }
-                if (i == missionNicknames.size() - 2) {
-                    nicknames.append("and ");
-                }
+            for (String nickname : missionNicknames) {
+                nicknames.append(nickname);
+                nicknames.append(sep);
             }
         }
-        result = result.replace(Constants.NICKNAME_PLACEHOLDER, nicknames);
+        String nicks = nicknames.substring(0, nicknames.lastIndexOf(sep));
+        int k = nicks.lastIndexOf(sep) + sep.length();
+        nicks = nicks.substring(0, k) + "and " + nicks.substring(k);
+        result = result.replace(Constants.NICKNAME_PLACEHOLDER, nicks);
         return result;
     }
 }
