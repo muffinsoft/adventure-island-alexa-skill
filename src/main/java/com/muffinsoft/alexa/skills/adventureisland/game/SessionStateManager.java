@@ -114,6 +114,9 @@ public class SessionStateManager {
             case FAILED:
                 dialog = getFailedChoice();
                 break;
+            case CONTINUE:
+                dialog = goToLastAction();
+                break;
             case INTRO:
             case OUTRO:
             case WELCOME:

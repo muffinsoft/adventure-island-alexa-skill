@@ -6,6 +6,9 @@ import com.amazon.ask.model.Response;
 import com.amazon.ask.model.services.monetization.InSkillProduct;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.PurchaseManager;
+import com.muffinsoft.alexa.skills.adventureisland.game.Utils;
+import com.muffinsoft.alexa.skills.adventureisland.model.State;
+import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
 
 import java.util.Optional;
 
@@ -20,6 +23,8 @@ public class WhatCanIBuyHandler implements RequestHandler {
     @Override
     public Optional<Response> handle(HandlerInput input) {
         InSkillProduct product = PurchaseManager.getInSkillProduct(input);
+        StateItem stateItem = Utils.getStateItem(input);
+        stateItem.setState(State.CONTINUE);
         if(PurchaseManager.isAvailable(product)) {
             String speechText = PhraseManager.getPhrase("purchaseWhat");
             String repromptText = PhraseManager.getPhrase("unrecognized");

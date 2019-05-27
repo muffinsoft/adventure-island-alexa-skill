@@ -7,6 +7,9 @@ import com.amazon.ask.model.interfaces.connections.SendRequestDirective;
 import com.amazon.ask.model.services.monetization.InSkillProduct;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.PurchaseManager;
+import com.muffinsoft.alexa.skills.adventureisland.game.Utils;
+import com.muffinsoft.alexa.skills.adventureisland.model.State;
+import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -36,6 +39,8 @@ public class RefundIntentHandler implements RequestHandler {
         } else {
             String speechText = PhraseManager.getPhrase("purchaseNoRefund");
             String repromptText = PhraseManager.getPhrase("unrecognized");
+            StateItem stateItem = Utils.getStateItem(input);
+            stateItem.setState(State.CONTINUE);
             return input.getResponseBuilder()
                     .withSpeech(speechText)
                     .withReprompt(repromptText)

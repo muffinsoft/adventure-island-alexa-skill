@@ -59,7 +59,7 @@ public class MissionSelector {
                 missionNames.append(", ");
             }
             if (i == missions.size() - 2) {
-                missionNames.append("and ");
+                missionNames.append("or ");
             }
         }
         return missionNames.toString();

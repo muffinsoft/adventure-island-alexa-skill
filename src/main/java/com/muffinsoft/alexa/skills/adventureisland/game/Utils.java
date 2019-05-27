@@ -1,10 +1,7 @@
 package com.muffinsoft.alexa.skills.adventureisland.game;
 
-import com.amazon.ask.model.Slot;
-import com.amazon.ask.model.slu.entityresolution.Resolution;
-import com.amazon.ask.model.slu.entityresolution.Resolutions;
-import com.amazon.ask.model.slu.entityresolution.Value;
-import com.amazon.ask.model.slu.entityresolution.ValueWrapper;
+import com.amazon.ask.attributes.AttributesManager;
+import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
 import com.muffinsoft.alexa.skills.adventureisland.content.ImageManager;
 import com.muffinsoft.alexa.skills.adventureisland.model.PersistentState;
@@ -23,6 +20,12 @@ public class Utils {
     private static final Logger logger = LoggerFactory.getLogger(Utils.class);
 
     private Utils() {
+    }
+
+    public static StateItem getStateItem(HandlerInput input) {
+        AttributesManager attributesManager = input.getAttributesManager();
+        attributesManager.setSessionAttributes(Utils.verifyMap(attributesManager.getSessionAttributes()));
+        return new StateItem(attributesManager);
     }
 
     public static String wrap(String phrase) {

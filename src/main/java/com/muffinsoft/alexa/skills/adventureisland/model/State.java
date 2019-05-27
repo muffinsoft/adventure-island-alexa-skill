@@ -6,7 +6,8 @@ public enum State {
     ACTION("Action"), OUTRO("Outro"), FAILED("Failed"),
     HELP("Help"), CANCEL("Cancel"), QUIT("Quit"),
     CHECKPOINT("Checkpoint"), RESET("Reset"), RESTART("Restart"),
-    MORE("More"), PLAY_AGAIN("PlayAgain"), PLAY_NEW("PlayNew");
+    MORE("More"), PLAY_AGAIN("PlayAgain"), PLAY_NEW("PlayNew"),
+    CONTINUE("Continue");
 
     private String key;
 

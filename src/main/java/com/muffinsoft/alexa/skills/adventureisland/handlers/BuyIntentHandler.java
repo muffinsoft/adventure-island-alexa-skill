@@ -7,6 +7,9 @@ import com.amazon.ask.model.interfaces.connections.SendRequestDirective;
 import com.amazon.ask.model.services.monetization.InSkillProduct;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.PurchaseManager;
+import com.muffinsoft.alexa.skills.adventureisland.game.Utils;
+import com.muffinsoft.alexa.skills.adventureisland.model.State;
+import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
 import org.json.JSONObject;
 
 import java.util.Map;
@@ -24,8 +27,8 @@ public class BuyIntentHandler implements RequestHandler {
     public Optional<Response> handle(HandlerInput input) {
         InSkillProduct product = PurchaseManager.getInSkillProduct(input);
 
+        Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
         if (PurchaseManager.isAvailable(product)) {
-            Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
             JSONObject json = new JSONObject(sessionAttributes);
 
             SendRequestDirective directive = PurchaseManager.getBuyDirective(product.getProductId(), json.toString());
@@ -35,6 +38,8 @@ public class BuyIntentHandler implements RequestHandler {
         } else {
             String speechText = PhraseManager.getPhrase("purchaseNothing");
             String repromptText = PhraseManager.getPhrase("unrecognized");
+            StateItem stateItem = Utils.getStateItem(input);
+            stateItem.setState(State.PLAY_AGAIN);
             return input.getResponseBuilder()
                     .withSpeech(speechText)
                     .withReprompt(repromptText)
