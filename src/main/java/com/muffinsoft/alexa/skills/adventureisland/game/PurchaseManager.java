@@ -5,6 +5,8 @@ import com.amazon.ask.model.interfaces.connections.SendRequestDirective;
 import com.amazon.ask.model.services.monetization.InSkillProduct;
 import com.amazon.ask.model.services.monetization.InSkillProductsResponse;
 import com.amazon.ask.model.services.monetization.MonetizationServiceClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,14 +14,18 @@ import java.util.Map;
 
 public class PurchaseManager {
 
+    private static final Logger logger = LoggerFactory.getLogger(PurchaseManager.class);
+
     public static InSkillProduct getInSkillProduct(HandlerInput input) {
         String locale = input.getRequestEnvelope().getRequest().getLocale();
         MonetizationServiceClient client = input.getServiceClientFactory().getMonetizationService();
         InSkillProductsResponse response = client.getInSkillProducts(locale, null, null, null, null, null);
         List<InSkillProduct> inSkillProducts = response.getInSkillProducts();
         if (null != inSkillProducts && inSkillProducts.size() > 0) {
+            logger.debug("Got in skill product: " + inSkillProducts.get(0));
             return inSkillProducts.get(0);
         }
+        logger.debug("No in skill products found");
         return null;
     }
 
