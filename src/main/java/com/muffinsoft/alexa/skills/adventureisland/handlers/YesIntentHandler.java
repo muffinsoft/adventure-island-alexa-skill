@@ -3,7 +3,10 @@ package com.muffinsoft.alexa.skills.adventureisland.handlers;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.Response;
+import com.muffinsoft.alexa.skills.adventureisland.game.PurchaseManager;
+import com.muffinsoft.alexa.skills.adventureisland.game.Utils;
 import com.muffinsoft.alexa.skills.adventureisland.model.SpecialReply;
+import com.muffinsoft.alexa.skills.adventureisland.model.State;
 
 import java.util.Optional;
 
@@ -18,6 +21,10 @@ public class YesIntentHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        return getResponse(input, null, SpecialReply.YES);
+        if (Utils.getStateItem(input).getState() == State.BUY) {
+            return PurchaseManager.buy(input);
+        } else {
+            return getResponse(input, null, SpecialReply.YES);
+        }
     }
 }

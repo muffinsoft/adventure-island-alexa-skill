@@ -7,7 +7,7 @@ public enum State {
     HELP("Help"), CANCEL("Cancel"), QUIT("Quit"),
     CHECKPOINT("Checkpoint"), RESET("Reset"), RESTART("Restart"),
     MORE("More"), PLAY_AGAIN("PlayAgain"), PLAY_NEW("PlayNew"),
-    CONTINUE("Continue");
+    CONTINUE("Continue"), BUY("Buy");
 
     private String key;
 

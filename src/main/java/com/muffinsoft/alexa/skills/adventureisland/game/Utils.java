@@ -24,7 +24,7 @@ public class Utils {
 
     public static StateItem getStateItem(HandlerInput input) {
         AttributesManager attributesManager = input.getAttributesManager();
-        attributesManager.setSessionAttributes(Utils.verifyMap(attributesManager.getSessionAttributes()));
+        attributesManager.setSessionAttributes(verifyMap(attributesManager.getSessionAttributes()));
         return new StateItem(attributesManager);
     }
 

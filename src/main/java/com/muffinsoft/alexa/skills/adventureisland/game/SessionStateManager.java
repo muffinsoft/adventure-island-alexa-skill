@@ -241,7 +241,11 @@ public class SessionStateManager {
     }
 
     private DialogItem goToLastAction() {
-        stateItem.setState(stateItem.getPendingState());
+        State pendingState = stateItem.getPendingState();
+        if (pendingState == null) {
+            pendingState = State.INTRO;
+        }
+        stateItem.setState(pendingState);
 
         if (stateItem.getState() == State.ACTION) {
             if (stateItem.getIndex() > 0) {
