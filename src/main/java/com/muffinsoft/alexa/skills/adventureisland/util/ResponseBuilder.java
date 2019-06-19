@@ -15,6 +15,7 @@ import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.PurchaseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.SessionStateManager;
 import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
+import com.muffinsoft.alexa.skills.adventureisland.model.PurchaseState;
 import com.muffinsoft.alexa.skills.adventureisland.model.SlotName;
 import com.muffinsoft.alexa.skills.adventureisland.model.SpecialReply;
 import org.slf4j.Logger;
@@ -60,8 +61,7 @@ public class ResponseBuilder {
             userReply = specialReply.text;
         }
         SessionStateManager stateManager = new SessionStateManager(userReply, input.getAttributesManager(), specialReply);
-        InSkillProduct product = PurchaseManager.getInSkillProduct(input);
-        stateManager.setEntitled(PurchaseManager.isEntitled(product));
+        InSkillProduct product = updatePurchaseState(input, stateManager);
         DialogItem dialog = stateManager.nextResponse();
 
         if (dialog.getDirective() != null) {
@@ -70,6 +70,18 @@ public class ResponseBuilder {
             Response response = assembleResponse(dialog, input);
             return Optional.of(response);
         }
+    }
+
+    private static InSkillProduct updatePurchaseState(HandlerInput input, SessionStateManager stateManager) {
+        InSkillProduct product = PurchaseManager.getInSkillProduct(input);
+        stateManager.setEntitled(PurchaseManager.isEntitled(product));
+        if (PurchaseManager.isPending(product)) {
+            stateManager.updatePersistentPurchaseState(PurchaseState.PENDING);
+        }
+        if (PurchaseManager.isDeclined(product)) {
+            stateManager.updatePersistentPurchaseState(PurchaseState.DECLINED);
+        }
+        return product;
     }
 
     private static Optional<Response> getDirectiveResponse(HandlerInput input, InSkillProduct product, DialogItem dialog) {

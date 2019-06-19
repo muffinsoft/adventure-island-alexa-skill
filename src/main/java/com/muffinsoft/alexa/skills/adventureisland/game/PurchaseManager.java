@@ -72,6 +72,14 @@ public class PurchaseManager {
                 && product.getPurchasable().toString().equalsIgnoreCase("PURCHASABLE");
     }
 
+    public static boolean isPending(InSkillProduct product) {
+        return  product != null && product.getEntitled().toString().equalsIgnoreCase("PENDING");
+    }
+
+    public static boolean isDeclined(InSkillProduct product) {
+        return product != null && product.getEntitled().toString().equalsIgnoreCase("DECLINED");
+    }
+
     public static SendRequestDirective getUpsellDirective(String productId, String upsellMessage, String token) {
 
         // Prepare the directive payload

@@ -98,6 +98,9 @@ public class SessionStateManager {
             case PLAY_NEW:
                 dialog = processPlayNew();
                 break;
+            case DIFFERENT_OR_RESET:
+                dialog = processDifferentOrReset();
+                break;
             case MORE:
                 dialog = processMore();
                 break;
@@ -116,6 +119,9 @@ public class SessionStateManager {
                 break;
             case CONTINUE:
                 dialog = goToLastAction();
+                break;
+            case MAIN_MENU:
+                dialog = processMainMenu();
                 break;
             case INTRO:
             case OUTRO:
@@ -138,6 +144,32 @@ public class SessionStateManager {
         }
 
         return dialog;
+    }
+
+    private DialogItem processMainMenu() {
+        if (isYes() || userReply.contains("menu")) {
+            return quitToRoot();
+        } else {
+            return getQuit();
+        }
+    }
+
+    private DialogItem processDifferentOrReset() {
+        if (userReply.contains("reset")) {
+            return restartMission();
+        }
+        if (isYes() || userReply.contains("different") || userReply.contains("mission")) {
+            return quitToRoot();
+        }
+        return getQuit();
+    }
+
+    private DialogItem getQuit() {
+        String response = getPhrase(STOP);
+        return DialogItem.builder()
+                .responseText(response)
+                .end(true)
+                .build();
     }
 
     private DialogItem processMore() {
@@ -182,11 +214,7 @@ public class SessionStateManager {
         if (isYes()) {
             return quitToRoot();
         } else {
-            String response = getPhrase(STOP);
-            return DialogItem.builder()
-                    .responseText(response)
-                    .end(true)
-                    .build();
+            return getQuit();
         }
     }
 
@@ -230,11 +258,7 @@ public class SessionStateManager {
 
     private DialogItem processCancel() {
         if (isYes()) {
-            String response = getPhrase(STOP);
-            return DialogItem.builder()
-                    .responseText(response)
-                    .end(true)
-                    .build();
+            return getQuit();
         } else {
             return goToLastAction();
         }
@@ -596,7 +620,7 @@ public class SessionStateManager {
         if (persistentState.getPurchaseState() == PurchaseState.PENDING) {
             dialog.setResponseText(getPhrase("purchasePending"));
             dialog.setReprompt(getPhrase("playAgainRePrompt"));
-            stateItem.setState(State.PLAY_AGAIN);
+            stateItem.setState(State.DIFFERENT_OR_RESET);
             stateItem.setTierIndex(0);
         } else if (persistentState.getPurchaseState() == PurchaseState.DECLINED && Duration.between(persistentState.getLastPurchaseAttempt(), ZonedDateTime.now()).toHours() <= 36) {
             dialog.setResponseText(getPhrase("purchaseDeclined"));
@@ -907,5 +931,11 @@ public class SessionStateManager {
 
     public void setEntitled(boolean entitled) {
         this.entitled = entitled;
+    }
+
+    public void updatePersistentPurchaseState(PurchaseState state) {
+        if (persistentState.getPurchaseState() != state) {
+            persistentState.setPurchaseState(state);
+        }
     }
 }

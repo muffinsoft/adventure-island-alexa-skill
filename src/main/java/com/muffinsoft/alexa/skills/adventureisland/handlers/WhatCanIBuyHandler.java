@@ -24,8 +24,9 @@ public class WhatCanIBuyHandler implements RequestHandler {
     public Optional<Response> handle(HandlerInput input) {
         InSkillProduct product = PurchaseManager.getInSkillProduct(input);
         StateItem stateItem = Utils.getStateItem(input);
-        stateItem.setState(State.BUY);
         if(PurchaseManager.isAvailable(product)) {
+            stateItem.setPendingState(stateItem.getState());
+            stateItem.setState(State.BUY);
             String speechText = PhraseManager.getPhrase("purchaseWhat");
             String repromptText = PhraseManager.getPhrase("unrecognized");
             return input.getResponseBuilder()
@@ -35,6 +36,7 @@ public class WhatCanIBuyHandler implements RequestHandler {
         } else {
             String speechText = PhraseManager.getPhrase("purchaseNothing");
             String repromptText = PhraseManager.getPhrase("unrecognized");
+            stateItem.setState(State.MAIN_MENU);
             return input.getResponseBuilder()
                     .withSpeech(speechText)
                     .withReprompt(repromptText)
