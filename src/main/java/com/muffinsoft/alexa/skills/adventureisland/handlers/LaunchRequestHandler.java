@@ -4,11 +4,13 @@ import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.LaunchRequest;
 import com.amazon.ask.model.Response;
+import com.amazon.ask.model.services.monetization.InSkillProduct;
 import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
 import com.muffinsoft.alexa.skills.adventureisland.content.ImageManager;
 import com.muffinsoft.alexa.skills.adventureisland.content.NicknameManager;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.MissionSelector;
+import com.muffinsoft.alexa.skills.adventureisland.game.PurchaseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.Utils;
 import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
@@ -48,6 +50,9 @@ public class LaunchRequestHandler implements RequestHandler {
         String reprompt;
         String cardText;
 
+        InSkillProduct product = PurchaseManager.getInSkillProduct(input);
+        boolean purchasable = PurchaseManager.isPurchasable(product);
+
         List<List<BigDecimal>> completedMissions = Collections.emptyList();
         List<String> oldObstacles;
         if (persistentAttributes != null && !persistentAttributes.isEmpty()) {
@@ -80,7 +85,7 @@ public class LaunchRequestHandler implements RequestHandler {
                 cardText = PhraseManager.getTextOnly(Constants.CONTINUE + Constants.CARD);
             } else if (completedMissions != null || oldObstacles != null) {
                 completedMissions = completedMissions != null ? completedMissions : new ArrayList<>();
-                String missionPrompt = MissionSelector.promptForMission(null, completedMissions).getResponseText();
+                String missionPrompt = MissionSelector.promptForMission(null, completedMissions, purchasable).getResponseText();
                 speechText += Utils.wrap(missionPrompt);
                 sessionAttributes.put(STATE, State.INTRO);
                 reprompt = missionPrompt;

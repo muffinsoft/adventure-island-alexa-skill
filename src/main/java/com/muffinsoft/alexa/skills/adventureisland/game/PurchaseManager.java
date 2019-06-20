@@ -80,6 +80,11 @@ public class PurchaseManager {
         return product != null && product.getEntitled().toString().equalsIgnoreCase("DECLINED");
     }
 
+    public static boolean isPurchasable(InSkillProduct product) {
+        return product != null &&
+                product.getPurchasable().toString().equalsIgnoreCase("PURCHASABLE");
+    }
+
     public static SendRequestDirective getUpsellDirective(String productId, String upsellMessage, String token) {
 
         // Prepare the directive payload

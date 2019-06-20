@@ -38,6 +38,7 @@ public class SessionStateManager {
     private GameProperties props;
 
     private boolean entitled;
+    private boolean purchasable;
 
 
     public SessionStateManager(String userReply, AttributesManager attributesManager, SpecialReply specialReply) {
@@ -330,7 +331,7 @@ public class SessionStateManager {
         props.resetHealth();
         props.resetPowerups();
         props.setJustFailed(false);
-        return MissionSelector.promptForMission(slotName, persistentState.getCompletedMissions());
+        return MissionSelector.promptForMission(slotName, persistentState.getCompletedMissions(), purchasable);
     }
 
     private DialogItem getCoinsDialog() {
@@ -564,7 +565,7 @@ public class SessionStateManager {
                         }
                         additionalResponse = null;
                     }
-                    dialog = MissionSelector.promptForMission(slotName, persistentState.getCompletedMissions());
+                    dialog = MissionSelector.promptForMission(slotName, persistentState.getCompletedMissions(), purchasable);
                     if (stateItem.getImageToInsert() != null) {
                         dialog.setBackgroundImage(stateItem.getImageToInsert());
                         dialog.setCardText("");
@@ -696,7 +697,7 @@ public class SessionStateManager {
         List<List<BigDecimal>> completedMissions = persistentState.getCompletedMissions();
         for (int i = 0; i < missions.size(); i++) {
 
-            int tier = MissionSelector.getTier(i, completedMissions);
+            int tier = purchasable ? MissionSelector.getTier(i, completedMissions) : 0;
             String missionName = missions.get(i).getTierNames().get(tier);
             logger.debug("Comparing reply {} with mission name {}", userReply, missionName);
             if (missionName.toLowerCase().contains(userReply)) {
@@ -857,7 +858,7 @@ public class SessionStateManager {
 
     private DialogItem getRootHelp() {
         String reply = wrap(getPhrase(ROOT + HELP));
-        DialogItem dialog = MissionSelector.promptForMission(null, persistentState.getCompletedMissions());
+        DialogItem dialog = MissionSelector.promptForMission(null, persistentState.getCompletedMissions(), purchasable);
         dialog.setResponseText(reply + dialog.getResponseText());
         return dialog;
     }
@@ -931,6 +932,10 @@ public class SessionStateManager {
 
     public void setEntitled(boolean entitled) {
         this.entitled = entitled;
+    }
+
+    public void setPurchasable(boolean purchasable) {
+        this.purchasable = purchasable;
     }
 
     public void updatePersistentPurchaseState(PurchaseState state) {
