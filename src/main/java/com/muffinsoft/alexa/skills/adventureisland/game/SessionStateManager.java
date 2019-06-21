@@ -331,7 +331,7 @@ public class SessionStateManager {
         props.resetHealth();
         props.resetPowerups();
         props.setJustFailed(false);
-        return MissionSelector.promptForMission(slotName, persistentState.getCompletedMissions(), purchasable);
+        return MissionSelector.promptForMission(slotName, persistentState.getCompletedMissions(), purchasable || entitled);
     }
 
     private DialogItem getCoinsDialog() {
@@ -565,7 +565,7 @@ public class SessionStateManager {
                         }
                         additionalResponse = null;
                     }
-                    dialog = MissionSelector.promptForMission(slotName, persistentState.getCompletedMissions(), purchasable);
+                    dialog = MissionSelector.promptForMission(slotName, persistentState.getCompletedMissions(), purchasable || entitled);
                     if (stateItem.getImageToInsert() != null) {
                         dialog.setBackgroundImage(stateItem.getImageToInsert());
                         dialog.setCardText("");
@@ -697,7 +697,7 @@ public class SessionStateManager {
         List<List<BigDecimal>> completedMissions = persistentState.getCompletedMissions();
         for (int i = 0; i < missions.size(); i++) {
 
-            int tier = purchasable ? MissionSelector.getTier(i, completedMissions) : 0;
+            int tier = purchasable || entitled ? MissionSelector.getTier(i, completedMissions) : 0;
             String missionName = missions.get(i).getTierNames().get(tier);
             logger.debug("Comparing reply {} with mission name {}", userReply, missionName);
             if (missionName.toLowerCase().contains(userReply)) {
@@ -858,7 +858,7 @@ public class SessionStateManager {
 
     private DialogItem getRootHelp() {
         String reply = wrap(getPhrase(ROOT + HELP));
-        DialogItem dialog = MissionSelector.promptForMission(null, persistentState.getCompletedMissions(), purchasable);
+        DialogItem dialog = MissionSelector.promptForMission(null, persistentState.getCompletedMissions(), purchasable || entitled);
         dialog.setResponseText(reply + dialog.getResponseText());
         return dialog;
     }

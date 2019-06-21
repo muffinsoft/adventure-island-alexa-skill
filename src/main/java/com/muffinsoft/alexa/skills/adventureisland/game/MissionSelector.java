@@ -20,7 +20,7 @@ public class MissionSelector {
 
     private static final Logger logger = LoggerFactory.getLogger(MissionSelector.class);
 
-    public static DialogItem promptForMission(String slotName, List<List<BigDecimal>> completedMissions, boolean purchasable) {
+    public static DialogItem promptForMission(String slotName, List<List<BigDecimal>> completedMissions, boolean allTiers) {
 
         String responseText = "";
 
@@ -32,7 +32,7 @@ public class MissionSelector {
         }
 
         String description = getPhrase(SELECT_MISSION);
-        String missionNames = getMissionNames(completedMissions, purchasable);
+        String missionNames = getMissionNames(completedMissions, allTiers);
 
         description = description.replace(Constants.MISSIONS_AVAILABLE, missionNames);
 
@@ -49,11 +49,11 @@ public class MissionSelector {
                 .build();
     }
 
-    public static String getMissionNames(List<List<BigDecimal>> completedMissions, boolean purchasable) {
+    public static String getMissionNames(List<List<BigDecimal>> completedMissions, boolean allTiers) {
         StringBuilder missionNames = new StringBuilder();
         List<Mission> missions = game.getMissions();
         for (int i = 0; i < missions.size(); i++) {
-            int tier = purchasable ? getTier(i, completedMissions) : 0;
+            int tier = allTiers ? getTier(i, completedMissions) : 0;
             missionNames.append(missions.get(i).getTierNames().get(tier));
             if (i < missions.size() - 1) {
                 missionNames.append(", ");
