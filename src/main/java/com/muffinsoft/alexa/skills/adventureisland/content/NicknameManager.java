@@ -32,8 +32,10 @@ public class NicknameManager {
             }
         }
         String nicks = nicknames.substring(0, nicknames.lastIndexOf(sep));
-        int k = nicks.lastIndexOf(sep) + sep.length();
-        nicks = nicks.substring(0, k) + "and " + nicks.substring(k);
+        int k = nicks.lastIndexOf(sep);
+        if (k > 0) {
+            nicks = nicks.substring(0, k + sep.length()) + "and " + nicks.substring(k + sep.length());
+        }
         result = result.replace(Constants.NICKNAME_PLACEHOLDER, nicks);
         return result;
     }
