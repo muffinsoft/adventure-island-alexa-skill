@@ -52,6 +52,7 @@ public class LaunchRequestHandler implements RequestHandler {
 
         InSkillProduct product = PurchaseManager.getInSkillProduct(input);
         boolean purchasable = PurchaseManager.isPurchasable(product);
+        boolean entitled = PurchaseManager.isEntitled(product);
 
         List<List<BigDecimal>> completedMissions = Collections.emptyList();
         List<String> oldObstacles;
@@ -85,7 +86,7 @@ public class LaunchRequestHandler implements RequestHandler {
                 cardText = PhraseManager.getTextOnly(Constants.CONTINUE + Constants.CARD);
             } else if (completedMissions != null || oldObstacles != null) {
                 completedMissions = completedMissions != null ? completedMissions : new ArrayList<>();
-                String missionPrompt = MissionSelector.promptForMission(null, completedMissions, purchasable).getResponseText();
+                String missionPrompt = MissionSelector.promptForMission(null, completedMissions, purchasable || entitled).getResponseText();
                 speechText += Utils.wrap(missionPrompt);
                 sessionAttributes.put(STATE, State.INTRO);
                 reprompt = missionPrompt;
