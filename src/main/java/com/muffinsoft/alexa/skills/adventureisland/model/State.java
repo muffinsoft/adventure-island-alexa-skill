@@ -1,5 +1,8 @@
 package com.muffinsoft.alexa.skills.adventureisland.model;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum State {
 
     WELCOME("WelcomeNew"), INTRO("Intro"), READY("Ready"),
@@ -18,4 +21,7 @@ public enum State {
     public String getKey() {
         return key;
     }
+
+    public static final State[] CONTINUED_STATES_ARRAY = {INTRO, ACTION, OUTRO};
+    public static final List<State> CONTINUED_STATES = Arrays.asList(CONTINUED_STATES_ARRAY);
 }

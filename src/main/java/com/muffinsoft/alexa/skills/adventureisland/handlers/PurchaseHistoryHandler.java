@@ -25,30 +25,27 @@ public class PurchaseHistoryHandler implements RequestHandler {
     public Optional<Response> handle(HandlerInput input) {
         InSkillProduct product = PurchaseManager.getInSkillProduct(input);
         StateItem stateItem = Utils.getStateItem(input);
+        stateItem.setPendingState(stateItem.getState());
+        stateItem.setState(State.CONTINUE);
+        String speechText;
+        String repromptText;
         if (PurchaseManager.isEntitled(product)) {
-            String speechText = PhraseManager.getPhrase("purchaseHistory");
-            String repromptText = PhraseManager.getPhrase("purchaseHistoryReprompt");
+            speechText = PhraseManager.getPhrase("purchaseHistory");
+            repromptText = PhraseManager.getPhrase("purchaseHistoryReprompt");
             stateItem.setState(State.RESET);
-            return input.getResponseBuilder()
-                    .withSpeech(speechText)
-                    .withReprompt(repromptText)
-                    .build();
         } else if (PurchaseManager.isAvailable(product)) {
-            String speechText = PhraseManager.getPhrase("purchaseHistoryNothing");
-            String repromptText = PhraseManager.getPhrase("purchaseHistoryNothingReprompt");
-            stateItem.setState(State.CONTINUE);
-            return input.getResponseBuilder()
-                    .withSpeech(speechText)
-                    .withReprompt(repromptText)
-                    .build();
+            speechText = PhraseManager.getPhrase("purchaseHistoryNothing");
+            repromptText = PhraseManager.getPhrase("purchaseHistoryNothingReprompt");
+        } else if (PurchaseManager.isPending(product)) {
+            speechText = PhraseManager.getPhrase("purchaseHistoryPending");
+            repromptText = PhraseManager.getPhrase("purchaseAlreadyOwnRePrompt");
         } else {
-            String speechText = PhraseManager.getPhrase("purchaseNothing");
-            String repromptText = PhraseManager.getPhrase("unrecognized");
-            stateItem.setState(State.CONTINUE);
-            return input.getResponseBuilder()
-                    .withSpeech(speechText)
-                    .withReprompt(repromptText)
-                    .build();
+            speechText = PhraseManager.getPhrase("purchaseNothing");
+            repromptText = PhraseManager.getPhrase("unrecognized");
         }
+        return input.getResponseBuilder()
+                .withSpeech(speechText)
+                .withReprompt(repromptText)
+                .build();
     }
 }

@@ -89,8 +89,10 @@ public class StateItem {
     }
 
     public void setPendingState(State pendingState) {
-        this.pendingState = pendingState;
-        sessionAttributeManager.updateObject(PENDING_STATE, state);
+        if (State.CONTINUED_STATES.contains(pendingState)) {
+            this.pendingState = pendingState;
+            sessionAttributeManager.updateObject(PENDING_STATE, state);
+        }
     }
 
     public int getIndex() {
