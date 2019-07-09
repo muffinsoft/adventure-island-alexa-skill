@@ -148,7 +148,6 @@
   "royalRansomPirateBayOutro0",
   "royalRansomPirateBayOutro1No",
   "royalRansomPirateBayOutro1Yes",
-  "royalWelcomeBack",
   "sceneConfirm",
   "sceneFail",
   "shipwreckBay1Intro0",
@@ -220,5 +219,6 @@
   "tikiTroublePirateBayOutro1No",
   "tikiTroublePirateBayOutro1Yes",
   "welcome",
-  "welcomeBack"
+  "welcomeBack",
+  "welcomeBackRoyal"
 ]
