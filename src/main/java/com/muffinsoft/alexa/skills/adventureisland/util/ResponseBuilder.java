@@ -76,12 +76,17 @@ public class ResponseBuilder {
         InSkillProduct product = PurchaseManager.getInSkillProduct(input);
         stateManager.setEntitled(PurchaseManager.isEntitled(product));
         stateManager.setPurchasable(PurchaseManager.isPurchasable(product));
-        if (PurchaseManager.isPending(product)) {
+
+        if (PurchaseManager.isEntitled(product)) {
+            stateManager.updatePersistentPurchaseState(PurchaseState.ENTITLED);
+        } else if (PurchaseManager.isPending(product)) {
             stateManager.updatePersistentPurchaseState(PurchaseState.PENDING);
-        }
-        if (PurchaseManager.isDeclined(product)) {
+        } else if (PurchaseManager.isDeclined(product)) {
             stateManager.updatePersistentPurchaseState(PurchaseState.DECLINED);
+        } else if (PurchaseManager.isPurchasable(product)) {
+            stateManager.updatePersistentPurchaseState(PurchaseState.NOT_ENTITLED);
         }
+
         return product;
     }
 
