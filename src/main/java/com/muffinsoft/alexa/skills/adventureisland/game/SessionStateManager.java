@@ -124,6 +124,9 @@ public class SessionStateManager {
             case MAIN_MENU:
                 dialog = processMainMenu();
                 break;
+            case MAIN_OR_CONTINUE:
+                dialog = processMainOrContinue();
+                break;
             case INTRO:
             case OUTRO:
             case WELCOME:
@@ -147,8 +150,16 @@ public class SessionStateManager {
         return dialog;
     }
 
+    private DialogItem processMainOrContinue() {
+        if (isYes() || userReply.contains("menu") || userReply.contains("new mission")) {
+            return quitToRoot();
+        } else {
+            return goToLastAction();
+        }
+    }
+
     private DialogItem processMainMenu() {
-        if (isYes() || userReply.contains("menu")) {
+        if (isYes() || userReply.contains("menu") || userReply.contains("new mission")) {
             return quitToRoot();
         } else {
             return getQuit();
@@ -845,7 +856,8 @@ public class SessionStateManager {
     }
 
     private DialogItem getInMissionHelp(String inSlotName) {
-        String reply = wrap(getPhrase(stateItem.getMission() + HELP).replace(TOTAL_COINS_PLACEHOLDER, "" + persistentState.getTotalCoins()));
+        String prefix = stateItem.getTierIndex() > 0 ? "" + stateItem.getTierIndex() : "";
+        String reply = wrap(getPhrase(stateItem.getMission() + prefix + HELP).replace(TOTAL_COINS_PLACEHOLDER, "" + persistentState.getTotalCoins()));
         reply += wrap(getPhrase(QUIT + HELP + capitalizeFirstLetter(CONTINUE)));
         stateItem.setHelpState(HelpState.ROOT);
         attributesManager.savePersistentAttributes();

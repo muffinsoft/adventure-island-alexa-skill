@@ -243,7 +243,7 @@
   "nicknameGot" : "You earned a new title: __NICKNAME__",
   "rootHelp" : "Alexa: There are three epic missions: aid King Max in rescuing the royal family, lend an old pirate seadog a hand, or help a musical trio of magic Tikis. In each mission you'll face exciting obstacles, find coins to collect, and earn unique rewards!",
   "actionHelp" : "Seems like you'd like some help.  Should I remind you how to handle the new obstacle?",
-  "royalRansomHelp" : "You have __TOTAL_COINS__ coins. To help the king MAX save his daughter Anna, a beautiful princess, you need to collect 60 coins.",
+  "royalRansomHelp" : "You have __TOTAL_COINS__ coins. To help king MAX save his daughter Anna, a beautiful princess, you need to collect 60 coins.",
   "royalRansom1Help" : "You've got __TOTAL_COINS__ coins.To save Sir Bedevire, the royal family pet, you need to collect 120 coins.",
   "royalRansom2Help" : "You have __TOTAL_COINS__ coins. To rescue the great King Max himself, you need to collect 180 coins.",
   "pirateBusinessHelp" : "You have __TOTAL_COINS__ coins. To inspire Captain Seadog with a new pirate hat, you'll need to collect 60 coins.",
@@ -321,5 +321,6 @@
   "purchaseAlreadyOwn" : "You already own the expansion pack. Would you like to pick out a mission to play?",
   "purchaseAlreadyOwnRePrompt" : "Want to select a mission?",
   "purchasePending" : "I've asked for permission to purchase the expansion pack. In the meantime, would you like to play a different mission, or reset this mission?",
-  "purchaseHistoryPending" : "I've asked for permission to purchase the expansion pack. In the meantime, would you like to select a new mission to play?"
+  "purchaseHistoryPending" : "I've asked for permission to purchase the expansion pack. In the meantime, would you like to select a new mission to play?",
+  "purchaseWhatPending" : "I've asked for permission to purchase the expansion pack. In the meantime, would you like to select a new mission to play?"
 }

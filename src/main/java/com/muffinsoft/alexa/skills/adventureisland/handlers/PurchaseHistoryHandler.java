@@ -39,6 +39,7 @@ public class PurchaseHistoryHandler implements RequestHandler {
         } else if (PurchaseManager.isPending(product)) {
             speechText = PhraseManager.getPhrase("purchaseHistoryPending");
             repromptText = PhraseManager.getPhrase("purchaseAlreadyOwnRePrompt");
+            stateItem.setState(State.MAIN_OR_CONTINUE);
         } else {
             speechText = PhraseManager.getPhrase("purchaseNothing");
             repromptText = PhraseManager.getPhrase("unrecognized");

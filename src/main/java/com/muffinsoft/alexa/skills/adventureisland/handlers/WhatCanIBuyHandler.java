@@ -25,23 +25,25 @@ public class WhatCanIBuyHandler implements RequestHandler {
         InSkillProduct product = PurchaseManager.getInSkillProduct(input);
         StateItem stateItem = Utils.getStateItem(input);
         stateItem.setPendingState(stateItem.getState());
+        String speechText;
+        String repromptText;
         if(PurchaseManager.isAvailable(product)) {
             stateItem.setState(State.BUY);
-            String speechText = PhraseManager.getPhrase("purchaseWhat");
-            String repromptText = PhraseManager.getPhrase("unrecognized");
-            return input.getResponseBuilder()
-                    .withSpeech(speechText)
-                    .withReprompt(repromptText)
-                    .build();
+            speechText = PhraseManager.getPhrase("purchaseWhat");
+            repromptText = PhraseManager.getPhrase("unrecognized");
+        } else if (PurchaseManager.isPending(product)) {
+            speechText = PhraseManager.getPhrase("purchaseWhatPending");
+            repromptText = PhraseManager.getPhrase("unrecognized");
+            stateItem.setState(State.MAIN_OR_CONTINUE);
         } else {
-            String speechText = PhraseManager.getPhrase("purchaseNothing");
-            String repromptText = PhraseManager.getPhrase("unrecognized");
+            speechText = PhraseManager.getPhrase("purchaseNothing");
+            repromptText = PhraseManager.getPhrase("unrecognized");
             stateItem.setState(State.MAIN_MENU);
-            return input.getResponseBuilder()
-                    .withSpeech(speechText)
-                    .withReprompt(repromptText)
-                    .build();
         }
+        return input.getResponseBuilder()
+                .withSpeech(speechText)
+                .withReprompt(repromptText)
+                .build();
     }
 
 
