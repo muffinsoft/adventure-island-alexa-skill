@@ -43,6 +43,7 @@ public class PurchaseHistoryHandler implements RequestHandler {
         } else {
             speechText = PhraseManager.getPhrase("purchaseNothing");
             repromptText = PhraseManager.getPhrase("unrecognized");
+            stateItem.setState(State.MAIN_OR_CONTINUE);
         }
         return input.getResponseBuilder()
                 .withSpeech(speechText)
