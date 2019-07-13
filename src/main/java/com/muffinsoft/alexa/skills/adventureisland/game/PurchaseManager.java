@@ -18,6 +18,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.amazon.ask.model.services.monetization.EntitledState.ENTITLED;
+import static com.amazon.ask.model.services.monetization.PurchasableState.PURCHASABLE;
+
 public class PurchaseManager {
 
     private static final Logger logger = LoggerFactory.getLogger(PurchaseManager.class);
@@ -64,12 +67,12 @@ public class PurchaseManager {
     }
 
     public static boolean isEntitled(InSkillProduct product) {
-        return null != product && String.valueOf(product.getEntitled()).equalsIgnoreCase("ENTITLED");
+        return null != product && product.getEntitled() == ENTITLED;
     }
 
     public static boolean isAvailable(InSkillProduct product) {
-        return product != null && product.getEntitled().toString().equalsIgnoreCase("NOT_ENTITLED")
-                && product.getPurchasable().toString().equalsIgnoreCase("PURCHASABLE");
+        return product != null && product.getEntitled() == ENTITLED
+                && product.getPurchasable() == PURCHASABLE;
     }
 
     public static boolean isPending(InSkillProduct product) {
@@ -82,7 +85,7 @@ public class PurchaseManager {
 
     public static boolean isPurchasable(InSkillProduct product) {
         return product != null &&
-                product.getPurchasable().toString().equalsIgnoreCase("PURCHASABLE");
+                product.getPurchasable() == PURCHASABLE;
     }
 
     public static SendRequestDirective getUpsellDirective(String productId, String upsellMessage, String token) {
