@@ -7,6 +7,7 @@ import com.amazon.ask.model.services.monetization.InSkillProduct;
 import com.amazon.ask.model.services.monetization.InSkillProductsResponse;
 import com.amazon.ask.model.services.monetization.MonetizationServiceClient;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
+import com.muffinsoft.alexa.skills.adventureisland.model.PurchaseState;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
 import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
 import org.json.JSONObject;
@@ -20,6 +21,8 @@ import java.util.Optional;
 
 import static com.amazon.ask.model.services.monetization.EntitledState.ENTITLED;
 import static com.amazon.ask.model.services.monetization.PurchasableState.PURCHASABLE;
+import static com.muffinsoft.alexa.skills.adventureisland.model.PurchaseState.DECLINED;
+import static com.muffinsoft.alexa.skills.adventureisland.model.PurchaseState.PENDING;
 
 public class PurchaseManager {
 
@@ -75,12 +78,12 @@ public class PurchaseManager {
                 && product.getPurchasable() == PURCHASABLE;
     }
 
-    public static boolean isPending(InSkillProduct product) {
-        return  product != null && product.getEntitled().toString().equalsIgnoreCase("PENDING");
+    public static boolean isPending(InSkillProduct product, PurchaseState previousState) {
+        return !isEntitled(product) && !isPurchasable(product) && previousState == PENDING;
     }
 
-    public static boolean isDeclined(InSkillProduct product) {
-        return product != null && product.getEntitled().toString().equalsIgnoreCase("DECLINED");
+    public static boolean isDeclined(InSkillProduct product, PurchaseState previousState) {
+        return !isEntitled(product) && !isPurchasable(product) && previousState == DECLINED;
     }
 
     public static boolean isPurchasable(InSkillProduct product) {

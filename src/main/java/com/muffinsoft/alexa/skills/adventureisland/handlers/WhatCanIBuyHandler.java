@@ -7,6 +7,7 @@ import com.amazon.ask.model.services.monetization.InSkillProduct;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.PurchaseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.Utils;
+import com.muffinsoft.alexa.skills.adventureisland.model.PersistentState;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
 import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
 
@@ -25,13 +26,14 @@ public class WhatCanIBuyHandler implements RequestHandler {
         InSkillProduct product = PurchaseManager.getInSkillProduct(input);
         StateItem stateItem = Utils.getStateItem(input);
         stateItem.setPendingState(stateItem.getState());
+        PersistentState persistentState = Utils.getPersistentState(input);
         String speechText;
         String repromptText;
         if(PurchaseManager.isAvailable(product)) {
             stateItem.setState(State.BUY);
             speechText = PhraseManager.getPhrase("purchaseWhat");
             repromptText = PhraseManager.getPhrase("unrecognized");
-        } else if (PurchaseManager.isPending(product)) {
+        } else if (PurchaseManager.isPending(product, persistentState.getPurchaseState())) {
             speechText = PhraseManager.getPhrase("purchaseWhatPending");
             repromptText = PhraseManager.getPhrase("unrecognized");
             stateItem.setState(State.MAIN_OR_CONTINUE);

@@ -7,6 +7,7 @@ import com.amazon.ask.model.services.monetization.InSkillProduct;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.PurchaseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.Utils;
+import com.muffinsoft.alexa.skills.adventureisland.model.PersistentState;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
 import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
 
@@ -25,6 +26,7 @@ public class PurchaseHistoryHandler implements RequestHandler {
     public Optional<Response> handle(HandlerInput input) {
         InSkillProduct product = PurchaseManager.getInSkillProduct(input);
         StateItem stateItem = Utils.getStateItem(input);
+        PersistentState persistentState = Utils.getPersistentState(input);
         stateItem.setPendingState(stateItem.getState());
         stateItem.setState(State.CONTINUE);
         String speechText;
@@ -36,7 +38,7 @@ public class PurchaseHistoryHandler implements RequestHandler {
         } else if (PurchaseManager.isAvailable(product)) {
             speechText = PhraseManager.getPhrase("purchaseHistoryNothing");
             repromptText = PhraseManager.getPhrase("purchaseHistoryNothingReprompt");
-        } else if (PurchaseManager.isPending(product)) {
+        } else if (PurchaseManager.isPending(product, persistentState.getPurchaseState())) {
             speechText = PhraseManager.getPhrase("purchaseHistoryPending");
             repromptText = PhraseManager.getPhrase("purchaseAlreadyOwnRePrompt");
             stateItem.setState(State.MAIN_OR_CONTINUE);

@@ -28,6 +28,12 @@ public class Utils {
         return new StateItem(attributesManager);
     }
 
+    public static PersistentState getPersistentState(HandlerInput input) {
+        AttributesManager attributesManager = input.getAttributesManager();
+        attributesManager.setPersistentAttributes(verifyMap(attributesManager.getPersistentAttributes()));
+        return new PersistentState(attributesManager);
+    }
+
     public static String wrap(String phrase) {
         return " " + phrase + " ";
     }

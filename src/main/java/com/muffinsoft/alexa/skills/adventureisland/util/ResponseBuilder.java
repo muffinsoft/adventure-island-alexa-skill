@@ -77,11 +77,13 @@ public class ResponseBuilder {
         stateManager.setEntitled(PurchaseManager.isEntitled(product));
         stateManager.setPurchasable(PurchaseManager.isPurchasable(product));
 
+        PurchaseState storedState = stateManager.getPersistentPurchaseState();
+
         if (PurchaseManager.isEntitled(product)) {
             stateManager.updatePersistentPurchaseState(PurchaseState.ENTITLED);
-        } else if (PurchaseManager.isPending(product)) {
+        } else if (PurchaseManager.isPending(product, storedState)) {
             stateManager.updatePersistentPurchaseState(PurchaseState.PENDING);
-        } else if (PurchaseManager.isDeclined(product)) {
+        } else if (PurchaseManager.isDeclined(product, storedState)) {
             stateManager.updatePersistentPurchaseState(PurchaseState.DECLINED);
         } else if (PurchaseManager.isPurchasable(product)) {
             stateManager.updatePersistentPurchaseState(PurchaseState.NOT_ENTITLED);

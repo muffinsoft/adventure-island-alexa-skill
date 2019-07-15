@@ -950,6 +950,10 @@ public class SessionStateManager {
         this.purchasable = purchasable;
     }
 
+    public PurchaseState getPersistentPurchaseState() {
+        return persistentState.getPurchaseState();
+    }
+
     public void updatePersistentPurchaseState(PurchaseState state) {
         if (persistentState.getPurchaseState() != state) {
             persistentState.setPurchaseState(state);
