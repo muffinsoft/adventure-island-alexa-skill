@@ -14,6 +14,7 @@ import com.muffinsoft.alexa.skills.adventureisland.model.PersistentState;
 import com.muffinsoft.alexa.skills.adventureisland.model.PurchaseState;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
 import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
+import com.muffinsoft.alexa.skills.adventureisland.util.ResponseBuilder;
 
 import java.io.IOException;
 import java.time.ZonedDateTime;
@@ -64,12 +65,8 @@ public class ConnectionsResponseHandler implements com.amazon.ask.dispatcher.req
                     break;
                 }
                 case "DECLINED": {
-                    persistentState.setLastPurchaseAttempt(ZonedDateTime.now());
-                    persistentState.setPurchaseState(PurchaseState.DECLINED);
-                    speechText = PhraseManager.getPhrase("purchaseDeclined");
-                    repromptText = PhraseManager.getPhrase("restartPrompt");
-                    stateItem.setState(State.RESTART);
-                    break;
+                    stateItem.setState(State.MAIN_MENU);
+                    return ResponseBuilder.getResponse(input, null, null);
                 }
                 case "ALREADY_PURCHASED": {
                     speechText = PhraseManager.getPhrase("purchaseAlreadyOwn");
