@@ -10,10 +10,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
-import com.muffinsoft.alexa.skills.adventureisland.model.PersistentState;
-import com.muffinsoft.alexa.skills.adventureisland.model.PurchaseState;
-import com.muffinsoft.alexa.skills.adventureisland.model.State;
-import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
+import com.muffinsoft.alexa.skills.adventureisland.model.*;
 import com.muffinsoft.alexa.skills.adventureisland.util.ResponseBuilder;
 
 import java.io.IOException;
@@ -66,7 +63,7 @@ public class ConnectionsResponseHandler implements com.amazon.ask.dispatcher.req
                 }
                 case "DECLINED": {
                     stateItem.setState(State.MAIN_MENU);
-                    return ResponseBuilder.getResponse(input, null, null);
+                    return ResponseBuilder.getResponse(input, null, SpecialReply.YES);
                 }
                 case "ALREADY_PURCHASED": {
                     speechText = PhraseManager.getPhrase("purchaseAlreadyOwn");
