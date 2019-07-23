@@ -48,18 +48,20 @@ public class ResponseBuilder {
     }
 
     public static Optional<Response> getResponse(HandlerInput input, SlotName slotName, SpecialReply specialReply) {
-        Request request = input.getRequestEnvelope().getRequest();
-        IntentRequest intentRequest = (IntentRequest) request;
+        String userReply = specialReply != null ? specialReply.text : null;
 
-        Map<String, Slot> slots = intentRequest.getIntent().getSlots();
-        String userReply = null;
+        if (slotName != null) {
+            Request request = input.getRequestEnvelope().getRequest();
+            IntentRequest intentRequest = (IntentRequest) request;
 
-        if (slots != null && !slots.isEmpty()) {
-            Slot slot = slots.get(slotName.text);
-            userReply = slot.getValue();
-        } else if (specialReply != null) {
-            userReply = specialReply.text;
+            Map<String, Slot> slots = intentRequest.getIntent().getSlots();
+
+            if (slots != null && !slots.isEmpty()) {
+                Slot slot = slots.get(slotName.text);
+                userReply = slot.getValue();
+            }
         }
+
         SessionStateManager stateManager = new SessionStateManager(userReply, input.getAttributesManager(), specialReply);
         InSkillProduct product = updatePurchaseState(input, stateManager);
         DialogItem dialog = stateManager.nextResponse();

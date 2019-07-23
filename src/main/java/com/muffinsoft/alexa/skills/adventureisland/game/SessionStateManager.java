@@ -641,6 +641,7 @@ public class SessionStateManager {
             stateItem.setTierIndex(0);
         } else {
             persistentState.setPurchasedMissionIndex(stateItem.getMissionIndex());
+            stateItem.setState(State.UPSELL);
             dialog.setDirective(UPSELL);
         }
         return dialog;

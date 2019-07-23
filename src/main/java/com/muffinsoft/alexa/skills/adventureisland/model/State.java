@@ -10,7 +10,7 @@ public enum State {
     HELP("Help"), CANCEL("Cancel"), QUIT("Quit"),
     CHECKPOINT("Checkpoint"), RESET("Reset"), RESTART("Restart"),
     MORE("More"), PLAY_AGAIN("PlayAgain"), PLAY_NEW("PlayNew"),
-    CONTINUE("Continue"), BUY("Buy"), DIFFERENT_OR_RESET("DifferentOrReset"), MAIN_MENU("MainMenu"), MAIN_OR_CONTINUE("MainOrContinue");
+    CONTINUE("Continue"), BUY("Buy"), UPSELL("UpSell"), DIFFERENT_OR_RESET("DifferentOrReset"), MAIN_MENU("MainMenu"), MAIN_OR_CONTINUE("MainOrContinue");
 
     private String key;
 

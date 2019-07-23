@@ -74,7 +74,7 @@ public class PurchaseManager {
     }
 
     public static boolean isAvailable(InSkillProduct product) {
-        return product != null && product.getEntitled() == ENTITLED
+        return product != null && product.getEntitled() != ENTITLED
                 && product.getPurchasable() == PURCHASABLE;
     }
 

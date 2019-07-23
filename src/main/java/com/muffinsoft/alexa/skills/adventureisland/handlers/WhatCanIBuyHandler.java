@@ -10,12 +10,17 @@ import com.muffinsoft.alexa.skills.adventureisland.game.Utils;
 import com.muffinsoft.alexa.skills.adventureisland.model.PersistentState;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
 import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
 public class WhatCanIBuyHandler implements RequestHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(WhatCanIBuyHandler.class);
+
     @Override
     public boolean canHandle(HandlerInput input) {
         return input.matches(intentName("WhatCanIBuyIntent"));
@@ -29,7 +34,8 @@ public class WhatCanIBuyHandler implements RequestHandler {
         PersistentState persistentState = Utils.getPersistentState(input);
         String speechText;
         String repromptText;
-        if(PurchaseManager.isAvailable(product)) {
+        logger.info("Processing 'what can i buy'");
+        if (PurchaseManager.isAvailable(product)) {
             stateItem.setState(State.BUY);
             speechText = PhraseManager.getPhrase("purchaseWhat");
             repromptText = PhraseManager.getPhrase("unrecognized");

@@ -25,6 +25,9 @@ public class NoIntentHandler implements RequestHandler {
         if (stateItem.getState() == State.BUY) {
             stateItem.setState(State.CONTINUE);
             return getResponse(input, null);
+        } else if (stateItem.getState() == State.UPSELL) {
+            stateItem.setState(State.MAIN_MENU);
+            return getResponse(input, null, SpecialReply.YES);
         } else {
             return getResponse(input, null, SpecialReply.NO);
         }
