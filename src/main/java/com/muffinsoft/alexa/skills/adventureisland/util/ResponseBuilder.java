@@ -4,6 +4,7 @@ import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.model.*;
 import com.amazon.ask.model.interfaces.alexa.presentation.apl.*;
 import com.amazon.ask.model.interfaces.connections.SendRequestDirective;
+import com.amazon.ask.model.interfaces.viewport.Shape;
 import com.amazon.ask.model.interfaces.viewport.ViewportState;
 import com.amazon.ask.model.services.monetization.InSkillProduct;
 import com.amazon.ask.model.ui.OutputSpeech;
@@ -38,6 +39,7 @@ public class ResponseBuilder {
 
     private static final String DOCUMENT_JSON = "apl/document.json";
     private static final String DOCUMENT2_JSON = "apl/document2.json";
+    private static final String DOCUMENT_SPOT_JSON = "apl/document-spot.json";
 
     private static final String IMAGES_DIR = props.getProperty("images-dir");
     private static final String SMALL_IMAGE_WIDTH = props.getProperty("small-image-width");
@@ -123,7 +125,7 @@ public class ResponseBuilder {
 
         if (isAplReady(input) && dialog.getBackgroundImage() != null) {
             adjustImageSize(dialog, input);
-            createCard(dialog, response);
+            createCard(dialog, response, isSpot(input));
         }
 
 
@@ -140,7 +142,7 @@ public class ResponseBuilder {
         return response.build();
     }
 
-    private static void createCard(DialogItem dialog, Response.Builder response) {
+    private static void createCard(DialogItem dialog, Response.Builder response, boolean isSpot) {
 
         if (dialog.getBackgroundImage() == null && dialog.getBackgroundImage1() != null) {
             dialog.setBackgroundImage(dialog.getBackgroundImage1());
@@ -149,7 +151,7 @@ public class ResponseBuilder {
 
         boolean multipleImages = dialog.getBackgroundImage1() != null;
 
-        String documentPath = multipleImages ? DOCUMENT2_JSON : DOCUMENT_JSON;
+        String documentPath = multipleImages ? DOCUMENT2_JSON : (isSpot ? DOCUMENT_SPOT_JSON : DOCUMENT_JSON);
 
         Map<String, Object> document = contentLoader.loadContent(new HashMap<>(), documentPath, new TypeReference<HashMap<String, Object>>() {});
 
@@ -184,6 +186,15 @@ public class ResponseBuilder {
 
             response.addDirectivesItem(directive1);
         }
+    }
+
+    private static boolean isSpot(HandlerInput input) {
+        try {
+            return input.getRequestEnvelope().getContext().getViewport().getShape() == Shape.ROUND;
+        } catch (Exception e) {
+            logger.warn("Exception while detecting screen shape", e);
+        }
+        return false;
     }
 
     private static void adjustImageSize(DialogItem dialog, HandlerInput input) {
