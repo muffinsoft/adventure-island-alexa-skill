@@ -189,14 +189,18 @@ public class ResponseBuilder {
     private static void adjustImageSize(DialogItem dialog, HandlerInput input) {
         BigDecimal width = new BigDecimal(SMALL_IMAGE_WIDTH);
         BigDecimal height = new BigDecimal(SMALL_IMAGE_HEIGHT);
-        ViewportState viewport = input.getRequestEnvelope().getContext().getViewport();
-        if (viewport.getPixelWidth().compareTo(width) < 0 || viewport.getPixelHeight().compareTo(height) < 0) {
-            if (dialog.getBackgroundImage() != null) {
-                dialog.setBackgroundImage(dialog.getBackgroundImage().replace(IMAGES_DIR, IMAGES_DIR + SMALL_IMAGE_WIDTH + "/"));
+        try {
+            ViewportState viewport = input.getRequestEnvelope().getContext().getViewport();
+            if (viewport.getPixelWidth().compareTo(width) < 0 || viewport.getPixelHeight().compareTo(height) < 0) {
+                if (dialog.getBackgroundImage() != null) {
+                    dialog.setBackgroundImage(dialog.getBackgroundImage().replace(IMAGES_DIR, IMAGES_DIR + SMALL_IMAGE_WIDTH + "/"));
+                }
+                if (dialog.getBackgroundImage1() != null) {
+                    dialog.setBackgroundImage1(dialog.getBackgroundImage1().replace(IMAGES_DIR, IMAGES_DIR + SMALL_IMAGE_WIDTH + "/"));
+                }
             }
-            if (dialog.getBackgroundImage1() != null) {
-                dialog.setBackgroundImage1(dialog.getBackgroundImage1().replace(IMAGES_DIR, IMAGES_DIR + SMALL_IMAGE_WIDTH + "/"));
-            }
+        } catch (Exception e) {
+            logger.warn("Error while adjusting image size", e);
         }
     }
 
