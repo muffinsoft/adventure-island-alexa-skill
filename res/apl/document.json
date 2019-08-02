@@ -27,7 +27,7 @@
           "text": "${payload.templateData.title}",
           "position": "absolute",
           "bottom" : "20",
-          "fontSize" : "30dp"
+          "fontSize" : "29dp"
         }
       ]
     }]

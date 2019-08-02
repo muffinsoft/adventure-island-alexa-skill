@@ -8,7 +8,6 @@ import com.amazon.ask.model.services.monetization.InSkillProduct;
 import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
 import com.muffinsoft.alexa.skills.adventureisland.content.ImageManager;
 import com.muffinsoft.alexa.skills.adventureisland.content.NicknameManager;
-import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.MissionSelector;
 import com.muffinsoft.alexa.skills.adventureisland.game.PurchaseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.Utils;
@@ -48,13 +47,14 @@ public class LaunchRequestHandler implements RequestHandler {
         String missionName = "";
         String speechText;
         String reprompt;
-        String cardText;
+        String cardText = null;
+        String backgroundImage = ImageManager.getGeneralImageByKey(Constants.WELCOME);
 
         InSkillProduct product = PurchaseManager.getInSkillProduct(input);
         boolean purchasable = PurchaseManager.isPurchasable(product);
         boolean entitled = PurchaseManager.isEntitled(product);
 
-        List<List<BigDecimal>> completedMissions = Collections.emptyList();
+        List<List<BigDecimal>> completedMissions;
         List<String> oldObstacles;
         if (persistentAttributes != null && !persistentAttributes.isEmpty()) {
             completedMissions = (List<List<BigDecimal>>) persistentAttributes.getOrDefault(COMPLETED_MISSIONS, Collections.emptyList());
@@ -83,23 +83,22 @@ public class LaunchRequestHandler implements RequestHandler {
                 speechText += Utils.wrap(getPhrase(Constants.WELCOME_CHECKPOINT));
                 reprompt = getPhrase(Constants.WELCOME_CHECKPOINT);
                 sessionAttributes.put(STATE, State.CHECKPOINT);
-                cardText = PhraseManager.getTextOnly(Constants.CONTINUE + Constants.CARD);
             } else if (completedMissions != null || oldObstacles != null) {
                 completedMissions = completedMissions != null ? completedMissions : new ArrayList<>();
-                String missionPrompt = MissionSelector.promptForMission(null, completedMissions, purchasable || entitled).getResponseText();
+                DialogItem missions =  MissionSelector.promptForMission(null, completedMissions, purchasable || entitled);
+                String missionPrompt = missions.getResponseText();
+                backgroundImage = missions.getBackgroundImage();
+                cardText = missions.getCardText();
                 speechText += Utils.wrap(missionPrompt);
                 sessionAttributes.put(STATE, State.INTRO);
                 reprompt = missionPrompt;
-                cardText = PhraseManager.getTextOnly(Constants.SELECT_MISSION + Constants.CARD);
             } else {
                 reprompt = getPhrase(Constants.WELCOME + Constants.REPROMPT);
-                cardText = PhraseManager.getTextOnly(Constants.CONTINUE + Constants.CARD);
             }
         } else {
             speechText = getPhrase(Constants.WELCOME);
             sessionAttributes.put(STATE, State.WELCOME);
             reprompt = getPhrase(Constants.WELCOME + Constants.REPROMPT);
-            cardText = PhraseManager.getTextOnly(Constants.CONTINUE + Constants.CARD);
         }
         if (!missionName.isEmpty()) {
             speechText = speechText.replace(MISSION_NAME_PLACEHOLDER, missionName);
@@ -107,7 +106,8 @@ public class LaunchRequestHandler implements RequestHandler {
         }
         return DialogItem.builder()
                 .responseText(speechText)
-                .backgroundImage(ImageManager.getGeneralImageByKey(Constants.WELCOME))
+                .backgroundImage(backgroundImage)
+                .cardText(cardText)
                 .reprompt(reprompt)
                 .build();
     }
