@@ -28,6 +28,10 @@ public class RefundIntentHandler implements RequestHandler {
     public Optional<Response> handle(HandlerInput input) {
         InSkillProduct product = PurchaseManager.getInSkillProduct(input);
 
+        String speechText = PhraseManager.getPhrase("purchaseNoRefund");
+        String repromptText = PhraseManager.getPhrase("unrecognized");
+        StateItem stateItem = Utils.getStateItem(input);
+
         if (PurchaseManager.isEntitled(product)) {
             Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
             JSONObject json = new JSONObject(sessionAttributes);
@@ -36,16 +40,16 @@ public class RefundIntentHandler implements RequestHandler {
             return input.getResponseBuilder()
                     .addDirective(directive)
                     .build();
-        } else {
-            String speechText = PhraseManager.getPhrase("purchaseNoRefund");
-            String repromptText = PhraseManager.getPhrase("unrecognized");
-            StateItem stateItem = Utils.getStateItem(input);
+        } else if (PurchaseManager.isPurchasable(product)) {
             stateItem.setState(State.CONTINUE);
-            return input.getResponseBuilder()
-                    .withSpeech(speechText)
-                    .withReprompt(repromptText)
-                    .build();
+        } else {
+            speechText = PhraseManager.getPhrase("purchaseRefundNotPurchasable");
+            stateItem.setState(State.CONTINUE);
         }
+        return input.getResponseBuilder()
+                .withSpeech(speechText)
+                .withReprompt(repromptText)
+                .build();
     }
 
     public SendRequestDirective getRefundDirective(String productId, String token) {

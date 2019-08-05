@@ -318,6 +318,7 @@
   "unrecognized" : "I didn't catch that. What can I help you with?",
   "purchaseNothing" : "There are no products available for purchase right now. Sorry about that. Would you like to return to the main menu?",
   "purchaseNoRefund" : "You haven't purchased the expansion pack yet. You can say - what can I buy - to get information about the expansion pack, or say yes to return to the adventure.",
+  "purchaseRefundNotPurchasable" : "You have not purchased anything yet, would you like to return to the adventure?",
   "purchaseAlreadyOwn" : "You already own the expansion pack. Would you like to pick out a mission to play?",
   "purchaseAlreadyOwnRePrompt" : "Want to select a mission?",
   "purchasePending" : "I've asked for permission to purchase the expansion pack. In the meantime, would you like to play a different mission, or reset this mission?",
