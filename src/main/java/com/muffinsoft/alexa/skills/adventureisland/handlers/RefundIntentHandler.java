@@ -7,9 +7,12 @@ import com.amazon.ask.model.interfaces.connections.SendRequestDirective;
 import com.amazon.ask.model.services.monetization.InSkillProduct;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.PurchaseManager;
+import com.muffinsoft.alexa.skills.adventureisland.game.SessionStateManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.Utils;
+import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
 import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
+import com.muffinsoft.alexa.skills.adventureisland.util.ResponseBuilder;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -42,14 +45,18 @@ public class RefundIntentHandler implements RequestHandler {
                     .build();
         } else if (PurchaseManager.isPurchasable(product)) {
             stateItem.setState(State.CONTINUE);
+            return input.getResponseBuilder()
+                    .withSpeech(speechText)
+                    .withReprompt(repromptText)
+                    .build();
         } else {
-            speechText = PhraseManager.getPhrase("purchaseRefundNotPurchasable");
             stateItem.setState(State.CONTINUE);
+            SessionStateManager sessionStateManager = new SessionStateManager(null, input.getAttributesManager(), null);
+            DialogItem dialogItem = sessionStateManager.nextResponse();
+            speechText = PhraseManager.getPhrase("purchaseRefundNotPurchasable");
+            dialogItem.setResponseText(Utils.combine(speechText, dialogItem.getResponseText()));
+            return Optional.of(ResponseBuilder.assembleResponse(dialogItem, input));
         }
-        return input.getResponseBuilder()
-                .withSpeech(speechText)
-                .withReprompt(repromptText)
-                .build();
     }
 
     public SendRequestDirective getRefundDirective(String productId, String token) {
