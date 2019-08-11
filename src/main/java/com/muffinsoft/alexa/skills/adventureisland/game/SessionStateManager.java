@@ -301,7 +301,7 @@ public class SessionStateManager {
 
     private void restoreFromCheckpoint() {
         List<BigDecimal> checkpoint = persistentState.getCheckpoint();
-        if (checkpoint != null && (Objects.equals(CONTINUE, userReply) || isYes())) {
+        if (checkpoint != null && (userReply != null && userReply.contains(CONTINUE) || isYes())) {
             stateItem.setTierIndex(checkpoint.get(0).intValue());
             stateItem.setMissionIndex(checkpoint.get(1).intValue());
             stateItem.setLocationIndex(checkpoint.get(2).intValue());
