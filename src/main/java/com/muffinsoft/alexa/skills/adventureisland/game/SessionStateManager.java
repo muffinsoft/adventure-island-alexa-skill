@@ -560,6 +560,8 @@ public class SessionStateManager {
 
     private DialogItem getIntroOutroDialog() {
 
+        compareCheckpointAgainstMission();
+
         DialogItem dialog = getResponse();
 
         while (isLastStep()) {
@@ -626,6 +628,23 @@ public class SessionStateManager {
         }
 
         return dialog;
+    }
+
+    private void compareCheckpointAgainstMission() {
+        List<BigDecimal> checkpoint = persistentState.getCheckpoint();
+        if (userReply != null && checkpoint != null && checkpoint.size() > 1) {
+            int missionIndex = checkpoint.get(1).intValue();
+            Mission mission = game.getMissions().get(missionIndex);
+            if (mission != null) {
+                int tierIndex = checkpoint.get(0).intValue();
+                String tierMissionName = mission.getTierNames().get(tierIndex);
+                if (tierMissionName != null && tierMissionName.toLowerCase().contains(userReply)) {
+                    specialReply = SpecialReply.YES;
+                    restoreFromCheckpoint();
+                    userReply = null;
+                }
+            }
+        }
     }
 
     private DialogItem getPurchaseReaction(DialogItem dialog) {
