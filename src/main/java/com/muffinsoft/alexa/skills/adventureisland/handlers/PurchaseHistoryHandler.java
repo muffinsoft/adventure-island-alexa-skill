@@ -10,6 +10,7 @@ import com.muffinsoft.alexa.skills.adventureisland.game.Utils;
 import com.muffinsoft.alexa.skills.adventureisland.model.PersistentState;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
 import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
+import com.muffinsoft.alexa.skills.adventureisland.util.ResponseBuilder;
 
 import java.util.Optional;
 
@@ -34,7 +35,7 @@ public class PurchaseHistoryHandler implements RequestHandler {
         if (PurchaseManager.isEntitled(product)) {
             speechText = PhraseManager.getPhrase("purchaseHistory");
             repromptText = PhraseManager.getPhrase("purchaseHistoryReprompt");
-            stateItem.setState(State.RESET);
+            stateItem.setState(State.MAIN_OR_CONTINUE);
         } else if (PurchaseManager.isAvailable(product)) {
             speechText = PhraseManager.getPhrase("purchaseHistoryNothing");
             repromptText = PhraseManager.getPhrase("purchaseHistoryNothingReprompt");
@@ -42,6 +43,8 @@ public class PurchaseHistoryHandler implements RequestHandler {
             speechText = PhraseManager.getPhrase("purchaseHistoryPending");
             repromptText = PhraseManager.getPhrase("purchaseAlreadyOwnRePrompt");
             stateItem.setState(State.MAIN_OR_CONTINUE);
+        } else if (!PurchaseManager.isPurchasable(product)) {
+            return ResponseBuilder.replyAndContinue(input, "unknownRequest");
         } else {
             speechText = PhraseManager.getPhrase("purchaseNothing");
             repromptText = PhraseManager.getPhrase("unrecognized");

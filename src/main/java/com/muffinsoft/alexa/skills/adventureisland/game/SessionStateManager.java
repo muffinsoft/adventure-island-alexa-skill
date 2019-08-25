@@ -331,11 +331,13 @@ public class SessionStateManager {
     }
 
     private DialogItem quitToRoot() {
+        if (stateItem.getState() == State.RESET) {
+            persistentState.setCheckpoint(null);
+        }
         goToIntro(ROOT);
         stateItem.setMissionIndex(0);
         stateItem.setLocationIndex(0);
         stateItem.setSceneIndex(0);
-        persistentState.setCheckpoint(null);
         persistentState.setTotalCoins(0);
         props.setCurrentObstacle(null);
         props.setCoins(0);

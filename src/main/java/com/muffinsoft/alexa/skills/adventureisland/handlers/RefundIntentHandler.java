@@ -7,9 +7,8 @@ import com.amazon.ask.model.interfaces.connections.SendRequestDirective;
 import com.amazon.ask.model.services.monetization.InSkillProduct;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.PurchaseManager;
-import com.muffinsoft.alexa.skills.adventureisland.game.SessionStateManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.Utils;
-import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
+import com.muffinsoft.alexa.skills.adventureisland.model.PersistentState;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
 import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
 import com.muffinsoft.alexa.skills.adventureisland.util.ResponseBuilder;
@@ -34,6 +33,7 @@ public class RefundIntentHandler implements RequestHandler {
         String speechText = PhraseManager.getPhrase("purchaseNoRefund");
         String repromptText = PhraseManager.getPhrase("unrecognized");
         StateItem stateItem = Utils.getStateItem(input);
+        PersistentState persistentState = Utils.getPersistentState(input);
 
         if (PurchaseManager.isEntitled(product)) {
             Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
@@ -49,13 +49,11 @@ public class RefundIntentHandler implements RequestHandler {
                     .withSpeech(speechText)
                     .withReprompt(repromptText)
                     .build();
+        } else if (PurchaseManager.isPending(product, persistentState.getPurchaseState())) {
+            return ResponseBuilder.replyAndContinue(input, "purchaseRefundNotPurchasable");
         } else {
-            stateItem.setState(State.CONTINUE);
-            SessionStateManager sessionStateManager = new SessionStateManager(null, input.getAttributesManager(), null);
-            DialogItem dialogItem = sessionStateManager.nextResponse();
-            speechText = PhraseManager.getPhrase("purchaseRefundNotPurchasable");
-            dialogItem.setResponseText(Utils.combine(speechText, dialogItem.getResponseText()));
-            return Optional.of(ResponseBuilder.assembleResponse(dialogItem, input));
+            //NON_PURCHASABLE
+            return ResponseBuilder.replyAndContinue(input, "unknownRequest");
         }
     }
 

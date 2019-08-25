@@ -10,6 +10,7 @@ import com.muffinsoft.alexa.skills.adventureisland.game.Utils;
 import com.muffinsoft.alexa.skills.adventureisland.model.PersistentState;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
 import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
+import com.muffinsoft.alexa.skills.adventureisland.util.ResponseBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +44,8 @@ public class WhatCanIBuyHandler implements RequestHandler {
             speechText = PhraseManager.getPhrase("purchaseWhatPending");
             repromptText = PhraseManager.getPhrase("unrecognized");
             stateItem.setState(State.MAIN_OR_CONTINUE);
+        } else if (!PurchaseManager.isPurchasable(product)) {
+            return ResponseBuilder.replyAndContinue(input, "unknownRequest");
         } else {
             speechText = PhraseManager.getPhrase("purchaseNothing");
             repromptText = PhraseManager.getPhrase("unrecognized");

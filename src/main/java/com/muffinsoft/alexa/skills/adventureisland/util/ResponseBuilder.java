@@ -15,10 +15,8 @@ import com.muffinsoft.alexa.skills.adventureisland.content.Constants;
 import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.PurchaseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.SessionStateManager;
-import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
-import com.muffinsoft.alexa.skills.adventureisland.model.PurchaseState;
-import com.muffinsoft.alexa.skills.adventureisland.model.SlotName;
-import com.muffinsoft.alexa.skills.adventureisland.model.SpecialReply;
+import com.muffinsoft.alexa.skills.adventureisland.game.Utils;
+import com.muffinsoft.alexa.skills.adventureisland.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,7 +74,7 @@ public class ResponseBuilder {
         }
     }
 
-    private static InSkillProduct updatePurchaseState(HandlerInput input, SessionStateManager stateManager) {
+    public static InSkillProduct updatePurchaseState(HandlerInput input, SessionStateManager stateManager) {
         InSkillProduct product = PurchaseManager.getInSkillProduct(input);
         stateManager.setEntitled(PurchaseManager.isEntitled(product));
         stateManager.setPurchasable(PurchaseManager.isPurchasable(product));
@@ -228,6 +226,16 @@ public class ResponseBuilder {
             logger.debug("Caught exception", e);
         }
         return result;
+    }
+
+    public static Optional<Response> replyAndContinue(HandlerInput input, String phraseKey) {
+        StateItem stateItem = Utils.getStateItem(input);
+        stateItem.setState(State.CONTINUE);
+        SessionStateManager sessionStateManager = new SessionStateManager(null, input.getAttributesManager(), null);
+        DialogItem dialogItem = sessionStateManager.nextResponse();
+        String speechText = PhraseManager.getPhrase(phraseKey);
+        dialogItem.setResponseText(Utils.combine(speechText, dialogItem.getResponseText()));
+        return Optional.of(assembleResponse(dialogItem, input));
     }
 
 }

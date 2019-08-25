@@ -3,11 +3,10 @@ package com.muffinsoft.alexa.skills.adventureisland.handlers;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.Response;
-import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.SessionStateManager;
 import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
+import com.muffinsoft.alexa.skills.adventureisland.util.ResponseBuilder;
 
-import java.util.Collections;
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
@@ -21,6 +20,7 @@ public class HelpIntentHandler implements RequestHandler {
 
     public Optional<Response> handle(HandlerInput input) {
         SessionStateManager stateManager = new SessionStateManager(null, input.getAttributesManager(), null);
+        ResponseBuilder.updatePurchaseState(input, stateManager);
         DialogItem dialog = stateManager.initHelp();
         Response response = assembleResponse(dialog, input);
         return Optional.of(response);
