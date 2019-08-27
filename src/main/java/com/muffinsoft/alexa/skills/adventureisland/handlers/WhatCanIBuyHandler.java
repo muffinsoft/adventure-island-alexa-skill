@@ -10,6 +10,7 @@ import com.muffinsoft.alexa.skills.adventureisland.game.Utils;
 import com.muffinsoft.alexa.skills.adventureisland.model.PersistentState;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
 import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
+import com.muffinsoft.alexa.skills.adventureisland.util.ApiCommunicator;
 import com.muffinsoft.alexa.skills.adventureisland.util.ResponseBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,13 +31,16 @@ public class WhatCanIBuyHandler implements RequestHandler {
     @Override
     public Optional<Response> handle(HandlerInput input) {
         InSkillProduct product = PurchaseManager.getInSkillProduct(input);
+        boolean arePurchasesDisabled = ApiCommunicator.areInSkillPurchasesEnabled(input);
         StateItem stateItem = Utils.getStateItem(input);
         stateItem.setPendingState(stateItem.getState());
         PersistentState persistentState = Utils.getPersistentState(input);
         String speechText;
         String repromptText;
         logger.info("Processing 'what can i buy'");
-        if (PurchaseManager.isAvailable(product)) {
+        if (!arePurchasesDisabled) {
+            return ResponseBuilder.replyAndContinue(input, "unknownRequest");
+        } else if (PurchaseManager.isAvailable(product)) {
             stateItem.setState(State.BUY);
             speechText = PhraseManager.getPhrase("purchaseWhat");
             repromptText = PhraseManager.getPhrase("unrecognized");
@@ -44,8 +48,6 @@ public class WhatCanIBuyHandler implements RequestHandler {
             speechText = PhraseManager.getPhrase("purchaseWhatPending");
             repromptText = PhraseManager.getPhrase("unrecognized");
             stateItem.setState(State.MAIN_OR_CONTINUE);
-        } else if (!PurchaseManager.isPurchasable(product)) {
-            return ResponseBuilder.replyAndContinue(input, "unknownRequest");
         } else {
             speechText = PhraseManager.getPhrase("purchaseNothing");
             repromptText = PhraseManager.getPhrase("unrecognized");

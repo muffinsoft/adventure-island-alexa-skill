@@ -11,6 +11,7 @@ import com.muffinsoft.alexa.skills.adventureisland.game.Utils;
 import com.muffinsoft.alexa.skills.adventureisland.model.PersistentState;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
 import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
+import com.muffinsoft.alexa.skills.adventureisland.util.ApiCommunicator;
 import com.muffinsoft.alexa.skills.adventureisland.util.ResponseBuilder;
 import org.json.JSONObject;
 
@@ -29,13 +30,15 @@ public class RefundIntentHandler implements RequestHandler {
     @Override
     public Optional<Response> handle(HandlerInput input) {
         InSkillProduct product = PurchaseManager.getInSkillProduct(input);
-
+        boolean arePurchasesDisabled = ApiCommunicator.areInSkillPurchasesEnabled(input);
         String speechText = PhraseManager.getPhrase("purchaseNoRefund");
         String repromptText = PhraseManager.getPhrase("unrecognized");
         StateItem stateItem = Utils.getStateItem(input);
         PersistentState persistentState = Utils.getPersistentState(input);
 
-        if (PurchaseManager.isEntitled(product)) {
+        if (!arePurchasesDisabled) {
+            return ResponseBuilder.replyAndContinue(input, "unknownRequest");
+        } else if (PurchaseManager.isEntitled(product)) {
             Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
             JSONObject json = new JSONObject(sessionAttributes);
 

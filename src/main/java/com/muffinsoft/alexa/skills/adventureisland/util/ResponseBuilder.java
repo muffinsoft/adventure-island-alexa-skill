@@ -77,7 +77,7 @@ public class ResponseBuilder {
     public static InSkillProduct updatePurchaseState(HandlerInput input, SessionStateManager stateManager) {
         InSkillProduct product = PurchaseManager.getInSkillProduct(input);
         stateManager.setEntitled(PurchaseManager.isEntitled(product));
-        stateManager.setPurchasable(PurchaseManager.isPurchasable(product));
+        stateManager.setPurchasable(PurchaseManager.isPurchasable(product) && ApiCommunicator.areInSkillPurchasesEnabled(input));
 
         PurchaseState storedState = stateManager.getPersistentPurchaseState();
 
