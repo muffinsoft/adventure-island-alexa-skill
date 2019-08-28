@@ -34,12 +34,12 @@ public class PurchaseHistoryHandler implements RequestHandler {
         stateItem.setState(State.CONTINUE);
         String speechText;
         String repromptText;
-        if (!arePurchasesEnabled) {
-            return ResponseBuilder.replyAndContinue(input, "unknownRequest");
-        } else if (PurchaseManager.isEntitled(product)) {
+        if (PurchaseManager.isEntitled(product)) {
             speechText = PhraseManager.getPhrase("purchaseHistory");
             repromptText = PhraseManager.getPhrase("purchaseHistoryReprompt");
             stateItem.setState(State.MAIN_OR_CONTINUE);
+        } else if (!arePurchasesEnabled) {
+            return ResponseBuilder.replyAndContinue(input, "unknownRequest");
         } else if (PurchaseManager.isAvailable(product)) {
             speechText = PhraseManager.getPhrase("purchaseHistoryNothing");
             repromptText = PhraseManager.getPhrase("purchaseHistoryNothingReprompt");

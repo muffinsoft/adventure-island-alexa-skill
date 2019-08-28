@@ -36,9 +36,7 @@ public class RefundIntentHandler implements RequestHandler {
         StateItem stateItem = Utils.getStateItem(input);
         PersistentState persistentState = Utils.getPersistentState(input);
 
-        if (!arePurchasesDisabled) {
-            return ResponseBuilder.replyAndContinue(input, "unknownRequest");
-        } else if (PurchaseManager.isEntitled(product)) {
+        if (PurchaseManager.isEntitled(product)) {
             Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
             JSONObject json = new JSONObject(sessionAttributes);
 
@@ -46,6 +44,8 @@ public class RefundIntentHandler implements RequestHandler {
             return input.getResponseBuilder()
                     .addDirective(directive)
                     .build();
+        } else if (!arePurchasesDisabled) {
+            return ResponseBuilder.replyAndContinue(input, "unknownRequest");
         } else if (PurchaseManager.isPurchasable(product)) {
             stateItem.setState(State.CONTINUE);
             return input.getResponseBuilder()

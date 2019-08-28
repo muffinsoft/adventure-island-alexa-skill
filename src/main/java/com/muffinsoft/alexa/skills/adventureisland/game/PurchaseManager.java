@@ -10,6 +10,8 @@ import com.muffinsoft.alexa.skills.adventureisland.content.PhraseManager;
 import com.muffinsoft.alexa.skills.adventureisland.model.PurchaseState;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
 import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
+import com.muffinsoft.alexa.skills.adventureisland.util.ApiCommunicator;
+import com.muffinsoft.alexa.skills.adventureisland.util.ResponseBuilder;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +35,9 @@ public class PurchaseManager {
         logger.debug("Got in skill product: " + product);
 
         Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
-        if (PurchaseManager.isAvailable(product)) {
+        if (!ApiCommunicator.areInSkillPurchasesEnabled(input)) {
+            return ResponseBuilder.replyAndContinue(input, "unknownRequest");
+        } else if (PurchaseManager.isAvailable(product)) {
             JSONObject json = new JSONObject(sessionAttributes);
 
             SendRequestDirective directive = PurchaseManager.getBuyDirective(product.getProductId(), json.toString());
