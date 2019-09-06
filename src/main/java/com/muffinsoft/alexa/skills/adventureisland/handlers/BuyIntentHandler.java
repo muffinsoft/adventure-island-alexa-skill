@@ -22,6 +22,7 @@ public class BuyIntentHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
+        logger.info("Got request to buy product");
         return PurchaseManager.buy(input);
     }
 

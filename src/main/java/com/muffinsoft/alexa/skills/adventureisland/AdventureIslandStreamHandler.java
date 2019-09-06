@@ -20,7 +20,6 @@ public class AdventureIslandStreamHandler extends SkillStreamHandler {
                         new HelpIntentHandler(),
                         new LaunchRequestHandler(),
                         new StartMissionIntent(),
-                        new RandomQuestionHandler(),
                         new ActionIntentHandler(),
                         new SessionEndedRequestHandler(),
                         new BuyIntentHandler(),

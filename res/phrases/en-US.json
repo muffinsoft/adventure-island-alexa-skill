@@ -241,7 +241,7 @@
   "powerupUsed" : "[powerup] Lily: Wow, that looked like __POWERUP__.",
   "powerupGot" : "[powerup] Lily: Wow, nice comeback! You've got __POWERUP__ to use during this scene.",
   "nicknameGot" : "You earned a new title: __NICKNAME__",
-  "rootHelp" : "Alexa: There are three epic missions: aid King Max in rescuing the royal family, lend an old pirate seadog a hand, or help a musical trio of magic Tikis. In each mission you'll face exciting obstacles, find coins to collect, and earn unique rewards!",
+  "rootHelp" : "Alexa: There are three epic missions. In each mission you'll face exciting obstacles, find coins to collect, and earn unique rewards!",
   "actionHelp" : "Seems like you'd like some help.  Should I remind you how to handle the new obstacle?",
   "royalRansomHelp" : "You have __TOTAL_COINS__ coins. To help king MAX save his daughter Anna, a beautiful princess, you need to collect 60 coins.",
   "royalRansom1Help" : "You've got __TOTAL_COINS__ coins.To save Sir Bedevire, the royal family pet, you need to collect 120 coins.",

@@ -13,6 +13,8 @@ import com.muffinsoft.alexa.skills.adventureisland.game.PurchaseManager;
 import com.muffinsoft.alexa.skills.adventureisland.game.Utils;
 import com.muffinsoft.alexa.skills.adventureisland.model.DialogItem;
 import com.muffinsoft.alexa.skills.adventureisland.model.State;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -26,6 +28,8 @@ import static com.muffinsoft.alexa.skills.adventureisland.util.ResponseBuilder.a
 
 public class LaunchRequestHandler implements RequestHandler {
 
+    private static final Logger logger = LoggerFactory.getLogger(LaunchRequestHandler.class);
+
     @Override
     public boolean canHandle(HandlerInput input) {
         return input.matches(requestType(LaunchRequest.class));
@@ -34,6 +38,7 @@ public class LaunchRequestHandler implements RequestHandler {
     @Override
     public Optional<Response> handle(HandlerInput input) {
 
+        logger.info("Skill started");
         DialogItem dialog = getSpeechText(input);
 
         return Optional.of(assembleResponse(dialog, input));
@@ -41,6 +46,7 @@ public class LaunchRequestHandler implements RequestHandler {
 
     @SuppressWarnings("unchecked")
     private DialogItem getSpeechText(HandlerInput input) {
+
 
         Map<String, Object> persistentAttributes = input.getAttributesManager().getPersistentAttributes();
         Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();

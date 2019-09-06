@@ -61,7 +61,7 @@ public class SessionStateManager {
         DialogItem dialog = getDialogByState();
 
         attributesManager.savePersistentAttributes();
-        logger.debug("Sending response {}", dialog.getResponseText());
+        logger.debug("Sending response {}, directive {}", dialog.getResponseText(), dialog.getDirective());
 
         if (dialog.getBackgroundImage() == null && stateItem.getImageToInsert() != null) {
             dialog.setBackgroundImage(stateItem.getImageToInsert());
@@ -635,12 +635,14 @@ public class SessionStateManager {
     private void compareCheckpointAgainstMission() {
         List<BigDecimal> checkpoint = persistentState.getCheckpoint();
         if (userReply != null && checkpoint != null && checkpoint.size() > 1) {
+            logger.debug("Checkpoint detected, user reply: {}", userReply);
             int missionIndex = checkpoint.get(1).intValue();
             Mission mission = game.getMissions().get(missionIndex);
             if (mission != null) {
                 int tierIndex = checkpoint.get(0).intValue();
                 String tierMissionName = mission.getTierNames().get(tierIndex);
                 if (tierMissionName != null && tierMissionName.toLowerCase().contains(userReply)) {
+                    logger.debug("Restoring from checkpoint, detected mission name: {}", tierMissionName);
                     specialReply = SpecialReply.YES;
                     restoreFromCheckpoint();
                     userReply = null;

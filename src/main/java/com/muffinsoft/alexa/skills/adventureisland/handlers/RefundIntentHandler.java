@@ -14,6 +14,8 @@ import com.muffinsoft.alexa.skills.adventureisland.model.StateItem;
 import com.muffinsoft.alexa.skills.adventureisland.util.ApiCommunicator;
 import com.muffinsoft.alexa.skills.adventureisland.util.ResponseBuilder;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +24,8 @@ import java.util.Optional;
 import static com.amazon.ask.request.Predicates.intentName;
 
 public class RefundIntentHandler implements RequestHandler {
+    private static final Logger logger = LoggerFactory.getLogger(RefundIntentHandler.class);
+
     @Override
     public boolean canHandle(HandlerInput input) {
         return input.matches(intentName("RefundIntent"));
@@ -29,6 +33,7 @@ public class RefundIntentHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
+        logger.debug("Refund intent invoked");
         InSkillProduct product = PurchaseManager.getInSkillProduct(input);
         boolean arePurchasesDisabled = ApiCommunicator.areInSkillPurchasesEnabled(input);
         String speechText = PhraseManager.getPhrase("purchaseNoRefund");
