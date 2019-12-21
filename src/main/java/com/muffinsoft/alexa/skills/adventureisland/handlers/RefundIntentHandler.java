@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.amazon.ask.model.services.monetization.EntitlementReason.AUTO_ENTITLED;
 import static com.amazon.ask.request.Predicates.intentName;
 
 public class RefundIntentHandler implements RequestHandler {
@@ -41,7 +42,7 @@ public class RefundIntentHandler implements RequestHandler {
         StateItem stateItem = Utils.getStateItem(input);
         PersistentState persistentState = Utils.getPersistentState(input);
 
-        if (PurchaseManager.isEntitled(product)) {
+        if (PurchaseManager.isEntitled(product) && product.getEntitlementReason() != AUTO_ENTITLED) {
             Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
             JSONObject json = new JSONObject(sessionAttributes);
 
@@ -49,7 +50,7 @@ public class RefundIntentHandler implements RequestHandler {
             return input.getResponseBuilder()
                     .addDirective(directive)
                     .build();
-        } else if (!arePurchasesDisabled) {
+        } else if (PurchaseManager.isEntitled(product) && product.getEntitlementReason() == AUTO_ENTITLED || !arePurchasesDisabled) {
             return ResponseBuilder.replyAndContinue(input, "unknownRequest");
         } else if (PurchaseManager.isPurchasable(product)) {
             stateItem.setState(State.CONTINUE);

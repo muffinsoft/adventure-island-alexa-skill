@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.amazon.ask.model.services.monetization.EntitledState.ENTITLED;
+import static com.amazon.ask.model.services.monetization.EntitlementReason.AUTO_ENTITLED;
 import static com.amazon.ask.model.services.monetization.PurchasableState.PURCHASABLE;
 import static com.muffinsoft.alexa.skills.adventureisland.model.PurchaseState.DECLINED;
 import static com.muffinsoft.alexa.skills.adventureisland.model.PurchaseState.PENDING;
@@ -35,7 +36,8 @@ public class PurchaseManager {
         logger.debug("Got in skill product: " + product);
 
         Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
-        if (!ApiCommunicator.areInSkillPurchasesEnabled(input)) {
+        if (!ApiCommunicator.areInSkillPurchasesEnabled(input) ||
+                PurchaseManager.isEntitled(product) && product.getEntitlementReason() == AUTO_ENTITLED) {
             return ResponseBuilder.replyAndContinue(input, "unknownRequest");
         } else if (PurchaseManager.isAvailable(product)) {
             JSONObject json = new JSONObject(sessionAttributes);

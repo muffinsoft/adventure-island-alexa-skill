@@ -324,5 +324,5 @@
   "purchasePending" : "I've asked for permission to purchase the expansion pack. In the meantime, would you like to play a different mission, or reset this mission?",
   "purchaseHistoryPending" : "I've asked for permission to purchase the expansion pack. In the meantime, would you like to select a new mission to play?",
   "purchaseWhatPending" : "I've asked for permission to purchase the expansion pack. In the meantime, would you like to select a new mission to play?",
-  "unknownRequest" : "Sorry, I am not sure."
+  "unknownRequest" : "Sorry, I am not sure. What can I help you with?"
 }

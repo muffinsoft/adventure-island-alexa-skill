@@ -17,7 +17,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
+import static com.amazon.ask.model.services.monetization.EntitlementReason.AUTO_ENTITLED;
 import static com.amazon.ask.request.Predicates.intentName;
+import static com.muffinsoft.alexa.skills.adventureisland.game.PurchaseManager.isEntitled;
 
 public class PurchaseHistoryHandler implements RequestHandler {
 
@@ -40,11 +42,12 @@ public class PurchaseHistoryHandler implements RequestHandler {
         stateItem.setState(State.CONTINUE);
         String speechText;
         String repromptText;
-        if (PurchaseManager.isEntitled(product)) {
+        if (isEntitled(product) && product.getEntitlementReason() != AUTO_ENTITLED) {
             speechText = PhraseManager.getPhrase("purchaseHistory");
             repromptText = PhraseManager.getPhrase("purchaseHistoryReprompt");
             stateItem.setState(State.MAIN_OR_CONTINUE);
-        } else if (!arePurchasesEnabled) {
+        } else if (!arePurchasesEnabled ||
+                isEntitled(product) && product.getEntitlementReason() == AUTO_ENTITLED) {
             return ResponseBuilder.replyAndContinue(input, "unknownRequest");
         } else if (PurchaseManager.isAvailable(product)) {
             speechText = PhraseManager.getPhrase("purchaseHistoryNothing");

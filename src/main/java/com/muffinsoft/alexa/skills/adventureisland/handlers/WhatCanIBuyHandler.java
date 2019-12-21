@@ -17,7 +17,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
+import static com.amazon.ask.model.services.monetization.EntitlementReason.AUTO_ENTITLED;
 import static com.amazon.ask.request.Predicates.intentName;
+import static com.muffinsoft.alexa.skills.adventureisland.game.PurchaseManager.isEntitled;
 
 public class WhatCanIBuyHandler implements RequestHandler {
 
@@ -38,7 +40,8 @@ public class WhatCanIBuyHandler implements RequestHandler {
         String speechText;
         String repromptText;
         logger.info("Processing 'what can i buy'");
-        if (!arePurchasesDisabled) {
+        if (!arePurchasesDisabled ||
+                isEntitled(product) && product.getEntitlementReason() == AUTO_ENTITLED) {
             return ResponseBuilder.replyAndContinue(input, "unknownRequest");
         } else if (PurchaseManager.isAvailable(product)) {
             stateItem.setState(State.BUY);
